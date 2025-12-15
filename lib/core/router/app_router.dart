@@ -1,20 +1,19 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import 'package:ticket_platform_mobile/features/home/presentation/views/home_view.dart';
 
 part 'app_router.g.dart';
 
 @riverpod
 GoRouter goRouter(Ref ref) {
   return GoRouter(
-    initialLocation: '/splash',
+    initialLocation: '/home',
     routes: [
       GoRoute(
-        path: '/splash',
-        name: 'splash',
-        builder: (context, state) => const Scaffold(
-          body: Center(child: Text('Splash')),
-        ),
+        path: '/home',
+        name: 'home',
+        builder: (context, state) => const HomeView(),
       ),
     ],
   );
