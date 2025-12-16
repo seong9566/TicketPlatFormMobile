@@ -11,4 +11,3 @@ class AppLogger {
     log(message, name: 'ERROR', error: error, stackTrace: stackTrace);
   }
 }
-

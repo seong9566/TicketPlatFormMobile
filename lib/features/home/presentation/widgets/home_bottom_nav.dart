@@ -29,11 +29,13 @@ class _HomeBottomNavState extends State<HomeBottomNav> {
       items: const [
         BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: '홈'),
         BottomNavigationBarItem(icon: Icon(Icons.search), label: '검색'),
-        BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), label: '채팅'),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.chat_bubble_outline),
+          label: '채팅',
+        ),
         BottomNavigationBarItem(icon: Icon(Icons.favorite_border), label: '찜'),
         BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: '마이'),
       ],
     );
   }
 }
-

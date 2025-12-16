@@ -10,4 +10,3 @@ class Failure with _$Failure {
   const factory Failure.notFound() = NotFoundFailure;
   const factory Failure.unknown(String message) = UnknownFailure;
 }
-

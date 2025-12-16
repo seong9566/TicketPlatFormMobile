@@ -34,8 +34,15 @@ class AppColors {
   static const info = Color(0xFF3B82F6);
   static const destructive = Color(0xFFEF4444);
 
+  // Badges
+  static const badgeSoldOutBackground = Color(0xFFFFEBEB);
+  static const badgeSoldOutText = Color(0xFFFF5252);
+  static const badgeHotBackground = Color(0xFFE8FCF5);
+
   // Borders
   static const border = Color(0xFFE2E8F0);
   static const borderHover = Color(0xFFCBD5E1);
-}
 
+  // Misc
+  static const transparent = Color(0x00000000);
+}

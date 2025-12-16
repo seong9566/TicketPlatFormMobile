@@ -26,7 +26,7 @@ class TicketPlatformApp extends ConsumerWidget {
           seedColor: AppColors.primary,
           primary: AppColors.primary,
           secondary: AppColors.secondary,
-          background: AppColors.background,
+          surface: AppColors.background,
         ),
         textTheme: const TextTheme(
           displayLarge: AppTextStyles.heading1,
@@ -42,10 +42,7 @@ class TicketPlatformApp extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [
-        Locale('en'),
-        Locale('ko'),
-      ],
+      supportedLocales: const [Locale('en'), Locale('ko')],
     );
   }
 }

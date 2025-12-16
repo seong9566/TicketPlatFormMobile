@@ -16,7 +16,11 @@ class RecommendedTicketList extends StatelessWidget {
       children: tickets
           .map(
             (ticket) => Container(
-              margin: const EdgeInsets.only(bottom: AppSpacing.sm,left: AppSpacing.md,right: AppSpacing.md),
+              margin: const EdgeInsets.only(
+                bottom: AppSpacing.sm,
+                left: AppSpacing.md,
+                right: AppSpacing.md,
+              ),
               padding: const EdgeInsets.all(AppSpacing.md),
               decoration: BoxDecoration(
                 color: AppColors.card,
@@ -40,7 +44,9 @@ class RecommendedTicketList extends StatelessWidget {
                       children: [
                         Text(
                           ticket.title,
-                          style: AppTextStyles.body1.copyWith(fontWeight: FontWeight.w700),
+                          style: AppTextStyles.body1.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -48,7 +54,9 @@ class RecommendedTicketList extends StatelessWidget {
                           const SizedBox(height: 2),
                           Text(
                             ticket.subtitle!,
-                            style: AppTextStyles.body2.copyWith(color: AppColors.textSecondary),
+                            style: AppTextStyles.body2.copyWith(
+                              color: AppColors.textSecondary,
+                            ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -56,14 +64,19 @@ class RecommendedTicketList extends StatelessWidget {
                         const SizedBox(height: 2),
                         Text(
                           ticket.price,
-                          style: AppTextStyles.body2.copyWith(color: AppColors.textTertiary),
+                          style: AppTextStyles.body2.copyWith(
+                            color: AppColors.textTertiary,
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),
                   ),
-                  const Icon(Icons.chevron_right, color: AppColors.textSecondary),
+                  const Icon(
+                    Icons.chevron_right,
+                    color: AppColors.textSecondary,
+                  ),
                 ],
               ),
             ),
@@ -72,4 +85,3 @@ class RecommendedTicketList extends StatelessWidget {
     );
   }
 }
-

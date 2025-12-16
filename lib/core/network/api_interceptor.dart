@@ -6,7 +6,10 @@ class ApiInterceptor extends Interceptor {
   final Future<String?> Function() getToken;
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     final token = await getToken();
     if (token != null && token.isNotEmpty) {
       options.headers['Authorization'] = 'Bearer $token';
@@ -14,4 +17,3 @@ class ApiInterceptor extends Interceptor {
     handler.next(options);
   }
 }
-

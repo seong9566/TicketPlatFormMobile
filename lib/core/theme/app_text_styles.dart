@@ -33,5 +33,17 @@ class AppTextStyles {
     fontSize: 14,
     color: AppColors.textSecondary,
   );
-}
+  static const heading3 = TextStyle(
+    fontFamily: AppConstants.fontFamily,
+    fontWeight: FontWeight.w600,
+    fontSize: 20,
+    color: AppColors.textPrimary,
+  );
 
+  static const caption = TextStyle(
+    fontFamily: AppConstants.fontFamily,
+    fontWeight: FontWeight.w400,
+    fontSize: 12,
+    color: AppColors.textSecondary,
+  );
+}

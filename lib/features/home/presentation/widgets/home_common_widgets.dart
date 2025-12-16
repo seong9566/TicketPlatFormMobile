@@ -19,14 +19,14 @@ class HomeHeader extends StatelessWidget {
             children: [
               Text(
                 'TicketSwap',
-                style: AppTextStyles.heading2.copyWith(
-                  fontSize: 20,
-                ),
+                style: AppTextStyles.heading2.copyWith(fontSize: 20),
               ),
               const SizedBox(height: 4),
               Text(
                 '오늘의 티켓을 찾아보세요',
-                style: AppTextStyles.body2.copyWith(color: AppColors.textSecondary),
+                style: AppTextStyles.body2.copyWith(
+                  color: AppColors.textSecondary,
+                ),
               ),
             ],
           ),
@@ -34,11 +34,17 @@ class HomeHeader extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () {},
-                icon: const Icon(Icons.notifications_none_rounded, color: AppColors.textPrimary),
+                icon: const Icon(
+                  Icons.notifications_none_rounded,
+                  color: AppColors.textPrimary,
+                ),
               ),
               IconButton(
                 onPressed: () {},
-                icon: const Icon(Icons.person_outline_rounded, color: AppColors.textPrimary),
+                icon: const Icon(
+                  Icons.person_outline_rounded,
+                  color: AppColors.textPrimary,
+                ),
               ),
             ],
           ),
@@ -55,7 +61,10 @@ class HomeSearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.sm,
+      ),
       decoration: BoxDecoration(
         color: AppColors.inputBackground,
         borderRadius: BorderRadius.circular(AppRadius.md),
@@ -102,4 +111,3 @@ class HomeSectionHeader extends StatelessWidget {
     );
   }
 }
-

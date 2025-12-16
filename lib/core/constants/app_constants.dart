@@ -5,4 +5,3 @@ class AppConstants {
   static const networkTimeout = Duration(seconds: 30);
   static const fontFamily = 'SUIT';
 }
-

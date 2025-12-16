@@ -7,4 +7,3 @@ class AppAssets {
   // Icons
   static const placeholder = 'assets/images/placeholder.png';
 }
-

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ticket_platform_mobile/features/category/domain/entities/category_type.dart';
 
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
@@ -27,11 +28,31 @@ class _HomeViewState extends State<HomeView> {
   ];
 
   final _categories = const [
-    HomeCategory(name: '콘서트', icon: Icons.music_note_outlined),
-    HomeCategory(name: '뮤지컬', icon: Icons.theater_comedy_outlined),
-    HomeCategory(name: '스포츠', icon: Icons.sports_soccer_outlined),
-    HomeCategory(name: '전시', icon: Icons.museum_outlined),
-    HomeCategory(name: '클래식', icon: Icons.piano_outlined),
+    HomeCategory(
+      name: '콘서트',
+      icon: Icons.music_note_outlined,
+      type: CategoryType.concert,
+    ),
+    HomeCategory(
+      name: '뮤지컬',
+      icon: Icons.theater_comedy_outlined,
+      type: CategoryType.musical,
+    ),
+    HomeCategory(
+      name: '스포츠',
+      icon: Icons.sports_soccer_outlined,
+      type: CategoryType.sports,
+    ),
+    HomeCategory(
+      name: '전시',
+      icon: Icons.museum_outlined,
+      type: CategoryType.exhibition,
+    ),
+    HomeCategory(
+      name: '클래식',
+      icon: Icons.piano_outlined,
+      type: CategoryType.classic,
+    ),
   ];
 
   final _popularTickets = const [
@@ -72,7 +93,8 @@ class _HomeViewState extends State<HomeView> {
               HomeBannerCarousel(
                 controller: _bannerController,
                 banners: _banners,
-                onPageChanged: (index) => setState(() => _currentBanner = index),
+                onPageChanged: (index) =>
+                    setState(() => _currentBanner = index),
                 currentIndex: _currentBanner,
               ),
               const SizedBox(height: AppSpacing.lg),
@@ -94,9 +116,7 @@ class _HomeViewState extends State<HomeView> {
               const SizedBox(height: AppSpacing.sm),
               PopularTicketList(tickets: _popularTickets),
               const SizedBox(height: AppSpacing.lg),
-              const HomeSectionHeader(
-                title: '추천 티켓',
-              ),
+              const HomeSectionHeader(title: '추천 티켓'),
               const SizedBox(height: AppSpacing.sm),
               RecommendedTicketList(
                 tickets: _recommendedTickets.take(3).toList(),

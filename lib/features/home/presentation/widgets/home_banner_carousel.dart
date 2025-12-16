@@ -20,7 +20,7 @@ class HomeBannerCarousel extends StatelessWidget {
   final int currentIndex;
 
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
     return Column(
       children: [
         SizedBox(
@@ -38,7 +38,7 @@ class HomeBannerCarousel extends StatelessWidget {
                     fit: StackFit.expand,
                     children: [
                       Container(color: AppColors.secondary),
-                      Container(color: Colors.black.withOpacity(0.15)),
+                      Container(color: Colors.black.withValues(alpha: 0.15)),
                       Padding(
                         padding: const EdgeInsets.all(AppSpacing.lg),
                         child: Align(
@@ -84,7 +84,9 @@ class HomeBannerCarousel extends StatelessWidget {
               width: currentIndex == index ? 16 : 8,
               height: 8,
               decoration: BoxDecoration(
-                color: currentIndex == index ? AppColors.primary : AppColors.borderHover,
+                color: currentIndex == index
+                    ? AppColors.primary
+                    : AppColors.borderHover,
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
@@ -94,4 +96,3 @@ class HomeBannerCarousel extends StatelessWidget {
     );
   }
 }
-

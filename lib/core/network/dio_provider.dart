@@ -33,4 +33,3 @@ Dio dio(Ref ref) {
   dio.interceptors.add(LogInterceptor(responseBody: true));
   return dio;
 }
-

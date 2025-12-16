@@ -27,7 +27,9 @@ class PopularTicketList extends StatelessWidget {
               borderRadius: BorderRadius.circular(AppRadius.lg),
             ),
             padding: const EdgeInsets.all(AppSpacing.sm),
-            margin: index == 0 ? const EdgeInsets.only(left: AppSpacing.md) : null,
+            margin: index == 0
+                ? const EdgeInsets.only(left: AppSpacing.md)
+                : null,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -42,7 +44,9 @@ class PopularTicketList extends StatelessWidget {
                 const SizedBox(height: AppSpacing.sm),
                 Text(
                   ticket.title,
-                  style: AppTextStyles.body1.copyWith(fontWeight: FontWeight.w700),
+                  style: AppTextStyles.body1.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -81,4 +85,3 @@ class Ticket {
   final String price;
   final String? subtitle;
 }
-
