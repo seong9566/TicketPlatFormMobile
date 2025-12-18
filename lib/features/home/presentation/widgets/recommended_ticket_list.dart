@@ -3,12 +3,13 @@ import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
-import 'package:ticket_platform_mobile/features/home/presentation/widgets/popular_ticket_list.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ticket_platform_mobile/features/home/presentation/ui_models/home_ui_model.dart';
 
 class RecommendedTicketList extends StatelessWidget {
   const RecommendedTicketList({super.key, required this.tickets});
 
-  final List<Ticket> tickets;
+  final List<RecommendedEventUiModel> tickets;
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +30,19 @@ class RecommendedTicketList extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Container(
-                    width: 52,
-                    height: 52,
-                    decoration: BoxDecoration(
-                      color: AppColors.muted,
-                      borderRadius: BorderRadius.circular(AppRadius.sm),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(AppRadius.sm),
+                    child: CachedNetworkImage(
+                      imageUrl: ticket.imageUrl,
+                      width: 52,
+                      height: 52,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) =>
+                          Container(color: AppColors.muted),
+                      errorWidget: (context, url, error) => Container(
+                        color: AppColors.muted,
+                        child: const Icon(Icons.error, size: 20),
+                      ),
                     ),
                   ),
                   const SizedBox(width: AppSpacing.md),
@@ -50,20 +58,18 @@ class RecommendedTicketList extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        if (ticket.subtitle != null) ...[
-                          const SizedBox(height: 2),
-                          Text(
-                            ticket.subtitle!,
-                            style: AppTextStyles.body2.copyWith(
-                              color: AppColors.textSecondary,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
                         const SizedBox(height: 2),
                         Text(
-                          ticket.price,
+                          ticket.date,
+                          style: AppTextStyles.body2.copyWith(
+                            color: AppColors.textSecondary,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          ticket.ticketCount,
                           style: AppTextStyles.body2.copyWith(
                             color: AppColors.textTertiary,
                           ),
