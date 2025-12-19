@@ -1,10 +1,19 @@
+import 'dart:io';
+
 class ApiEndpoint {
   const ApiEndpoint._();
 
-  static const String baseUrl = 'http://localhost:5224'; // 맥 기준 로컬 호스트
+  static String get baseUrl {
+    // 5244는 서버 실행 포트
+    // 에뮬레이터 : 10.0.2.2:5224
+    // 시뮬레이터 : 127.0.0.1:5244
+    if (Platform.isAndroid) return 'http://192.168.10.16:5224';
+    return 'http://localhost:5224';
+  }
 
   // Home
   static const String home = '/api/home';
+  static const String events = '/api/events';
 
   // Auth
 

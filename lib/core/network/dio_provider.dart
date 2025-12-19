@@ -30,13 +30,7 @@ Dio dio(Ref ref) {
         return null;
       },
     ),
-    LogInterceptor(
-      requestHeader: true,
-      requestBody: true,
-      responseHeader: true,
-      responseBody: true,
-      logPrint: (obj) => AppLogger.d(obj.toString()),
-    ),
+    ApiLogInterceptor(),
   ]);
 
   return dio;

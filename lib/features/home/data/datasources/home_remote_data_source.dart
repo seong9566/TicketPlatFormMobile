@@ -8,10 +8,12 @@ import 'package:ticket_platform_mobile/features/home/data/dto/response/home_resp
 
 part 'home_remote_data_source.g.dart';
 
+// 추상 클래스
 abstract class HomeRemoteDataSource {
   Future<BaseResponse<HomeRespDto>> getHomeData();
 }
 
+// 구현부
 class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   HomeRemoteDataSourceImpl(this._dio);
 
@@ -20,13 +22,14 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   @override
   Future<BaseResponse<HomeRespDto>> getHomeData() async {
     return safeApiCall<HomeRespDto>(
-      apiCall: () => _dio.get(ApiEndpoint.home),
+      apiCall: (options) => _dio.get(ApiEndpoint.home, options: options),
       apiName: 'getHomeData',
       dataParser: HomeRespDto.fromJson,
     );
   }
 }
 
+// 리버팟 DI
 @riverpod
 HomeRemoteDataSource homeRemoteDataSource(Ref ref) {
   return HomeRemoteDataSourceImpl(ref.watch(dioProvider));

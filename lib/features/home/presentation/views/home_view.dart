@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ticket_platform_mobile/features/event/domain/entities/event_type.dart';
+import 'package:ticket_platform_mobile/core/enums/category.dart';
 
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
@@ -33,19 +33,19 @@ class _HomeViewState extends ConsumerState<HomeView> {
     HomeEvent(
       name: '콘서트',
       icon: Icons.music_note_outlined,
-      type: EventType.concert,
+      type: Category.concert,
     ),
     HomeEvent(
       name: '뮤지컬',
       icon: Icons.theater_comedy_outlined,
-      type: EventType.musical,
+      type: Category.musical,
     ),
     HomeEvent(
       name: '스포츠',
       icon: Icons.sports_soccer_outlined,
-      type: EventType.sports,
+      type: Category.sports,
     ),
-    HomeEvent(name: '기타', icon: Icons.more_horiz_outlined, type: EventType.etc),
+    HomeEvent(name: '기타', icon: Icons.more_horiz_outlined, type: Category.etc),
   ];
 
   int _currentBanner = 0;

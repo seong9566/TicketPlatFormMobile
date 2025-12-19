@@ -4,12 +4,12 @@ import 'package:ticket_platform_mobile/core/network/base_response.dart';
 import 'package:ticket_platform_mobile/core/utils/logger.dart';
 
 Future<BaseResponse<T>> safeApiCall<T>({
-  required Future<Response> Function() apiCall,
+  required Future<Response> Function(Options options) apiCall,
   required String apiName,
   required T Function(Map<String, dynamic>) dataParser,
 }) async {
   try {
-    final response = await apiCall();
+    final response = await apiCall(Options(extra: {'apiName': apiName}));
     final responseData = response.data;
 
     if (responseData is Map<String, dynamic>) {

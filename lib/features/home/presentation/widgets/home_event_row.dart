@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ticket_platform_mobile/core/enums/category.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
-import 'package:ticket_platform_mobile/features/event/domain/entities/event_type.dart';
 
 class HomeEventRow extends StatelessWidget {
   const HomeEventRow({super.key, required this.events});
@@ -21,8 +21,9 @@ class HomeEventRow extends StatelessWidget {
         children: events
             .map(
               (event) => GestureDetector(
-                onTap: () =>
-                    context.push('${AppRouterPath.event}/${event.type.code}'),
+                onTap: () => context.push(
+                  '${AppRouterPath.events}?category=${event.type.label}',
+                ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -56,5 +57,5 @@ class HomeEvent {
   const HomeEvent({required this.name, required this.icon, required this.type});
   final String name;
   final IconData icon;
-  final EventType type;
+  final Category type;
 }

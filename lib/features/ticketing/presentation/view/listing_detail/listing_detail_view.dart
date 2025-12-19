@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/listing_detail/widgets/listing_detail_bottom_action.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/listing_detail/widgets/listing_detail_performance_header.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/listing_detail/widgets/listing_detail_seller_info.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/listing_detail/widgets/listing_detail_ticket_header.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/listing_detail/widgets/listing_detail_transaction_features.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/view/listing_detail/widgets/listing_detail_warning_section.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/viewmodels/ticketing_viewmodel.dart';
 
 class ListingDetailView extends ConsumerWidget {
@@ -28,7 +30,11 @@ class ListingDetailView extends ConsumerWidget {
       body: stateAsync.when(
         data: (state) {
           final info = state.ticketingInfo;
-          final listing = info?.listings.firstWhere((l) => l.id == listingId);
+          // Find the specific listing
+          final listing = info?.listings.firstWhere(
+            (l) => l.id == listingId,
+            orElse: () => info.listings.first, // Fallback
+          );
 
           if (info == null || listing == null) {
             return const Center(child: Text('정보를 불러올 수 없습니다.'));
@@ -42,30 +48,36 @@ class ListingDetailView extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ListingDetailPerformanceHeader(info: info),
+                    const Divider(height: 1, color: Color(0xFFF1F5F9)),
                     const SizedBox(height: AppSpacing.xs),
                     ListingDetailTicketHeader(listing: listing),
-
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                      child: Divider(height: 1, color: Color(0xFFF1F5F9)),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    ListingDetailSellerInfo(seller: listing.seller),
+                    const SizedBox(height: AppSpacing.xs),
                     _buildSectionHeader('거래 정보'),
                     ListingDetailTransactionFeatures(
                       features: listing.transactionFeatures,
                     ),
                     _buildSectionHeader('상세 설명'),
                     _buildDescription(listing.description),
-                    const SizedBox(height: AppSpacing.xs),
-                    ListingDetailSellerInfo(seller: listing.seller),
-
-                    // const SizedBox(height: AppSpacing.sm),
-                    // 위험 설명
-                    // const ListingDetailWarningSection(),
-                    // const SizedBox(height: AppSpacing.lg),
-
-                    // 이미지 안내
-                    // const Center(
-                    //   child: Text(
-                    //     '* 상품 이미지는 판매자가 직접 등록한 이미지입니다.',
-                    //     style: TextStyle(color: Colors.grey, fontSize: 11),
-                    //   ),
-                    // ),
+                    _buildProductImage(null), // Placeholder as in image
+                    const SizedBox(height: AppSpacing.md),
+                    const Center(
+                      child: Text(
+                        '* 상품 이미지는 판매자가 직접 등록한 이미지입니다.',
+                        style: TextStyle(
+                          color: Color(0xFF94A3B8),
+                          fontSize: 11,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+                    const ListingDetailWarningSection(),
+                    const SizedBox(height: AppSpacing.lg),
                   ],
                 ),
               ),
@@ -108,11 +120,10 @@ class ListingDetailView extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.lg,
-        18, // Reduced from AppSpacing.lg (24)
+        18,
         AppSpacing.lg,
         AppSpacing.sm,
       ),
-
       child: Text(
         title,
         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -133,29 +144,28 @@ class ListingDetailView extends ConsumerWidget {
     );
   }
 
-  // Widget _buildProductImage(String? imageUrl) {
-  //   return Container(
-  //     margin: const EdgeInsets.fromLTRB(
-  //       AppSpacing.lg,
-  //       AppSpacing.md,
-  //       AppSpacing.lg,
-  //       AppSpacing.sm,
-  //     ),
-
-  //     width: double.infinity,
-  //     height: 200,
-  //     decoration: BoxDecoration(
-  //       color: const Color(0xFFF1F5F9),
-  //       borderRadius: BorderRadius.circular(AppRadius.lg),
-  //     ),
-  //     child: imageUrl != null
-  //         ? ClipRRect(
-  //             borderRadius: BorderRadius.circular(AppRadius.lg),
-  //             child: Image.network(imageUrl, fit: BoxFit.cover),
-  //           )
-  //         : const Center(
-  //             child: Icon(Icons.image, size: 40, color: Colors.grey),
-  //           ),
-  //   );
-  // }
+  Widget _buildProductImage(String? imageUrl) {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(
+        AppSpacing.lg,
+        AppSpacing.md,
+        AppSpacing.lg,
+        AppSpacing.sm,
+      ),
+      width: double.infinity,
+      height: 200,
+      decoration: BoxDecoration(
+        color: const Color(0xFFF1F5F9),
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+      ),
+      child: imageUrl != null
+          ? ClipRRect(
+              borderRadius: BorderRadius.circular(AppRadius.lg),
+              child: Image.network(imageUrl, fit: BoxFit.cover),
+            )
+          : const Center(
+              child: Icon(Icons.image, size: 40, color: Color(0xFFCBD5E1)),
+            ),
+    );
+  }
 }

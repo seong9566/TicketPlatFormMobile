@@ -1,10 +1,9 @@
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/views/home_view.dart';
-import 'package:ticket_platform_mobile/features/event/presentation/view/event_view.dart';
-import 'package:ticket_platform_mobile/features/event_sessions/presentation/view/event_session_view.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticketing_view.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/listing_detail/listing_detail_view.dart';
+import 'package:ticket_platform_mobile/features/events/presentation/view/events_view.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 
 part 'app_router.g.dart';
@@ -15,25 +14,17 @@ GoRouter goRouter(Ref ref) {
     initialLocation: '/home',
     routes: [
       GoRoute(
-        path: '/home',
+        path: AppRouterPath.home,
         name: 'home',
         builder: (context, state) => const HomeView(),
       ),
-      GoRoute(
-        path: '/event/:id',
-        name: 'event',
-        builder: (context, state) {
-          final id = state.pathParameters['id']!;
-          return EventView(eventId: id);
-        },
-      ),
 
       GoRoute(
-        path: '/event_sessions/:id',
-        name: 'event_sessions',
+        path: AppRouterPath.events,
+        name: 'events',
         builder: (context, state) {
-          final id = state.pathParameters['id']!;
-          return EventSessionView(eventSessionId: id);
+          final category = state.uri.queryParameters['category'];
+          return EventsView(category: category);
         },
       ),
 
