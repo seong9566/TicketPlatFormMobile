@@ -14,9 +14,9 @@ abstract class EventRespDto with _$EventRespDto {
     required String startAt,
     required String endAt,
     required String venueName,
-    required int artistId,
-    required String artistName,
-    required String artistProfileImageUrl,
+    required int? artistId,
+    required String? artistName,
+    required String? artistProfileImageUrl,
     required String eventCreatedAt,
     required bool isNew,
   }) = _EventRespDto;

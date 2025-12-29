@@ -14,9 +14,9 @@ _EventRespDto _$EventRespDtoFromJson(Map<String, dynamic> json) =>
       startAt: json['startAt'] as String,
       endAt: json['endAt'] as String,
       venueName: json['venueName'] as String,
-      artistId: (json['artistId'] as num).toInt(),
-      artistName: json['artistName'] as String,
-      artistProfileImageUrl: json['artistProfileImageUrl'] as String,
+      artistId: (json['artistId'] as num?)?.toInt(),
+      artistName: json['artistName'] as String?,
+      artistProfileImageUrl: json['artistProfileImageUrl'] as String?,
       eventCreatedAt: json['eventCreatedAt'] as String,
       isNew: json['isNew'] as bool,
     );
