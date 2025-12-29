@@ -6,17 +6,14 @@ import 'package:ticket_platform_mobile/core/utils/logger.dart';
 Future<BaseResponse<T>> safeApiCall<T>({
   required Future<Response> Function(Options options) apiCall,
   required String apiName,
-  required T Function(Map<String, dynamic>) dataParser,
+  required T Function(Object?) dataParser,
 }) async {
   try {
     final response = await apiCall(Options(extra: {'apiName': apiName}));
     final responseData = response.data;
 
     if (responseData is Map<String, dynamic>) {
-      return BaseResponse<T>.fromJson(
-        responseData,
-        (json) => dataParser(json as Map<String, dynamic>),
-      );
+      return BaseResponse<T>.fromJson(responseData, (json) => dataParser(json));
     }
 
     throw const Failure.server('정의되지 않은 응답 형식입니다.');

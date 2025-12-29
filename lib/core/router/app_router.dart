@@ -4,6 +4,7 @@ import 'package:ticket_platform_mobile/features/home/presentation/views/home_vie
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticketing_view.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/listing_detail/listing_detail_view.dart';
 import 'package:ticket_platform_mobile/features/events/presentation/view/events_view.dart';
+import 'package:ticket_platform_mobile/features/wishlist/presentation/view/wishlist_view.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 
 part 'app_router.g.dart';
@@ -44,6 +45,11 @@ GoRouter goRouter(Ref ref) {
           final listId = state.pathParameters['listId']!;
           return ListingDetailView(performanceId: perfId, listingId: listId);
         },
+      ),
+      GoRoute(
+        path: AppRouterPath.wishlist,
+        name: 'wishlist',
+        builder: (context, state) => const WishlistView(),
       ),
     ],
   );

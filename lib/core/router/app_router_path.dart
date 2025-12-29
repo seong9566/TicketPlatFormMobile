@@ -3,4 +3,5 @@ abstract class AppRouterPath {
   static const String events = '/events';
   static const String ticketing = '/ticketing';
   static const String listingDetail = '/listing_detail';
+  static const String wishlist = '/wishlist';
 }

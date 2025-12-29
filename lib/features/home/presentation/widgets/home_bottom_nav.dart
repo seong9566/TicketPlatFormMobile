@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 
 class HomeBottomNav extends StatefulWidget {
@@ -21,7 +22,8 @@ class _HomeBottomNavState extends State<HomeBottomNav> {
           _currentIndex = index;
         });
         // Placeholder navigation
-        if (index == 0) context.go('/home');
+        if (index == 0) context.go(AppRouterPath.home);
+        if (index == 3) context.push(AppRouterPath.wishlist);
       },
       type: BottomNavigationBarType.fixed,
       selectedItemColor: AppColors.primary,

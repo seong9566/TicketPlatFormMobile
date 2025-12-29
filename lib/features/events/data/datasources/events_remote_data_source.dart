@@ -10,7 +10,7 @@ import 'package:ticket_platform_mobile/features/events/data/dto/response/event_r
 part 'events_remote_data_source.g.dart';
 
 abstract class EventsRemoteDataSource {
-  Future<BaseResponse<EventListRespDto>> getEvents(Category category);
+  Future<BaseResponse<List<EventRespDto>>> getEvents(Category category);
 }
 
 class EventsRemoteDataSourceImpl implements EventsRemoteDataSource {
@@ -19,15 +19,22 @@ class EventsRemoteDataSourceImpl implements EventsRemoteDataSource {
   EventsRemoteDataSourceImpl(this._dio);
 
   @override
-  Future<BaseResponse<EventListRespDto>> getEvents(Category category) async {
-    return safeApiCall<EventListRespDto>(
+  Future<BaseResponse<List<EventRespDto>>> getEvents(Category category) async {
+    return safeApiCall<List<EventRespDto>>(
       apiCall: (options) => _dio.get(
         ApiEndpoint.events,
         queryParameters: {'categoryId': category.categoryId},
         options: options,
       ),
       apiName: 'getEvents',
-      dataParser: (json) => EventListRespDto.fromJson(json),
+      dataParser: (json) {
+        if (json is List) {
+          return json
+              .map((e) => EventRespDto.fromJson(e as Map<String, dynamic>))
+              .toList();
+        }
+        return [];
+      },
     );
   }
 }

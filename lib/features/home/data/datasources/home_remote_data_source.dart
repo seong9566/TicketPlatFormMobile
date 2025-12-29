@@ -24,7 +24,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     return safeApiCall<HomeRespDto>(
       apiCall: (options) => _dio.get(ApiEndpoint.home, options: options),
       apiName: 'getHomeData',
-      dataParser: HomeRespDto.fromJson,
+      dataParser: (json) => HomeRespDto.fromJson(json as Map<String, dynamic>),
     );
   }
 }
