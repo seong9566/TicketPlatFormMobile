@@ -572,7 +572,7 @@ mixin _$TicketListingUiModel {
  String get id; String get gradeName;// 'VIP석', 'R석'
  String get seatInfo;// '1층 5구역 3열'
  int get price; int get originalPrice; List<String> get tags;// ['연석 보유', '시야제한 없음']
- SellerUiModel get seller; String get description; DateTime get createdAt; String get ticketCountInfo; List<String> get transactionFeatures;// ['배송지 변경', '안심결제 가능', '예매 내역서', '연석 보유']
+ SellerUiModel get seller; String? get description; DateTime get createdAt; String get ticketCountInfo; List<String> get transactionFeatures;// ['배송지 변경', '안심결제 가능', '예매 내역서', '연석 보유']
  String? get listingImageUrl;
 /// Create a copy of TicketListingUiModel
 /// with the given fields replaced by the non-null parameter values.
@@ -604,7 +604,7 @@ abstract mixin class $TicketListingUiModelCopyWith<$Res>  {
   factory $TicketListingUiModelCopyWith(TicketListingUiModel value, $Res Function(TicketListingUiModel) _then) = _$TicketListingUiModelCopyWithImpl;
 @useResult
 $Res call({
- String id, String gradeName, String seatInfo, int price, int originalPrice, List<String> tags, SellerUiModel seller, String description, DateTime createdAt, String ticketCountInfo, List<String> transactionFeatures, String? listingImageUrl
+ String id, String gradeName, String seatInfo, int price, int originalPrice, List<String> tags, SellerUiModel seller, String? description, DateTime createdAt, String ticketCountInfo, List<String> transactionFeatures, String? listingImageUrl
 });
 
 
@@ -621,7 +621,7 @@ class _$TicketListingUiModelCopyWithImpl<$Res>
 
 /// Create a copy of TicketListingUiModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? gradeName = null,Object? seatInfo = null,Object? price = null,Object? originalPrice = null,Object? tags = null,Object? seller = null,Object? description = null,Object? createdAt = null,Object? ticketCountInfo = null,Object? transactionFeatures = null,Object? listingImageUrl = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? gradeName = null,Object? seatInfo = null,Object? price = null,Object? originalPrice = null,Object? tags = null,Object? seller = null,Object? description = freezed,Object? createdAt = null,Object? ticketCountInfo = null,Object? transactionFeatures = null,Object? listingImageUrl = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,gradeName: null == gradeName ? _self.gradeName : gradeName // ignore: cast_nullable_to_non_nullable
@@ -630,8 +630,8 @@ as String,price: null == price ? _self.price : price // ignore: cast_nullable_to
 as int,originalPrice: null == originalPrice ? _self.originalPrice : originalPrice // ignore: cast_nullable_to_non_nullable
 as int,tags: null == tags ? _self.tags : tags // ignore: cast_nullable_to_non_nullable
 as List<String>,seller: null == seller ? _self.seller : seller // ignore: cast_nullable_to_non_nullable
-as SellerUiModel,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as SellerUiModel,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,ticketCountInfo: null == ticketCountInfo ? _self.ticketCountInfo : ticketCountInfo // ignore: cast_nullable_to_non_nullable
 as String,transactionFeatures: null == transactionFeatures ? _self.transactionFeatures : transactionFeatures // ignore: cast_nullable_to_non_nullable
 as List<String>,listingImageUrl: freezed == listingImageUrl ? _self.listingImageUrl : listingImageUrl // ignore: cast_nullable_to_non_nullable
@@ -729,7 +729,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String gradeName,  String seatInfo,  int price,  int originalPrice,  List<String> tags,  SellerUiModel seller,  String description,  DateTime createdAt,  String ticketCountInfo,  List<String> transactionFeatures,  String? listingImageUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String gradeName,  String seatInfo,  int price,  int originalPrice,  List<String> tags,  SellerUiModel seller,  String? description,  DateTime createdAt,  String ticketCountInfo,  List<String> transactionFeatures,  String? listingImageUrl)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TicketListingUiModel() when $default != null:
 return $default(_that.id,_that.gradeName,_that.seatInfo,_that.price,_that.originalPrice,_that.tags,_that.seller,_that.description,_that.createdAt,_that.ticketCountInfo,_that.transactionFeatures,_that.listingImageUrl);case _:
@@ -750,7 +750,7 @@ return $default(_that.id,_that.gradeName,_that.seatInfo,_that.price,_that.origin
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String gradeName,  String seatInfo,  int price,  int originalPrice,  List<String> tags,  SellerUiModel seller,  String description,  DateTime createdAt,  String ticketCountInfo,  List<String> transactionFeatures,  String? listingImageUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String gradeName,  String seatInfo,  int price,  int originalPrice,  List<String> tags,  SellerUiModel seller,  String? description,  DateTime createdAt,  String ticketCountInfo,  List<String> transactionFeatures,  String? listingImageUrl)  $default,) {final _that = this;
 switch (_that) {
 case _TicketListingUiModel():
 return $default(_that.id,_that.gradeName,_that.seatInfo,_that.price,_that.originalPrice,_that.tags,_that.seller,_that.description,_that.createdAt,_that.ticketCountInfo,_that.transactionFeatures,_that.listingImageUrl);case _:
@@ -770,7 +770,7 @@ return $default(_that.id,_that.gradeName,_that.seatInfo,_that.price,_that.origin
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String gradeName,  String seatInfo,  int price,  int originalPrice,  List<String> tags,  SellerUiModel seller,  String description,  DateTime createdAt,  String ticketCountInfo,  List<String> transactionFeatures,  String? listingImageUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String gradeName,  String seatInfo,  int price,  int originalPrice,  List<String> tags,  SellerUiModel seller,  String? description,  DateTime createdAt,  String ticketCountInfo,  List<String> transactionFeatures,  String? listingImageUrl)?  $default,) {final _that = this;
 switch (_that) {
 case _TicketListingUiModel() when $default != null:
 return $default(_that.id,_that.gradeName,_that.seatInfo,_that.price,_that.originalPrice,_that.tags,_that.seller,_that.description,_that.createdAt,_that.ticketCountInfo,_that.transactionFeatures,_that.listingImageUrl);case _:
@@ -804,7 +804,7 @@ class _TicketListingUiModel implements TicketListingUiModel {
 
 // ['연석 보유', '시야제한 없음']
 @override final  SellerUiModel seller;
-@override final  String description;
+@override final  String? description;
 @override final  DateTime createdAt;
 @override@JsonKey() final  String ticketCountInfo;
  final  List<String> _transactionFeatures;
@@ -847,7 +847,7 @@ abstract mixin class _$TicketListingUiModelCopyWith<$Res> implements $TicketList
   factory _$TicketListingUiModelCopyWith(_TicketListingUiModel value, $Res Function(_TicketListingUiModel) _then) = __$TicketListingUiModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String gradeName, String seatInfo, int price, int originalPrice, List<String> tags, SellerUiModel seller, String description, DateTime createdAt, String ticketCountInfo, List<String> transactionFeatures, String? listingImageUrl
+ String id, String gradeName, String seatInfo, int price, int originalPrice, List<String> tags, SellerUiModel seller, String? description, DateTime createdAt, String ticketCountInfo, List<String> transactionFeatures, String? listingImageUrl
 });
 
 
@@ -864,7 +864,7 @@ class __$TicketListingUiModelCopyWithImpl<$Res>
 
 /// Create a copy of TicketListingUiModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? gradeName = null,Object? seatInfo = null,Object? price = null,Object? originalPrice = null,Object? tags = null,Object? seller = null,Object? description = null,Object? createdAt = null,Object? ticketCountInfo = null,Object? transactionFeatures = null,Object? listingImageUrl = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? gradeName = null,Object? seatInfo = null,Object? price = null,Object? originalPrice = null,Object? tags = null,Object? seller = null,Object? description = freezed,Object? createdAt = null,Object? ticketCountInfo = null,Object? transactionFeatures = null,Object? listingImageUrl = freezed,}) {
   return _then(_TicketListingUiModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,gradeName: null == gradeName ? _self.gradeName : gradeName // ignore: cast_nullable_to_non_nullable
@@ -873,8 +873,8 @@ as String,price: null == price ? _self.price : price // ignore: cast_nullable_to
 as int,originalPrice: null == originalPrice ? _self.originalPrice : originalPrice // ignore: cast_nullable_to_non_nullable
 as int,tags: null == tags ? _self._tags : tags // ignore: cast_nullable_to_non_nullable
 as List<String>,seller: null == seller ? _self.seller : seller // ignore: cast_nullable_to_non_nullable
-as SellerUiModel,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as SellerUiModel,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,ticketCountInfo: null == ticketCountInfo ? _self.ticketCountInfo : ticketCountInfo // ignore: cast_nullable_to_non_nullable
 as String,transactionFeatures: null == transactionFeatures ? _self._transactionFeatures : transactionFeatures // ignore: cast_nullable_to_non_nullable
 as List<String>,listingImageUrl: freezed == listingImageUrl ? _self.listingImageUrl : listingImageUrl // ignore: cast_nullable_to_non_nullable

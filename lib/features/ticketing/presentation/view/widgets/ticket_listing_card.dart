@@ -75,7 +75,7 @@ class TicketListingCard extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               Text(
-                listing.description,
+                listing.description ?? '',
                 style: AppTextStyles.body2.copyWith(
                   color: AppColors.textTertiary,
                   fontSize: 12,

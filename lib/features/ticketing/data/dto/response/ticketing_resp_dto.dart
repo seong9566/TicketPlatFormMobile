@@ -75,8 +75,12 @@ abstract class TicketingTicketRespDto with _$TicketingTicketRespDto {
     required int price,
     required int originalPrice,
     required List<String> seatFeatures,
-    required String description,
+    required String? description,
     required String createdAt,
+    required int? quantity,
+    required int? remainingQuantity,
+    @Default(false) bool isSingleTicket,
+    @Default([]) List<String> ticketImages,
     required TicketingSellerRespDto seller,
   }) = _TicketingTicketRespDto;
 
@@ -96,6 +100,10 @@ extension TicketingTicketRespDtoX on TicketingTicketRespDto {
       seatFeatures: seatFeatures,
       description: description,
       createdAt: DateTime.parse(createdAt),
+      quantity: quantity,
+      remainingQuantity: remainingQuantity,
+      isSingleTicket: isSingleTicket,
+      ticketImages: ticketImages,
       seller: seller.toEntity(),
     );
   }

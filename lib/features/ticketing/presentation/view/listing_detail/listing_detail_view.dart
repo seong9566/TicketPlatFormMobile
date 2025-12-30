@@ -40,49 +40,53 @@ class ListingDetailView extends ConsumerWidget {
             return const Center(child: Text('정보를 불러올 수 없습니다.'));
           }
 
-          return Stack(
-            children: [
-              SingleChildScrollView(
-                padding: const EdgeInsets.only(bottom: 120),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ListingDetailPerformanceHeader(info: info),
-                    const Divider(height: 1, color: Color(0xFFF1F5F9)),
-                    const SizedBox(height: AppSpacing.xs),
-                    ListingDetailTicketHeader(listing: listing),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                      child: Divider(height: 1, color: Color(0xFFF1F5F9)),
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    ListingDetailSellerInfo(seller: listing.seller),
-                    const SizedBox(height: AppSpacing.xs),
-                    _buildSectionHeader('거래 정보'),
-                    ListingDetailTransactionFeatures(
-                      features: listing.transactionFeatures,
-                    ),
-                    _buildSectionHeader('상세 설명'),
-                    _buildDescription(listing.description),
-                    _buildProductImage(null), // Placeholder as in image
-                    const SizedBox(height: AppSpacing.md),
-                    const Center(
-                      child: Text(
-                        '* 상품 이미지는 판매자가 직접 등록한 이미지입니다.',
-                        style: TextStyle(
-                          color: Color(0xFF94A3B8),
-                          fontSize: 11,
+          return SafeArea(
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  padding: const EdgeInsets.only(bottom: 120),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListingDetailPerformanceHeader(info: info),
+                      const Divider(height: 1, color: Color(0xFFF1F5F9)),
+                      const SizedBox(height: AppSpacing.xs),
+                      ListingDetailTicketHeader(listing: listing),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: AppSpacing.lg,
+                        ),
+                        child: Divider(height: 1, color: Color(0xFFF1F5F9)),
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      ListingDetailSellerInfo(seller: listing.seller),
+                      const SizedBox(height: AppSpacing.xs),
+                      _buildSectionHeader('거래 정보'),
+                      ListingDetailTransactionFeatures(
+                        features: listing.transactionFeatures,
+                      ),
+                      _buildSectionHeader('상세 설명'),
+                      _buildDescription(listing.description),
+                      _buildProductImage(null), // Placeholder as in image
+                      const SizedBox(height: AppSpacing.md),
+                      const Center(
+                        child: Text(
+                          '* 상품 이미지는 판매자가 직접 등록한 이미지입니다.',
+                          style: TextStyle(
+                            color: Color(0xFF94A3B8),
+                            fontSize: 11,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 32),
-                    const ListingDetailWarningSection(),
-                    const SizedBox(height: AppSpacing.lg),
-                  ],
+                      const SizedBox(height: 32),
+                      const ListingDetailWarningSection(),
+                      const SizedBox(height: AppSpacing.lg),
+                    ],
+                  ),
                 ),
-              ),
-              const ListingDetailBottomAction(),
-            ],
+                const ListingDetailBottomAction(),
+              ],
+            ),
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -131,14 +135,14 @@ class ListingDetailView extends ConsumerWidget {
     );
   }
 
-  Widget _buildDescription(String description) {
+  Widget _buildDescription(String? description) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.xs,
       ),
       child: Text(
-        description,
+        description ?? '설명이 없습니다.',
         style: const TextStyle(fontSize: 14, height: 1.5),
       ),
     );

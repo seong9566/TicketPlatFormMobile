@@ -39,8 +39,12 @@ abstract class TicketingTicketEntity with _$TicketingTicketEntity {
     required int price,
     required int originalPrice,
     required List<String> seatFeatures,
-    required String description,
+    required String? description,
     required DateTime createdAt,
+    required int? quantity,
+    required int? remainingQuantity,
+    required bool isSingleTicket,
+    required List<String> ticketImages,
     required TicketingSellerEntity seller,
   }) = _TicketingTicketEntity;
 }

@@ -72,8 +72,16 @@ _TicketingTicketRespDto _$TicketingTicketRespDtoFromJson(
   seatFeatures: (json['seatFeatures'] as List<dynamic>)
       .map((e) => e as String)
       .toList(),
-  description: json['description'] as String,
+  description: json['description'] as String?,
   createdAt: json['createdAt'] as String,
+  quantity: (json['quantity'] as num?)?.toInt(),
+  remainingQuantity: (json['remainingQuantity'] as num?)?.toInt(),
+  isSingleTicket: json['isSingleTicket'] as bool? ?? false,
+  ticketImages:
+      (json['ticketImages'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList() ??
+      const [],
   seller: TicketingSellerRespDto.fromJson(
     json['seller'] as Map<String, dynamic>,
   ),
@@ -91,6 +99,10 @@ Map<String, dynamic> _$TicketingTicketRespDtoToJson(
   'seatFeatures': instance.seatFeatures,
   'description': instance.description,
   'createdAt': instance.createdAt,
+  'quantity': instance.quantity,
+  'remainingQuantity': instance.remainingQuantity,
+  'isSingleTicket': instance.isSingleTicket,
+  'ticketImages': instance.ticketImages,
   'seller': instance.seller,
 };
 

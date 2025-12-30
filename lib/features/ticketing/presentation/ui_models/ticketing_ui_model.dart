@@ -61,7 +61,7 @@ abstract class TicketListingUiModel with _$TicketListingUiModel {
     required int originalPrice,
     required List<String> tags, // ['연석 보유', '시야제한 없음']
     required SellerUiModel seller,
-    required String description,
+    required String? description,
     required DateTime createdAt,
     @Default('1인 1매') String ticketCountInfo,
     @Default([])
