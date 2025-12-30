@@ -21,7 +21,7 @@ class TicketingFilterBar extends StatelessWidget {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.lg,
+        horizontal: AppSpacing.md,
         vertical: AppSpacing.sm,
       ),
       child: Row(

@@ -20,7 +20,7 @@ class EventCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 90,
+            width: 120,
             height: 120,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(AppRadius.md),

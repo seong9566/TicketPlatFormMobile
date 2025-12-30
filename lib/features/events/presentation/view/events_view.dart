@@ -44,35 +44,37 @@ class EventsView extends ConsumerWidget {
         ),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          EventSearchBar(initialCategory: category),
-          EventCategoryBar(initialCategory: category),
-          Expanded(
-            child: stateAsync.when(
-              data: (state) {
-                final events = viewModel.getFilteredEvents(state);
-                if (events.isEmpty) {
-                  return const Center(child: Text('검색 결과가 없습니다.'));
-                }
-                return ListView.separated(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
-                    vertical: AppSpacing.md,
-                  ),
-                  itemCount: events.length,
-                  separatorBuilder: (context, index) =>
-                      const Divider(height: 32, color: AppColors.muted),
-                  itemBuilder: (context, index) {
-                    return EventCard(event: events[index]);
-                  },
-                );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (err, _) => Center(child: Text('Error: $err')),
+      body: SafeArea(
+        child: Column(
+          children: [
+            EventSearchBar(initialCategory: category),
+            EventCategoryBar(initialCategory: category),
+            Expanded(
+              child: stateAsync.when(
+                data: (state) {
+                  final events = viewModel.getFilteredEvents(state);
+                  if (events.isEmpty) {
+                    return const Center(child: Text('검색 결과가 없습니다.'));
+                  }
+                  return ListView.separated(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.lg,
+                      vertical: AppSpacing.md,
+                    ),
+                    itemCount: events.length,
+                    separatorBuilder: (context, index) =>
+                        const Divider(height: 32, color: AppColors.muted),
+                    itemBuilder: (context, index) {
+                      return EventCard(event: events[index]);
+                    },
+                  );
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (err, _) => Center(child: Text('Error: $err')),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
