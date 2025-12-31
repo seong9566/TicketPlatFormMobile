@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
+import 'package:ticket_platform_mobile/core/utils/date_format_util.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_ui_model.dart';
 
 class TicketingHeaderSection extends StatelessWidget {
@@ -62,7 +63,7 @@ class TicketingHeaderSection extends StatelessWidget {
             ),
             const SizedBox(width: 4),
             Text(
-              DateFormat('yyyy.MM.dd(E) HH:mm', 'ko').format(info.eventDate),
+              DateFormatUtil.formatFullDateTime(info.eventDate),
               style: AppTextStyles.body2.copyWith(
                 color: AppColors.textSecondary,
               ),

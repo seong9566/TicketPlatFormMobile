@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
+import 'package:ticket_platform_mobile/core/utils/number_format_util.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
@@ -22,7 +22,7 @@ class TicketListingCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => context.push(
-        '${AppRouterPath.listingDetail}/$performanceId/${listing.id}',
+        '${AppRouterPath.ticketDetail}/$performanceId/${listing.id}',
       ),
       child: Container(
         margin: const EdgeInsets.only(bottom: AppSpacing.md),
@@ -56,12 +56,15 @@ class TicketListingCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   _buildGradeBadge(),
                   const SizedBox(width: 8),
-                  Text(
-                    listing.seatInfo,
-                    style: AppTextStyles.heading3.copyWith(fontSize: 18),
+                  Flexible(
+                    child: Text(
+                      listing.seatInfo ?? '좌석 정보 없음',
+                      style: AppTextStyles.body1,
+                    ),
                   ),
                 ],
               ),
@@ -119,7 +122,7 @@ class TicketListingCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          '${NumberFormat('#,###').format(listing.price)}원',
+          NumberFormatUtil.formatPrice(listing.price),
           style: AppTextStyles.heading3.copyWith(
             color: AppColors.success,
             fontSize: 18,
@@ -127,7 +130,7 @@ class TicketListingCard extends StatelessWidget {
         ),
         if (listing.price != listing.originalPrice)
           Text(
-            '정가 ${NumberFormat('#,###').format(listing.originalPrice)}원',
+            '정가 ${NumberFormatUtil.formatPrice(listing.originalPrice)}',
             style: AppTextStyles.body2.copyWith(
               color: AppColors.textTertiary,
               decoration: TextDecoration.lineThrough,

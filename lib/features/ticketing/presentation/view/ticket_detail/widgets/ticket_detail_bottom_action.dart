@@ -4,8 +4,8 @@ import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 
-class ListingDetailBottomAction extends StatelessWidget {
-  const ListingDetailBottomAction({super.key});
+class TicketDetailBottomAction extends StatelessWidget {
+  const TicketDetailBottomAction({super.key});
 
   @override
   Widget build(BuildContext context) {

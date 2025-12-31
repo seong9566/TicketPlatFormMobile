@@ -10,6 +10,7 @@ part 'ticketing_remote_data_source.g.dart';
 
 abstract class TicketingRemoteDataSource {
   Future<BaseResponse<TicketingRespDto>> getTicketingInfo(int eventId);
+  Future<BaseResponse<TicketingTicketRespDto>> getTicketDetail(int ticketId);
 }
 
 class TicketingRemoteDataSourceImpl implements TicketingRemoteDataSource {
@@ -28,6 +29,22 @@ class TicketingRemoteDataSourceImpl implements TicketingRemoteDataSource {
       apiName: 'getTicketingInfo',
       dataParser: (json) =>
           TicketingRespDto.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
+  @override
+  Future<BaseResponse<TicketingTicketRespDto>> getTicketDetail(
+    int ticketId,
+  ) async {
+    return safeApiCall<TicketingTicketRespDto>(
+      apiCall: (options) => _dio.get(
+        ApiEndpoint.ticketDetail,
+        queryParameters: {'ticketId': ticketId},
+        options: options,
+      ),
+      apiName: 'getTicketDetail',
+      dataParser: (json) =>
+          TicketingTicketRespDto.fromJson(json as Map<String, dynamic>),
     );
   }
 }

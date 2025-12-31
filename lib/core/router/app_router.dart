@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/views/home_view.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticketing_view.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/view/listing_detail/listing_detail_view.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/ticket_detail_view.dart';
 import 'package:ticket_platform_mobile/features/events/presentation/view/events_view.dart';
 import 'package:ticket_platform_mobile/features/wishlist/presentation/view/wishlist_view.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
@@ -38,12 +38,12 @@ GoRouter goRouter(Ref ref) {
         },
       ),
       GoRoute(
-        path: '${AppRouterPath.listingDetail}/:perfId/:listId',
-        name: 'listingDetail',
+        path: '${AppRouterPath.ticketDetail}/:perfId/:listId',
+        name: 'ticketDetail',
         builder: (context, state) {
           final perfId = state.pathParameters['perfId']!;
           final listId = state.pathParameters['listId']!;
-          return ListingDetailView(performanceId: perfId, listingId: listId);
+          return TicketDetailView(performanceId: perfId, listingId: listId);
         },
       ),
       GoRoute(

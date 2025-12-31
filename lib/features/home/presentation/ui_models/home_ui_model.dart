@@ -1,4 +1,4 @@
-import 'package:intl/intl.dart';
+import 'package:ticket_platform_mobile/core/utils/number_format_util.dart';
 import 'package:ticket_platform_mobile/features/home/domain/entities/home_entity.dart';
 
 class HomeUiModel {
@@ -40,15 +40,10 @@ class PopularTicketUiModel {
   final String date;
 
   factory PopularTicketUiModel.fromEntity(PopularTicketEntity entity) {
-    final formatter = NumberFormat.currency(
-      locale: 'ko_KR',
-      symbol: '',
-      decimalDigits: 0,
-    );
     return PopularTicketUiModel(
       ticketId: entity.ticketId,
       title: entity.ticketTitle,
-      price: '${formatter.format(entity.price)}원',
+      price: NumberFormatUtil.formatPrice(entity.price),
       imageUrl: entity.posterImageUrl,
       eventTitle: entity.eventTitle,
       date: entity.eventDate,

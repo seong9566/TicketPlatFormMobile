@@ -17,4 +17,13 @@ class TicketingRepositoryImpl implements TicketingRepository {
       errorMessage: '티켓 정보를 불러오는데 실패했습니다.',
     );
   }
+
+  @override
+  Future<TicketingTicketEntity> getTicketDetail(int ticketId) async {
+    final response = await _remoteDataSource.getTicketDetail(ticketId);
+    return response.mapOrThrow(
+      (dto) => dto.toEntity(),
+      errorMessage: '티켓 상세 정보를 불러오는데 실패했습니다.',
+    );
+  }
 }

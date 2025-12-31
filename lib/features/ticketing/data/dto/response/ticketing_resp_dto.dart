@@ -70,8 +70,8 @@ abstract class TicketingTicketRespDto with _$TicketingTicketRespDto {
   const factory TicketingTicketRespDto({
     required int ticketId,
     required String ticketTitle,
-    required String seatInfo,
-    required String seatType,
+    required String? seatInfo,
+    required String? seatType,
     required int price,
     required int originalPrice,
     required List<String> seatFeatures,
@@ -116,6 +116,9 @@ abstract class TicketingSellerRespDto with _$TicketingSellerRespDto {
     required String nickname,
     required String profileImageUrl,
     required double mannerTemperature,
+    required int totalTradeCount,
+    required int? responseRate,
+    @Default(false) bool isSecurePayment,
   }) = _TicketingSellerRespDto;
 
   factory TicketingSellerRespDto.fromJson(Map<String, dynamic> json) =>
@@ -129,6 +132,9 @@ extension TicketingSellerRespDtoX on TicketingSellerRespDto {
       nickname: nickname,
       profileImageUrl: profileImageUrl,
       mannerTemperature: mannerTemperature,
+      totalTradeCount: totalTradeCount,
+      responseRate: responseRate,
+      isSecurePayment: isSecurePayment,
     );
   }
 }

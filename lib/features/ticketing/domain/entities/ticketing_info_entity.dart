@@ -34,8 +34,8 @@ abstract class TicketingTicketEntity with _$TicketingTicketEntity {
   const factory TicketingTicketEntity({
     required int ticketId,
     required String ticketTitle,
-    required String seatInfo,
-    required String seatType,
+    required String? seatInfo,
+    required String? seatType,
     required int price,
     required int originalPrice,
     required List<String> seatFeatures,
@@ -56,5 +56,8 @@ abstract class TicketingSellerEntity with _$TicketingSellerEntity {
     required String nickname,
     required String profileImageUrl,
     required double mannerTemperature,
+    required int totalTradeCount,
+    required int? responseRate,
+    required bool isSecurePayment,
   }) = _TicketingSellerEntity;
 }

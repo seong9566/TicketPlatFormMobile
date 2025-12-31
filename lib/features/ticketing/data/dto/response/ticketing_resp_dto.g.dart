@@ -65,8 +65,8 @@ _TicketingTicketRespDto _$TicketingTicketRespDtoFromJson(
 ) => _TicketingTicketRespDto(
   ticketId: (json['ticketId'] as num).toInt(),
   ticketTitle: json['ticketTitle'] as String,
-  seatInfo: json['seatInfo'] as String,
-  seatType: json['seatType'] as String,
+  seatInfo: json['seatInfo'] as String?,
+  seatType: json['seatType'] as String?,
   price: (json['price'] as num).toInt(),
   originalPrice: (json['originalPrice'] as num).toInt(),
   seatFeatures: (json['seatFeatures'] as List<dynamic>)
@@ -113,6 +113,9 @@ _TicketingSellerRespDto _$TicketingSellerRespDtoFromJson(
   nickname: json['nickname'] as String,
   profileImageUrl: json['profileImageUrl'] as String,
   mannerTemperature: (json['mannerTemperature'] as num).toDouble(),
+  totalTradeCount: (json['totalTradeCount'] as num).toInt(),
+  responseRate: (json['responseRate'] as num?)?.toInt(),
+  isSecurePayment: json['isSecurePayment'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$TicketingSellerRespDtoToJson(
@@ -122,4 +125,7 @@ Map<String, dynamic> _$TicketingSellerRespDtoToJson(
   'nickname': instance.nickname,
   'profileImageUrl': instance.profileImageUrl,
   'mannerTemperature': instance.mannerTemperature,
+  'totalTradeCount': instance.totalTradeCount,
+  'responseRate': instance.responseRate,
+  'isSecurePayment': instance.isSecurePayment,
 };

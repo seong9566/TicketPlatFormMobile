@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
@@ -5,13 +6,25 @@ import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_ui_model.dart';
 
-class ListingDetailSellerInfo extends StatelessWidget {
+class TicketDetailSellerInfo extends StatelessWidget {
   final SellerUiModel seller;
 
-  const ListingDetailSellerInfo({super.key, required this.seller});
+  const TicketDetailSellerInfo({super.key, required this.seller});
 
   @override
   Widget build(BuildContext context) {
+    Color getTemperatureColor(double temp) {
+      if (temp >= 90) return const Color(0xFF22C55E);
+      if (temp >= 50) return const Color(0xFF3B82F6);
+      return const Color(0xFFF97316);
+    }
+
+    IconData getTemperatureIcon(double temp) {
+      if (temp >= 90) return Icons.sentiment_very_satisfied;
+      if (temp >= 50) return Icons.sentiment_satisfied_alt;
+      return Icons.sentiment_neutral;
+    }
+
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
@@ -52,7 +65,9 @@ class ListingDetailSellerInfo extends StatelessWidget {
                   ),
                   child: CircleAvatar(
                     radius: 24,
-                    backgroundImage: NetworkImage(seller.profileImageUrl),
+                    backgroundImage: CachedNetworkImageProvider(
+                      seller.profileImageUrl,
+                    ),
                   ),
                 ),
                 const SizedBox(width: AppSpacing.md),
@@ -66,7 +81,7 @@ class ListingDetailSellerInfo extends StatelessWidget {
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        '응답률 ${seller.responseRate}% | 거래 ${seller.transactionCount}건',
+                        '응답률 ${seller.responseRate ?? '-'}% | 거래 ${seller.totalTradeCount}건',
                         style: AppTextStyles.caption.copyWith(
                           color: AppColors.textTertiary,
                           fontSize: 12,
@@ -83,7 +98,7 @@ class ListingDetailSellerInfo extends StatelessWidget {
                         Text(
                           '${seller.mannerTemperature}°C',
                           style: TextStyle(
-                            color: _getTemperatureColor(
+                            color: getTemperatureColor(
                               seller.mannerTemperature,
                             ),
                             fontWeight: FontWeight.w900,
@@ -92,8 +107,8 @@ class ListingDetailSellerInfo extends StatelessWidget {
                         ),
                         const SizedBox(width: 4),
                         Icon(
-                          _getTemperatureIcon(seller.mannerTemperature),
-                          color: _getTemperatureColor(seller.mannerTemperature),
+                          getTemperatureIcon(seller.mannerTemperature),
+                          color: getTemperatureColor(seller.mannerTemperature),
                           size: 22,
                         ),
                       ],
@@ -106,12 +121,16 @@ class ListingDetailSellerInfo extends StatelessWidget {
                         color: const Color(0xFFE2E8F0),
                         borderRadius: BorderRadius.circular(2.5),
                       ),
+                      // FractionallySizedBox
+                      // 자식위젯의 크기를 전체 사용 가능 공간의 일부로 지정 하는 위젯
                       child: FractionallySizedBox(
                         alignment: Alignment.centerLeft,
+                        // 부모 너비에서 차지할 비율 설정
+                        // ex ) 0.5라면 절반만큼 차지함
                         widthFactor: seller.mannerTemperature / 100,
                         child: Container(
                           decoration: BoxDecoration(
-                            color: _getTemperatureColor(
+                            color: getTemperatureColor(
                               seller.mannerTemperature,
                             ),
                             borderRadius: BorderRadius.circular(2.5),
@@ -127,17 +146,5 @@ class ListingDetailSellerInfo extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Color _getTemperatureColor(double temp) {
-    if (temp >= 90) return const Color(0xFF22C55E);
-    if (temp >= 50) return const Color(0xFF3B82F6);
-    return const Color(0xFFF97316);
-  }
-
-  IconData _getTemperatureIcon(double temp) {
-    if (temp >= 90) return Icons.sentiment_very_satisfied;
-    if (temp >= 50) return Icons.sentiment_satisfied_alt;
-    return Icons.sentiment_neutral;
   }
 }

@@ -24,7 +24,7 @@ class ApiEndpoint {
   // Ticketing
   static const String ticketingInfo = '/api/v1/ticketing/info';
   static const String ticketListings = '/api/v1/ticketing/listings';
-  static const String ticketDetail = '/api/v1/ticketing/detail';
+  static const String ticketDetail = '/api/tickets/detail';
 
   static const String eventTickets = '/api/events/tickets';
 }

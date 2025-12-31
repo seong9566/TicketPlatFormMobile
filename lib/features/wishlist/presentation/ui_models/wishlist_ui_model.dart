@@ -1,4 +1,5 @@
-import 'package:intl/intl.dart';
+import 'package:ticket_platform_mobile/core/utils/date_format_util.dart';
+import 'package:ticket_platform_mobile/core/utils/number_format_util.dart';
 import 'package:ticket_platform_mobile/features/wishlist/domain/entities/wishlist_item_entity.dart';
 
 class WishlistUiModel {
@@ -21,18 +22,15 @@ class WishlistUiModel {
   });
 
   factory WishlistUiModel.fromEntity(WishlistItemEntity entity) {
-    final dateFormat = DateFormat('yyyy.MM.dd (E) HH:mm', 'ko_KR');
-    final likedDateFormat = DateFormat('yyyy.MM.dd');
-    final priceFormat = NumberFormat('#,###');
-
     return WishlistUiModel(
       id: entity.id,
       category: entity.category,
       title: entity.title,
-      dateDisplay: dateFormat.format(entity.eventDate),
-      priceDisplay: '${priceFormat.format(entity.price)}원 ~',
+      dateDisplay: DateFormatUtil.formatWithDay(entity.eventDate),
+      priceDisplay: '${NumberFormatUtil.formatNumber(entity.price)}원 ~',
       imageUrl: entity.imageUrl,
-      likedAtDisplay: '찜한 날짜: ${likedDateFormat.format(entity.likedAt)}',
+      likedAtDisplay:
+          '찜한 날짜: ${DateFormatUtil.formatCompactDate(entity.likedAt)}',
     );
   }
 }

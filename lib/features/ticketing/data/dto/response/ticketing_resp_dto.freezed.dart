@@ -589,7 +589,7 @@ as int,
 /// @nodoc
 mixin _$TicketingTicketRespDto {
 
- int get ticketId; String get ticketTitle; String get seatInfo; String get seatType; int get price; int get originalPrice; List<String> get seatFeatures; String? get description; String get createdAt; int? get quantity; int? get remainingQuantity; bool get isSingleTicket; List<String> get ticketImages; TicketingSellerRespDto get seller;
+ int get ticketId; String get ticketTitle; String? get seatInfo; String? get seatType; int get price; int get originalPrice; List<String> get seatFeatures; String? get description; String get createdAt; int? get quantity; int? get remainingQuantity; bool get isSingleTicket; List<String> get ticketImages; TicketingSellerRespDto get seller;
 /// Create a copy of TicketingTicketRespDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -622,7 +622,7 @@ abstract mixin class $TicketingTicketRespDtoCopyWith<$Res>  {
   factory $TicketingTicketRespDtoCopyWith(TicketingTicketRespDto value, $Res Function(TicketingTicketRespDto) _then) = _$TicketingTicketRespDtoCopyWithImpl;
 @useResult
 $Res call({
- int ticketId, String ticketTitle, String seatInfo, String seatType, int price, int originalPrice, List<String> seatFeatures, String? description, String createdAt, int? quantity, int? remainingQuantity, bool isSingleTicket, List<String> ticketImages, TicketingSellerRespDto seller
+ int ticketId, String ticketTitle, String? seatInfo, String? seatType, int price, int originalPrice, List<String> seatFeatures, String? description, String createdAt, int? quantity, int? remainingQuantity, bool isSingleTicket, List<String> ticketImages, TicketingSellerRespDto seller
 });
 
 
@@ -639,13 +639,13 @@ class _$TicketingTicketRespDtoCopyWithImpl<$Res>
 
 /// Create a copy of TicketingTicketRespDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? ticketId = null,Object? ticketTitle = null,Object? seatInfo = null,Object? seatType = null,Object? price = null,Object? originalPrice = null,Object? seatFeatures = null,Object? description = freezed,Object? createdAt = null,Object? quantity = freezed,Object? remainingQuantity = freezed,Object? isSingleTicket = null,Object? ticketImages = null,Object? seller = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? ticketId = null,Object? ticketTitle = null,Object? seatInfo = freezed,Object? seatType = freezed,Object? price = null,Object? originalPrice = null,Object? seatFeatures = null,Object? description = freezed,Object? createdAt = null,Object? quantity = freezed,Object? remainingQuantity = freezed,Object? isSingleTicket = null,Object? ticketImages = null,Object? seller = null,}) {
   return _then(_self.copyWith(
 ticketId: null == ticketId ? _self.ticketId : ticketId // ignore: cast_nullable_to_non_nullable
 as int,ticketTitle: null == ticketTitle ? _self.ticketTitle : ticketTitle // ignore: cast_nullable_to_non_nullable
-as String,seatInfo: null == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
-as String,seatType: null == seatType ? _self.seatType : seatType // ignore: cast_nullable_to_non_nullable
-as String,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
+as String,seatInfo: freezed == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
+as String?,seatType: freezed == seatType ? _self.seatType : seatType // ignore: cast_nullable_to_non_nullable
+as String?,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
 as int,originalPrice: null == originalPrice ? _self.originalPrice : originalPrice // ignore: cast_nullable_to_non_nullable
 as int,seatFeatures: null == seatFeatures ? _self.seatFeatures : seatFeatures // ignore: cast_nullable_to_non_nullable
 as List<String>,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
@@ -749,7 +749,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int ticketId,  String ticketTitle,  String seatInfo,  String seatType,  int price,  int originalPrice,  List<String> seatFeatures,  String? description,  String createdAt,  int? quantity,  int? remainingQuantity,  bool isSingleTicket,  List<String> ticketImages,  TicketingSellerRespDto seller)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int ticketId,  String ticketTitle,  String? seatInfo,  String? seatType,  int price,  int originalPrice,  List<String> seatFeatures,  String? description,  String createdAt,  int? quantity,  int? remainingQuantity,  bool isSingleTicket,  List<String> ticketImages,  TicketingSellerRespDto seller)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TicketingTicketRespDto() when $default != null:
 return $default(_that.ticketId,_that.ticketTitle,_that.seatInfo,_that.seatType,_that.price,_that.originalPrice,_that.seatFeatures,_that.description,_that.createdAt,_that.quantity,_that.remainingQuantity,_that.isSingleTicket,_that.ticketImages,_that.seller);case _:
@@ -770,7 +770,7 @@ return $default(_that.ticketId,_that.ticketTitle,_that.seatInfo,_that.seatType,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int ticketId,  String ticketTitle,  String seatInfo,  String seatType,  int price,  int originalPrice,  List<String> seatFeatures,  String? description,  String createdAt,  int? quantity,  int? remainingQuantity,  bool isSingleTicket,  List<String> ticketImages,  TicketingSellerRespDto seller)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int ticketId,  String ticketTitle,  String? seatInfo,  String? seatType,  int price,  int originalPrice,  List<String> seatFeatures,  String? description,  String createdAt,  int? quantity,  int? remainingQuantity,  bool isSingleTicket,  List<String> ticketImages,  TicketingSellerRespDto seller)  $default,) {final _that = this;
 switch (_that) {
 case _TicketingTicketRespDto():
 return $default(_that.ticketId,_that.ticketTitle,_that.seatInfo,_that.seatType,_that.price,_that.originalPrice,_that.seatFeatures,_that.description,_that.createdAt,_that.quantity,_that.remainingQuantity,_that.isSingleTicket,_that.ticketImages,_that.seller);case _:
@@ -790,7 +790,7 @@ return $default(_that.ticketId,_that.ticketTitle,_that.seatInfo,_that.seatType,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int ticketId,  String ticketTitle,  String seatInfo,  String seatType,  int price,  int originalPrice,  List<String> seatFeatures,  String? description,  String createdAt,  int? quantity,  int? remainingQuantity,  bool isSingleTicket,  List<String> ticketImages,  TicketingSellerRespDto seller)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int ticketId,  String ticketTitle,  String? seatInfo,  String? seatType,  int price,  int originalPrice,  List<String> seatFeatures,  String? description,  String createdAt,  int? quantity,  int? remainingQuantity,  bool isSingleTicket,  List<String> ticketImages,  TicketingSellerRespDto seller)?  $default,) {final _that = this;
 switch (_that) {
 case _TicketingTicketRespDto() when $default != null:
 return $default(_that.ticketId,_that.ticketTitle,_that.seatInfo,_that.seatType,_that.price,_that.originalPrice,_that.seatFeatures,_that.description,_that.createdAt,_that.quantity,_that.remainingQuantity,_that.isSingleTicket,_that.ticketImages,_that.seller);case _:
@@ -810,8 +810,8 @@ class _TicketingTicketRespDto implements TicketingTicketRespDto {
 
 @override final  int ticketId;
 @override final  String ticketTitle;
-@override final  String seatInfo;
-@override final  String seatType;
+@override final  String? seatInfo;
+@override final  String? seatType;
 @override final  int price;
 @override final  int originalPrice;
  final  List<String> _seatFeatures;
@@ -868,7 +868,7 @@ abstract mixin class _$TicketingTicketRespDtoCopyWith<$Res> implements $Ticketin
   factory _$TicketingTicketRespDtoCopyWith(_TicketingTicketRespDto value, $Res Function(_TicketingTicketRespDto) _then) = __$TicketingTicketRespDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int ticketId, String ticketTitle, String seatInfo, String seatType, int price, int originalPrice, List<String> seatFeatures, String? description, String createdAt, int? quantity, int? remainingQuantity, bool isSingleTicket, List<String> ticketImages, TicketingSellerRespDto seller
+ int ticketId, String ticketTitle, String? seatInfo, String? seatType, int price, int originalPrice, List<String> seatFeatures, String? description, String createdAt, int? quantity, int? remainingQuantity, bool isSingleTicket, List<String> ticketImages, TicketingSellerRespDto seller
 });
 
 
@@ -885,13 +885,13 @@ class __$TicketingTicketRespDtoCopyWithImpl<$Res>
 
 /// Create a copy of TicketingTicketRespDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? ticketId = null,Object? ticketTitle = null,Object? seatInfo = null,Object? seatType = null,Object? price = null,Object? originalPrice = null,Object? seatFeatures = null,Object? description = freezed,Object? createdAt = null,Object? quantity = freezed,Object? remainingQuantity = freezed,Object? isSingleTicket = null,Object? ticketImages = null,Object? seller = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? ticketId = null,Object? ticketTitle = null,Object? seatInfo = freezed,Object? seatType = freezed,Object? price = null,Object? originalPrice = null,Object? seatFeatures = null,Object? description = freezed,Object? createdAt = null,Object? quantity = freezed,Object? remainingQuantity = freezed,Object? isSingleTicket = null,Object? ticketImages = null,Object? seller = null,}) {
   return _then(_TicketingTicketRespDto(
 ticketId: null == ticketId ? _self.ticketId : ticketId // ignore: cast_nullable_to_non_nullable
 as int,ticketTitle: null == ticketTitle ? _self.ticketTitle : ticketTitle // ignore: cast_nullable_to_non_nullable
-as String,seatInfo: null == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
-as String,seatType: null == seatType ? _self.seatType : seatType // ignore: cast_nullable_to_non_nullable
-as String,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
+as String,seatInfo: freezed == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
+as String?,seatType: freezed == seatType ? _self.seatType : seatType // ignore: cast_nullable_to_non_nullable
+as String?,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
 as int,originalPrice: null == originalPrice ? _self.originalPrice : originalPrice // ignore: cast_nullable_to_non_nullable
 as int,seatFeatures: null == seatFeatures ? _self._seatFeatures : seatFeatures // ignore: cast_nullable_to_non_nullable
 as List<String>,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
@@ -921,7 +921,7 @@ $TicketingSellerRespDtoCopyWith<$Res> get seller {
 /// @nodoc
 mixin _$TicketingSellerRespDto {
 
- int get userId; String get nickname; String get profileImageUrl; double get mannerTemperature;
+ int get userId; String get nickname; String get profileImageUrl; double get mannerTemperature; int get totalTradeCount; int? get responseRate; bool get isSecurePayment;
 /// Create a copy of TicketingSellerRespDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -934,16 +934,16 @@ $TicketingSellerRespDtoCopyWith<TicketingSellerRespDto> get copyWith => _$Ticket
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketingSellerRespDto&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImageUrl, profileImageUrl) || other.profileImageUrl == profileImageUrl)&&(identical(other.mannerTemperature, mannerTemperature) || other.mannerTemperature == mannerTemperature));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketingSellerRespDto&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImageUrl, profileImageUrl) || other.profileImageUrl == profileImageUrl)&&(identical(other.mannerTemperature, mannerTemperature) || other.mannerTemperature == mannerTemperature)&&(identical(other.totalTradeCount, totalTradeCount) || other.totalTradeCount == totalTradeCount)&&(identical(other.responseRate, responseRate) || other.responseRate == responseRate)&&(identical(other.isSecurePayment, isSecurePayment) || other.isSecurePayment == isSecurePayment));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,userId,nickname,profileImageUrl,mannerTemperature);
+int get hashCode => Object.hash(runtimeType,userId,nickname,profileImageUrl,mannerTemperature,totalTradeCount,responseRate,isSecurePayment);
 
 @override
 String toString() {
-  return 'TicketingSellerRespDto(userId: $userId, nickname: $nickname, profileImageUrl: $profileImageUrl, mannerTemperature: $mannerTemperature)';
+  return 'TicketingSellerRespDto(userId: $userId, nickname: $nickname, profileImageUrl: $profileImageUrl, mannerTemperature: $mannerTemperature, totalTradeCount: $totalTradeCount, responseRate: $responseRate, isSecurePayment: $isSecurePayment)';
 }
 
 
@@ -954,7 +954,7 @@ abstract mixin class $TicketingSellerRespDtoCopyWith<$Res>  {
   factory $TicketingSellerRespDtoCopyWith(TicketingSellerRespDto value, $Res Function(TicketingSellerRespDto) _then) = _$TicketingSellerRespDtoCopyWithImpl;
 @useResult
 $Res call({
- int userId, String nickname, String profileImageUrl, double mannerTemperature
+ int userId, String nickname, String profileImageUrl, double mannerTemperature, int totalTradeCount, int? responseRate, bool isSecurePayment
 });
 
 
@@ -971,13 +971,16 @@ class _$TicketingSellerRespDtoCopyWithImpl<$Res>
 
 /// Create a copy of TicketingSellerRespDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,Object? nickname = null,Object? profileImageUrl = null,Object? mannerTemperature = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,Object? nickname = null,Object? profileImageUrl = null,Object? mannerTemperature = null,Object? totalTradeCount = null,Object? responseRate = freezed,Object? isSecurePayment = null,}) {
   return _then(_self.copyWith(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as int,nickname: null == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
 as String,profileImageUrl: null == profileImageUrl ? _self.profileImageUrl : profileImageUrl // ignore: cast_nullable_to_non_nullable
 as String,mannerTemperature: null == mannerTemperature ? _self.mannerTemperature : mannerTemperature // ignore: cast_nullable_to_non_nullable
-as double,
+as double,totalTradeCount: null == totalTradeCount ? _self.totalTradeCount : totalTradeCount // ignore: cast_nullable_to_non_nullable
+as int,responseRate: freezed == responseRate ? _self.responseRate : responseRate // ignore: cast_nullable_to_non_nullable
+as int?,isSecurePayment: null == isSecurePayment ? _self.isSecurePayment : isSecurePayment // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -1062,10 +1065,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int userId,  String nickname,  String profileImageUrl,  double mannerTemperature)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int userId,  String nickname,  String profileImageUrl,  double mannerTemperature,  int totalTradeCount,  int? responseRate,  bool isSecurePayment)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TicketingSellerRespDto() when $default != null:
-return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTemperature);case _:
+return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTemperature,_that.totalTradeCount,_that.responseRate,_that.isSecurePayment);case _:
   return orElse();
 
 }
@@ -1083,10 +1086,10 @@ return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTe
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int userId,  String nickname,  String profileImageUrl,  double mannerTemperature)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int userId,  String nickname,  String profileImageUrl,  double mannerTemperature,  int totalTradeCount,  int? responseRate,  bool isSecurePayment)  $default,) {final _that = this;
 switch (_that) {
 case _TicketingSellerRespDto():
-return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTemperature);case _:
+return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTemperature,_that.totalTradeCount,_that.responseRate,_that.isSecurePayment);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1103,10 +1106,10 @@ return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTe
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int userId,  String nickname,  String profileImageUrl,  double mannerTemperature)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int userId,  String nickname,  String profileImageUrl,  double mannerTemperature,  int totalTradeCount,  int? responseRate,  bool isSecurePayment)?  $default,) {final _that = this;
 switch (_that) {
 case _TicketingSellerRespDto() when $default != null:
-return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTemperature);case _:
+return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTemperature,_that.totalTradeCount,_that.responseRate,_that.isSecurePayment);case _:
   return null;
 
 }
@@ -1118,13 +1121,16 @@ return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTe
 @JsonSerializable()
 
 class _TicketingSellerRespDto implements TicketingSellerRespDto {
-  const _TicketingSellerRespDto({required this.userId, required this.nickname, required this.profileImageUrl, required this.mannerTemperature});
+  const _TicketingSellerRespDto({required this.userId, required this.nickname, required this.profileImageUrl, required this.mannerTemperature, required this.totalTradeCount, required this.responseRate, this.isSecurePayment = false});
   factory _TicketingSellerRespDto.fromJson(Map<String, dynamic> json) => _$TicketingSellerRespDtoFromJson(json);
 
 @override final  int userId;
 @override final  String nickname;
 @override final  String profileImageUrl;
 @override final  double mannerTemperature;
+@override final  int totalTradeCount;
+@override final  int? responseRate;
+@override@JsonKey() final  bool isSecurePayment;
 
 /// Create a copy of TicketingSellerRespDto
 /// with the given fields replaced by the non-null parameter values.
@@ -1139,16 +1145,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TicketingSellerRespDto&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImageUrl, profileImageUrl) || other.profileImageUrl == profileImageUrl)&&(identical(other.mannerTemperature, mannerTemperature) || other.mannerTemperature == mannerTemperature));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TicketingSellerRespDto&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImageUrl, profileImageUrl) || other.profileImageUrl == profileImageUrl)&&(identical(other.mannerTemperature, mannerTemperature) || other.mannerTemperature == mannerTemperature)&&(identical(other.totalTradeCount, totalTradeCount) || other.totalTradeCount == totalTradeCount)&&(identical(other.responseRate, responseRate) || other.responseRate == responseRate)&&(identical(other.isSecurePayment, isSecurePayment) || other.isSecurePayment == isSecurePayment));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,userId,nickname,profileImageUrl,mannerTemperature);
+int get hashCode => Object.hash(runtimeType,userId,nickname,profileImageUrl,mannerTemperature,totalTradeCount,responseRate,isSecurePayment);
 
 @override
 String toString() {
-  return 'TicketingSellerRespDto(userId: $userId, nickname: $nickname, profileImageUrl: $profileImageUrl, mannerTemperature: $mannerTemperature)';
+  return 'TicketingSellerRespDto(userId: $userId, nickname: $nickname, profileImageUrl: $profileImageUrl, mannerTemperature: $mannerTemperature, totalTradeCount: $totalTradeCount, responseRate: $responseRate, isSecurePayment: $isSecurePayment)';
 }
 
 
@@ -1159,7 +1165,7 @@ abstract mixin class _$TicketingSellerRespDtoCopyWith<$Res> implements $Ticketin
   factory _$TicketingSellerRespDtoCopyWith(_TicketingSellerRespDto value, $Res Function(_TicketingSellerRespDto) _then) = __$TicketingSellerRespDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int userId, String nickname, String profileImageUrl, double mannerTemperature
+ int userId, String nickname, String profileImageUrl, double mannerTemperature, int totalTradeCount, int? responseRate, bool isSecurePayment
 });
 
 
@@ -1176,13 +1182,16 @@ class __$TicketingSellerRespDtoCopyWithImpl<$Res>
 
 /// Create a copy of TicketingSellerRespDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? nickname = null,Object? profileImageUrl = null,Object? mannerTemperature = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? nickname = null,Object? profileImageUrl = null,Object? mannerTemperature = null,Object? totalTradeCount = null,Object? responseRate = freezed,Object? isSecurePayment = null,}) {
   return _then(_TicketingSellerRespDto(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as int,nickname: null == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
 as String,profileImageUrl: null == profileImageUrl ? _self.profileImageUrl : profileImageUrl // ignore: cast_nullable_to_non_nullable
 as String,mannerTemperature: null == mannerTemperature ? _self.mannerTemperature : mannerTemperature // ignore: cast_nullable_to_non_nullable
-as double,
+as double,totalTradeCount: null == totalTradeCount ? _self.totalTradeCount : totalTradeCount // ignore: cast_nullable_to_non_nullable
+as int,responseRate: freezed == responseRate ? _self.responseRate : responseRate // ignore: cast_nullable_to_non_nullable
+as int?,isSecurePayment: null == isSecurePayment ? _self.isSecurePayment : isSecurePayment // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

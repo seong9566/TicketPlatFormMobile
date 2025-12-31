@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 
-class ListingDetailTransactionFeatures extends StatelessWidget {
+class TicketDetailTransactionFeatures extends StatelessWidget {
   final List<String> features;
 
-  const ListingDetailTransactionFeatures({super.key, required this.features});
+  const TicketDetailTransactionFeatures({super.key, required this.features});
 
   @override
   Widget build(BuildContext context) {

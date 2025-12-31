@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:ticket_platform_mobile/core/utils/number_format_util.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_ui_model.dart';
 
-class ListingDetailTicketHeader extends StatelessWidget {
+class TicketDetailHeader extends StatelessWidget {
   final TicketListingUiModel listing;
 
-  const ListingDetailTicketHeader({super.key, required this.listing});
+  const TicketDetailHeader({super.key, required this.listing});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class ListingDetailTicketHeader extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.md),
           Text(
-            listing.seatInfo,
+            listing.seatInfo ?? '좌석 정보 없음',
             style: AppTextStyles.heading3.copyWith(
               fontSize: 26,
               fontWeight: FontWeight.w900,
@@ -52,7 +52,7 @@ class ListingDetailTicketHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                NumberFormat('#,###').format(listing.price),
+                NumberFormatUtil.formatNumber(listing.price),
                 style: AppTextStyles.heading2.copyWith(
                   color: AppColors.success,
                   fontSize: 32,
@@ -77,7 +77,7 @@ class ListingDetailTicketHeader extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 6),
                   child: Text(
-                    '정가 ${NumberFormat('#,###').format(listing.originalPrice)}원',
+                    '정가 ${NumberFormatUtil.formatNumber(listing.originalPrice)}원',
                     style: AppTextStyles.body2.copyWith(
                       color: AppColors.textTertiary,
                       decoration: TextDecoration.lineThrough,

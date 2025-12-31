@@ -2,4 +2,5 @@ import 'package:ticket_platform_mobile/features/ticketing/domain/entities/ticket
 
 abstract class TicketingRepository {
   Future<TicketingInfoEntity> getTicketingInfo(int eventId);
+  Future<TicketingTicketEntity> getTicketDetail(int ticketId);
 }

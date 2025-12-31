@@ -570,7 +570,7 @@ as int,
 mixin _$TicketListingUiModel {
 
  String get id; String get gradeName;// 'VIP석', 'R석'
- String get seatInfo;// '1층 5구역 3열'
+ String? get seatInfo;// '1층 5구역 3열'
  int get price; int get originalPrice; List<String> get tags;// ['연석 보유', '시야제한 없음']
  SellerUiModel get seller; String? get description; DateTime get createdAt; String get ticketCountInfo; List<String> get transactionFeatures;// ['배송지 변경', '안심결제 가능', '예매 내역서', '연석 보유']
  String? get listingImageUrl;
@@ -604,7 +604,7 @@ abstract mixin class $TicketListingUiModelCopyWith<$Res>  {
   factory $TicketListingUiModelCopyWith(TicketListingUiModel value, $Res Function(TicketListingUiModel) _then) = _$TicketListingUiModelCopyWithImpl;
 @useResult
 $Res call({
- String id, String gradeName, String seatInfo, int price, int originalPrice, List<String> tags, SellerUiModel seller, String? description, DateTime createdAt, String ticketCountInfo, List<String> transactionFeatures, String? listingImageUrl
+ String id, String gradeName, String? seatInfo, int price, int originalPrice, List<String> tags, SellerUiModel seller, String? description, DateTime createdAt, String ticketCountInfo, List<String> transactionFeatures, String? listingImageUrl
 });
 
 
@@ -621,12 +621,12 @@ class _$TicketListingUiModelCopyWithImpl<$Res>
 
 /// Create a copy of TicketListingUiModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? gradeName = null,Object? seatInfo = null,Object? price = null,Object? originalPrice = null,Object? tags = null,Object? seller = null,Object? description = freezed,Object? createdAt = null,Object? ticketCountInfo = null,Object? transactionFeatures = null,Object? listingImageUrl = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? gradeName = null,Object? seatInfo = freezed,Object? price = null,Object? originalPrice = null,Object? tags = null,Object? seller = null,Object? description = freezed,Object? createdAt = null,Object? ticketCountInfo = null,Object? transactionFeatures = null,Object? listingImageUrl = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,gradeName: null == gradeName ? _self.gradeName : gradeName // ignore: cast_nullable_to_non_nullable
-as String,seatInfo: null == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
-as String,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
+as String,seatInfo: freezed == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
+as String?,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
 as int,originalPrice: null == originalPrice ? _self.originalPrice : originalPrice // ignore: cast_nullable_to_non_nullable
 as int,tags: null == tags ? _self.tags : tags // ignore: cast_nullable_to_non_nullable
 as List<String>,seller: null == seller ? _self.seller : seller // ignore: cast_nullable_to_non_nullable
@@ -729,7 +729,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String gradeName,  String seatInfo,  int price,  int originalPrice,  List<String> tags,  SellerUiModel seller,  String? description,  DateTime createdAt,  String ticketCountInfo,  List<String> transactionFeatures,  String? listingImageUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String gradeName,  String? seatInfo,  int price,  int originalPrice,  List<String> tags,  SellerUiModel seller,  String? description,  DateTime createdAt,  String ticketCountInfo,  List<String> transactionFeatures,  String? listingImageUrl)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TicketListingUiModel() when $default != null:
 return $default(_that.id,_that.gradeName,_that.seatInfo,_that.price,_that.originalPrice,_that.tags,_that.seller,_that.description,_that.createdAt,_that.ticketCountInfo,_that.transactionFeatures,_that.listingImageUrl);case _:
@@ -750,7 +750,7 @@ return $default(_that.id,_that.gradeName,_that.seatInfo,_that.price,_that.origin
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String gradeName,  String seatInfo,  int price,  int originalPrice,  List<String> tags,  SellerUiModel seller,  String? description,  DateTime createdAt,  String ticketCountInfo,  List<String> transactionFeatures,  String? listingImageUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String gradeName,  String? seatInfo,  int price,  int originalPrice,  List<String> tags,  SellerUiModel seller,  String? description,  DateTime createdAt,  String ticketCountInfo,  List<String> transactionFeatures,  String? listingImageUrl)  $default,) {final _that = this;
 switch (_that) {
 case _TicketListingUiModel():
 return $default(_that.id,_that.gradeName,_that.seatInfo,_that.price,_that.originalPrice,_that.tags,_that.seller,_that.description,_that.createdAt,_that.ticketCountInfo,_that.transactionFeatures,_that.listingImageUrl);case _:
@@ -770,7 +770,7 @@ return $default(_that.id,_that.gradeName,_that.seatInfo,_that.price,_that.origin
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String gradeName,  String seatInfo,  int price,  int originalPrice,  List<String> tags,  SellerUiModel seller,  String? description,  DateTime createdAt,  String ticketCountInfo,  List<String> transactionFeatures,  String? listingImageUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String gradeName,  String? seatInfo,  int price,  int originalPrice,  List<String> tags,  SellerUiModel seller,  String? description,  DateTime createdAt,  String ticketCountInfo,  List<String> transactionFeatures,  String? listingImageUrl)?  $default,) {final _that = this;
 switch (_that) {
 case _TicketListingUiModel() when $default != null:
 return $default(_that.id,_that.gradeName,_that.seatInfo,_that.price,_that.originalPrice,_that.tags,_that.seller,_that.description,_that.createdAt,_that.ticketCountInfo,_that.transactionFeatures,_that.listingImageUrl);case _:
@@ -791,7 +791,7 @@ class _TicketListingUiModel implements TicketListingUiModel {
 @override final  String id;
 @override final  String gradeName;
 // 'VIP석', 'R석'
-@override final  String seatInfo;
+@override final  String? seatInfo;
 // '1층 5구역 3열'
 @override final  int price;
 @override final  int originalPrice;
@@ -847,7 +847,7 @@ abstract mixin class _$TicketListingUiModelCopyWith<$Res> implements $TicketList
   factory _$TicketListingUiModelCopyWith(_TicketListingUiModel value, $Res Function(_TicketListingUiModel) _then) = __$TicketListingUiModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String gradeName, String seatInfo, int price, int originalPrice, List<String> tags, SellerUiModel seller, String? description, DateTime createdAt, String ticketCountInfo, List<String> transactionFeatures, String? listingImageUrl
+ String id, String gradeName, String? seatInfo, int price, int originalPrice, List<String> tags, SellerUiModel seller, String? description, DateTime createdAt, String ticketCountInfo, List<String> transactionFeatures, String? listingImageUrl
 });
 
 
@@ -864,12 +864,12 @@ class __$TicketListingUiModelCopyWithImpl<$Res>
 
 /// Create a copy of TicketListingUiModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? gradeName = null,Object? seatInfo = null,Object? price = null,Object? originalPrice = null,Object? tags = null,Object? seller = null,Object? description = freezed,Object? createdAt = null,Object? ticketCountInfo = null,Object? transactionFeatures = null,Object? listingImageUrl = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? gradeName = null,Object? seatInfo = freezed,Object? price = null,Object? originalPrice = null,Object? tags = null,Object? seller = null,Object? description = freezed,Object? createdAt = null,Object? ticketCountInfo = null,Object? transactionFeatures = null,Object? listingImageUrl = freezed,}) {
   return _then(_TicketListingUiModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,gradeName: null == gradeName ? _self.gradeName : gradeName // ignore: cast_nullable_to_non_nullable
-as String,seatInfo: null == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
-as String,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
+as String,seatInfo: freezed == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
+as String?,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
 as int,originalPrice: null == originalPrice ? _self.originalPrice : originalPrice // ignore: cast_nullable_to_non_nullable
 as int,tags: null == tags ? _self._tags : tags // ignore: cast_nullable_to_non_nullable
 as List<String>,seller: null == seller ? _self.seller : seller // ignore: cast_nullable_to_non_nullable
@@ -898,7 +898,8 @@ $SellerUiModelCopyWith<$Res> get seller {
 mixin _$SellerUiModel {
 
  String get id; String get nickname; String get profileImageUrl; double get mannerTemperature;// '매너 99.9'
- int get responseRate; int get transactionCount;
+ int get totalTradeCount; int? get responseRate; bool get isSecurePayment; int get responseRateManual;// This was already there as responseRate but user wants nullable responseRate
+ int get transactionCountManual;
 /// Create a copy of SellerUiModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -909,16 +910,16 @@ $SellerUiModelCopyWith<SellerUiModel> get copyWith => _$SellerUiModelCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SellerUiModel&&(identical(other.id, id) || other.id == id)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImageUrl, profileImageUrl) || other.profileImageUrl == profileImageUrl)&&(identical(other.mannerTemperature, mannerTemperature) || other.mannerTemperature == mannerTemperature)&&(identical(other.responseRate, responseRate) || other.responseRate == responseRate)&&(identical(other.transactionCount, transactionCount) || other.transactionCount == transactionCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SellerUiModel&&(identical(other.id, id) || other.id == id)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImageUrl, profileImageUrl) || other.profileImageUrl == profileImageUrl)&&(identical(other.mannerTemperature, mannerTemperature) || other.mannerTemperature == mannerTemperature)&&(identical(other.totalTradeCount, totalTradeCount) || other.totalTradeCount == totalTradeCount)&&(identical(other.responseRate, responseRate) || other.responseRate == responseRate)&&(identical(other.isSecurePayment, isSecurePayment) || other.isSecurePayment == isSecurePayment)&&(identical(other.responseRateManual, responseRateManual) || other.responseRateManual == responseRateManual)&&(identical(other.transactionCountManual, transactionCountManual) || other.transactionCountManual == transactionCountManual));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,nickname,profileImageUrl,mannerTemperature,responseRate,transactionCount);
+int get hashCode => Object.hash(runtimeType,id,nickname,profileImageUrl,mannerTemperature,totalTradeCount,responseRate,isSecurePayment,responseRateManual,transactionCountManual);
 
 @override
 String toString() {
-  return 'SellerUiModel(id: $id, nickname: $nickname, profileImageUrl: $profileImageUrl, mannerTemperature: $mannerTemperature, responseRate: $responseRate, transactionCount: $transactionCount)';
+  return 'SellerUiModel(id: $id, nickname: $nickname, profileImageUrl: $profileImageUrl, mannerTemperature: $mannerTemperature, totalTradeCount: $totalTradeCount, responseRate: $responseRate, isSecurePayment: $isSecurePayment, responseRateManual: $responseRateManual, transactionCountManual: $transactionCountManual)';
 }
 
 
@@ -929,7 +930,7 @@ abstract mixin class $SellerUiModelCopyWith<$Res>  {
   factory $SellerUiModelCopyWith(SellerUiModel value, $Res Function(SellerUiModel) _then) = _$SellerUiModelCopyWithImpl;
 @useResult
 $Res call({
- String id, String nickname, String profileImageUrl, double mannerTemperature, int responseRate, int transactionCount
+ String id, String nickname, String profileImageUrl, double mannerTemperature, int totalTradeCount, int? responseRate, bool isSecurePayment, int responseRateManual, int transactionCountManual
 });
 
 
@@ -946,14 +947,17 @@ class _$SellerUiModelCopyWithImpl<$Res>
 
 /// Create a copy of SellerUiModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? nickname = null,Object? profileImageUrl = null,Object? mannerTemperature = null,Object? responseRate = null,Object? transactionCount = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? nickname = null,Object? profileImageUrl = null,Object? mannerTemperature = null,Object? totalTradeCount = null,Object? responseRate = freezed,Object? isSecurePayment = null,Object? responseRateManual = null,Object? transactionCountManual = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,nickname: null == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
 as String,profileImageUrl: null == profileImageUrl ? _self.profileImageUrl : profileImageUrl // ignore: cast_nullable_to_non_nullable
 as String,mannerTemperature: null == mannerTemperature ? _self.mannerTemperature : mannerTemperature // ignore: cast_nullable_to_non_nullable
-as double,responseRate: null == responseRate ? _self.responseRate : responseRate // ignore: cast_nullable_to_non_nullable
-as int,transactionCount: null == transactionCount ? _self.transactionCount : transactionCount // ignore: cast_nullable_to_non_nullable
+as double,totalTradeCount: null == totalTradeCount ? _self.totalTradeCount : totalTradeCount // ignore: cast_nullable_to_non_nullable
+as int,responseRate: freezed == responseRate ? _self.responseRate : responseRate // ignore: cast_nullable_to_non_nullable
+as int?,isSecurePayment: null == isSecurePayment ? _self.isSecurePayment : isSecurePayment // ignore: cast_nullable_to_non_nullable
+as bool,responseRateManual: null == responseRateManual ? _self.responseRateManual : responseRateManual // ignore: cast_nullable_to_non_nullable
+as int,transactionCountManual: null == transactionCountManual ? _self.transactionCountManual : transactionCountManual // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }
@@ -1039,10 +1043,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String nickname,  String profileImageUrl,  double mannerTemperature,  int responseRate,  int transactionCount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String nickname,  String profileImageUrl,  double mannerTemperature,  int totalTradeCount,  int? responseRate,  bool isSecurePayment,  int responseRateManual,  int transactionCountManual)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SellerUiModel() when $default != null:
-return $default(_that.id,_that.nickname,_that.profileImageUrl,_that.mannerTemperature,_that.responseRate,_that.transactionCount);case _:
+return $default(_that.id,_that.nickname,_that.profileImageUrl,_that.mannerTemperature,_that.totalTradeCount,_that.responseRate,_that.isSecurePayment,_that.responseRateManual,_that.transactionCountManual);case _:
   return orElse();
 
 }
@@ -1060,10 +1064,10 @@ return $default(_that.id,_that.nickname,_that.profileImageUrl,_that.mannerTemper
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String nickname,  String profileImageUrl,  double mannerTemperature,  int responseRate,  int transactionCount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String nickname,  String profileImageUrl,  double mannerTemperature,  int totalTradeCount,  int? responseRate,  bool isSecurePayment,  int responseRateManual,  int transactionCountManual)  $default,) {final _that = this;
 switch (_that) {
 case _SellerUiModel():
-return $default(_that.id,_that.nickname,_that.profileImageUrl,_that.mannerTemperature,_that.responseRate,_that.transactionCount);case _:
+return $default(_that.id,_that.nickname,_that.profileImageUrl,_that.mannerTemperature,_that.totalTradeCount,_that.responseRate,_that.isSecurePayment,_that.responseRateManual,_that.transactionCountManual);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1080,10 +1084,10 @@ return $default(_that.id,_that.nickname,_that.profileImageUrl,_that.mannerTemper
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String nickname,  String profileImageUrl,  double mannerTemperature,  int responseRate,  int transactionCount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String nickname,  String profileImageUrl,  double mannerTemperature,  int totalTradeCount,  int? responseRate,  bool isSecurePayment,  int responseRateManual,  int transactionCountManual)?  $default,) {final _that = this;
 switch (_that) {
 case _SellerUiModel() when $default != null:
-return $default(_that.id,_that.nickname,_that.profileImageUrl,_that.mannerTemperature,_that.responseRate,_that.transactionCount);case _:
+return $default(_that.id,_that.nickname,_that.profileImageUrl,_that.mannerTemperature,_that.totalTradeCount,_that.responseRate,_that.isSecurePayment,_that.responseRateManual,_that.transactionCountManual);case _:
   return null;
 
 }
@@ -1095,7 +1099,7 @@ return $default(_that.id,_that.nickname,_that.profileImageUrl,_that.mannerTemper
 
 
 class _SellerUiModel implements SellerUiModel {
-  const _SellerUiModel({required this.id, required this.nickname, required this.profileImageUrl, required this.mannerTemperature, this.responseRate = 98, this.transactionCount = 15});
+  const _SellerUiModel({required this.id, required this.nickname, required this.profileImageUrl, required this.mannerTemperature, required this.totalTradeCount, required this.responseRate, this.isSecurePayment = false, this.responseRateManual = 98, this.transactionCountManual = 15});
   
 
 @override final  String id;
@@ -1103,8 +1107,12 @@ class _SellerUiModel implements SellerUiModel {
 @override final  String profileImageUrl;
 @override final  double mannerTemperature;
 // '매너 99.9'
-@override@JsonKey() final  int responseRate;
-@override@JsonKey() final  int transactionCount;
+@override final  int totalTradeCount;
+@override final  int? responseRate;
+@override@JsonKey() final  bool isSecurePayment;
+@override@JsonKey() final  int responseRateManual;
+// This was already there as responseRate but user wants nullable responseRate
+@override@JsonKey() final  int transactionCountManual;
 
 /// Create a copy of SellerUiModel
 /// with the given fields replaced by the non-null parameter values.
@@ -1116,16 +1124,16 @@ _$SellerUiModelCopyWith<_SellerUiModel> get copyWith => __$SellerUiModelCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SellerUiModel&&(identical(other.id, id) || other.id == id)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImageUrl, profileImageUrl) || other.profileImageUrl == profileImageUrl)&&(identical(other.mannerTemperature, mannerTemperature) || other.mannerTemperature == mannerTemperature)&&(identical(other.responseRate, responseRate) || other.responseRate == responseRate)&&(identical(other.transactionCount, transactionCount) || other.transactionCount == transactionCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SellerUiModel&&(identical(other.id, id) || other.id == id)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImageUrl, profileImageUrl) || other.profileImageUrl == profileImageUrl)&&(identical(other.mannerTemperature, mannerTemperature) || other.mannerTemperature == mannerTemperature)&&(identical(other.totalTradeCount, totalTradeCount) || other.totalTradeCount == totalTradeCount)&&(identical(other.responseRate, responseRate) || other.responseRate == responseRate)&&(identical(other.isSecurePayment, isSecurePayment) || other.isSecurePayment == isSecurePayment)&&(identical(other.responseRateManual, responseRateManual) || other.responseRateManual == responseRateManual)&&(identical(other.transactionCountManual, transactionCountManual) || other.transactionCountManual == transactionCountManual));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,nickname,profileImageUrl,mannerTemperature,responseRate,transactionCount);
+int get hashCode => Object.hash(runtimeType,id,nickname,profileImageUrl,mannerTemperature,totalTradeCount,responseRate,isSecurePayment,responseRateManual,transactionCountManual);
 
 @override
 String toString() {
-  return 'SellerUiModel(id: $id, nickname: $nickname, profileImageUrl: $profileImageUrl, mannerTemperature: $mannerTemperature, responseRate: $responseRate, transactionCount: $transactionCount)';
+  return 'SellerUiModel(id: $id, nickname: $nickname, profileImageUrl: $profileImageUrl, mannerTemperature: $mannerTemperature, totalTradeCount: $totalTradeCount, responseRate: $responseRate, isSecurePayment: $isSecurePayment, responseRateManual: $responseRateManual, transactionCountManual: $transactionCountManual)';
 }
 
 
@@ -1136,7 +1144,7 @@ abstract mixin class _$SellerUiModelCopyWith<$Res> implements $SellerUiModelCopy
   factory _$SellerUiModelCopyWith(_SellerUiModel value, $Res Function(_SellerUiModel) _then) = __$SellerUiModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String nickname, String profileImageUrl, double mannerTemperature, int responseRate, int transactionCount
+ String id, String nickname, String profileImageUrl, double mannerTemperature, int totalTradeCount, int? responseRate, bool isSecurePayment, int responseRateManual, int transactionCountManual
 });
 
 
@@ -1153,14 +1161,17 @@ class __$SellerUiModelCopyWithImpl<$Res>
 
 /// Create a copy of SellerUiModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? nickname = null,Object? profileImageUrl = null,Object? mannerTemperature = null,Object? responseRate = null,Object? transactionCount = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? nickname = null,Object? profileImageUrl = null,Object? mannerTemperature = null,Object? totalTradeCount = null,Object? responseRate = freezed,Object? isSecurePayment = null,Object? responseRateManual = null,Object? transactionCountManual = null,}) {
   return _then(_SellerUiModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,nickname: null == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
 as String,profileImageUrl: null == profileImageUrl ? _self.profileImageUrl : profileImageUrl // ignore: cast_nullable_to_non_nullable
 as String,mannerTemperature: null == mannerTemperature ? _self.mannerTemperature : mannerTemperature // ignore: cast_nullable_to_non_nullable
-as double,responseRate: null == responseRate ? _self.responseRate : responseRate // ignore: cast_nullable_to_non_nullable
-as int,transactionCount: null == transactionCount ? _self.transactionCount : transactionCount // ignore: cast_nullable_to_non_nullable
+as double,totalTradeCount: null == totalTradeCount ? _self.totalTradeCount : totalTradeCount // ignore: cast_nullable_to_non_nullable
+as int,responseRate: freezed == responseRate ? _self.responseRate : responseRate // ignore: cast_nullable_to_non_nullable
+as int?,isSecurePayment: null == isSecurePayment ? _self.isSecurePayment : isSecurePayment // ignore: cast_nullable_to_non_nullable
+as bool,responseRateManual: null == responseRateManual ? _self.responseRateManual : responseRateManual // ignore: cast_nullable_to_non_nullable
+as int,transactionCountManual: null == transactionCountManual ? _self.transactionCountManual : transactionCountManual // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }

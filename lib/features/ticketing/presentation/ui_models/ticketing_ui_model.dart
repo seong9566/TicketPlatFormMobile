@@ -56,7 +56,7 @@ abstract class TicketListingUiModel with _$TicketListingUiModel {
   const factory TicketListingUiModel({
     required String id,
     required String gradeName, // 'VIP석', 'R석'
-    required String seatInfo, // '1층 5구역 3열'
+    required String? seatInfo, // '1층 5구역 3열'
     required int price,
     required int originalPrice,
     required List<String> tags, // ['연석 보유', '시야제한 없음']
@@ -73,7 +73,7 @@ abstract class TicketListingUiModel with _$TicketListingUiModel {
   factory TicketListingUiModel.fromEntity(TicketingTicketEntity entity) {
     return TicketListingUiModel(
       id: entity.ticketId.toString(),
-      gradeName: entity.seatType,
+      gradeName: entity.seatType ?? '일반',
       seatInfo: entity.seatInfo,
       price: entity.price,
       originalPrice: entity.originalPrice,
@@ -94,8 +94,13 @@ abstract class SellerUiModel with _$SellerUiModel {
     required String nickname,
     required String profileImageUrl,
     required double mannerTemperature, // '매너 99.9'
-    @Default(98) int responseRate,
-    @Default(15) int transactionCount,
+    required int totalTradeCount,
+    required int? responseRate,
+    @Default(false) bool isSecurePayment,
+    @Default(98)
+    int
+    responseRateManual, // This was already there as responseRate but user wants nullable responseRate
+    @Default(15) int transactionCountManual,
   }) = _SellerUiModel;
 
   factory SellerUiModel.fromEntity(TicketingSellerEntity entity) {
@@ -104,6 +109,9 @@ abstract class SellerUiModel with _$SellerUiModel {
       nickname: entity.nickname,
       profileImageUrl: entity.profileImageUrl,
       mannerTemperature: entity.mannerTemperature,
+      totalTradeCount: entity.totalTradeCount,
+      responseRate: entity.responseRate,
+      isSecurePayment: entity.isSecurePayment,
     );
   }
 }

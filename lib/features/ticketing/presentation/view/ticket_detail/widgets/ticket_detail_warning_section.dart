@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 
-class ListingDetailWarningSection extends StatelessWidget {
-  const ListingDetailWarningSection({super.key});
+class TicketDetailWarningSection extends StatelessWidget {
+  const TicketDetailWarningSection({super.key});
 
   @override
   Widget build(BuildContext context) {
