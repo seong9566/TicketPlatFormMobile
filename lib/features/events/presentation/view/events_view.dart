@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
@@ -27,6 +28,14 @@ class EventsView extends ConsumerWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            size: 18,
+            color: AppColors.textSecondary,
+          ),
+          onPressed: () => context.pop(),
+        ),
         title: stateAsync.when(
           data: (state) => Text(
             '${state.selectedCategory.label} 공연 리스트',

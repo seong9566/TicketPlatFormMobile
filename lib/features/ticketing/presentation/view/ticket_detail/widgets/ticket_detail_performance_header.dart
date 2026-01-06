@@ -87,7 +87,6 @@ class TicketDetailPerformanceHeader extends StatelessWidget {
               ],
             ),
           ),
-          const Icon(Icons.chevron_right, color: Color(0xFFCBD5E1), size: 24),
         ],
       ),
     );

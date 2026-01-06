@@ -34,72 +34,66 @@ class TicketDetailView extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackground,
       appBar: _buildAppBar(context),
-      body: ticketingStateAsync.when(
+      body: SafeArea(
+        top: true,
+        bottom: false,
+        child: ticketingStateAsync.when(
         data: (ticketingState) {
           final info = ticketingState.ticketingInfo;
           if (info == null) {
             return const Center(child: Text('공연 정보를 불러올 수 없습니다.'));
           }
 
-          return ticketDetailStateAsync.when(
-            data: (ticketDetailState) {
-              final listing = ticketDetailState.listing;
-              if (listing == null) {
-                return const Center(child: Text('티켓 정보를 불러올 수 없습니다.'));
-              }
+            return ticketDetailStateAsync.when(
+              data: (ticketDetailState) {
+                final listing = ticketDetailState.listing;
+                if (listing == null) {
+                  return const Center(child: Text('티켓 정보를 불러올 수 없습니다.'));
+                }
 
-              return SafeArea(
-                child: Stack(
-                  children: [
-                    SingleChildScrollView(
-                      padding: const EdgeInsets.only(bottom: 120),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TicketDetailHeader(listing: listing),
-                          const SizedBox(height: AppSpacing.xs),
-                          TicketDetailPerformanceHeader(info: info),
-                               _buildSectionHeader('상세 설명'),
-                          _buildDescription(listing.description),
-                           _buildSectionHeader('좌석 특징'),
-                          TicketDetailSeatFeatures(tags: listing.tags),
-                       
-                          _buildProductImage(listing.listingImageUrl),
-
-                          // _buildSectionHeader('거래 정보'),
-                          // TicketDetailTransactionFeatures(
-                          //   features: listing.transactionFeatures,
-                          // ),
-                         
-                          if (listing.listingImageUrl != null &&
-                              listing.listingImageUrl!.isNotEmpty) ...[
-                            const SizedBox(height: AppSpacing.md),
-                            const Center(
-                              child: Text(
-                                '* 상품 이미지는 판매자가 직접 등록한 이미지입니다.',
-                                style: TextStyle(
-                                  color: Color(0xFF94A3B8),
-                                  fontSize: 11,
-                                ),
-                              ),
+                return SingleChildScrollView(
+                  padding: const EdgeInsets.only(bottom: 120),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TicketDetailHeader(listing: listing),
+                      const SizedBox(height: AppSpacing.xs),
+                      TicketDetailPerformanceHeader(info: info),
+                      _buildSectionHeader('상세 설명'),
+                      _buildDescription(listing.description),
+                      _buildSectionHeader('좌석 특징'),
+                      TicketDetailSeatFeatures(tags: listing.tags),
+                      _buildProductImage(listing.listingImageUrl),
+                      if (listing.listingImageUrl != null &&
+                          listing.listingImageUrl!.isNotEmpty) ...[
+                        const SizedBox(height: AppSpacing.md),
+                        const Center(
+                          child: Text(
+                            '* 상품 이미지는 판매자가 직접 등록한 이미지입니다.',
+                            style: TextStyle(
+                              color: Color(0xFF94A3B8),
+                              fontSize: 11,
                             ),
-                          ],
-                          TicketDetailSellerInfo(seller: listing.seller),
-                          const SizedBox(height: AppSpacing.lg),
-                        ],
-                      ),
-                    ),
-                    const TicketDetailBottomAction(),
-                  ],
-                ),
-              );
-            },
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (err, stack) => Center(child: Text('Error: $err')),
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Error: $err')),
+                          ),
+                        ),
+                      ],
+                      TicketDetailSellerInfo(seller: listing.seller),
+                      const SizedBox(height: AppSpacing.lg),
+                    ],
+                  ),
+                );
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (err, stack) => Center(child: Text('Error: $err')),
+            );
+          },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (err, stack) => Center(child: Text('Error: $err')),
+        ),
+      ),
+      bottomNavigationBar: const SafeArea(
+        top: false,
+        child: TicketDetailBottomAction(),
       ),
     );
   }
@@ -139,7 +133,7 @@ class TicketDetailView extends ConsumerWidget {
       ),
       child: Text(
         title,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: AppColors.textPrimary),
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: AppColors.textSecondary),
       ),
     );
   }

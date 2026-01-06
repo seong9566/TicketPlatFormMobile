@@ -5,7 +5,6 @@ import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/viewmodels/home_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/widgets/home_banner_carousel.dart';
-import 'package:ticket_platform_mobile/features/home/presentation/widgets/home_bottom_nav.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/widgets/home_event_row.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/widgets/home_common_widgets.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/widgets/popular_ticket_list.dart';

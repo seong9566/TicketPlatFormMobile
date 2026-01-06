@@ -39,8 +39,9 @@ class EventCategoryBar extends ConsumerWidget {
       },
     ];
 
-    return SizedBox(
+    return Container(
       height: 46, // 아이콘 + 텍스트 + 패딩에 맞는 고정 높이
+      margin: const EdgeInsets.only(bottom: AppSpacing.sm),
       child: ListView.separated(
         shrinkWrap: true,
         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),

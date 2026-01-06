@@ -1,6 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:ticket_platform_mobile/features/chat/presentation/view/chat_room_view.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/views/main_tab_view.dart';
+import 'package:ticket_platform_mobile/features/events/presentation/view/events_view.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticketing_view.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/ticket_detail_view.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
@@ -17,7 +19,22 @@ GoRouter goRouter(Ref ref) {
         name: 'home',
         builder: (context, state) => const MainTabView(),
       ),
-
+      GoRoute(
+        path: AppRouterPath.events,
+        name: 'events',
+        builder: (context, state) {
+          final category = state.uri.queryParameters['category'];
+          return EventsView(category: category);
+        },
+      ),
+      GoRoute(
+        path: '${AppRouterPath.chatRoom}/:id',
+        name: 'chatRoom',
+        builder: (context, state) {
+          final id = state.pathParameters['id']!;
+          return ChatRoomView(chatRoomId: id);
+        },
+      ),
       GoRoute(
         path: '${AppRouterPath.ticketing}/:id',
         name: 'ticketing',
