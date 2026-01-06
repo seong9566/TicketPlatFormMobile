@@ -50,6 +50,7 @@ class EventsView extends ConsumerWidget {
         child: Column(
           children: [
             EventSearchBar(initialCategory: category),
+            const SizedBox(height: AppSpacing.md),
             EventCategoryBar(initialCategory: category),
             Expanded(
               child: stateAsync.when(
