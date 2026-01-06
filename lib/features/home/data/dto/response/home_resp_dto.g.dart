@@ -7,8 +7,8 @@ part of 'home_resp_dto.dart';
 // **************************************************************************
 
 _HomeRespDto _$HomeRespDtoFromJson(Map<String, dynamic> json) => _HomeRespDto(
-  popularTickets: (json['popularTickets'] as List<dynamic>)
-      .map((e) => PopularTicketDto.fromJson(e as Map<String, dynamic>))
+  popularEvents: (json['popularEvents'] as List<dynamic>)
+      .map((e) => PopularEventDto.fromJson(e as Map<String, dynamic>))
       .toList(),
   recommendedEvents: (json['recommendedEvents'] as List<dynamic>)
       .map((e) => RecommendedEventDto.fromJson(e as Map<String, dynamic>))
@@ -17,37 +17,54 @@ _HomeRespDto _$HomeRespDtoFromJson(Map<String, dynamic> json) => _HomeRespDto(
 
 Map<String, dynamic> _$HomeRespDtoToJson(_HomeRespDto instance) =>
     <String, dynamic>{
-      'popularTickets': instance.popularTickets,
+      'popularEvents': instance.popularEvents,
       'recommendedEvents': instance.recommendedEvents,
     };
 
-_PopularTicketDto _$PopularTicketDtoFromJson(Map<String, dynamic> json) =>
-    _PopularTicketDto(
-      ticketId: (json['ticketId'] as num).toInt(),
-      ticketTitle: json['ticketTitle'] as String,
-      price: (json['price'] as num).toInt(),
+_PopularEventDto _$PopularEventDtoFromJson(Map<String, dynamic> json) =>
+    _PopularEventDto(
+      eventId: (json['eventId'] as num).toInt(),
+      eventTitle: json['eventTitle'] as String,
+      eventDescription: json['eventDescription'] as String?,
+      eventDate: json['eventDate'] as String,
+      venue: json['venue'] as String,
+      minTicketPrice: (json['minTicketPrice'] as num).toInt(),
+      originalMinTicketPrice: (json['originalMinTicketPrice'] as num).toInt(),
+      ticketDiscountRate: (json['ticketDiscountRate'] as num).toInt(),
       posterImageUrl: json['posterImageUrl'] as String?,
-      eventTitle: json['eventTitle'] as String?,
-      eventDate: json['eventDate'] as String?,
+      availableTicketCount: (json['availableTicketCount'] as num).toInt(),
+      categoryId: (json['categoryId'] as num).toInt(),
     );
 
-Map<String, dynamic> _$PopularTicketDtoToJson(_PopularTicketDto instance) =>
+Map<String, dynamic> _$PopularEventDtoToJson(_PopularEventDto instance) =>
     <String, dynamic>{
-      'ticketId': instance.ticketId,
-      'ticketTitle': instance.ticketTitle,
-      'price': instance.price,
-      'posterImageUrl': instance.posterImageUrl,
+      'eventId': instance.eventId,
       'eventTitle': instance.eventTitle,
+      'eventDescription': instance.eventDescription,
       'eventDate': instance.eventDate,
+      'venue': instance.venue,
+      'minTicketPrice': instance.minTicketPrice,
+      'originalMinTicketPrice': instance.originalMinTicketPrice,
+      'ticketDiscountRate': instance.ticketDiscountRate,
+      'posterImageUrl': instance.posterImageUrl,
+      'availableTicketCount': instance.availableTicketCount,
+      'categoryId': instance.categoryId,
     };
 
 _RecommendedEventDto _$RecommendedEventDtoFromJson(Map<String, dynamic> json) =>
     _RecommendedEventDto(
       eventId: (json['eventId'] as num).toInt(),
       eventTitle: json['eventTitle'] as String,
-      posterImageUrl: json['posterImageUrl'] as String,
       eventDate: json['eventDate'] as String,
-      ticketCount: (json['ticketCount'] as num).toInt(),
+      eventDescription: json['eventDescription'] as String?,
+      venue: json['venue'] as String,
+      minTicketPrice: (json['minTicketPrice'] as num).toInt(),
+      originalMinTicketPrice: (json['originalMinTicketPrice'] as num).toInt(),
+      ticketDiscountRate: (json['ticketDiscountRate'] as num).toInt(),
+      posterImageUrl: json['posterImageUrl'] as String?,
+      availableTicketCount: (json['availableTicketCount'] as num).toInt(),
+      categoryId: (json['categoryId'] as num).toInt(),
+      isWishedByMe: json['isWishedByMe'] as bool,
     );
 
 Map<String, dynamic> _$RecommendedEventDtoToJson(
@@ -55,7 +72,14 @@ Map<String, dynamic> _$RecommendedEventDtoToJson(
 ) => <String, dynamic>{
   'eventId': instance.eventId,
   'eventTitle': instance.eventTitle,
-  'posterImageUrl': instance.posterImageUrl,
   'eventDate': instance.eventDate,
-  'ticketCount': instance.ticketCount,
+  'eventDescription': instance.eventDescription,
+  'venue': instance.venue,
+  'minTicketPrice': instance.minTicketPrice,
+  'originalMinTicketPrice': instance.originalMinTicketPrice,
+  'ticketDiscountRate': instance.ticketDiscountRate,
+  'posterImageUrl': instance.posterImageUrl,
+  'availableTicketCount': instance.availableTicketCount,
+  'categoryId': instance.categoryId,
+  'isWishedByMe': instance.isWishedByMe,
 };

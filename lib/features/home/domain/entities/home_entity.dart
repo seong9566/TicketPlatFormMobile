@@ -5,21 +5,26 @@ part 'home_entity.freezed.dart';
 @freezed
 abstract class HomeEntity with _$HomeEntity {
   const factory HomeEntity({
-    required List<PopularTicketEntity> popularTickets,
+    required List<PopularEventEntity> popularEvents,
     required List<RecommendedEventEntity> recommendedEvents,
   }) = _HomeEntity;
 }
 
 @freezed
-abstract class PopularTicketEntity with _$PopularTicketEntity {
-  const factory PopularTicketEntity({
-    required int ticketId,
-    required String ticketTitle,
-    required int price,
-    String? posterImageUrl,
-    String? eventTitle,
+abstract class PopularEventEntity with _$PopularEventEntity {
+  const factory PopularEventEntity({
+    required int eventId,
+    required String eventTitle,
+    String? eventDescription,
     required String eventDate,
-  }) = _PopularTicketEntity;
+    required String venue,
+    required int minTicketPrice,
+    required int originalMinTicketPrice,
+    required int ticketDiscountRate,
+    String? posterImageUrl,
+    required int availableTicketCount,
+    required int categoryId,
+  }) = _PopularEventEntity;
 }
 
 @freezed
@@ -27,8 +32,15 @@ abstract class RecommendedEventEntity with _$RecommendedEventEntity {
   const factory RecommendedEventEntity({
     required int eventId,
     required String eventTitle,
-    required String posterImageUrl,
     required String eventDate,
-    required int ticketCount,
+    String? eventDescription,
+    required String venue,
+    required int minTicketPrice,
+    required int originalMinTicketPrice,
+    required int ticketDiscountRate,
+    String? posterImageUrl,
+    required int availableTicketCount,
+    required int categoryId,
+    required bool isWishedByMe,
   }) = _RecommendedEventEntity;
 }

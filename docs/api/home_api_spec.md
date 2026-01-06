@@ -63,34 +63,35 @@ Authorization: Bearer {access_token}
         "displayOrder": 4
       }
     ],
-    "popularTickets": [
+    "popularEvents": [
       {
-        "ticketId": 29,
-        "ticketTitle": "모네 빛을 그리다 티켓",
-        "price": 16000,
-        "originalPrice": 17400,
-        "discountRate": 8,
-        "posterImageUrl": "https://picsum.photos/400/600?random=42",
+        "eventId": 101,
         "eventTitle": "모네: 빛을 그리다",
-        "eventDate": "05.20",
+        "eventDescription": "빛과 색을 테마로 한 인상주의 전시",
+        "eventDate": "2026.05.20",
         "venue": "서울 올림픽 경기장",
+        "minTicketPrice": 16000,
+        "originalMinTicketPrice": 17400,
+        "ticketDiscountRate": 8,
+        "posterImageUrl": "https://picsum.photos/400/600?random=42",
         "availableTicketCount": 23,
-        "isOnSale": true,
         "categoryId": 4
       }
     ],
     "recommendedEvents": [
       {
-        "eventId": 101,
+        "eventId": 201,
         "eventTitle": "BTS 월드 투어",
-        "posterImageUrl": "https://example.com/event101.jpg",
+        "eventDescription": "전 세계를 도는 대규모 K-POP 콘서트",
         "eventDate": "2026.06.15",
         "venue": "잠실 올림픽 주경기장",
-        "ticketCount": 150,
-        "minPrice": 80000,
-        "maxPrice": 250000,
+        "minTicketPrice": 80000,
+        "originalMinTicketPrice": 120000,
+        "ticketDiscountRate": 33,
+        "posterImageUrl": "https://example.com/event201.jpg",
+        "availableTicketCount": 67,
         "categoryId": 1,
-        "tags": ["K-POP", "월드투어", "인기"]
+        "isWishedByMe": true
       }
     ],
     "upcomingEvents": [
@@ -160,50 +161,46 @@ Authorization: Bearer {access_token}
 
 ---
 
-### 3. PopularTicket (인기 티켓)
-현재 인기 있는 티켓 정보
+### 3. PopularEvent (인기 공연)
+현재 인기 있는 **공연** 정보 (`PopularEventList` 섹션)
 
-| 필드 | 타입 | 필수 | 설명 |
-|------|------|------|------|
-| ticketId | int | ✅ | 티켓 고유 ID |
-| ticketTitle | string | ✅ | 티켓 제목 |
-| price | int | ✅ | 현재 판매가 (원) |
-| originalPrice | int | ❌ | 원가 (할인 계산용) |
-| discountRate | int | ❌ | 할인율 (%) |
-| posterImageUrl | string | ❌ | 포스터 이미지 URL |
-| eventTitle | string | ❌ | 공연/이벤트 제목 |
-| eventDate | string | ✅ | 공연 날짜 (MM.DD 형식) |
-| venue | string | ❌ | 공연 장소 |
-| availableTicketCount | int | ❌ | 판매 가능한 티켓 수량 |
-| isOnSale | boolean | ✅ | 판매 중 여부 |
-| categoryId | int | ✅ | 카테고리 ID |
+| 필드                 | 타입   | 필수 | 설명                                              |
+|----------------------|--------|------|---------------------------------------------------|
+| eventId              | int    | ✅   | 공연 id                                           |
+| eventTitle           | string | ✅   | 공연 제목                                         |
+| eventDescription     | string | ❌   | 공연 소개/설명 텍스트                             |
+| eventDate            | string | ✅   | 공연 날짜 (예: `2026.05.20`)                     |
+| venue                | string | ✅   | 공연 장소                                         |
+| minTicketPrice       | int    | ✅   | 공연에서 가장 저렴한 티켓 가격 (원)              |
+| originalMinTicketPrice | int  | ✅   | 공연의 가장 저렴한 티켓의 원가 (원)                     |
+| ticketDiscountRate   | int    | ✅   | 공연의 티켓 할인율 (%). 예: 8 → UI에서 "-8%"     |
+| posterImageUrl       | string | ❌   | 공연 포스터 이미지 URL                            |
+| availableTicketCount | int    | ✅   | 공연 티켓의 판매 가능 티켓 수량                  |
+| categoryId           | int    | ✅   | 카테고리 ID                                       |
 
-**UI 반영 위치**: `PopularTicketList` 위젯
-
-**현재 하드코딩된 데이터**:
-- ❌ `venue`: "서울 올림픽 경기장" → API에서 제공 필요
-- ❌ `discountRate`: "-8%" → API에서 제공 필요
-- ❌ `availableTicketCount`: "23장 판매중" → API에서 제공 필요
+**UI 반영 위치**: `PopularEventList` 위젯
 
 ---
 
-### 4. RecommendedEvent (추천 이벤트)
-사용자 맞춤 추천 이벤트
+### 4. RecommendedEvent (추천 공연)
+사용자 맞춤 **추천 공연** 정보 (`RecommendedEventList` 섹션)
 
-| 필드 | 타입 | 필수 | 설명 |
-|------|------|------|------|
-| eventId | int | ✅ | 이벤트 고유 ID |
-| eventTitle | string | ✅ | 이벤트 제목 |
-| posterImageUrl | string | ✅ | 포스터 이미지 URL |
-| eventDate | string | ✅ | 공연 날짜 (YYYY.MM.DD 형식) |
-| venue | string | ❌ | 공연 장소 |
-| ticketCount | int | ✅ | 해당 이벤트의 티켓 개수 |
-| minPrice | int | ❌ | 최저 가격 |
-| maxPrice | int | ❌ | 최고 가격 |
-| categoryId | int | ✅ | 카테고리 ID |
-| tags | string[] | ❌ | 이벤트 태그 (예: ["K-POP", "월드투어"]) |
+| 필드                 | 타입   | 필수 | 설명                                              |
+|----------------------|--------|------|---------------------------------------------------|
+| eventId              | int    | ✅   | 공연 id                                           |
+| eventTitle           | string | ✅   | 공연 제목                                         |
+| eventDescription     | string | ❌   | 공연 소개/설명 텍스트                             |
+| eventDate            | string | ✅   | 공연 날짜 (예: `2026.06.15`)                     |
+| venue                | string | ✅   | 공연 장소                                         |
+| minTicketPrice       | int    | ✅   | 공연에서 가장 저렴한 티켓 가격 (원)              |
+| originalMinTicketPrice | int  | ✅   | 가장 저렴한 티켓의 원가 (원)                     |
+| ticketDiscountRate   | int    | ✅   | 공연의 티켓 할인율 (%). 예: 20 → UI에서 "-20%"   |
+| posterImageUrl       | string | ❌   | 공연 포스터 이미지 URL                            |
+| availableTicketCount | int    | ✅   | 공연 티켓의 판매 가능 티켓 수량                  |
+| categoryId           | int    | ✅   | 카테고리 ID                                       |
+| isWishedByMe         | bool   | ✅   | 나의 찜 여부 (`true`/`false`)                     |
 
-**UI 반영 위치**: `RecommendedTicketList` 위젯
+**UI 반영 위치**: `RecommendedEventList` 위젯
 
 ---
 

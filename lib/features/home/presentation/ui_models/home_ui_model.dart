@@ -3,50 +3,60 @@ import 'package:ticket_platform_mobile/features/home/domain/entities/home_entity
 
 class HomeUiModel {
   const HomeUiModel({
-    required this.popularTickets,
+    required this.popularEvents,
     required this.recommendedEvents,
   });
 
-  final List<PopularTicketUiModel> popularTickets;
+  final List<PopularEventUiModel> popularEvents;
   final List<RecommendedEventUiModel> recommendedEvents;
 
   factory HomeUiModel.fromEntity(HomeEntity entity) {
     return HomeUiModel(
-      popularTickets: entity.popularTickets
-          .map((e) => PopularTicketUiModel.fromEntity(e))
-          .toList(),
-      recommendedEvents: entity.recommendedEvents
-          .map((e) => RecommendedEventUiModel.fromEntity(e))
-          .toList(),
+      popularEvents:
+          entity.popularEvents.map(PopularEventUiModel.fromEntity).toList(),
+      recommendedEvents:
+          entity.recommendedEvents.map(RecommendedEventUiModel.fromEntity).toList(),
     );
   }
 }
 
-class PopularTicketUiModel {
-  const PopularTicketUiModel({
-    required this.ticketId,
+class PopularEventUiModel {
+  const PopularEventUiModel({
+    required this.eventId,
     required this.title,
-    required this.price,
-    this.imageUrl,
-    this.eventTitle,
     required this.date,
+    required this.description,
+    required this.venue,
+    required this.displayPrice,
+    required this.discountLabel,
+    required this.imageUrl,
+    required this.availableTicketLabel,
+    required this.categoryId,
   });
 
-  final int ticketId;
+  final int eventId;
   final String title;
-  final String price;
-  final String? imageUrl;
-  final String? eventTitle;
   final String date;
+  final String description;
+  final String venue;
+  final String displayPrice;
+  final String discountLabel;
+  final String imageUrl;
+  final String availableTicketLabel;
+  final int categoryId;
 
-  factory PopularTicketUiModel.fromEntity(PopularTicketEntity entity) {
-    return PopularTicketUiModel(
-      ticketId: entity.ticketId,
-      title: entity.ticketTitle,
-      price: NumberFormatUtil.formatPrice(entity.price),
-      imageUrl: entity.posterImageUrl,
-      eventTitle: entity.eventTitle,
+  factory PopularEventUiModel.fromEntity(PopularEventEntity entity) {
+    return PopularEventUiModel(
+      eventId: entity.eventId,
+      title: entity.eventTitle,
+      description: entity.eventDescription ?? '',
       date: entity.eventDate,
+      venue: entity.venue,
+      displayPrice: NumberFormatUtil.formatPrice(entity.minTicketPrice),
+      discountLabel: '-${entity.ticketDiscountRate}%',
+      imageUrl: entity.posterImageUrl ?? '',
+      availableTicketLabel: '${entity.availableTicketCount}장 판매중',
+      categoryId: entity.categoryId,
     );
   }
 }
@@ -57,22 +67,37 @@ class RecommendedEventUiModel {
     required this.title,
     required this.imageUrl,
     required this.date,
-    required this.ticketCount,
+    required this.venue,
+    required this.displayPrice,
+    required this.discountLabel,
+    required this.availableTicketLabel,
+    required this.categoryId,
+    required this.isWishedByMe,
   });
 
   final int eventId;
   final String title;
   final String imageUrl;
   final String date;
-  final String ticketCount;
+  final String venue;
+  final String displayPrice;
+  final String discountLabel;
+  final String availableTicketLabel;
+  final int categoryId;
+  final bool isWishedByMe;
 
   factory RecommendedEventUiModel.fromEntity(RecommendedEventEntity entity) {
     return RecommendedEventUiModel(
       eventId: entity.eventId,
       title: entity.eventTitle,
-      imageUrl: entity.posterImageUrl,
+      imageUrl: entity.posterImageUrl ?? '',
       date: entity.eventDate,
-      ticketCount: '${entity.ticketCount}개 티켓',
+      venue: entity.venue,
+      displayPrice: NumberFormatUtil.formatPrice(entity.minTicketPrice),
+      discountLabel: '-${entity.ticketDiscountRate}%',
+      availableTicketLabel: '${entity.availableTicketCount}장',
+      categoryId: entity.categoryId,
+      isWishedByMe: entity.isWishedByMe,
     );
   }
 }

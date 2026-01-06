@@ -7,7 +7,7 @@ part 'home_resp_dto.g.dart';
 @freezed
 abstract class HomeRespDto with _$HomeRespDto {
   const factory HomeRespDto({
-    required List<PopularTicketDto> popularTickets,
+    required List<PopularEventDto> popularEvents,
     required List<RecommendedEventDto> recommendedEvents,
   }) = _HomeRespDto;
 
@@ -17,35 +17,45 @@ abstract class HomeRespDto with _$HomeRespDto {
 
 extension HomeRespDtoX on HomeRespDto {
   HomeEntity toEntity() => HomeEntity(
-    popularTickets: popularTickets.map((e) => e.toEntity()).toList(),
+    popularEvents: popularEvents.map((e) => e.toEntity()).toList(),
     recommendedEvents: recommendedEvents.map((e) => e.toEntity()).toList(),
   );
 }
 
 @freezed
-abstract class PopularTicketDto with _$PopularTicketDto {
-  const factory PopularTicketDto({
-    required int ticketId,
-    required String ticketTitle,
-    required int price,
+abstract class PopularEventDto with _$PopularEventDto {
+  const factory PopularEventDto({
+    required int eventId,
+    required String eventTitle,
+    String? eventDescription,
+    required String eventDate,
+    required String venue,
+    required int minTicketPrice,
+    required int originalMinTicketPrice,
+    required int ticketDiscountRate,
     String? posterImageUrl,
-    String? eventTitle,
-    String? eventDate,
-  }) = _PopularTicketDto;
+    required int availableTicketCount,
+    required int categoryId,
+  }) = _PopularEventDto;
 
-  factory PopularTicketDto.fromJson(Map<String, dynamic> json) =>
-      _$PopularTicketDtoFromJson(json);
+  factory PopularEventDto.fromJson(Map<String, dynamic> json) =>
+      _$PopularEventDtoFromJson(json);
 }
 
-extension PopularTicketDtoX on PopularTicketDto {
-  PopularTicketEntity toEntity() => PopularTicketEntity(
-    ticketId: ticketId,
-    ticketTitle: ticketTitle,
-    price: price,
-    posterImageUrl: posterImageUrl,
-    eventTitle: eventTitle,
-    eventDate: eventDate ?? '',
-  );
+extension PopularEventDtoX on PopularEventDto {
+  PopularEventEntity toEntity() => PopularEventEntity(
+        eventId: eventId,
+        eventTitle: eventTitle,
+        eventDescription: eventDescription,
+        eventDate: eventDate,
+        venue: venue,
+        minTicketPrice: minTicketPrice,
+        originalMinTicketPrice: originalMinTicketPrice,
+        ticketDiscountRate: ticketDiscountRate,
+        posterImageUrl: posterImageUrl,
+        availableTicketCount: availableTicketCount,
+        categoryId: categoryId,
+      );
 }
 
 @freezed
@@ -53,9 +63,16 @@ abstract class RecommendedEventDto with _$RecommendedEventDto {
   const factory RecommendedEventDto({
     required int eventId,
     required String eventTitle,
-    required String posterImageUrl,
     required String eventDate,
-    required int ticketCount,
+    String? eventDescription,
+    required String venue,
+    required int minTicketPrice,
+    required int originalMinTicketPrice,
+    required int ticketDiscountRate,
+    String? posterImageUrl,
+    required int availableTicketCount,
+    required int categoryId,
+    required bool isWishedByMe,
   }) = _RecommendedEventDto;
 
   factory RecommendedEventDto.fromJson(Map<String, dynamic> json) =>
@@ -64,10 +81,17 @@ abstract class RecommendedEventDto with _$RecommendedEventDto {
 
 extension RecommendedEventDtoX on RecommendedEventDto {
   RecommendedEventEntity toEntity() => RecommendedEventEntity(
-    eventId: eventId,
-    eventTitle: eventTitle,
-    posterImageUrl: posterImageUrl,
-    eventDate: eventDate,
-    ticketCount: ticketCount,
-  );
+        eventId: eventId,
+        eventTitle: eventTitle,
+        eventDescription: eventDescription,
+        eventDate: eventDate,
+        venue: venue,
+        minTicketPrice: minTicketPrice,
+        originalMinTicketPrice: originalMinTicketPrice,
+        ticketDiscountRate: ticketDiscountRate,
+        posterImageUrl: posterImageUrl,
+        availableTicketCount: availableTicketCount,
+        categoryId: categoryId,
+        isWishedByMe: isWishedByMe,
+      );
 }
