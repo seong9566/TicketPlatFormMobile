@@ -26,7 +26,7 @@ class AppColors {
   static const background = Color(0xFFFFFFFF);
   static const card = Color(0xFFFFFFFF);
   static const muted = Color(0xFFF1F5F9);
-  static const inputBackground = Color(0xFFF8FAFC);
+  static const inputBackground = Color(0xFFF4F4F5);
 
   // Status
   static const success = Color(0xFF00B874);
@@ -43,6 +43,22 @@ class AppColors {
   static const border = Color(0xFFE2E8F0);
   static const borderHover = Color(0xFFCBD5E1);
 
+  // Categories
+  static const categoryConcert = Color(0xFF9333EA);
+  static const categoryConcertBg = Color(0xFFF3E8FF);
+  static const categoryMusical = Color(0xFFE11D48);
+  static const categoryMusicalBg = Color(0xFFFFF1F2);
+  static const categorySports = Color(0xFF2563EB);
+  static const categorySportsBg = Color(0xFFEFF6FF);
+  static const categoryExhibition = Color(0xFFEA580C);
+  static const categoryExhibitionBg = Color(0xFFFFF7ED);
+
   // Misc
   static const transparent = Color(0x00000000);
+  static const scaffoldBackground = Color(0xFFF8F8F8);
+
+  // Chat
+  static const chatHighlightBackground = Color(0xFFE8F5E9);
+  static const chatAvatarDefault = Color(0xFFE6C39C);
+  static const chatEmptyIconBackground = Color(0xFF9E9E9E);
 }

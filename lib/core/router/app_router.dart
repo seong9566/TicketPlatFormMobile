@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:ticket_platform_mobile/features/chat/presentation/view/chat_view.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/views/home_view.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticketing_view.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/ticket_detail_view.dart';
@@ -50,6 +51,11 @@ GoRouter goRouter(Ref ref) {
         path: AppRouterPath.wishlist,
         name: 'wishlist',
         builder: (context, state) => const WishlistView(),
+      ),
+      GoRoute(
+        path: AppRouterPath.chat,
+        name: 'chat',
+        builder: (context, state) => const ChatView(),
       ),
     ],
   );

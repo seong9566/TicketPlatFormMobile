@@ -55,6 +55,7 @@ abstract class TicketGradeInfo with _$TicketGradeInfo {
 abstract class TicketListingUiModel with _$TicketListingUiModel {
   const factory TicketListingUiModel({
     required String id,
+    required String title,
     required String gradeName, // 'VIP석', 'R석'
     required String? seatInfo, // '1층 5구역 3열'
     required int price,
@@ -73,6 +74,7 @@ abstract class TicketListingUiModel with _$TicketListingUiModel {
   factory TicketListingUiModel.fromEntity(TicketingTicketEntity entity) {
     return TicketListingUiModel(
       id: entity.ticketId.toString(),
+      title: entity.ticketTitle,
       gradeName: entity.seatType ?? '일반',
       seatInfo: entity.seatInfo,
       price: entity.price,

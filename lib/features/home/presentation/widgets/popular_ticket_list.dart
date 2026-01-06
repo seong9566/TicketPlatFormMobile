@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
-import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 
@@ -14,85 +13,154 @@ class PopularTicketList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 220,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: tickets.length,
-        separatorBuilder: (_, __) => const SizedBox(width: AppSpacing.md),
-        itemBuilder: (context, index) {
-          final ticket = tickets[index];
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: 4,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: tickets.asMap().entries.map((entry) {
+          final index = entry.key;
+          final ticket = entry.value;
+          final isLast = index == tickets.length - 1;
+
           return Container(
-            width: 140,
+            width: 180,
+            margin: EdgeInsets.only(right: isLast ? 0 : AppSpacing.md),
             decoration: BoxDecoration(
-              color: AppColors.muted,
-              borderRadius: BorderRadius.circular(AppRadius.lg),
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(color: const Color(0xFFF1F5F9)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
-            padding: const EdgeInsets.all(AppSpacing.sm),
-            margin: index == 0
-                ? const EdgeInsets.only(left: AppSpacing.md)
-                : null,
+            clipBehavior: Clip.antiAlias,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(AppRadius.md),
-                    child: ticket.imageUrl != null
-                        ? CachedNetworkImage(
-                            imageUrl: ticket.imageUrl!,
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            placeholder: (context, url) =>
-                                Container(color: AppColors.borderHover),
-                            errorWidget: (context, url, error) => Container(
-                              color: AppColors.borderHover,
-                              child: const Icon(Icons.error),
-                            ),
-                          )
-                        : Container(
-                            color: AppColors.borderHover,
-                            child: const Center(
-                              child: Icon(
-                                Icons.image,
-                                size: 40,
-                                color: Colors.grey,
-                              ),
+                SizedBox(
+                  height: 100,
+                  width: double.infinity,
+                  child: ticket.imageUrl != null
+                      ? CachedNetworkImage(
+                          imageUrl: ticket.imageUrl!,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) =>
+                              Container(color: AppColors.muted),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                        )
+                      : Container(color: AppColors.muted),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        ticket.title,
+                        style: AppTextStyles.body1.copyWith(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        ticket.eventTitle ?? 'Artist name',
+                        style: AppTextStyles.body2.copyWith(
+                          color: const Color(0xFF94A3B8),
+                          fontSize: 12,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.calendar_today_outlined,
+                            size: 14,
+                            color: Color(0xFF94A3B8),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            ticket.date,
+                            style: AppTextStyles.caption.copyWith(
+                              color: const Color(0xFF64748B),
                             ),
                           ),
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.sm),
-                Text(
-                  ticket.title,
-                  style: AppTextStyles.body1.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  ticket.date,
-                  style: AppTextStyles.body2.copyWith(
-                    fontSize: 12,
-                    color: AppColors.textSecondary,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  ticket.price,
-                  style: AppTextStyles.body2.copyWith(
-                    color: AppColors.textPrimary,
-                    fontWeight: FontWeight.w600,
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.location_on_outlined,
+                            size: 14,
+                            color: Color(0xFF94A3B8),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            '서울 올림픽 경기장',
+                            style: AppTextStyles.caption.copyWith(
+                              color: const Color(0xFF64748B),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          const Text(
+                            '-8%',
+                            style: TextStyle(
+                              color: Color(0xFFEF4444),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            ticket.price,
+                            style: AppTextStyles.body1.copyWith(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.confirmation_num_outlined,
+                            size: 16,
+                            color: Color(0xFF22C55E),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            '23장 판매중',
+                            style: AppTextStyles.caption.copyWith(
+                              color: const Color(0xFF22C55E),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           );
-        },
+        }).toList(),
       ),
     );
   }

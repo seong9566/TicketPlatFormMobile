@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
@@ -19,15 +20,20 @@ class EventCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: 120,
-            height: 120,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(AppRadius.md),
-              image: DecorationImage(
-                image: NetworkImage(event.posterImageUrl),
-                fit: BoxFit.cover,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(AppRadius.md),
+            child: CachedNetworkImage(
+              imageUrl: event.posterImageUrl,
+              width: 120,
+              height: 120,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => Container(
+                color: const Color(0xFFF1F5F9),
+                child: const Center(
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
               ),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ),
           const SizedBox(width: AppSpacing.md),

@@ -36,17 +36,17 @@ class TicketingListHeader extends StatelessWidget {
       text: TextSpan(
         children: [
           TextSpan(
-            text: '판매티켓 ',
+            text: '판매 티켓 ',
             style: AppTextStyles.heading3.copyWith(
               fontSize: 16,
-              color: Colors.black,
+              color: AppColors.textPrimary,
             ),
           ),
           TextSpan(
             text: '$count',
             style: AppTextStyles.heading3.copyWith(
               fontSize: 16,
-              color: AppColors.success,
+              color: AppColors.success, // 초록색
             ),
           ),
         ],
@@ -58,6 +58,7 @@ class TicketingListHeader extends StatelessWidget {
     return InkWell(
       onTap: onSortTap,
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             sortBy,
@@ -66,6 +67,7 @@ class TicketingListHeader extends StatelessWidget {
               color: AppColors.textSecondary,
             ),
           ),
+          const SizedBox(width: 4),
           const Icon(
             Icons.keyboard_arrow_down,
             size: 16,

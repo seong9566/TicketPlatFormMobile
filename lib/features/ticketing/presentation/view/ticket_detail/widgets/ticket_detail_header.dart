@@ -16,13 +16,13 @@ class TicketDetailHeader extends StatelessWidget {
       padding: const EdgeInsets.only(
         left: AppSpacing.lg,
         right: AppSpacing.lg,
-        top: AppSpacing.sm,
-        bottom: AppSpacing.md,
+        top: AppSpacing.md,
       ),
 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // 등급 및 좌석 정보 
           Row(
             children: [
               _buildBadge(
@@ -38,16 +38,15 @@ class TicketDetailHeader extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.sm),
           Text(
             listing.seatInfo ?? '좌석 정보 없음',
             style: AppTextStyles.heading3.copyWith(
               fontSize: 26,
               fontWeight: FontWeight.w900,
-              letterSpacing: -0.5,
             ),
           ),
-          const SizedBox(height: AppSpacing.sm),
+          // 가격 정보 
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [

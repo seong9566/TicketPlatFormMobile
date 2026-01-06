@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
@@ -17,15 +18,9 @@ class WishlistCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: AppSpacing.md),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(AppRadius.md),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(16), // Rounded as per image
       ),
+      clipBehavior: Clip.antiAlias,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -36,12 +31,20 @@ class WishlistCard extends StatelessWidget {
               children: [
                 // Poster Image
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(AppRadius.sm),
-                  child: Image.network(
-                    item.imageUrl,
-                    width: 80,
-                    height: 80,
+                  borderRadius: BorderRadius.circular(AppRadius.md),
+                  child: CachedNetworkImage(
+                    imageUrl: item.imageUrl,
+                    width: 90,
+                    height: 90,
                     fit: BoxFit.cover,
+                    placeholder: (context, url) => Container(
+                      color: const Color(0xFFF1F5F9),
+                      child: const Center(
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                   ),
                 ),
                 const SizedBox(width: AppSpacing.md),
@@ -54,24 +57,24 @@ class WishlistCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
-                            child: RichText(
-                              text: TextSpan(
-                                style: AppTextStyles.body1.copyWith(
-                                  color: AppColors.textPrimary,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                children: [
-                                  TextSpan(text: '${item.category} '),
-                                  TextSpan(text: item.title),
-                                ],
+                            child: Text(
+                              '${item.category} ${item.title}',
+                              style: AppTextStyles.body1.copyWith(
+                                color: AppColors.textPrimary,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
                               ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           GestureDetector(
                             onTap: onLikeTap,
                             child: const Icon(
                               Icons.favorite,
-                              color: AppColors.primary,
+                              color: Color(
+                                0xFF22C55E,
+                              ), // Vibrant green as per image
                               size: 24,
                             ),
                           ),
@@ -81,15 +84,17 @@ class WishlistCard extends StatelessWidget {
                       Text(
                         item.dateDisplay,
                         style: AppTextStyles.body2.copyWith(
-                          color: AppColors.textSecondary,
+                          color: AppColors.textTertiary,
+                          fontSize: 14,
                         ),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         item.priceDisplay,
-                        style: AppTextStyles.body1.copyWith(
-                          fontWeight: FontWeight.bold,
+                        style: AppTextStyles.heading3.copyWith(
+                          fontWeight: FontWeight.w900,
                           color: AppColors.textPrimary,
+                          fontSize: 18,
                         ),
                       ),
                     ],
@@ -98,7 +103,7 @@ class WishlistCard extends StatelessWidget {
               ],
             ),
           ),
-          const Divider(height: 1, color: AppColors.border),
+          _buildDivider(),
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: AppSpacing.md,
@@ -112,6 +117,17 @@ class WishlistCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildDivider() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+      child: Container(
+        width: double.infinity,
+        height: 1.0,
+        decoration: BoxDecoration(color: Color(0xFFE2E8F0)),
       ),
     );
   }

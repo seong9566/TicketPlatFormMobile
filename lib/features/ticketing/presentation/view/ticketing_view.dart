@@ -64,11 +64,11 @@ class TicketingView extends ConsumerWidget {
 
           // 1. 필터링 로직 (좌석 등급)
           var filteredListings = info.listings.where((listing) {
-            if (state.selectedGrade == null ||
-                state.selectedGrade!.id == 'all') {
+            final selectedGrade = state.selectedGrade;
+            if (selectedGrade == null || selectedGrade.id == 'all') {
               return true;
             }
-            return listing.gradeName == state.selectedGrade!.name;
+            return listing.gradeName == selectedGrade.name;
           }).toList();
 
           // 2. 정렬 로직
@@ -122,35 +122,37 @@ class TicketingView extends ConsumerWidget {
     AsyncValue stateAsync,
   ) {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       elevation: 0,
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: Colors.black),
-        onPressed: () => Navigator.pop(context),
+        icon: Icon(Icons.arrow_back_ios_new, color: AppColors.textPrimary, size: 20),
+        onPressed: () => context.pop(context),
       ),
       title: stateAsync.maybeWhen(
         data: (state) => Text(
           state.ticketingInfo?.title ?? '',
-          style: AppTextStyles.heading3.copyWith(color: Colors.black),
+          style: AppTextStyles.heading3.copyWith(
+            color: AppColors.textPrimary,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         orElse: () => const Text(''),
       ),
+      centerTitle: true,
       actions: [
         IconButton(
-          icon: const Icon(Icons.search, color: Colors.black),
+          icon: Icon(Icons.search, color: AppColors.textPrimary),
           onPressed: () {},
         ),
       ],
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(1),
-        child: Divider(height: 1, color: Colors.grey.withValues(alpha: 0.1)),
-      ),
     );
   }
 
   Widget _buildStickyFilter(String id, TicketingState state, WidgetRef ref) {
     final info = state.ticketingInfo;
-    if (info == null) return const SliverToBoxAdapter(child: SizedBox.shrink());
+    if (info == null || info.ticketGrades.isEmpty) {
+      return const SliverToBoxAdapter(child: SizedBox.shrink());
+    }
 
     return SliverPersistentHeader(
       pinned: true,
@@ -167,6 +169,17 @@ class TicketingView extends ConsumerWidget {
   }
 
   Widget _buildListingList(List<TicketListingUiModel> listings) {
+    if (listings.isEmpty) {
+      return const SliverToBoxAdapter(
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.all(AppSpacing.lg),
+            child: Text('판매 중인 티켓이 없습니다.'),
+          ),
+        ),
+      );
+    }
+
     return SliverPadding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
@@ -219,9 +232,9 @@ class _FilterHeaderDelegate extends SliverPersistentHeaderDelegate {
   Widget build(context, shrinkOffset, overlapsContent) => child;
 
   @override
-  double get maxExtent => 60;
+  double get maxExtent => 54.0; // 실제 child 높이에 맞춤 (padding 8*2 + content 38)
   @override
-  double get minExtent => 60;
+  double get minExtent => 54.0; // 실제 child 높이에 맞춤
   @override
   bool shouldRebuild(covariant _FilterHeaderDelegate oldDelegate) => true;
 }

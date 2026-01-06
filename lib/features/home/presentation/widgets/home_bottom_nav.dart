@@ -23,20 +23,31 @@ class _HomeBottomNavState extends State<HomeBottomNav> {
         });
         // Placeholder navigation
         if (index == 0) context.go(AppRouterPath.home);
+        if (index == 1) context.go(AppRouterPath.events);
+        if (index == 2) context.go(AppRouterPath.chat);
         if (index == 3) context.push(AppRouterPath.wishlist);
+        if (index == 4) context.go(AppRouterPath.profile);
       },
       type: BottomNavigationBarType.fixed,
       selectedItemColor: AppColors.primary,
       unselectedItemColor: AppColors.textTertiary,
       items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: '홈'),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home_outlined),
+          activeIcon: Icon(Icons.home_filled),
+          label: '홈',
+        ),
         BottomNavigationBarItem(icon: Icon(Icons.search), label: '검색'),
         BottomNavigationBarItem(
-          icon: Icon(Icons.chat_bubble_outline),
+          icon: Badge(
+            label: Text('3'),
+            backgroundColor: Color(0xFFEF4444),
+            child: Icon(Icons.chat_bubble_outline),
+          ),
           label: '채팅',
         ),
         BottomNavigationBarItem(icon: Icon(Icons.favorite_border), label: '찜'),
-        BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: '마이'),
+        BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: '내정보'),
       ],
     );
   }

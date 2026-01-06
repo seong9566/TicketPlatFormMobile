@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
@@ -15,7 +16,7 @@ class TicketingHeaderSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: AppColors.background,
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
         vertical: AppSpacing.lg,
@@ -34,11 +35,16 @@ class TicketingHeaderSection extends StatelessWidget {
   Widget _buildThumbnail() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(AppRadius.md),
-      child: Image.network(
-        info.imageUrl,
-        width: 80,
-        height: 100,
+      child: CachedNetworkImage(
+        imageUrl: info.imageUrl,
+        width: 100,
+        height: 120,
         fit: BoxFit.cover,
+        placeholder: (context, url) => Container(
+          color: AppColors.muted,
+          child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+        ),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
       ),
     );
   }
@@ -97,16 +103,17 @@ class TicketingHeaderSection extends StatelessWidget {
 
   Widget _buildHotBadge() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: AppColors.destructive.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(4),
+        color: AppColors.destructive, // 빨간색 배경
+        borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
         '매진 임박',
         style: AppTextStyles.caption.copyWith(
-          color: AppColors.destructive,
+          color: AppColors.primaryForeground,
           fontWeight: FontWeight.bold,
+          fontSize: 12,
         ),
       ),
     );

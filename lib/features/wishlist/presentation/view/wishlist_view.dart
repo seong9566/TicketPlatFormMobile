@@ -14,7 +14,7 @@ class WishlistView extends ConsumerWidget {
     final wishlistState = ref.watch(wishlistViewModelProvider);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F8F8),
+      backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,

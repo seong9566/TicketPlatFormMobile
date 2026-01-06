@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
-import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 
@@ -14,36 +13,46 @@ class HomeHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'TicketSwap',
-                style: AppTextStyles.heading2.copyWith(fontSize: 20),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '오늘의 티켓을 찾아보세요',
-                style: AppTextStyles.body2.copyWith(
-                  color: AppColors.textSecondary,
-                ),
-              ),
-            ],
+          Text(
+            'TicketSwap',
+            style: AppTextStyles.heading2.copyWith(
+              color: AppColors.primary,
+              letterSpacing: -0.5,
+              fontSize: 24,
+            ),
           ),
           Row(
             children: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.notifications_none_rounded,
-                  color: AppColors.textPrimary,
-                ),
+              Stack(
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.notifications_none_rounded,
+                      color: AppColors.textPrimary,
+                      size: 28,
+                    ),
+                  ),
+                  Positioned(
+                    right: 12,
+                    top: 12,
+                    child: Container(
+                      width: 8,
+                      height: 8,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFF22C55E),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               IconButton(
                 onPressed: () {},
                 icon: const Icon(
                   Icons.person_outline_rounded,
                   color: AppColors.textPrimary,
+                  size: 28,
                 ),
               ),
             ],
@@ -63,20 +72,22 @@ class HomeSearchBar extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
-        vertical: AppSpacing.sm,
+        vertical: AppSpacing.md,
       ),
       decoration: BoxDecoration(
-        color: AppColors.inputBackground,
-        borderRadius: BorderRadius.circular(AppRadius.md),
-        border: Border.all(color: AppColors.border),
+        color: const Color(0xFFF1F5F9),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         children: [
-          const Icon(Icons.search, color: AppColors.textSecondary),
+          const Icon(Icons.search, color: Color(0xFF94A3B8), size: 22),
           const SizedBox(width: AppSpacing.sm),
           Text(
             '아티스트, 공연장, 이벤트 검색',
-            style: AppTextStyles.body2.copyWith(color: AppColors.textSecondary),
+            style: AppTextStyles.body2.copyWith(
+              color: const Color(0xFF94A3B8),
+              fontSize: 15,
+            ),
           ),
         ],
       ),

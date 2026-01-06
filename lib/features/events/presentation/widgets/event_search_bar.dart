@@ -21,7 +21,6 @@ class EventSearchBar extends ConsumerWidget {
         children: [
           Expanded(
             child: Container(
-              height: 48,
               decoration: BoxDecoration(
                 color: AppColors.inputBackground,
                 borderRadius: BorderRadius.circular(AppRadius.md),
@@ -37,12 +36,18 @@ class EventSearchBar extends ConsumerWidget {
                 decoration: InputDecoration(
                   hintText: '공연명, 아티스트 검색',
                   hintStyle: AppTextStyles.body2.copyWith(
-                    color: AppColors.textTertiary,
+                    color: const Color(0xFF94A3B8),
+                    fontSize: 14,
                   ),
-                  prefixIcon: const Icon(
-                    Icons.search,
-                    color: AppColors.textTertiary,
+                  prefixIcon: const Padding(
+                    padding: EdgeInsets.only(left: 12, right: 8),
+                    child: Icon(
+                      Icons.search,
+                      color: Color(0xFF94A3B8),
+                      size: 20,
+                    ),
                   ),
+                  prefixIconConstraints: const BoxConstraints(minWidth: 40),
                   border: InputBorder.none,
                   contentPadding: const EdgeInsets.symmetric(vertical: 12),
                 ),
@@ -54,10 +59,11 @@ class EventSearchBar extends ConsumerWidget {
             height: 48,
             width: 48,
             decoration: BoxDecoration(
-              color: AppColors.inputBackground,
+              color: Colors.white,
               borderRadius: BorderRadius.circular(AppRadius.md),
+              border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
             ),
-            child: const Icon(Icons.tune, color: AppColors.textSecondary),
+            child: const Icon(Icons.tune, color: Color(0xFF64748B), size: 20),
           ),
         ],
       ),
