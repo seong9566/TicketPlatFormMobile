@@ -17,8 +17,17 @@ class TicketDetailPerformanceHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.md,
+      ),
+      margin: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
-        vertical: 12, // Reduced from AppSpacing.md (16px)
+        vertical: AppSpacing.xs,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+        border: Border.all(color: const Color(0xFFF1F5F9)),
       ),
 
       child: Row(
@@ -60,40 +69,20 @@ class TicketDetailPerformanceHeader extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 6),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.calendar_today_outlined,
-                      size: 13,
-                      color: AppColors.textTertiary,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      DateFormatUtil.formatFullDateTime(info.eventDate),
-                      style: AppTextStyles.caption.copyWith(
-                        color: AppColors.textTertiary,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
+                Text(
+                  DateFormatUtil.formatFullDateTime(info.eventDate),
+                  style: AppTextStyles.caption.copyWith(
+                    color: AppColors.textTertiary,
+                    fontSize: 12,
+                  ),
                 ),
                 const SizedBox(height: 2),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.location_on_outlined,
-                      size: 13,
-                      color: AppColors.textTertiary,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      info.location,
-                      style: AppTextStyles.caption.copyWith(
-                        color: AppColors.textTertiary,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
+                Text(
+                  info.location,
+                  style: AppTextStyles.caption.copyWith(
+                    color: AppColors.textTertiary,
+                    fontSize: 12,
+                  ),
                 ),
               ],
             ),

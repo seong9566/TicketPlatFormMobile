@@ -1,13 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_bottom_action.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_performance_header.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_seller_info.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_header.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_transaction_features.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_warning_section.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_seat_features.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/viewmodels/ticket_detail_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/viewmodels/ticketing_viewmodel.dart';
 
@@ -31,7 +32,7 @@ class TicketDetailView extends ConsumerWidget {
     );
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.scaffoldBackground,
       appBar: _buildAppBar(context),
       body: ticketingStateAsync.when(
         data: (ticketingState) {
@@ -55,38 +56,35 @@ class TicketDetailView extends ConsumerWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TicketDetailPerformanceHeader(info: info),
-                          const Divider(height: 1, color: Color(0xFFF1F5F9)),
-                          const SizedBox(height: AppSpacing.xs),
                           TicketDetailHeader(listing: listing),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: AppSpacing.lg,
-                            ),
-                            child: Divider(height: 1, color: Color(0xFFF1F5F9)),
-                          ),
-                          const SizedBox(height: AppSpacing.md),
-                          TicketDetailSellerInfo(seller: listing.seller),
                           const SizedBox(height: AppSpacing.xs),
-                          _buildSectionHeader('거래 정보'),
-                          TicketDetailTransactionFeatures(
-                            features: listing.transactionFeatures,
-                          ),
-                          _buildSectionHeader('상세 설명'),
+                          TicketDetailPerformanceHeader(info: info),
+                               _buildSectionHeader('상세 설명'),
                           _buildDescription(listing.description),
+                           _buildSectionHeader('좌석 특징'),
+                          TicketDetailSeatFeatures(tags: listing.tags),
+                       
                           _buildProductImage(listing.listingImageUrl),
-                          const SizedBox(height: AppSpacing.md),
-                          const Center(
-                            child: Text(
-                              '* 상품 이미지는 판매자가 직접 등록한 이미지입니다.',
-                              style: TextStyle(
-                                color: Color(0xFF94A3B8),
-                                fontSize: 11,
+
+                          // _buildSectionHeader('거래 정보'),
+                          // TicketDetailTransactionFeatures(
+                          //   features: listing.transactionFeatures,
+                          // ),
+                         
+                          if (listing.listingImageUrl != null &&
+                              listing.listingImageUrl!.isNotEmpty) ...[
+                            const SizedBox(height: AppSpacing.md),
+                            const Center(
+                              child: Text(
+                                '* 상품 이미지는 판매자가 직접 등록한 이미지입니다.',
+                                style: TextStyle(
+                                  color: Color(0xFF94A3B8),
+                                  fontSize: 11,
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 32),
-                          const TicketDetailWarningSection(),
+                          ],
+                          TicketDetailSellerInfo(seller: listing.seller),
                           const SizedBox(height: AppSpacing.lg),
                         ],
                       ),
@@ -135,13 +133,13 @@ class TicketDetailView extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.lg,
-        18,
+        AppSpacing.md,
         AppSpacing.lg,
         AppSpacing.sm,
       ),
       child: Text(
         title,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: AppColors.textPrimary),
       ),
     );
   }
@@ -154,12 +152,20 @@ class TicketDetailView extends ConsumerWidget {
       ),
       child: Text(
         description ?? '설명이 없습니다.',
-        style: const TextStyle(fontSize: 14, height: 1.5),
+        style: TextStyle(
+          fontSize: 14,
+          height: 1.5,
+          color: AppColors.textPrimary,
+        ),
       ),
     );
   }
 
   Widget _buildProductImage(String? imageUrl) {
+    if (imageUrl == null || imageUrl.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     return Container(
       margin: const EdgeInsets.fromLTRB(
         AppSpacing.lg,
@@ -173,14 +179,16 @@ class TicketDetailView extends ConsumerWidget {
         color: const Color(0xFFF1F5F9),
         borderRadius: BorderRadius.circular(AppRadius.lg),
       ),
-      child: imageUrl != null
-          ? ClipRRect(
-              borderRadius: BorderRadius.circular(AppRadius.lg),
-              child: Image.network(imageUrl, fit: BoxFit.cover),
-            )
-          : const Center(
-              child: Icon(Icons.image, size: 40, color: Color(0xFFCBD5E1)),
-            ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+        child: CachedNetworkImage(
+          imageUrl: imageUrl,
+          fit: BoxFit.cover,
+          placeholder: (context, url) =>
+              const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
+        ),
+      ),
     );
   }
 }

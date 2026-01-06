@@ -8,67 +8,107 @@ class TicketDetailTransactionFeatures extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-      child: GridView.builder(
-        padding: EdgeInsets.zero,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
+    final activeColor = const Color(0xFF22C55E);
 
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-          childAspectRatio: 3.5,
-        ),
-        itemCount: 4, // From image
-        itemBuilder: (context, index) {
-          final items = [
-            {'icon': Icons.local_shipping_outlined, 'label': '배송지 변경'},
-            {'icon': Icons.verified_user_outlined, 'label': '안심결제 가능'},
-            {'icon': Icons.assignment_outlined, 'label': '예매 내역서'},
-            {'icon': Icons.chair_alt_outlined, 'label': '연석 보유'},
-          ];
-          final item = items[index];
-          final label = item['label'] as String;
-          final isAvailable = features.contains(label);
-          final activeColor = const Color(0xFF22C55E);
-
-          return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: BoxDecoration(
+    Widget _buildFeatureItem(IconData icon, String label) {
+      final isAvailable = features.contains(label);
+      return Expanded(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+          decoration: BoxDecoration(
+            color: isAvailable
+                ? activeColor.withValues(alpha: 0.03)
+                : Colors.white,
+            border: Border.all(
               color: isAvailable
-                  ? activeColor.withValues(alpha: 0.03)
-                  : Colors.white,
-              border: Border.all(
-                color: isAvailable
-                    ? activeColor.withValues(alpha: 0.2)
-                    : const Color(0xFFF1F5F9),
-              ),
-              borderRadius: BorderRadius.circular(10),
+                  ? activeColor.withValues(alpha: 0.2)
+                  : const Color(0xFFF1F5F9),
             ),
-            child: Row(
-              children: [
-                Icon(
-                  item['icon'] as IconData,
-                  size: 18,
-                  color: isAvailable ? activeColor : const Color(0xFF94A3B8),
-                ),
-                const SizedBox(width: 8),
-                Text(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 18,
+                color: isAvailable ? activeColor : const Color(0xFF94A3B8),
+              ),
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
                   label,
                   style: TextStyle(
                     fontSize: 13,
-                    fontWeight: isAvailable
-                        ? FontWeight.w600
-                        : FontWeight.normal,
+                    fontWeight: isAvailable ? FontWeight.w600 : FontWeight.normal,
                     color: isAvailable ? Colors.black : const Color(0xFF94A3B8),
                   ),
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    Widget _buildFullWidthFeatureItem(IconData icon, String label) {
+      final isAvailable = features.contains(label);
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+        decoration: BoxDecoration(
+          color: isAvailable
+              ? activeColor.withValues(alpha: 0.03)
+              : Colors.white,
+          border: Border.all(
+            color: isAvailable
+                ? activeColor.withValues(alpha: 0.2)
+                : const Color(0xFFF1F5F9),
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 18,
+              color: isAvailable ? activeColor : const Color(0xFF94A3B8),
             ),
-          );
-        },
+            const SizedBox(width: 8),
+            Flexible(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: isAvailable ? FontWeight.w600 : FontWeight.normal,
+                  color: isAvailable ? Colors.black : const Color(0xFF94A3B8),
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              _buildFeatureItem(Icons.verified_user_outlined, '안심결제 가능'),
+              const SizedBox(width: 10),
+              _buildFeatureItem(Icons.assignment_outlined, '예매 내역서'),
+            ],
+          ),
+          const SizedBox(height: 10),
+          _buildFullWidthFeatureItem(Icons.chair_alt_outlined, '연석 보유'),
+        ],
       ),
     );
   }

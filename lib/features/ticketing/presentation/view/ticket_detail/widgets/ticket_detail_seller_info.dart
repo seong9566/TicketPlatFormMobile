@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
@@ -13,137 +12,115 @@ class TicketDetailSellerInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color getTemperatureColor(double temp) {
-      if (temp >= 90) return const Color(0xFF22C55E);
-      if (temp >= 50) return const Color(0xFF3B82F6);
-      return const Color(0xFFF97316);
-    }
-
-    IconData getTemperatureIcon(double temp) {
-      if (temp >= 90) return Icons.sentiment_very_satisfied;
-      if (temp >= 50) return Icons.sentiment_satisfied_alt;
-      return Icons.sentiment_neutral;
-    }
+    final responseRate = seller.responseRate ?? seller.responseRateManual;
+    final tradeCount = seller.totalTradeCount > 0
+        ? seller.totalTradeCount
+        : seller.transactionCountManual;
 
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.md,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            '판매자 정보',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-          ),
-          const SizedBox(height: AppSpacing.md),
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.md,
-              vertical: AppSpacing.lg,
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.lg,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+          border: Border.all(color: const Color(0xFFF1F5F9)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: AppColors.success.withValues(alpha: 0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Text(
+                  seller.nickname.isNotEmpty ? seller.nickname[0] : '?',
+                  style: TextStyle(
+                    color: AppColors.success,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF8FAFC),
-              borderRadius: BorderRadius.circular(AppRadius.lg),
-              border: Border.all(color: const Color(0xFFF1F5F9)),
+            const SizedBox(width: AppSpacing.md),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    seller.nickname,
+                    style: AppTextStyles.body2.copyWith(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    '응답률 $responseRate% · 거래 ${tradeCount}건',
+                    style: AppTextStyles.caption.copyWith(
+                      color: AppColors.textSecondary,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            child: Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Container(
-                  padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 2),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.05),
-                        blurRadius: 4,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: CircleAvatar(
-                    radius: 24,
-                    backgroundImage: CachedNetworkImageProvider(
-                      seller.profileImageUrl,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.md),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        seller.nickname,
-                        style: AppTextStyles.heading3.copyWith(fontSize: 15),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        '응답률 ${seller.responseRate ?? '-'}% | 거래 ${seller.totalTradeCount}건',
-                        style: AppTextStyles.caption.copyWith(
-                          color: AppColors.textTertiary,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          '${seller.mannerTemperature}°C',
-                          style: TextStyle(
-                            color: getTemperatureColor(
-                              seller.mannerTemperature,
-                            ),
-                            fontWeight: FontWeight.w900,
-                            fontSize: 15,
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                        Icon(
-                          getTemperatureIcon(seller.mannerTemperature),
-                          color: getTemperatureColor(seller.mannerTemperature),
-                          size: 22,
-                        ),
-                      ],
+                    Text(
+                      '${seller.mannerTemperature.toStringAsFixed(1)}°C',
+                      style: TextStyle(
+                        color: AppColors.success,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 15,
+                      ),
                     ),
-                    const SizedBox(height: 6),
-                    Container(
-                      width: 80,
-                      height: 5,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE2E8F0),
-                        borderRadius: BorderRadius.circular(2.5),
-                      ),
-                      // FractionallySizedBox
-                      // 자식위젯의 크기를 전체 사용 가능 공간의 일부로 지정 하는 위젯
-                      child: FractionallySizedBox(
-                        alignment: Alignment.centerLeft,
-                        // 부모 너비에서 차지할 비율 설정
-                        // ex ) 0.5라면 절반만큼 차지함
-                        widthFactor: seller.mannerTemperature / 100,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: getTemperatureColor(
-                              seller.mannerTemperature,
-                            ),
-                            borderRadius: BorderRadius.circular(2.5),
-                          ),
-                        ),
-                      ),
+                    const SizedBox(width: 4),
+                    Icon(
+                      Icons.sentiment_very_satisfied,
+                      color: const Color(0xFFFF9500), // 주황색
+                      size: 20,
                     ),
                   ],
                 ),
+                const SizedBox(height: 6),
+                Container(
+                  width: 60,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE2E8F0),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                  child: FractionallySizedBox(
+                    alignment: Alignment.centerLeft,
+                    widthFactor: seller.mannerTemperature / 100,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.success,
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

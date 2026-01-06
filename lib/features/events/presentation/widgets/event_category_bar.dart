@@ -22,16 +22,28 @@ class EventCategoryBar extends ConsumerWidget {
     );
 
     final categories = [
-      {'val': Category.concert, 'icon': Icons.music_note},
-      {'val': Category.sports, 'icon': Icons.sports_baseball},
-      {'val': Category.musical, 'icon': Icons.theater_comedy},
-      {'val': Category.classic, 'icon': Icons.piano},
+      {
+        'val': Category.concert,
+        'icon': Icons.music_note_outlined,
+        'label': '콘서트',
+      },
+      {
+        'val': Category.sports,
+        'icon': Icons.emoji_events_outlined,
+        'label': '스포츠',
+      },
+      {
+        'val': Category.musical,
+        'icon': Icons.theater_comedy_outlined,
+        'label': '뮤지컬/연극',
+      },
     ];
 
     return SizedBox(
-      height: 44,
+      height: 46, // 아이콘 + 텍스트 + 패딩에 맞는 고정 높이
       child: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        shrinkWrap: true,
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
         scrollDirection: Axis.horizontal,
         itemCount: categories.length,
         separatorBuilder: (context, index) => const SizedBox(width: 8),
@@ -39,8 +51,9 @@ class EventCategoryBar extends ConsumerWidget {
           final cat = categories[index];
           final value = cat['val'] as Category;
           final icon = cat['icon'] as IconData;
+          final label = cat['label'] as String;
           final isSelected = value == currentCategory;
-
+      
           return GestureDetector(
             onTap: () => ref
                 .read(
@@ -50,33 +63,31 @@ class EventCategoryBar extends ConsumerWidget {
                 )
                 .changeCategory(value),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+              
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
-                color: isSelected
-                    ? AppColors.primary
-                    : AppColors.inputBackground,
-                borderRadius: BorderRadius.circular(22),
-                border: Border.all(
-                  color: isSelected ? AppColors.primary : AppColors.border,
-                ),
+                color: isSelected ? const Color(0xFF22C55E) : AppColors.inputBackground,
+                borderRadius: BorderRadius.circular(20),
+                
               ),
               child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
                     icon,
                     size: 16,
-                    color: isSelected ? Colors.white : AppColors.textSecondary,
+                    color: isSelected ? Colors.white : const Color(0xFF64748B),
                   ),
                   const SizedBox(width: 6),
                   Text(
-                    value.label,
+                    label,
                     style: TextStyle(
                       color: isSelected
                           ? Colors.white
-                          : AppColors.textSecondary,
+                          : const Color(0xFF64748B),
                       fontSize: 14,
                       fontWeight: isSelected
-                          ? FontWeight.w700
+                          ? FontWeight.w600
                           : FontWeight.w500,
                     ),
                   ),
