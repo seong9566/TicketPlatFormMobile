@@ -18,10 +18,7 @@ class WishlistView extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        automaticallyImplyLeading: false,
         title: Text(
           '찜목록',
           style: AppTextStyles.heading2.copyWith(color: AppColors.textPrimary),

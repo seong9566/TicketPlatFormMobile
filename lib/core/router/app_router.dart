@@ -1,11 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:ticket_platform_mobile/features/chat/presentation/view/chat_view.dart';
-import 'package:ticket_platform_mobile/features/home/presentation/views/home_view.dart';
+import 'package:ticket_platform_mobile/features/home/presentation/views/main_tab_view.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticketing_view.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/ticket_detail_view.dart';
-import 'package:ticket_platform_mobile/features/events/presentation/view/events_view.dart';
-import 'package:ticket_platform_mobile/features/wishlist/presentation/view/wishlist_view.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 
 part 'app_router.g.dart';
@@ -18,16 +15,7 @@ GoRouter goRouter(Ref ref) {
       GoRoute(
         path: AppRouterPath.home,
         name: 'home',
-        builder: (context, state) => const HomeView(),
-      ),
-
-      GoRoute(
-        path: AppRouterPath.events,
-        name: 'events',
-        builder: (context, state) {
-          final category = state.uri.queryParameters['category'];
-          return EventsView(category: category);
-        },
+        builder: (context, state) => const MainTabView(),
       ),
 
       GoRoute(
@@ -46,16 +34,6 @@ GoRouter goRouter(Ref ref) {
           final listId = state.pathParameters['listId']!;
           return TicketDetailView(performanceId: perfId, listingId: listId);
         },
-      ),
-      GoRoute(
-        path: AppRouterPath.wishlist,
-        name: 'wishlist',
-        builder: (context, state) => const WishlistView(),
-      ),
-      GoRoute(
-        path: AppRouterPath.chat,
-        name: 'chat',
-        builder: (context, state) => const ChatView(),
       ),
     ],
   );

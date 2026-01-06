@@ -167,7 +167,6 @@ class _HomeViewState extends ConsumerState<HomeView> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         child: const Icon(Icons.add, color: Colors.white, size: 36),
       ),
-      bottomNavigationBar: const HomeBottomNav(),
     );
   }
 }

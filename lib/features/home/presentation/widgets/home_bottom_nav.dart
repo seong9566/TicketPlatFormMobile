@@ -1,33 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 
-class HomeBottomNav extends StatefulWidget {
-  const HomeBottomNav({super.key});
+class HomeBottomNav extends StatelessWidget {
+  final int currentIndex;
+  final ValueChanged<int> onTap;
 
-  @override
-  State<HomeBottomNav> createState() => _HomeBottomNavState();
-}
-
-class _HomeBottomNavState extends State<HomeBottomNav> {
-  int _currentIndex = 0;
+  const HomeBottomNav({
+    super.key,
+    required this.currentIndex,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: _currentIndex,
-      onTap: (index) {
-        setState(() {
-          _currentIndex = index;
-        });
-        // Placeholder navigation
-        if (index == 0) context.go(AppRouterPath.home);
-        if (index == 1) context.go(AppRouterPath.events);
-        if (index == 2) context.go(AppRouterPath.chat);
-        if (index == 3) context.push(AppRouterPath.wishlist);
-        if (index == 4) context.go(AppRouterPath.profile);
-      },
+      currentIndex: currentIndex,
+      onTap: onTap,
       type: BottomNavigationBarType.fixed,
       selectedItemColor: AppColors.primary,
       unselectedItemColor: AppColors.textTertiary,
