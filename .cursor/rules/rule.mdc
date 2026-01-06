@@ -1,0 +1,171 @@
+---
+alwaysApply: true
+---
+# Flutter Architecture & Code Style Rules
+
+## 1. Architecture – MVVM + Clean Architecture
+
+- **View (UI Layer, StatelessWidget preferred)**  
+  - Only responsible for rendering UI and forwarding user events.  
+  - Must not contain business logic or data access.  
+  - Must not pass `BuildContext` into ViewModels.  
+  - Subscribe to state using `ref.watch(...)` or `Consumer` widgets.
+
+- **ViewModel (Presentation Layer, Riverpod AsyncNotifier)**  
+  - Holds screen state as `AsyncValue<State>` (e.g. `AsyncData`, `AsyncLoading`, `AsyncError`).  
+  - All business logic lives here and talks to domain repositories.  
+  - No direct access to `BuildContext`.  
+  - Implement as pure functions without side‑effects other than updating `state`.  
+  - Example:
+    ```dart
+    @riverpod
+    class TrainerDashboard extends _$TrainerDashboard {
+      @override
+      FutureOr<DashboardState> build() async {
+        return _fetchData();
+      }
+
+      Future<void> refresh() async {
+        state = const AsyncLoading();
+        state = await AsyncValue.guard(_fetchData);
+      }
+
+      Future<DashboardState> _fetchData() async {
+        final result =
+            await ref.read(dashboardRepositoryProvider).getDashboard();
+        return result.fold(
+          (failure) => throw failure,
+          (data) => data,
+        );
+      }
+    }
+    ```
+
+- **Repository (Domain & Data Layers)**  
+  - **Domain layer**: define repository interfaces as abstract classes.  
+  - **Data layer**: provide concrete implementations (Dio HTTP, local storage, etc.).  
+  - All methods return `Result<T>` or `Either<Failure, T>`.  
+  - Convert all `DioException` and low‑level errors into domain `Failure` types.
+
+- **Data Layer Implementation**  
+  - Use Dio for networking and Freezed for JSON (immutable models + codegen).  
+  - Never throw raw exceptions across layers; always convert to `Failure`.
+
+- **Strict Separation of Concerns**  
+  - Views must never access repositories or data sources directly.  
+  - Flow must always be: **View → ViewModel → Repository → Data Source**.  
+  - Each layer knows only the abstraction of the next layer (dependency inversion).
+
+## 2. Dependency Injection (Riverpod)
+
+- All dependencies are provided via Riverpod providers, not via service locators.  
+- Example of a shared Dio client with interceptors:
+  ```dart
+  @Riverpod(keepAlive: true)
+  Dio dio(DioRef ref) {
+    final dio = Dio(
+      BaseOptions(
+        baseUrl: Env.apiUrl,
+        connectTimeout: const Duration(seconds: 30),
+      ),
+    );
+    dio.interceptors.add(AuthInterceptor(ref));
+    return dio;
+  }
+  ```
+- Repositories inject Dio (and other deps) using providers:
+  ```dart
+  @riverpod
+  TrainerRepository trainerRepository(TrainerRepositoryRef ref) {
+    return TrainerRepositoryImpl(dio: ref.watch(dioProvider));
+  }
+  ```
+- For tests, override providers with mocks using `ProviderContainer` and `overrides`.
+
+## 3. Code Style & Linting
+
+- **Analysis options**
+  ```yaml
+  include: package:flutter_lints/flutter.yaml
+
+  linter:
+    rules:
+      - always_use_package_imports
+      - prefer_const_constructors
+      - prefer_const_literals_to_create_immutables
+      - avoid_print
+      - sort_constructors_first
+  ```
+- **Formatting commands**
+  ```bash
+  dart format .
+  dart format lib/
+  flutter analyze
+  ```
+
+## 4. Widget Structure & Extraction
+
+- **Keep `build` methods small**  
+  - Aim for **≤ 100 lines per `build` method**.  
+  - Split large sections into private helper methods or dedicated widgets.
+
+- **Extract reusable sections into widgets**
+  ```dart
+  // GOOD: small build, extracted sections
+  class TrainerDashboardView extends StatelessWidget {
+    const TrainerDashboardView({super.key});
+
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: _buildAppBar(context),
+        body: _buildBody(context),
+      );
+    }
+
+    AppBar _buildAppBar(BuildContext context) { /* ... */ }
+    Widget _buildBody(BuildContext context) { /* ... */ }
+  }
+
+  class _TrainerListSection extends StatelessWidget {
+    const _TrainerListSection({required this.trainers});
+    final List<Trainer> trainers;
+
+    @override
+    Widget build(BuildContext context) {
+      // ...
+    }
+  }
+  ```
+
+## 5. Logic Placement Rules
+
+- **Business logic lives in ViewModels, never in Views.**
+  ```dart
+  // GOOD
+  @riverpod
+  class TrainerDashboard extends _$TrainerDashboard {
+    Future<void> filterTrainers(String query) async {
+      state = const AsyncLoading();
+      // filtering logic here
+    }
+  }
+
+  // BAD – business logic inside a view
+  class TrainerDashboardView extends StatelessWidget {
+    void _filterTrainers(String query) {
+      // filtering logic here – NOT allowed
+    }
+  }
+  ```
+- Views should only:
+  - Render `AsyncValue` states (`when` / `maybeWhen` / `map`).  
+  - Forward user interactions to ViewModel methods via `ref.read(...).method()`.  
+  - Contain minimal layout/animation logic, no domain rules.
+
+## 6. Developer Workflow
+
+- Before committing:
+  - Run `dart format .`.  
+  - Run `flutter analyze`.  
+  - Ensure views stay slim and all new business logic is added to ViewModels or domain layer, not directly in widgets.

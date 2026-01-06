@@ -5,6 +5,7 @@ import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticket_listing_card.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticketing_filter_header_delegate.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticketing_filter_bar.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticketing_header_section.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticketing_list_header.dart';
@@ -156,7 +157,7 @@ class TicketingView extends ConsumerWidget {
 
     return SliverPersistentHeader(
       pinned: true,
-      delegate: _FilterHeaderDelegate(
+      delegate: TicketingFilterHeaderDelegate(
         child: TicketingFilterBar(
           grades: info.ticketGrades,
           selectedGrade: state.selectedGrade,
@@ -222,19 +223,4 @@ class TicketingView extends ConsumerWidget {
       },
     );
   }
-}
-
-class _FilterHeaderDelegate extends SliverPersistentHeaderDelegate {
-  final Widget child;
-  _FilterHeaderDelegate({required this.child});
-
-  @override
-  Widget build(context, shrinkOffset, overlapsContent) => child;
-
-  @override
-  double get maxExtent => 54.0; // 실제 child 높이에 맞춤 (padding 8*2 + content 38)
-  @override
-  double get minExtent => 54.0; // 실제 child 높이에 맞춤
-  @override
-  bool shouldRebuild(covariant _FilterHeaderDelegate oldDelegate) => true;
 }
