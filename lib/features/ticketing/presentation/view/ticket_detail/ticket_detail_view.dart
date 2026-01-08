@@ -27,8 +27,9 @@ class TicketDetailView extends ConsumerWidget {
     final ticketingStateAsync = ref.watch(
       ticketingViewModelProvider(performanceId),
     );
+    final ticketId = int.tryParse(listingId) ?? 0;
     final ticketDetailStateAsync = ref.watch(
-      ticketDetailViewModelProvider(listingId),
+      ticketDetailViewModelProvider(ticketId),
     );
 
     return Scaffold(
@@ -38,16 +39,16 @@ class TicketDetailView extends ConsumerWidget {
         top: true,
         bottom: false,
         child: ticketingStateAsync.when(
-        data: (ticketingState) {
-          final info = ticketingState.ticketingInfo;
-          if (info == null) {
-            return const Center(child: Text('공연 정보를 불러올 수 없습니다.'));
-          }
+          data: (ticketingState) {
+            final info = ticketingState.ticketingInfo;
+            if (info == null) {
+              return const Center(child: Text('공연 정보를 불러올 수 없습니다.'));
+            }
 
             return ticketDetailStateAsync.when(
               data: (ticketDetailState) {
-                final listing = ticketDetailState.listing;
-                if (listing == null) {
+                final detail = ticketDetailState.detail;
+                if (detail == null) {
                   return const Center(child: Text('티켓 정보를 불러올 수 없습니다.'));
                 }
 
@@ -56,16 +57,16 @@ class TicketDetailView extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TicketDetailHeader(listing: listing),
+                      TicketDetailHeader(detail: detail),
                       const SizedBox(height: AppSpacing.xs),
                       TicketDetailPerformanceHeader(info: info),
                       _buildSectionHeader('상세 설명'),
-                      _buildDescription(listing.description),
+                      _buildDescription(detail.description),
                       _buildSectionHeader('좌석 특징'),
-                      TicketDetailSeatFeatures(tags: listing.tags),
-                      _buildProductImage(listing.listingImageUrl),
-                      if (listing.listingImageUrl != null &&
-                          listing.listingImageUrl!.isNotEmpty) ...[
+                      TicketDetailSeatFeatures(tags: detail.tags),
+                      _buildProductImage(detail.listingImageUrl),
+                      if (detail.listingImageUrl != null &&
+                          detail.listingImageUrl!.isNotEmpty) ...[
                         const SizedBox(height: AppSpacing.md),
                         const Center(
                           child: Text(
@@ -77,7 +78,7 @@ class TicketDetailView extends ConsumerWidget {
                           ),
                         ),
                       ],
-                      TicketDetailSellerInfo(seller: listing.seller),
+                      TicketDetailSellerInfo(seller: detail.seller),
                       const SizedBox(height: AppSpacing.lg),
                     ],
                   ),
@@ -91,9 +92,9 @@ class TicketDetailView extends ConsumerWidget {
           error: (err, stack) => Center(child: Text('Error: $err')),
         ),
       ),
-      bottomNavigationBar: const SafeArea(
+      bottomNavigationBar: SafeArea(
         top: false,
-        child: TicketDetailBottomAction(),
+        child: TicketDetailBottomAction(ticketId: int.tryParse(listingId) ?? 0),
       ),
     );
   }
@@ -133,7 +134,11 @@ class TicketDetailView extends ConsumerWidget {
       ),
       child: Text(
         title,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: AppColors.textSecondary),
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+          color: AppColors.textSecondary,
+        ),
       ),
     );
   }

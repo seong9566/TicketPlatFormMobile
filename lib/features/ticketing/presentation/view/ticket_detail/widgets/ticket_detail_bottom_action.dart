@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/viewmodels/ticket_detail_viewmodel.dart';
 
-class TicketDetailBottomAction extends StatelessWidget {
-  const TicketDetailBottomAction({super.key});
+class TicketDetailBottomAction extends ConsumerWidget {
+  final int ticketId;
+
+  const TicketDetailBottomAction({super.key, required this.ticketId});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(ticketDetailViewModelProvider(ticketId));
+    final detail = state.value?.detail;
+    final isFavorited = detail?.isFavorited ?? false;
+
     return Container(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.lg,
@@ -16,7 +24,6 @@ class TicketDetailBottomAction extends StatelessWidget {
         AppSpacing.lg,
         20,
       ),
-
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -30,30 +37,41 @@ class TicketDetailBottomAction extends StatelessWidget {
       child: Row(
         children: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              ref
+                  .read(ticketDetailViewModelProvider(ticketId).notifier)
+                  .toggleLike();
+            },
             borderRadius: BorderRadius.circular(AppRadius.md),
             child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 10,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
-                border: Border.all(color: const Color(0xFFF1F5F9)),
+                border: Border.all(
+                  color: isFavorited
+                      ? AppColors.destructive
+                      : const Color(0xFFF1F5F9),
+                ),
                 borderRadius: BorderRadius.circular(AppRadius.md),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(
-                    Icons.favorite_border_rounded,
+                  Icon(
+                    isFavorited
+                        ? Icons.favorite_rounded
+                        : Icons.favorite_border_rounded,
                     size: 24,
-                    color: AppColors.textTertiary,
+                    color: isFavorited
+                        ? AppColors.destructive
+                        : AppColors.textTertiary,
                   ),
                   const SizedBox(height: 2),
                   Text(
                     '찜하기',
                     style: AppTextStyles.caption.copyWith(
-                      color: AppColors.textTertiary,
+                      color: isFavorited
+                          ? AppColors.destructive
+                          : AppColors.textTertiary,
                       fontSize: 10,
                       fontWeight: FontWeight.w600,
                     ),
@@ -79,10 +97,7 @@ class TicketDetailBottomAction extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(
-                      Icons.chat_bubble_outline,
-                      size: 20,
-                    ),
+                    const Icon(Icons.chat_bubble_outline, size: 20),
                     const SizedBox(width: 6),
                     const Text(
                       '채팅으로 문의하기',

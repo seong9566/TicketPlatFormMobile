@@ -33,7 +33,7 @@ class WishlistCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(AppRadius.md),
                   child: CachedNetworkImage(
-                    imageUrl: item.imageUrl,
+                    imageUrl: item.eventPosterImageUrl,
                     width: 90,
                     height: 90,
                     fit: BoxFit.cover,
@@ -57,44 +57,70 @@ class WishlistCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
-                            child: Text(
-                              '${item.category} ${item.title}',
-                              style: AppTextStyles.body1.copyWith(
-                                color: AppColors.textPrimary,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item.eventTitle,
+                                  style: AppTextStyles.caption.copyWith(
+                                    color: AppColors.textTertiary,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  item.ticketTitle,
+                                  style: AppTextStyles.body1.copyWith(
+                                    color: AppColors.textPrimary,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
                             ),
                           ),
                           GestureDetector(
                             onTap: onLikeTap,
                             child: const Icon(
                               Icons.favorite,
-                              color: Color(
-                                0xFF22C55E,
-                              ), // Vibrant green as per image
+                              color: Color(0xFF22C55E),
                               size: 24,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          if (item.discountRate.isNotEmpty) ...[
+                            Text(
+                              item.discountRate,
+                              style: AppTextStyles.body1.copyWith(
+                                color: AppColors.destructive,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                          ],
+                          Text(
+                            '${item.priceDisplay}원',
+                            style: AppTextStyles.heading3.copyWith(
+                              fontWeight: FontWeight.w900,
+                              color: AppColors.textPrimary,
+                              fontSize: 18,
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        item.dateDisplay,
-                        style: AppTextStyles.body2.copyWith(
+                        '${item.venueName} · ${item.eventDate}',
+                        style: AppTextStyles.caption.copyWith(
                           color: AppColors.textTertiary,
-                          fontSize: 14,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        item.priceDisplay,
-                        style: AppTextStyles.heading3.copyWith(
-                          fontWeight: FontWeight.w900,
-                          color: AppColors.textPrimary,
-                          fontSize: 18,
                         ),
                       ),
                     ],
@@ -109,11 +135,23 @@ class WishlistCard extends StatelessWidget {
               horizontal: AppSpacing.md,
               vertical: AppSpacing.sm,
             ),
-            child: Text(
-              item.likedAtDisplay,
-              style: AppTextStyles.caption.copyWith(
-                color: AppColors.textTertiary,
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '판매자: ${item.sellerNickname}',
+                  style: AppTextStyles.caption.copyWith(
+                    color: AppColors.textSecondary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Text(
+                  '찜한 날짜: ${item.favoritedAtDisplay}',
+                  style: AppTextStyles.caption.copyWith(
+                    color: AppColors.textTertiary,
+                  ),
+                ),
+              ],
             ),
           ),
         ],

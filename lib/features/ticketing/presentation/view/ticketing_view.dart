@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ticket_platform_mobile/core/router/app_router.dart';
+import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
@@ -9,7 +11,8 @@ import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widg
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticketing_filter_bar.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticketing_header_section.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticketing_list_header.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_ui_model.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_common_ui_model.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_listing_ui_model.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/viewmodels/ticketing_state.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/viewmodels/ticketing_viewmodel.dart';
 
@@ -20,39 +23,6 @@ class TicketingView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // 정렬 필터 바텀 시트
-    void showSortBottomSheet(BuildContext context, WidgetRef ref) {
-      showModalBottomSheet(
-        context: context,
-        backgroundColor: Colors.white,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        builder: (context) {
-          return SafeArea(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(height: 12),
-                Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-                _buildSortOption(context, ref, '가격 낮은순'),
-                _buildSortOption(context, ref, '가격 높은순'),
-                _buildSortOption(context, ref, '최신순'),
-                const SizedBox(height: 12),
-              ],
-            ),
-          );
-        },
-      );
-    }
-
     final stateAsync = ref.watch(ticketingViewModelProvider(performanceId));
 
     return Scaffold(
@@ -64,12 +34,12 @@ class TicketingView extends ConsumerWidget {
           if (info == null) return const Center(child: Text('정보를 불러올 수 없습니다.'));
 
           // 1. 필터링 로직 (좌석 등급)
-          var filteredListings = info.listings.where((listing) {
+          var filteredListings = info.tickets.where((ticket) {
             final selectedGrade = state.selectedGrade;
             if (selectedGrade == null || selectedGrade.id == 'all') {
               return true;
             }
-            return listing.gradeName == selectedGrade.name;
+            return ticket.gradeName == selectedGrade.name;
           }).toList();
 
           // 2. 정렬 로직
@@ -89,14 +59,14 @@ class TicketingView extends ConsumerWidget {
                     slivers: [
                       // 공연 정보
                       SliverToBoxAdapter(
-                        child: TicketingHeaderSection(info: info),
+                        child: TicketingHeaderSection(ticketingInfo: info),
                       ),
                       _buildStickyFilter(performanceId, state, ref),
                       SliverToBoxAdapter(
                         child: TicketingListHeader(
                           count: filteredListings.length,
                           sortBy: state.sortBy,
-                          onSortTap: () => showSortBottomSheet(context, ref),
+                          onSortTap: () => _showSortBottomSheet(context, ref),
                         ),
                       ),
                       _buildListingList(filteredListings),
@@ -164,40 +134,41 @@ class TicketingView extends ConsumerWidget {
       delegate: TicketingFilterHeaderDelegate(
         child: TicketingFilterBar(
           grades: info.ticketGrades,
+          ticketingInfo: info,
           selectedGrade: state.selectedGrade,
-          onGradeSelected: (grade) => ref
+          onGradeSelected: (TicketingTicketGradeInfo grade) => ref
               .read(ticketingViewModelProvider(id).notifier)
               .selectGrade(grade),
+          onSortSelected: (sort) => _showSortBottomSheet(ref.context, ref),
         ),
       ),
     );
   }
 
-  Widget _buildListingList(List<TicketListingUiModel> listings) {
-    if (listings.isEmpty) {
+  Widget _buildListingList(List<TicketingCommonUiModel> tickets) {
+    if (tickets.isEmpty) {
       return const SliverToBoxAdapter(
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.all(AppSpacing.lg),
-            child: Text('판매 중인 티켓이 없습니다.'),
-          ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 40),
+          child: Center(child: Text('해당되는 티켓이 없습니다.')),
         ),
       );
     }
 
     return SliverPadding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.md,
-        vertical: AppSpacing.md,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       sliver: SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) => TicketListingCard(
-            performanceId: performanceId,
-            listing: listings[index],
-          ),
-          childCount: listings.length,
-        ),
+        delegate: SliverChildBuilderDelegate((context, index) {
+          final ticket = tickets[index];
+          return TicketListingCard(
+            ticket: ticket,
+            onTap: () {
+              context.push(
+                '${AppRouterPath.ticketDetail}/$performanceId/${ticket.ticketId}',
+              );
+            },
+          );
+        }, childCount: tickets.length),
       ),
     );
   }
@@ -224,6 +195,39 @@ class TicketingView extends ConsumerWidget {
             .read(ticketingViewModelProvider(performanceId).notifier)
             .updateSortBy(option);
         context.pop();
+      },
+    );
+  }
+
+  // 정렬 필터 바텀 시트
+  void _showSortBottomSheet(BuildContext context, WidgetRef ref) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 12),
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              _buildSortOption(context, ref, '가격 낮은순'),
+              _buildSortOption(context, ref, '가격 높은순'),
+              _buildSortOption(context, ref, '최신순'),
+              const SizedBox(height: 12),
+            ],
+          ),
+        );
       },
     );
   }

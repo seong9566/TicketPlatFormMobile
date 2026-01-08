@@ -3,10 +3,10 @@ import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_ui_model.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_common_ui_model.dart';
 
 class TicketDetailSellerInfo extends StatelessWidget {
-  final SellerUiModel seller;
+  final TicketingSellerUiModel seller;
 
   const TicketDetailSellerInfo({super.key, required this.seller});
 
@@ -67,7 +67,7 @@ class TicketDetailSellerInfo extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    '응답률 $responseRate% · 거래 ${tradeCount}건',
+                    '응답률 $responseRate% · 거래 $tradeCount건',
                     style: AppTextStyles.caption.copyWith(
                       color: AppColors.textSecondary,
                       fontSize: 12,

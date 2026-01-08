@@ -16,7 +16,7 @@ final class TicketDetailViewModelProvider
     extends $AsyncNotifierProvider<TicketDetailViewModel, TicketDetailState> {
   const TicketDetailViewModelProvider._({
     required TicketDetailViewModelFamily super.from,
-    required String super.argument,
+    required int super.argument,
   }) : super(
          retry: null,
          name: r'ticketDetailViewModelProvider',
@@ -51,7 +51,7 @@ final class TicketDetailViewModelProvider
 }
 
 String _$ticketDetailViewModelHash() =>
-    r'8e47e9b5e42f7b47ad254096a8f5ca7edd371bf5';
+    r'e54134aec576b699b359097d4e9f2adccbe852a3';
 
 final class TicketDetailViewModelFamily extends $Family
     with
@@ -60,7 +60,7 @@ final class TicketDetailViewModelFamily extends $Family
           AsyncValue<TicketDetailState>,
           TicketDetailState,
           FutureOr<TicketDetailState>,
-          String
+          int
         > {
   const TicketDetailViewModelFamily._()
     : super(
@@ -71,8 +71,8 @@ final class TicketDetailViewModelFamily extends $Family
         isAutoDispose: true,
       );
 
-  TicketDetailViewModelProvider call(String listingId) =>
-      TicketDetailViewModelProvider._(argument: listingId, from: this);
+  TicketDetailViewModelProvider call(int ticketId) =>
+      TicketDetailViewModelProvider._(argument: ticketId, from: this);
 
   @override
   String toString() => r'ticketDetailViewModelProvider';
@@ -80,10 +80,10 @@ final class TicketDetailViewModelFamily extends $Family
 
 abstract class _$TicketDetailViewModel
     extends $AsyncNotifier<TicketDetailState> {
-  late final _$args = ref.$arg as String;
-  String get listingId => _$args;
+  late final _$args = ref.$arg as int;
+  int get ticketId => _$args;
 
-  FutureOr<TicketDetailState> build(String listingId);
+  FutureOr<TicketDetailState> build(int ticketId);
   @$mustCallSuper
   @override
   void runBuild() {

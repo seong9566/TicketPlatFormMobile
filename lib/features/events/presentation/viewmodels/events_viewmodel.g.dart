@@ -50,7 +50,7 @@ final class EventsViewModelProvider
   }
 }
 
-String _$eventsViewModelHash() => r'180b37715afa44067adb169b202dd87c65555418';
+String _$eventsViewModelHash() => r'befc3df47538ff427349e0f0efc6561bc14344e6';
 
 final class EventsViewModelFamily extends $Family
     with

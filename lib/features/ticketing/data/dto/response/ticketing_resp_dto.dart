@@ -82,6 +82,7 @@ abstract class TicketingTicketRespDto with _$TicketingTicketRespDto {
     @Default(false) bool isSingleTicket,
     @Default([]) List<String> ticketImages,
     required TicketingSellerRespDto seller,
+    @Default(false) bool isFavorited,
   }) = _TicketingTicketRespDto;
 
   factory TicketingTicketRespDto.fromJson(Map<String, dynamic> json) =>
@@ -105,6 +106,7 @@ extension TicketingTicketRespDtoX on TicketingTicketRespDto {
       isSingleTicket: isSingleTicket,
       ticketImages: ticketImages,
       seller: seller.toEntity(),
+      isFavorited: isFavorited,
     );
   }
 }

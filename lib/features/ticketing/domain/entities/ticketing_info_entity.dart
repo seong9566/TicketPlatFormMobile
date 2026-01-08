@@ -46,6 +46,7 @@ abstract class TicketingTicketEntity with _$TicketingTicketEntity {
     required bool isSingleTicket,
     required List<String> ticketImages,
     required TicketingSellerEntity seller,
+    @Default(false) bool isFavorited,
   }) = _TicketingTicketEntity;
 }
 

@@ -85,6 +85,7 @@ _TicketingTicketRespDto _$TicketingTicketRespDtoFromJson(
   seller: TicketingSellerRespDto.fromJson(
     json['seller'] as Map<String, dynamic>,
   ),
+  isFavorited: json['isFavorited'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$TicketingTicketRespDtoToJson(
@@ -104,6 +105,7 @@ Map<String, dynamic> _$TicketingTicketRespDtoToJson(
   'isSingleTicket': instance.isSingleTicket,
   'ticketImages': instance.ticketImages,
   'seller': instance.seller,
+  'isFavorited': instance.isFavorited,
 };
 
 _TicketingSellerRespDto _$TicketingSellerRespDtoFromJson(

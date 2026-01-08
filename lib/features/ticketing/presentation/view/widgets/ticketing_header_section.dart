@@ -6,12 +6,12 @@ import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/core/utils/date_format_util.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_ui_model.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_listing_ui_model.dart';
 
 class TicketingHeaderSection extends StatelessWidget {
-  final TicketingUiModel info;
+  final TicketingListingUiModel? ticketingInfo;
 
-  const TicketingHeaderSection({super.key, required this.info});
+  const TicketingHeaderSection({required this.ticketingInfo, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class TicketingHeaderSection extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(AppRadius.md),
       child: CachedNetworkImage(
-        imageUrl: info.imageUrl,
+        imageUrl: ticketingInfo?.imageUrl ?? '',
         width: 100,
         height: 120,
         fit: BoxFit.cover,
@@ -54,7 +54,7 @@ class TicketingHeaderSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          info.title,
+          ticketingInfo?.title ?? '',
           style: AppTextStyles.heading3,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
@@ -69,7 +69,9 @@ class TicketingHeaderSection extends StatelessWidget {
             ),
             const SizedBox(width: 4),
             Text(
-              DateFormatUtil.formatFullDateTime(info.eventDate),
+              ticketingInfo != null
+                  ? DateFormatUtil.formatFullDateTime(ticketingInfo!.eventDate)
+                  : '',
               style: AppTextStyles.body2.copyWith(
                 color: AppColors.textSecondary,
               ),
@@ -86,14 +88,14 @@ class TicketingHeaderSection extends StatelessWidget {
             ),
             const SizedBox(width: 4),
             Text(
-              info.location,
+              ticketingInfo?.location ?? '',
               style: AppTextStyles.body2.copyWith(
                 color: AppColors.textSecondary,
               ),
             ),
           ],
         ),
-        if (info.isHot) ...[
+        if (ticketingInfo?.isHot ?? false) ...[
           const SizedBox(height: AppSpacing.sm),
           _buildHotBadge(),
         ],

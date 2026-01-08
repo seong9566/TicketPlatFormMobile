@@ -3,12 +3,13 @@ import 'package:ticket_platform_mobile/core/utils/number_format_util.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_ui_model.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_detail_ui_model.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_common_ui_model.dart';
 
 class TicketDetailHeader extends StatelessWidget {
-  final TicketListingUiModel listing;
+  final TicketingDetailUiModel detail;
 
-  const TicketDetailHeader({super.key, required this.listing});
+  const TicketDetailHeader({super.key, required this.detail});
 
   @override
   Widget build(BuildContext context) {
@@ -22,17 +23,17 @@ class TicketDetailHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 등급 및 좌석 정보 
+          // 등급 및 좌석 정보
           Row(
             children: [
               _buildBadge(
-                listing.gradeName,
+                detail.gradeName,
                 const Color(0xFFF2F0FF),
                 const Color(0xFF7B61FF),
               ),
               const SizedBox(width: 8),
               _buildBadge(
-                listing.ticketCountInfo,
+                detail.ticketCountInfo,
                 const Color(0xFFF1F5F9),
                 AppColors.textTertiary,
               ),
@@ -40,18 +41,18 @@ class TicketDetailHeader extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.sm),
           Text(
-            listing.seatInfo ?? '좌석 정보 없음',
+            detail.seatInfo ?? '좌석 정보 없음',
             style: AppTextStyles.heading3.copyWith(
               fontSize: 26,
               fontWeight: FontWeight.w900,
             ),
           ),
-          // 가격 정보 
+          // 가격 정보
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                NumberFormatUtil.formatNumber(listing.price),
+                NumberFormatUtil.formatNumber(detail.price),
                 style: AppTextStyles.heading2.copyWith(
                   color: AppColors.success,
                   fontSize: 32,
@@ -72,11 +73,11 @@ class TicketDetailHeader extends StatelessWidget {
               ),
 
               const SizedBox(width: 8),
-              if (listing.price != listing.originalPrice)
+              if (detail.price != detail.originalPrice)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 6),
                   child: Text(
-                    '정가 ${NumberFormatUtil.formatNumber(listing.originalPrice)}원',
+                    '정가 ${NumberFormatUtil.formatNumber(detail.originalPrice)}원',
                     style: AppTextStyles.body2.copyWith(
                       color: AppColors.textTertiary,
                       decoration: TextDecoration.lineThrough,

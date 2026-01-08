@@ -2,18 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_ui_model.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_listing_ui_model.dart'; // Changed import
 
 class TicketingFilterBar extends StatelessWidget {
-  final List<TicketGradeInfo> grades;
-  final TicketGradeInfo? selectedGrade;
-  final Function(TicketGradeInfo) onGradeSelected;
+  final List<TicketingTicketGradeInfo> grades;
+  final TicketingListingUiModel? ticketingInfo;
+  final TicketingTicketGradeInfo? selectedGrade;
+  final Function(TicketingTicketGradeInfo) onGradeSelected;
+  final Function(String) onSortSelected;
 
   const TicketingFilterBar({
     super.key,
     required this.grades,
+    required this.ticketingInfo,
     required this.selectedGrade,
     required this.onGradeSelected,
+    required this.onSortSelected,
   });
 
   @override
@@ -74,7 +78,7 @@ class _FilterIconButton extends StatelessWidget {
 }
 
 class _GradeChip extends StatelessWidget {
-  final TicketGradeInfo grade;
+  final TicketingTicketGradeInfo grade;
   final bool isSelected;
   final VoidCallback onSelected;
 

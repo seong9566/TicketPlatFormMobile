@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TicketDetailState {
 
- TicketListingUiModel? get listing;
+ TicketingDetailUiModel? get detail;
 /// Create a copy of TicketDetailState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $TicketDetailStateCopyWith<TicketDetailState> get copyWith => _$TicketDetailStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketDetailState&&(identical(other.listing, listing) || other.listing == listing));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketDetailState&&(identical(other.detail, detail) || other.detail == detail));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,listing);
+int get hashCode => Object.hash(runtimeType,detail);
 
 @override
 String toString() {
-  return 'TicketDetailState(listing: $listing)';
+  return 'TicketDetailState(detail: $detail)';
 }
 
 
@@ -45,11 +45,11 @@ abstract mixin class $TicketDetailStateCopyWith<$Res>  {
   factory $TicketDetailStateCopyWith(TicketDetailState value, $Res Function(TicketDetailState) _then) = _$TicketDetailStateCopyWithImpl;
 @useResult
 $Res call({
- TicketListingUiModel? listing
+ TicketingDetailUiModel? detail
 });
 
 
-$TicketListingUiModelCopyWith<$Res>? get listing;
+$TicketingDetailUiModelCopyWith<$Res>? get detail;
 
 }
 /// @nodoc
@@ -62,23 +62,23 @@ class _$TicketDetailStateCopyWithImpl<$Res>
 
 /// Create a copy of TicketDetailState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? listing = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? detail = freezed,}) {
   return _then(_self.copyWith(
-listing: freezed == listing ? _self.listing : listing // ignore: cast_nullable_to_non_nullable
-as TicketListingUiModel?,
+detail: freezed == detail ? _self.detail : detail // ignore: cast_nullable_to_non_nullable
+as TicketingDetailUiModel?,
   ));
 }
 /// Create a copy of TicketDetailState
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$TicketListingUiModelCopyWith<$Res>? get listing {
-    if (_self.listing == null) {
+$TicketingDetailUiModelCopyWith<$Res>? get detail {
+    if (_self.detail == null) {
     return null;
   }
 
-  return $TicketListingUiModelCopyWith<$Res>(_self.listing!, (value) {
-    return _then(_self.copyWith(listing: value));
+  return $TicketingDetailUiModelCopyWith<$Res>(_self.detail!, (value) {
+    return _then(_self.copyWith(detail: value));
   });
 }
 }
@@ -162,10 +162,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( TicketListingUiModel? listing)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( TicketingDetailUiModel? detail)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TicketDetailState() when $default != null:
-return $default(_that.listing);case _:
+return $default(_that.detail);case _:
   return orElse();
 
 }
@@ -183,10 +183,10 @@ return $default(_that.listing);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( TicketListingUiModel? listing)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( TicketingDetailUiModel? detail)  $default,) {final _that = this;
 switch (_that) {
 case _TicketDetailState():
-return $default(_that.listing);case _:
+return $default(_that.detail);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -203,10 +203,10 @@ return $default(_that.listing);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( TicketListingUiModel? listing)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( TicketingDetailUiModel? detail)?  $default,) {final _that = this;
 switch (_that) {
 case _TicketDetailState() when $default != null:
-return $default(_that.listing);case _:
+return $default(_that.detail);case _:
   return null;
 
 }
@@ -218,10 +218,10 @@ return $default(_that.listing);case _:
 
 
 class _TicketDetailState implements TicketDetailState {
-  const _TicketDetailState({this.listing});
+  const _TicketDetailState({this.detail});
   
 
-@override final  TicketListingUiModel? listing;
+@override final  TicketingDetailUiModel? detail;
 
 /// Create a copy of TicketDetailState
 /// with the given fields replaced by the non-null parameter values.
@@ -233,16 +233,16 @@ _$TicketDetailStateCopyWith<_TicketDetailState> get copyWith => __$TicketDetailS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TicketDetailState&&(identical(other.listing, listing) || other.listing == listing));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TicketDetailState&&(identical(other.detail, detail) || other.detail == detail));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,listing);
+int get hashCode => Object.hash(runtimeType,detail);
 
 @override
 String toString() {
-  return 'TicketDetailState(listing: $listing)';
+  return 'TicketDetailState(detail: $detail)';
 }
 
 
@@ -253,11 +253,11 @@ abstract mixin class _$TicketDetailStateCopyWith<$Res> implements $TicketDetailS
   factory _$TicketDetailStateCopyWith(_TicketDetailState value, $Res Function(_TicketDetailState) _then) = __$TicketDetailStateCopyWithImpl;
 @override @useResult
 $Res call({
- TicketListingUiModel? listing
+ TicketingDetailUiModel? detail
 });
 
 
-@override $TicketListingUiModelCopyWith<$Res>? get listing;
+@override $TicketingDetailUiModelCopyWith<$Res>? get detail;
 
 }
 /// @nodoc
@@ -270,10 +270,10 @@ class __$TicketDetailStateCopyWithImpl<$Res>
 
 /// Create a copy of TicketDetailState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? listing = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? detail = freezed,}) {
   return _then(_TicketDetailState(
-listing: freezed == listing ? _self.listing : listing // ignore: cast_nullable_to_non_nullable
-as TicketListingUiModel?,
+detail: freezed == detail ? _self.detail : detail // ignore: cast_nullable_to_non_nullable
+as TicketingDetailUiModel?,
   ));
 }
 
@@ -281,13 +281,13 @@ as TicketListingUiModel?,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$TicketListingUiModelCopyWith<$Res>? get listing {
-    if (_self.listing == null) {
+$TicketingDetailUiModelCopyWith<$Res>? get detail {
+    if (_self.detail == null) {
     return null;
   }
 
-  return $TicketListingUiModelCopyWith<$Res>(_self.listing!, (value) {
-    return _then(_self.copyWith(listing: value));
+  return $TicketingDetailUiModelCopyWith<$Res>(_self.detail!, (value) {
+    return _then(_self.copyWith(detail: value));
   });
 }
 }

@@ -10,7 +10,7 @@ class TicketDetailTransactionFeatures extends StatelessWidget {
   Widget build(BuildContext context) {
     final activeColor = const Color(0xFF22C55E);
 
-    Widget _buildFeatureItem(IconData icon, String label) {
+    Widget buildFeatureItem(IconData icon, String label) {
       final isAvailable = features.contains(label);
       return Expanded(
         child: Container(
@@ -40,7 +40,9 @@ class TicketDetailTransactionFeatures extends StatelessWidget {
                   label,
                   style: TextStyle(
                     fontSize: 13,
-                    fontWeight: isAvailable ? FontWeight.w600 : FontWeight.normal,
+                    fontWeight: isAvailable
+                        ? FontWeight.w600
+                        : FontWeight.normal,
                     color: isAvailable ? Colors.black : const Color(0xFF94A3B8),
                   ),
                   overflow: TextOverflow.ellipsis,
@@ -52,7 +54,7 @@ class TicketDetailTransactionFeatures extends StatelessWidget {
       );
     }
 
-    Widget _buildFullWidthFeatureItem(IconData icon, String label) {
+    Widget buildFullWidthFeatureItem(IconData icon, String label) {
       final isAvailable = features.contains(label);
       return Container(
         width: double.infinity,
@@ -101,13 +103,13 @@ class TicketDetailTransactionFeatures extends StatelessWidget {
         children: [
           Row(
             children: [
-              _buildFeatureItem(Icons.verified_user_outlined, '안심결제 가능'),
+              buildFeatureItem(Icons.verified_user_outlined, '안심결제 가능'),
               const SizedBox(width: 10),
-              _buildFeatureItem(Icons.assignment_outlined, '예매 내역서'),
+              buildFeatureItem(Icons.assignment_outlined, '예매 내역서'),
             ],
           ),
           const SizedBox(height: 10),
-          _buildFullWidthFeatureItem(Icons.chair_alt_outlined, '연석 보유'),
+          buildFullWidthFeatureItem(Icons.chair_alt_outlined, '연석 보유'),
         ],
       ),
     );

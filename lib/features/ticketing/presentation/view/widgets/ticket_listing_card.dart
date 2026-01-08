@@ -6,16 +6,16 @@ import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_ui_model.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_common_ui_model.dart';
 
 class TicketListingCard extends StatelessWidget {
-  final String performanceId;
-  final TicketListingUiModel listing;
+  final TicketingCommonUiModel ticket;
+  final VoidCallback onTap;
 
   const TicketListingCard({
     super.key,
-    required this.performanceId,
-    required this.listing,
+    required this.ticket,
+    required this.onTap,
   });
 
   @override
@@ -57,18 +57,18 @@ class TicketListingCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          listing.seatInfo ?? '좌석 정보 없음',
+                          ticket.seatInfo ?? '좌석 정보 없음',
                           style: AppTextStyles.body1.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                             color: AppColors.textPrimary,
                           ),
                         ),
-                        if (listing.description != null &&
-                            listing.description!.isNotEmpty) ...[
+                        if (ticket.description != null &&
+                            ticket.description!.isNotEmpty) ...[
                           const SizedBox(height: 4),
                           Text(
-                            listing.description!,
+                            ticket.description!,
                             style: AppTextStyles.body2.copyWith(
                               color: AppColors.textSecondary,
                               fontSize: 12,
@@ -80,10 +80,10 @@ class TicketListingCard extends StatelessWidget {
                   ),
                 ],
               ),
-              if (listing.transactionFeatures.isNotEmpty) ...[
+              if (ticket.transactionFeatures.isNotEmpty) ...[
                 const SizedBox(height: 4),
                 Text(
-                  listing.transactionFeatures.join(' | '),
+                  ticket.transactionFeatures.join(' | '),
                   style: AppTextStyles.body2.copyWith(
                     color: AppColors.textSecondary,
                     fontSize: 12,
@@ -100,21 +100,24 @@ class TicketListingCard extends StatelessWidget {
   }
 
   Widget _buildGradeBadge() {
-    final badgeColor = listing.gradeName.contains('VIP')
-        ? AppColors.categoryConcert // 보라색
-        : AppColors.info; // 파란색 (R석 등)
-    final badgeBg = badgeColor.withValues(alpha: 0.1);
+    return _buildBadge(
+      ticket.gradeName,
+      AppColors.success.withValues(alpha: 0.1),
+      AppColors.success,
+    );
+  }
 
+  Widget _buildBadge(String text, Color backgroundColor, Color textColor) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: badgeBg,
+        color: backgroundColor,
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
-        listing.gradeName,
+        text,
         style: AppTextStyles.caption.copyWith(
-          color: badgeColor,
+          color: textColor,
           fontWeight: FontWeight.bold,
           fontSize: 11,
         ),
@@ -126,9 +129,7 @@ class TicketListingCard extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Expanded(
-          child: _buildSellerSection(),
-        ),
+        Expanded(child: _buildSellerSection()),
         const SizedBox(width: AppSpacing.sm),
         _buildBuyButton(context),
       ],
@@ -140,17 +141,17 @@ class TicketListingCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          NumberFormatUtil.formatPrice(listing.price),
+          NumberFormatUtil.formatPrice(ticket.price),
           style: AppTextStyles.heading3.copyWith(
             color: AppColors.success,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
-        if (listing.price != listing.originalPrice) ...[
+        if (ticket.price != ticket.originalPrice) ...[
           const SizedBox(height: 2),
           Text(
-            '정가 ${NumberFormatUtil.formatPrice(listing.originalPrice)}',
+            '정가 ${NumberFormatUtil.formatPrice(ticket.originalPrice)}',
             style: AppTextStyles.body2.copyWith(
               color: AppColors.textTertiary,
               decoration: TextDecoration.lineThrough,
@@ -164,9 +165,7 @@ class TicketListingCard extends StatelessWidget {
 
   Widget _buildBuyButton(BuildContext context) {
     return InkWell(
-      onTap: () => context.push(
-        '${AppRouterPath.ticketDetail}/$performanceId/${listing.id}',
-      ),
+      onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
@@ -188,7 +187,7 @@ class TicketListingCard extends StatelessWidget {
   Widget _buildSellerSection() {
     return Row(
       children: [
-        // 프로필 이미지 
+        // 프로필 이미지
         Container(
           width: 24,
           height: 24,
@@ -198,8 +197,8 @@ class TicketListingCard extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              listing.seller.nickname.isNotEmpty
-                  ? listing.seller.nickname[0]
+              ticket.seller.nickname.isNotEmpty
+                  ? ticket.seller.nickname[0]
                   : '?',
               style: TextStyle(
                 color: AppColors.success, // 진한 초록색 텍스트
@@ -215,20 +214,23 @@ class TicketListingCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                listing.seller.nickname,
+                ticket.title,
                 style: AppTextStyles.body2.copyWith(
-                  fontWeight: FontWeight.w600,
+                  color: AppColors.textTertiary,
                   fontSize: 13,
-                  color: AppColors.textPrimary,
                 ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(width: 4),
+              const SizedBox(height: 2),
               Text(
-                '매너 ${listing.seller.mannerTemperature.toStringAsFixed(1)}°C',
-                style: AppTextStyles.caption.copyWith(
-                  color: AppColors.textSecondary,
-                  fontSize: 11,
+                ticket.seatInfo ?? '',
+                style: AppTextStyles.heading3.copyWith(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
                 ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),

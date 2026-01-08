@@ -27,4 +27,7 @@ class ApiEndpoint {
   static const String ticketDetail = '/api/tickets/detail';
 
   static const String eventTickets = '/api/events/tickets';
+
+  // Favorites
+  static const String favoriteTickets = '/api/favorites/tickets';
 }
