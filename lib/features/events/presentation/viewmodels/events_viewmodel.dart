@@ -40,8 +40,11 @@ class EventsViewModel extends _$EventsViewModel {
   }
 
   Future<void> changeCategory(Category category) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() => _fetchEvents(category));
+    if (state.hasValue) {
+      state = AsyncValue.data(state.value!.copyWith(isLoading: true));
+    }
+    final result = await AsyncValue.guard(() => _fetchEvents(category));
+    state = result;
   }
 
   Future<void> updateSearchQuery(String query) async {

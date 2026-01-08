@@ -126,8 +126,12 @@ class TicketingView extends ConsumerWidget {
       backgroundColor: AppColors.background,
       elevation: 0,
       leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios_new, color: AppColors.textPrimary, size: 20),
-        onPressed: () => context.pop(context),
+        icon: Icon(
+          Icons.arrow_back_ios_new,
+          color: AppColors.textPrimary,
+          size: 20,
+        ),
+        onPressed: () => context.pop(),
       ),
       title: stateAsync.maybeWhen(
         data: (state) => Text(

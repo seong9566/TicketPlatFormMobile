@@ -20,6 +20,7 @@ class TicketingFilterBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.background,
+      height: 54.0,
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
         vertical: AppSpacing.sm,
@@ -92,22 +93,22 @@ class _GradeChip extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
-            color: isSelected 
-                ? AppColors.success // 초록색 (선택됨)
+            color: isSelected
+                ? AppColors
+                      .success // 초록색 (선택됨)
                 : AppColors.background, // 흰색 (비선택)
             borderRadius: BorderRadius.circular(20),
-            border: isSelected 
-                ? null 
-                : Border.all(
-                    color: AppColors.border,
-                    width: 1,
-                  ),
+            border: isSelected
+                ? null
+                : Border.all(color: AppColors.border, width: 1),
           ),
           child: Text(
             grade.name,
             style: AppTextStyles.body2.copyWith(
               fontSize: 14,
-              color: isSelected ? AppColors.primaryForeground : AppColors.textPrimary,
+              color: isSelected
+                  ? AppColors.primaryForeground
+                  : AppColors.textPrimary,
               fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
             ),
           ),

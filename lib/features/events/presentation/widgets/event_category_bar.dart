@@ -15,11 +15,11 @@ class EventCategoryBar extends ConsumerWidget {
       eventsViewModelProvider(initialCategory: initialCategory),
     );
 
-    final currentCategory = stateAsync.when(
-      data: (s) => s.selectedCategory,
-      loading: () => Category.concert,
-      error: (_, __) => Category.concert,
-    );
+    final currentCategory =
+        stateAsync.value?.selectedCategory ??
+        (initialCategory != null
+            ? Category.fromLabel(initialCategory!)
+            : Category.concert);
 
     final categories = [
       {
@@ -54,7 +54,7 @@ class EventCategoryBar extends ConsumerWidget {
           final icon = cat['icon'] as IconData;
           final label = cat['label'] as String;
           final isSelected = value == currentCategory;
-      
+
           return GestureDetector(
             onTap: () => ref
                 .read(
@@ -64,12 +64,12 @@ class EventCategoryBar extends ConsumerWidget {
                 )
                 .changeCategory(value),
             child: Container(
-              
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
-                color: isSelected ? const Color(0xFF22C55E) : AppColors.inputBackground,
+                color: isSelected
+                    ? const Color(0xFF22C55E)
+                    : AppColors.inputBackground,
                 borderRadius: BorderRadius.circular(20),
-                
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
