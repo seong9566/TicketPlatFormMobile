@@ -3,11 +3,10 @@ import 'package:ticket_platform_mobile/core/utils/number_format_util.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_detail_ui_model.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_common_ui_model.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_ticket_detail_ui_model.dart';
 
 class TicketDetailHeader extends StatelessWidget {
-  final TicketingDetailUiModel detail;
+  final TicketingTicketDetailUiModel detail;
 
   const TicketDetailHeader({super.key, required this.detail});
 

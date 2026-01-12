@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TicketingState {
 
- TicketingListingUiModel? get ticketingInfo; TicketingTicketGradeInfo? get selectedGrade; String get sortBy; bool get isLoading;
+ TicketingInfoUiModel? get ticketingInfo; TicketingGradeUiModel? get selectedGrade; String get sortBy; bool get isLoading;
 /// Create a copy of TicketingState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -45,11 +45,11 @@ abstract mixin class $TicketingStateCopyWith<$Res>  {
   factory $TicketingStateCopyWith(TicketingState value, $Res Function(TicketingState) _then) = _$TicketingStateCopyWithImpl;
 @useResult
 $Res call({
- TicketingListingUiModel? ticketingInfo, TicketingTicketGradeInfo? selectedGrade, String sortBy, bool isLoading
+ TicketingInfoUiModel? ticketingInfo, TicketingGradeUiModel? selectedGrade, String sortBy, bool isLoading
 });
 
 
-$TicketingListingUiModelCopyWith<$Res>? get ticketingInfo;$TicketingTicketGradeInfoCopyWith<$Res>? get selectedGrade;
+$TicketingInfoUiModelCopyWith<$Res>? get ticketingInfo;$TicketingGradeUiModelCopyWith<$Res>? get selectedGrade;
 
 }
 /// @nodoc
@@ -65,8 +65,8 @@ class _$TicketingStateCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? ticketingInfo = freezed,Object? selectedGrade = freezed,Object? sortBy = null,Object? isLoading = null,}) {
   return _then(_self.copyWith(
 ticketingInfo: freezed == ticketingInfo ? _self.ticketingInfo : ticketingInfo // ignore: cast_nullable_to_non_nullable
-as TicketingListingUiModel?,selectedGrade: freezed == selectedGrade ? _self.selectedGrade : selectedGrade // ignore: cast_nullable_to_non_nullable
-as TicketingTicketGradeInfo?,sortBy: null == sortBy ? _self.sortBy : sortBy // ignore: cast_nullable_to_non_nullable
+as TicketingInfoUiModel?,selectedGrade: freezed == selectedGrade ? _self.selectedGrade : selectedGrade // ignore: cast_nullable_to_non_nullable
+as TicketingGradeUiModel?,sortBy: null == sortBy ? _self.sortBy : sortBy // ignore: cast_nullable_to_non_nullable
 as String,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
@@ -75,24 +75,24 @@ as bool,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$TicketingListingUiModelCopyWith<$Res>? get ticketingInfo {
+$TicketingInfoUiModelCopyWith<$Res>? get ticketingInfo {
     if (_self.ticketingInfo == null) {
     return null;
   }
 
-  return $TicketingListingUiModelCopyWith<$Res>(_self.ticketingInfo!, (value) {
+  return $TicketingInfoUiModelCopyWith<$Res>(_self.ticketingInfo!, (value) {
     return _then(_self.copyWith(ticketingInfo: value));
   });
 }/// Create a copy of TicketingState
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$TicketingTicketGradeInfoCopyWith<$Res>? get selectedGrade {
+$TicketingGradeUiModelCopyWith<$Res>? get selectedGrade {
     if (_self.selectedGrade == null) {
     return null;
   }
 
-  return $TicketingTicketGradeInfoCopyWith<$Res>(_self.selectedGrade!, (value) {
+  return $TicketingGradeUiModelCopyWith<$Res>(_self.selectedGrade!, (value) {
     return _then(_self.copyWith(selectedGrade: value));
   });
 }
@@ -177,7 +177,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( TicketingListingUiModel? ticketingInfo,  TicketingTicketGradeInfo? selectedGrade,  String sortBy,  bool isLoading)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( TicketingInfoUiModel? ticketingInfo,  TicketingGradeUiModel? selectedGrade,  String sortBy,  bool isLoading)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TicketingState() when $default != null:
 return $default(_that.ticketingInfo,_that.selectedGrade,_that.sortBy,_that.isLoading);case _:
@@ -198,7 +198,7 @@ return $default(_that.ticketingInfo,_that.selectedGrade,_that.sortBy,_that.isLoa
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( TicketingListingUiModel? ticketingInfo,  TicketingTicketGradeInfo? selectedGrade,  String sortBy,  bool isLoading)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( TicketingInfoUiModel? ticketingInfo,  TicketingGradeUiModel? selectedGrade,  String sortBy,  bool isLoading)  $default,) {final _that = this;
 switch (_that) {
 case _TicketingState():
 return $default(_that.ticketingInfo,_that.selectedGrade,_that.sortBy,_that.isLoading);case _:
@@ -218,7 +218,7 @@ return $default(_that.ticketingInfo,_that.selectedGrade,_that.sortBy,_that.isLoa
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( TicketingListingUiModel? ticketingInfo,  TicketingTicketGradeInfo? selectedGrade,  String sortBy,  bool isLoading)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( TicketingInfoUiModel? ticketingInfo,  TicketingGradeUiModel? selectedGrade,  String sortBy,  bool isLoading)?  $default,) {final _that = this;
 switch (_that) {
 case _TicketingState() when $default != null:
 return $default(_that.ticketingInfo,_that.selectedGrade,_that.sortBy,_that.isLoading);case _:
@@ -236,8 +236,8 @@ class _TicketingState implements TicketingState {
   const _TicketingState({this.ticketingInfo, this.selectedGrade, this.sortBy = '가격 낮은순', this.isLoading = false});
   
 
-@override final  TicketingListingUiModel? ticketingInfo;
-@override final  TicketingTicketGradeInfo? selectedGrade;
+@override final  TicketingInfoUiModel? ticketingInfo;
+@override final  TicketingGradeUiModel? selectedGrade;
 @override@JsonKey() final  String sortBy;
 @override@JsonKey() final  bool isLoading;
 
@@ -271,11 +271,11 @@ abstract mixin class _$TicketingStateCopyWith<$Res> implements $TicketingStateCo
   factory _$TicketingStateCopyWith(_TicketingState value, $Res Function(_TicketingState) _then) = __$TicketingStateCopyWithImpl;
 @override @useResult
 $Res call({
- TicketingListingUiModel? ticketingInfo, TicketingTicketGradeInfo? selectedGrade, String sortBy, bool isLoading
+ TicketingInfoUiModel? ticketingInfo, TicketingGradeUiModel? selectedGrade, String sortBy, bool isLoading
 });
 
 
-@override $TicketingListingUiModelCopyWith<$Res>? get ticketingInfo;@override $TicketingTicketGradeInfoCopyWith<$Res>? get selectedGrade;
+@override $TicketingInfoUiModelCopyWith<$Res>? get ticketingInfo;@override $TicketingGradeUiModelCopyWith<$Res>? get selectedGrade;
 
 }
 /// @nodoc
@@ -291,8 +291,8 @@ class __$TicketingStateCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? ticketingInfo = freezed,Object? selectedGrade = freezed,Object? sortBy = null,Object? isLoading = null,}) {
   return _then(_TicketingState(
 ticketingInfo: freezed == ticketingInfo ? _self.ticketingInfo : ticketingInfo // ignore: cast_nullable_to_non_nullable
-as TicketingListingUiModel?,selectedGrade: freezed == selectedGrade ? _self.selectedGrade : selectedGrade // ignore: cast_nullable_to_non_nullable
-as TicketingTicketGradeInfo?,sortBy: null == sortBy ? _self.sortBy : sortBy // ignore: cast_nullable_to_non_nullable
+as TicketingInfoUiModel?,selectedGrade: freezed == selectedGrade ? _self.selectedGrade : selectedGrade // ignore: cast_nullable_to_non_nullable
+as TicketingGradeUiModel?,sortBy: null == sortBy ? _self.sortBy : sortBy // ignore: cast_nullable_to_non_nullable
 as String,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
@@ -302,24 +302,24 @@ as bool,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$TicketingListingUiModelCopyWith<$Res>? get ticketingInfo {
+$TicketingInfoUiModelCopyWith<$Res>? get ticketingInfo {
     if (_self.ticketingInfo == null) {
     return null;
   }
 
-  return $TicketingListingUiModelCopyWith<$Res>(_self.ticketingInfo!, (value) {
+  return $TicketingInfoUiModelCopyWith<$Res>(_self.ticketingInfo!, (value) {
     return _then(_self.copyWith(ticketingInfo: value));
   });
 }/// Create a copy of TicketingState
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$TicketingTicketGradeInfoCopyWith<$Res>? get selectedGrade {
+$TicketingGradeUiModelCopyWith<$Res>? get selectedGrade {
     if (_self.selectedGrade == null) {
     return null;
   }
 
-  return $TicketingTicketGradeInfoCopyWith<$Res>(_self.selectedGrade!, (value) {
+  return $TicketingGradeUiModelCopyWith<$Res>(_self.selectedGrade!, (value) {
     return _then(_self.copyWith(selectedGrade: value));
   });
 }

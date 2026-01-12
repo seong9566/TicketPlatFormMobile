@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'ticketing_detail_ui_model.dart';
+part of 'ticketing_ticket_detail_ui_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,20 +12,20 @@ part of 'ticketing_detail_ui_model.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$TicketingDetailUiModel {
+mixin _$TicketingTicketDetailUiModel {
 
  int get ticketId; String get performanceTitle; String get performanceImageUrl; DateTime get performanceDate; String get location; String get ticketTitle; String get gradeName; String? get seatInfo; int get price; int get originalPrice; List<String> get tags; TicketingSellerUiModel get seller; String? get description; List<String> get images; String get ticketCountInfo; List<String> get transactionFeatures; bool get isFavorited; String? get listingImageUrl;
-/// Create a copy of TicketingDetailUiModel
+/// Create a copy of TicketingTicketDetailUiModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$TicketingDetailUiModelCopyWith<TicketingDetailUiModel> get copyWith => _$TicketingDetailUiModelCopyWithImpl<TicketingDetailUiModel>(this as TicketingDetailUiModel, _$identity);
+$TicketingTicketDetailUiModelCopyWith<TicketingTicketDetailUiModel> get copyWith => _$TicketingTicketDetailUiModelCopyWithImpl<TicketingTicketDetailUiModel>(this as TicketingTicketDetailUiModel, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketingDetailUiModel&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.performanceTitle, performanceTitle) || other.performanceTitle == performanceTitle)&&(identical(other.performanceImageUrl, performanceImageUrl) || other.performanceImageUrl == performanceImageUrl)&&(identical(other.performanceDate, performanceDate) || other.performanceDate == performanceDate)&&(identical(other.location, location) || other.location == location)&&(identical(other.ticketTitle, ticketTitle) || other.ticketTitle == ticketTitle)&&(identical(other.gradeName, gradeName) || other.gradeName == gradeName)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.price, price) || other.price == price)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.images, images)&&(identical(other.ticketCountInfo, ticketCountInfo) || other.ticketCountInfo == ticketCountInfo)&&const DeepCollectionEquality().equals(other.transactionFeatures, transactionFeatures)&&(identical(other.isFavorited, isFavorited) || other.isFavorited == isFavorited)&&(identical(other.listingImageUrl, listingImageUrl) || other.listingImageUrl == listingImageUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketingTicketDetailUiModel&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.performanceTitle, performanceTitle) || other.performanceTitle == performanceTitle)&&(identical(other.performanceImageUrl, performanceImageUrl) || other.performanceImageUrl == performanceImageUrl)&&(identical(other.performanceDate, performanceDate) || other.performanceDate == performanceDate)&&(identical(other.location, location) || other.location == location)&&(identical(other.ticketTitle, ticketTitle) || other.ticketTitle == ticketTitle)&&(identical(other.gradeName, gradeName) || other.gradeName == gradeName)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.price, price) || other.price == price)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.images, images)&&(identical(other.ticketCountInfo, ticketCountInfo) || other.ticketCountInfo == ticketCountInfo)&&const DeepCollectionEquality().equals(other.transactionFeatures, transactionFeatures)&&(identical(other.isFavorited, isFavorited) || other.isFavorited == isFavorited)&&(identical(other.listingImageUrl, listingImageUrl) || other.listingImageUrl == listingImageUrl));
 }
 
 
@@ -34,15 +34,15 @@ int get hashCode => Object.hash(runtimeType,ticketId,performanceTitle,performanc
 
 @override
 String toString() {
-  return 'TicketingDetailUiModel(ticketId: $ticketId, performanceTitle: $performanceTitle, performanceImageUrl: $performanceImageUrl, performanceDate: $performanceDate, location: $location, ticketTitle: $ticketTitle, gradeName: $gradeName, seatInfo: $seatInfo, price: $price, originalPrice: $originalPrice, tags: $tags, seller: $seller, description: $description, images: $images, ticketCountInfo: $ticketCountInfo, transactionFeatures: $transactionFeatures, isFavorited: $isFavorited, listingImageUrl: $listingImageUrl)';
+  return 'TicketingTicketDetailUiModel(ticketId: $ticketId, performanceTitle: $performanceTitle, performanceImageUrl: $performanceImageUrl, performanceDate: $performanceDate, location: $location, ticketTitle: $ticketTitle, gradeName: $gradeName, seatInfo: $seatInfo, price: $price, originalPrice: $originalPrice, tags: $tags, seller: $seller, description: $description, images: $images, ticketCountInfo: $ticketCountInfo, transactionFeatures: $transactionFeatures, isFavorited: $isFavorited, listingImageUrl: $listingImageUrl)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $TicketingDetailUiModelCopyWith<$Res>  {
-  factory $TicketingDetailUiModelCopyWith(TicketingDetailUiModel value, $Res Function(TicketingDetailUiModel) _then) = _$TicketingDetailUiModelCopyWithImpl;
+abstract mixin class $TicketingTicketDetailUiModelCopyWith<$Res>  {
+  factory $TicketingTicketDetailUiModelCopyWith(TicketingTicketDetailUiModel value, $Res Function(TicketingTicketDetailUiModel) _then) = _$TicketingTicketDetailUiModelCopyWithImpl;
 @useResult
 $Res call({
  int ticketId, String performanceTitle, String performanceImageUrl, DateTime performanceDate, String location, String ticketTitle, String gradeName, String? seatInfo, int price, int originalPrice, List<String> tags, TicketingSellerUiModel seller, String? description, List<String> images, String ticketCountInfo, List<String> transactionFeatures, bool isFavorited, String? listingImageUrl
@@ -53,14 +53,14 @@ $TicketingSellerUiModelCopyWith<$Res> get seller;
 
 }
 /// @nodoc
-class _$TicketingDetailUiModelCopyWithImpl<$Res>
-    implements $TicketingDetailUiModelCopyWith<$Res> {
-  _$TicketingDetailUiModelCopyWithImpl(this._self, this._then);
+class _$TicketingTicketDetailUiModelCopyWithImpl<$Res>
+    implements $TicketingTicketDetailUiModelCopyWith<$Res> {
+  _$TicketingTicketDetailUiModelCopyWithImpl(this._self, this._then);
 
-  final TicketingDetailUiModel _self;
-  final $Res Function(TicketingDetailUiModel) _then;
+  final TicketingTicketDetailUiModel _self;
+  final $Res Function(TicketingTicketDetailUiModel) _then;
 
-/// Create a copy of TicketingDetailUiModel
+/// Create a copy of TicketingTicketDetailUiModel
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? ticketId = null,Object? performanceTitle = null,Object? performanceImageUrl = null,Object? performanceDate = null,Object? location = null,Object? ticketTitle = null,Object? gradeName = null,Object? seatInfo = freezed,Object? price = null,Object? originalPrice = null,Object? tags = null,Object? seller = null,Object? description = freezed,Object? images = null,Object? ticketCountInfo = null,Object? transactionFeatures = null,Object? isFavorited = null,Object? listingImageUrl = freezed,}) {
   return _then(_self.copyWith(
@@ -85,7 +85,7 @@ as bool,listingImageUrl: freezed == listingImageUrl ? _self.listingImageUrl : li
 as String?,
   ));
 }
-/// Create a copy of TicketingDetailUiModel
+/// Create a copy of TicketingTicketDetailUiModel
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -98,8 +98,8 @@ $TicketingSellerUiModelCopyWith<$Res> get seller {
 }
 
 
-/// Adds pattern-matching-related methods to [TicketingDetailUiModel].
-extension TicketingDetailUiModelPatterns on TicketingDetailUiModel {
+/// Adds pattern-matching-related methods to [TicketingTicketDetailUiModel].
+extension TicketingTicketDetailUiModelPatterns on TicketingTicketDetailUiModel {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -112,10 +112,10 @@ extension TicketingDetailUiModelPatterns on TicketingDetailUiModel {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TicketingDetailUiModel value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TicketingTicketDetailUiModel value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _TicketingDetailUiModel() when $default != null:
+case _TicketingTicketDetailUiModel() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -134,10 +134,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TicketingDetailUiModel value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TicketingTicketDetailUiModel value)  $default,){
 final _that = this;
 switch (_that) {
-case _TicketingDetailUiModel():
+case _TicketingTicketDetailUiModel():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -155,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TicketingDetailUiModel value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TicketingTicketDetailUiModel value)?  $default,){
 final _that = this;
 switch (_that) {
-case _TicketingDetailUiModel() when $default != null:
+case _TicketingTicketDetailUiModel() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -178,7 +178,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int ticketId,  String performanceTitle,  String performanceImageUrl,  DateTime performanceDate,  String location,  String ticketTitle,  String gradeName,  String? seatInfo,  int price,  int originalPrice,  List<String> tags,  TicketingSellerUiModel seller,  String? description,  List<String> images,  String ticketCountInfo,  List<String> transactionFeatures,  bool isFavorited,  String? listingImageUrl)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _TicketingDetailUiModel() when $default != null:
+case _TicketingTicketDetailUiModel() when $default != null:
 return $default(_that.ticketId,_that.performanceTitle,_that.performanceImageUrl,_that.performanceDate,_that.location,_that.ticketTitle,_that.gradeName,_that.seatInfo,_that.price,_that.originalPrice,_that.tags,_that.seller,_that.description,_that.images,_that.ticketCountInfo,_that.transactionFeatures,_that.isFavorited,_that.listingImageUrl);case _:
   return orElse();
 
@@ -199,7 +199,7 @@ return $default(_that.ticketId,_that.performanceTitle,_that.performanceImageUrl,
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int ticketId,  String performanceTitle,  String performanceImageUrl,  DateTime performanceDate,  String location,  String ticketTitle,  String gradeName,  String? seatInfo,  int price,  int originalPrice,  List<String> tags,  TicketingSellerUiModel seller,  String? description,  List<String> images,  String ticketCountInfo,  List<String> transactionFeatures,  bool isFavorited,  String? listingImageUrl)  $default,) {final _that = this;
 switch (_that) {
-case _TicketingDetailUiModel():
+case _TicketingTicketDetailUiModel():
 return $default(_that.ticketId,_that.performanceTitle,_that.performanceImageUrl,_that.performanceDate,_that.location,_that.ticketTitle,_that.gradeName,_that.seatInfo,_that.price,_that.originalPrice,_that.tags,_that.seller,_that.description,_that.images,_that.ticketCountInfo,_that.transactionFeatures,_that.isFavorited,_that.listingImageUrl);case _:
   throw StateError('Unexpected subclass');
 
@@ -219,7 +219,7 @@ return $default(_that.ticketId,_that.performanceTitle,_that.performanceImageUrl,
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int ticketId,  String performanceTitle,  String performanceImageUrl,  DateTime performanceDate,  String location,  String ticketTitle,  String gradeName,  String? seatInfo,  int price,  int originalPrice,  List<String> tags,  TicketingSellerUiModel seller,  String? description,  List<String> images,  String ticketCountInfo,  List<String> transactionFeatures,  bool isFavorited,  String? listingImageUrl)?  $default,) {final _that = this;
 switch (_that) {
-case _TicketingDetailUiModel() when $default != null:
+case _TicketingTicketDetailUiModel() when $default != null:
 return $default(_that.ticketId,_that.performanceTitle,_that.performanceImageUrl,_that.performanceDate,_that.location,_that.ticketTitle,_that.gradeName,_that.seatInfo,_that.price,_that.originalPrice,_that.tags,_that.seller,_that.description,_that.images,_that.ticketCountInfo,_that.transactionFeatures,_that.isFavorited,_that.listingImageUrl);case _:
   return null;
 
@@ -231,8 +231,8 @@ return $default(_that.ticketId,_that.performanceTitle,_that.performanceImageUrl,
 /// @nodoc
 
 
-class _TicketingDetailUiModel implements TicketingDetailUiModel {
-  const _TicketingDetailUiModel({required this.ticketId, required this.performanceTitle, required this.performanceImageUrl, required this.performanceDate, required this.location, required this.ticketTitle, required this.gradeName, required this.seatInfo, required this.price, required this.originalPrice, required final  List<String> tags, required this.seller, required this.description, required final  List<String> images, required this.ticketCountInfo, required final  List<String> transactionFeatures, required this.isFavorited, this.listingImageUrl}): _tags = tags,_images = images,_transactionFeatures = transactionFeatures;
+class _TicketingTicketDetailUiModel implements TicketingTicketDetailUiModel {
+  const _TicketingTicketDetailUiModel({required this.ticketId, required this.performanceTitle, required this.performanceImageUrl, required this.performanceDate, required this.location, required this.ticketTitle, required this.gradeName, required this.seatInfo, required this.price, required this.originalPrice, required final  List<String> tags, required this.seller, required this.description, required final  List<String> images, required this.ticketCountInfo, required final  List<String> transactionFeatures, required this.isFavorited, this.listingImageUrl}): _tags = tags,_images = images,_transactionFeatures = transactionFeatures;
   
 
 @override final  int ticketId;
@@ -272,17 +272,17 @@ class _TicketingDetailUiModel implements TicketingDetailUiModel {
 @override final  bool isFavorited;
 @override final  String? listingImageUrl;
 
-/// Create a copy of TicketingDetailUiModel
+/// Create a copy of TicketingTicketDetailUiModel
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$TicketingDetailUiModelCopyWith<_TicketingDetailUiModel> get copyWith => __$TicketingDetailUiModelCopyWithImpl<_TicketingDetailUiModel>(this, _$identity);
+_$TicketingTicketDetailUiModelCopyWith<_TicketingTicketDetailUiModel> get copyWith => __$TicketingTicketDetailUiModelCopyWithImpl<_TicketingTicketDetailUiModel>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TicketingDetailUiModel&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.performanceTitle, performanceTitle) || other.performanceTitle == performanceTitle)&&(identical(other.performanceImageUrl, performanceImageUrl) || other.performanceImageUrl == performanceImageUrl)&&(identical(other.performanceDate, performanceDate) || other.performanceDate == performanceDate)&&(identical(other.location, location) || other.location == location)&&(identical(other.ticketTitle, ticketTitle) || other.ticketTitle == ticketTitle)&&(identical(other.gradeName, gradeName) || other.gradeName == gradeName)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.price, price) || other.price == price)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._images, _images)&&(identical(other.ticketCountInfo, ticketCountInfo) || other.ticketCountInfo == ticketCountInfo)&&const DeepCollectionEquality().equals(other._transactionFeatures, _transactionFeatures)&&(identical(other.isFavorited, isFavorited) || other.isFavorited == isFavorited)&&(identical(other.listingImageUrl, listingImageUrl) || other.listingImageUrl == listingImageUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TicketingTicketDetailUiModel&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.performanceTitle, performanceTitle) || other.performanceTitle == performanceTitle)&&(identical(other.performanceImageUrl, performanceImageUrl) || other.performanceImageUrl == performanceImageUrl)&&(identical(other.performanceDate, performanceDate) || other.performanceDate == performanceDate)&&(identical(other.location, location) || other.location == location)&&(identical(other.ticketTitle, ticketTitle) || other.ticketTitle == ticketTitle)&&(identical(other.gradeName, gradeName) || other.gradeName == gradeName)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.price, price) || other.price == price)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._images, _images)&&(identical(other.ticketCountInfo, ticketCountInfo) || other.ticketCountInfo == ticketCountInfo)&&const DeepCollectionEquality().equals(other._transactionFeatures, _transactionFeatures)&&(identical(other.isFavorited, isFavorited) || other.isFavorited == isFavorited)&&(identical(other.listingImageUrl, listingImageUrl) || other.listingImageUrl == listingImageUrl));
 }
 
 
@@ -291,15 +291,15 @@ int get hashCode => Object.hash(runtimeType,ticketId,performanceTitle,performanc
 
 @override
 String toString() {
-  return 'TicketingDetailUiModel(ticketId: $ticketId, performanceTitle: $performanceTitle, performanceImageUrl: $performanceImageUrl, performanceDate: $performanceDate, location: $location, ticketTitle: $ticketTitle, gradeName: $gradeName, seatInfo: $seatInfo, price: $price, originalPrice: $originalPrice, tags: $tags, seller: $seller, description: $description, images: $images, ticketCountInfo: $ticketCountInfo, transactionFeatures: $transactionFeatures, isFavorited: $isFavorited, listingImageUrl: $listingImageUrl)';
+  return 'TicketingTicketDetailUiModel(ticketId: $ticketId, performanceTitle: $performanceTitle, performanceImageUrl: $performanceImageUrl, performanceDate: $performanceDate, location: $location, ticketTitle: $ticketTitle, gradeName: $gradeName, seatInfo: $seatInfo, price: $price, originalPrice: $originalPrice, tags: $tags, seller: $seller, description: $description, images: $images, ticketCountInfo: $ticketCountInfo, transactionFeatures: $transactionFeatures, isFavorited: $isFavorited, listingImageUrl: $listingImageUrl)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$TicketingDetailUiModelCopyWith<$Res> implements $TicketingDetailUiModelCopyWith<$Res> {
-  factory _$TicketingDetailUiModelCopyWith(_TicketingDetailUiModel value, $Res Function(_TicketingDetailUiModel) _then) = __$TicketingDetailUiModelCopyWithImpl;
+abstract mixin class _$TicketingTicketDetailUiModelCopyWith<$Res> implements $TicketingTicketDetailUiModelCopyWith<$Res> {
+  factory _$TicketingTicketDetailUiModelCopyWith(_TicketingTicketDetailUiModel value, $Res Function(_TicketingTicketDetailUiModel) _then) = __$TicketingTicketDetailUiModelCopyWithImpl;
 @override @useResult
 $Res call({
  int ticketId, String performanceTitle, String performanceImageUrl, DateTime performanceDate, String location, String ticketTitle, String gradeName, String? seatInfo, int price, int originalPrice, List<String> tags, TicketingSellerUiModel seller, String? description, List<String> images, String ticketCountInfo, List<String> transactionFeatures, bool isFavorited, String? listingImageUrl
@@ -310,17 +310,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$TicketingDetailUiModelCopyWithImpl<$Res>
-    implements _$TicketingDetailUiModelCopyWith<$Res> {
-  __$TicketingDetailUiModelCopyWithImpl(this._self, this._then);
+class __$TicketingTicketDetailUiModelCopyWithImpl<$Res>
+    implements _$TicketingTicketDetailUiModelCopyWith<$Res> {
+  __$TicketingTicketDetailUiModelCopyWithImpl(this._self, this._then);
 
-  final _TicketingDetailUiModel _self;
-  final $Res Function(_TicketingDetailUiModel) _then;
+  final _TicketingTicketDetailUiModel _self;
+  final $Res Function(_TicketingTicketDetailUiModel) _then;
 
-/// Create a copy of TicketingDetailUiModel
+/// Create a copy of TicketingTicketDetailUiModel
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? ticketId = null,Object? performanceTitle = null,Object? performanceImageUrl = null,Object? performanceDate = null,Object? location = null,Object? ticketTitle = null,Object? gradeName = null,Object? seatInfo = freezed,Object? price = null,Object? originalPrice = null,Object? tags = null,Object? seller = null,Object? description = freezed,Object? images = null,Object? ticketCountInfo = null,Object? transactionFeatures = null,Object? isFavorited = null,Object? listingImageUrl = freezed,}) {
-  return _then(_TicketingDetailUiModel(
+  return _then(_TicketingTicketDetailUiModel(
 ticketId: null == ticketId ? _self.ticketId : ticketId // ignore: cast_nullable_to_non_nullable
 as int,performanceTitle: null == performanceTitle ? _self.performanceTitle : performanceTitle // ignore: cast_nullable_to_non_nullable
 as String,performanceImageUrl: null == performanceImageUrl ? _self.performanceImageUrl : performanceImageUrl // ignore: cast_nullable_to_non_nullable
@@ -343,7 +343,7 @@ as String?,
   ));
 }
 
-/// Create a copy of TicketingDetailUiModel
+/// Create a copy of TicketingTicketDetailUiModel
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')

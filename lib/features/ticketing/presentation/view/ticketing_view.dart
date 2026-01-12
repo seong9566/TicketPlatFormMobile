@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ticket_platform_mobile/core/router/app_router.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
-import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticket_listing_card.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticketing_filter_header_delegate.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticketing_filter_bar.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticketing_header_section.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticketing_list_header.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_common_ui_model.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_listing_ui_model.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_ticket_ui_model.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_info_ui_model.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/viewmodels/ticketing_state.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/viewmodels/ticketing_viewmodel.dart';
 
@@ -136,7 +134,7 @@ class TicketingView extends ConsumerWidget {
           grades: info.ticketGrades,
           ticketingInfo: info,
           selectedGrade: state.selectedGrade,
-          onGradeSelected: (TicketingTicketGradeInfo grade) => ref
+          onGradeSelected: (TicketingGradeUiModel grade) => ref
               .read(ticketingViewModelProvider(id).notifier)
               .selectGrade(grade),
           onSortSelected: (sort) => _showSortBottomSheet(ref.context, ref),
@@ -145,7 +143,7 @@ class TicketingView extends ConsumerWidget {
     );
   }
 
-  Widget _buildListingList(List<TicketingCommonUiModel> tickets) {
+  Widget _buildListingList(List<TicketingTicketUiModel> tickets) {
     if (tickets.isEmpty) {
       return const SliverToBoxAdapter(
         child: Padding(

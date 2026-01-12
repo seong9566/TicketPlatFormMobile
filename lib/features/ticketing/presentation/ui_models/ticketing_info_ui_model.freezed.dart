@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'ticketing_listing_ui_model.dart';
+part of 'ticketing_info_ui_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,20 +12,20 @@ part of 'ticketing_listing_ui_model.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$TicketingListingUiModel {
+mixin _$TicketingInfoUiModel {
 
- String get title; String get imageUrl; DateTime get eventDate; String get location; bool get isHot; List<TicketingTicketGradeInfo> get ticketGrades; List<TicketingCommonUiModel> get tickets; String get sortBy;
-/// Create a copy of TicketingListingUiModel
+ String get title; String get imageUrl; DateTime get eventDate; String get location; bool get isHot; List<TicketingGradeUiModel> get ticketGrades; List<TicketingTicketUiModel> get tickets; String get sortBy;
+/// Create a copy of TicketingInfoUiModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$TicketingListingUiModelCopyWith<TicketingListingUiModel> get copyWith => _$TicketingListingUiModelCopyWithImpl<TicketingListingUiModel>(this as TicketingListingUiModel, _$identity);
+$TicketingInfoUiModelCopyWith<TicketingInfoUiModel> get copyWith => _$TicketingInfoUiModelCopyWithImpl<TicketingInfoUiModel>(this as TicketingInfoUiModel, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketingListingUiModel&&(identical(other.title, title) || other.title == title)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.location, location) || other.location == location)&&(identical(other.isHot, isHot) || other.isHot == isHot)&&const DeepCollectionEquality().equals(other.ticketGrades, ticketGrades)&&const DeepCollectionEquality().equals(other.tickets, tickets)&&(identical(other.sortBy, sortBy) || other.sortBy == sortBy));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketingInfoUiModel&&(identical(other.title, title) || other.title == title)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.location, location) || other.location == location)&&(identical(other.isHot, isHot) || other.isHot == isHot)&&const DeepCollectionEquality().equals(other.ticketGrades, ticketGrades)&&const DeepCollectionEquality().equals(other.tickets, tickets)&&(identical(other.sortBy, sortBy) || other.sortBy == sortBy));
 }
 
 
@@ -34,18 +34,18 @@ int get hashCode => Object.hash(runtimeType,title,imageUrl,eventDate,location,is
 
 @override
 String toString() {
-  return 'TicketingListingUiModel(title: $title, imageUrl: $imageUrl, eventDate: $eventDate, location: $location, isHot: $isHot, ticketGrades: $ticketGrades, tickets: $tickets, sortBy: $sortBy)';
+  return 'TicketingInfoUiModel(title: $title, imageUrl: $imageUrl, eventDate: $eventDate, location: $location, isHot: $isHot, ticketGrades: $ticketGrades, tickets: $tickets, sortBy: $sortBy)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $TicketingListingUiModelCopyWith<$Res>  {
-  factory $TicketingListingUiModelCopyWith(TicketingListingUiModel value, $Res Function(TicketingListingUiModel) _then) = _$TicketingListingUiModelCopyWithImpl;
+abstract mixin class $TicketingInfoUiModelCopyWith<$Res>  {
+  factory $TicketingInfoUiModelCopyWith(TicketingInfoUiModel value, $Res Function(TicketingInfoUiModel) _then) = _$TicketingInfoUiModelCopyWithImpl;
 @useResult
 $Res call({
- String title, String imageUrl, DateTime eventDate, String location, bool isHot, List<TicketingTicketGradeInfo> ticketGrades, List<TicketingCommonUiModel> tickets, String sortBy
+ String title, String imageUrl, DateTime eventDate, String location, bool isHot, List<TicketingGradeUiModel> ticketGrades, List<TicketingTicketUiModel> tickets, String sortBy
 });
 
 
@@ -53,14 +53,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$TicketingListingUiModelCopyWithImpl<$Res>
-    implements $TicketingListingUiModelCopyWith<$Res> {
-  _$TicketingListingUiModelCopyWithImpl(this._self, this._then);
+class _$TicketingInfoUiModelCopyWithImpl<$Res>
+    implements $TicketingInfoUiModelCopyWith<$Res> {
+  _$TicketingInfoUiModelCopyWithImpl(this._self, this._then);
 
-  final TicketingListingUiModel _self;
-  final $Res Function(TicketingListingUiModel) _then;
+  final TicketingInfoUiModel _self;
+  final $Res Function(TicketingInfoUiModel) _then;
 
-/// Create a copy of TicketingListingUiModel
+/// Create a copy of TicketingInfoUiModel
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? imageUrl = null,Object? eventDate = null,Object? location = null,Object? isHot = null,Object? ticketGrades = null,Object? tickets = null,Object? sortBy = null,}) {
   return _then(_self.copyWith(
@@ -70,8 +70,8 @@ as String,eventDate: null == eventDate ? _self.eventDate : eventDate // ignore: 
 as DateTime,location: null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
 as String,isHot: null == isHot ? _self.isHot : isHot // ignore: cast_nullable_to_non_nullable
 as bool,ticketGrades: null == ticketGrades ? _self.ticketGrades : ticketGrades // ignore: cast_nullable_to_non_nullable
-as List<TicketingTicketGradeInfo>,tickets: null == tickets ? _self.tickets : tickets // ignore: cast_nullable_to_non_nullable
-as List<TicketingCommonUiModel>,sortBy: null == sortBy ? _self.sortBy : sortBy // ignore: cast_nullable_to_non_nullable
+as List<TicketingGradeUiModel>,tickets: null == tickets ? _self.tickets : tickets // ignore: cast_nullable_to_non_nullable
+as List<TicketingTicketUiModel>,sortBy: null == sortBy ? _self.sortBy : sortBy // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -79,8 +79,8 @@ as String,
 }
 
 
-/// Adds pattern-matching-related methods to [TicketingListingUiModel].
-extension TicketingListingUiModelPatterns on TicketingListingUiModel {
+/// Adds pattern-matching-related methods to [TicketingInfoUiModel].
+extension TicketingInfoUiModelPatterns on TicketingInfoUiModel {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -93,10 +93,10 @@ extension TicketingListingUiModelPatterns on TicketingListingUiModel {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TicketingListingUiModel value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TicketingInfoUiModel value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _TicketingListingUiModel() when $default != null:
+case _TicketingInfoUiModel() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -115,10 +115,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TicketingListingUiModel value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TicketingInfoUiModel value)  $default,){
 final _that = this;
 switch (_that) {
-case _TicketingListingUiModel():
+case _TicketingInfoUiModel():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -136,10 +136,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TicketingListingUiModel value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TicketingInfoUiModel value)?  $default,){
 final _that = this;
 switch (_that) {
-case _TicketingListingUiModel() when $default != null:
+case _TicketingInfoUiModel() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -157,9 +157,9 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String imageUrl,  DateTime eventDate,  String location,  bool isHot,  List<TicketingTicketGradeInfo> ticketGrades,  List<TicketingCommonUiModel> tickets,  String sortBy)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String imageUrl,  DateTime eventDate,  String location,  bool isHot,  List<TicketingGradeUiModel> ticketGrades,  List<TicketingTicketUiModel> tickets,  String sortBy)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _TicketingListingUiModel() when $default != null:
+case _TicketingInfoUiModel() when $default != null:
 return $default(_that.title,_that.imageUrl,_that.eventDate,_that.location,_that.isHot,_that.ticketGrades,_that.tickets,_that.sortBy);case _:
   return orElse();
 
@@ -178,9 +178,9 @@ return $default(_that.title,_that.imageUrl,_that.eventDate,_that.location,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String imageUrl,  DateTime eventDate,  String location,  bool isHot,  List<TicketingTicketGradeInfo> ticketGrades,  List<TicketingCommonUiModel> tickets,  String sortBy)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String imageUrl,  DateTime eventDate,  String location,  bool isHot,  List<TicketingGradeUiModel> ticketGrades,  List<TicketingTicketUiModel> tickets,  String sortBy)  $default,) {final _that = this;
 switch (_that) {
-case _TicketingListingUiModel():
+case _TicketingInfoUiModel():
 return $default(_that.title,_that.imageUrl,_that.eventDate,_that.location,_that.isHot,_that.ticketGrades,_that.tickets,_that.sortBy);case _:
   throw StateError('Unexpected subclass');
 
@@ -198,9 +198,9 @@ return $default(_that.title,_that.imageUrl,_that.eventDate,_that.location,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String imageUrl,  DateTime eventDate,  String location,  bool isHot,  List<TicketingTicketGradeInfo> ticketGrades,  List<TicketingCommonUiModel> tickets,  String sortBy)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String imageUrl,  DateTime eventDate,  String location,  bool isHot,  List<TicketingGradeUiModel> ticketGrades,  List<TicketingTicketUiModel> tickets,  String sortBy)?  $default,) {final _that = this;
 switch (_that) {
-case _TicketingListingUiModel() when $default != null:
+case _TicketingInfoUiModel() when $default != null:
 return $default(_that.title,_that.imageUrl,_that.eventDate,_that.location,_that.isHot,_that.ticketGrades,_that.tickets,_that.sortBy);case _:
   return null;
 
@@ -212,8 +212,8 @@ return $default(_that.title,_that.imageUrl,_that.eventDate,_that.location,_that.
 /// @nodoc
 
 
-class _TicketingListingUiModel implements TicketingListingUiModel {
-  const _TicketingListingUiModel({required this.title, required this.imageUrl, required this.eventDate, required this.location, required this.isHot, required final  List<TicketingTicketGradeInfo> ticketGrades, required final  List<TicketingCommonUiModel> tickets, this.sortBy = '가격 낮은순'}): _ticketGrades = ticketGrades,_tickets = tickets;
+class _TicketingInfoUiModel implements TicketingInfoUiModel {
+  const _TicketingInfoUiModel({required this.title, required this.imageUrl, required this.eventDate, required this.location, required this.isHot, required final  List<TicketingGradeUiModel> ticketGrades, required final  List<TicketingTicketUiModel> tickets, this.sortBy = '가격 낮은순'}): _ticketGrades = ticketGrades,_tickets = tickets;
   
 
 @override final  String title;
@@ -221,15 +221,15 @@ class _TicketingListingUiModel implements TicketingListingUiModel {
 @override final  DateTime eventDate;
 @override final  String location;
 @override final  bool isHot;
- final  List<TicketingTicketGradeInfo> _ticketGrades;
-@override List<TicketingTicketGradeInfo> get ticketGrades {
+ final  List<TicketingGradeUiModel> _ticketGrades;
+@override List<TicketingGradeUiModel> get ticketGrades {
   if (_ticketGrades is EqualUnmodifiableListView) return _ticketGrades;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_ticketGrades);
 }
 
- final  List<TicketingCommonUiModel> _tickets;
-@override List<TicketingCommonUiModel> get tickets {
+ final  List<TicketingTicketUiModel> _tickets;
+@override List<TicketingTicketUiModel> get tickets {
   if (_tickets is EqualUnmodifiableListView) return _tickets;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_tickets);
@@ -237,17 +237,17 @@ class _TicketingListingUiModel implements TicketingListingUiModel {
 
 @override@JsonKey() final  String sortBy;
 
-/// Create a copy of TicketingListingUiModel
+/// Create a copy of TicketingInfoUiModel
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$TicketingListingUiModelCopyWith<_TicketingListingUiModel> get copyWith => __$TicketingListingUiModelCopyWithImpl<_TicketingListingUiModel>(this, _$identity);
+_$TicketingInfoUiModelCopyWith<_TicketingInfoUiModel> get copyWith => __$TicketingInfoUiModelCopyWithImpl<_TicketingInfoUiModel>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TicketingListingUiModel&&(identical(other.title, title) || other.title == title)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.location, location) || other.location == location)&&(identical(other.isHot, isHot) || other.isHot == isHot)&&const DeepCollectionEquality().equals(other._ticketGrades, _ticketGrades)&&const DeepCollectionEquality().equals(other._tickets, _tickets)&&(identical(other.sortBy, sortBy) || other.sortBy == sortBy));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TicketingInfoUiModel&&(identical(other.title, title) || other.title == title)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.location, location) || other.location == location)&&(identical(other.isHot, isHot) || other.isHot == isHot)&&const DeepCollectionEquality().equals(other._ticketGrades, _ticketGrades)&&const DeepCollectionEquality().equals(other._tickets, _tickets)&&(identical(other.sortBy, sortBy) || other.sortBy == sortBy));
 }
 
 
@@ -256,18 +256,18 @@ int get hashCode => Object.hash(runtimeType,title,imageUrl,eventDate,location,is
 
 @override
 String toString() {
-  return 'TicketingListingUiModel(title: $title, imageUrl: $imageUrl, eventDate: $eventDate, location: $location, isHot: $isHot, ticketGrades: $ticketGrades, tickets: $tickets, sortBy: $sortBy)';
+  return 'TicketingInfoUiModel(title: $title, imageUrl: $imageUrl, eventDate: $eventDate, location: $location, isHot: $isHot, ticketGrades: $ticketGrades, tickets: $tickets, sortBy: $sortBy)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$TicketingListingUiModelCopyWith<$Res> implements $TicketingListingUiModelCopyWith<$Res> {
-  factory _$TicketingListingUiModelCopyWith(_TicketingListingUiModel value, $Res Function(_TicketingListingUiModel) _then) = __$TicketingListingUiModelCopyWithImpl;
+abstract mixin class _$TicketingInfoUiModelCopyWith<$Res> implements $TicketingInfoUiModelCopyWith<$Res> {
+  factory _$TicketingInfoUiModelCopyWith(_TicketingInfoUiModel value, $Res Function(_TicketingInfoUiModel) _then) = __$TicketingInfoUiModelCopyWithImpl;
 @override @useResult
 $Res call({
- String title, String imageUrl, DateTime eventDate, String location, bool isHot, List<TicketingTicketGradeInfo> ticketGrades, List<TicketingCommonUiModel> tickets, String sortBy
+ String title, String imageUrl, DateTime eventDate, String location, bool isHot, List<TicketingGradeUiModel> ticketGrades, List<TicketingTicketUiModel> tickets, String sortBy
 });
 
 
@@ -275,25 +275,25 @@ $Res call({
 
 }
 /// @nodoc
-class __$TicketingListingUiModelCopyWithImpl<$Res>
-    implements _$TicketingListingUiModelCopyWith<$Res> {
-  __$TicketingListingUiModelCopyWithImpl(this._self, this._then);
+class __$TicketingInfoUiModelCopyWithImpl<$Res>
+    implements _$TicketingInfoUiModelCopyWith<$Res> {
+  __$TicketingInfoUiModelCopyWithImpl(this._self, this._then);
 
-  final _TicketingListingUiModel _self;
-  final $Res Function(_TicketingListingUiModel) _then;
+  final _TicketingInfoUiModel _self;
+  final $Res Function(_TicketingInfoUiModel) _then;
 
-/// Create a copy of TicketingListingUiModel
+/// Create a copy of TicketingInfoUiModel
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? imageUrl = null,Object? eventDate = null,Object? location = null,Object? isHot = null,Object? ticketGrades = null,Object? tickets = null,Object? sortBy = null,}) {
-  return _then(_TicketingListingUiModel(
+  return _then(_TicketingInfoUiModel(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
 as String,eventDate: null == eventDate ? _self.eventDate : eventDate // ignore: cast_nullable_to_non_nullable
 as DateTime,location: null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
 as String,isHot: null == isHot ? _self.isHot : isHot // ignore: cast_nullable_to_non_nullable
 as bool,ticketGrades: null == ticketGrades ? _self._ticketGrades : ticketGrades // ignore: cast_nullable_to_non_nullable
-as List<TicketingTicketGradeInfo>,tickets: null == tickets ? _self._tickets : tickets // ignore: cast_nullable_to_non_nullable
-as List<TicketingCommonUiModel>,sortBy: null == sortBy ? _self.sortBy : sortBy // ignore: cast_nullable_to_non_nullable
+as List<TicketingGradeUiModel>,tickets: null == tickets ? _self._tickets : tickets // ignore: cast_nullable_to_non_nullable
+as List<TicketingTicketUiModel>,sortBy: null == sortBy ? _self.sortBy : sortBy // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -302,20 +302,20 @@ as String,
 }
 
 /// @nodoc
-mixin _$TicketingTicketGradeInfo {
+mixin _$TicketingGradeUiModel {
 
  String get id; String get name; int get count;
-/// Create a copy of TicketingTicketGradeInfo
+/// Create a copy of TicketingGradeUiModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$TicketingTicketGradeInfoCopyWith<TicketingTicketGradeInfo> get copyWith => _$TicketingTicketGradeInfoCopyWithImpl<TicketingTicketGradeInfo>(this as TicketingTicketGradeInfo, _$identity);
+$TicketingGradeUiModelCopyWith<TicketingGradeUiModel> get copyWith => _$TicketingGradeUiModelCopyWithImpl<TicketingGradeUiModel>(this as TicketingGradeUiModel, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketingTicketGradeInfo&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.count, count) || other.count == count));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketingGradeUiModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.count, count) || other.count == count));
 }
 
 
@@ -324,15 +324,15 @@ int get hashCode => Object.hash(runtimeType,id,name,count);
 
 @override
 String toString() {
-  return 'TicketingTicketGradeInfo(id: $id, name: $name, count: $count)';
+  return 'TicketingGradeUiModel(id: $id, name: $name, count: $count)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $TicketingTicketGradeInfoCopyWith<$Res>  {
-  factory $TicketingTicketGradeInfoCopyWith(TicketingTicketGradeInfo value, $Res Function(TicketingTicketGradeInfo) _then) = _$TicketingTicketGradeInfoCopyWithImpl;
+abstract mixin class $TicketingGradeUiModelCopyWith<$Res>  {
+  factory $TicketingGradeUiModelCopyWith(TicketingGradeUiModel value, $Res Function(TicketingGradeUiModel) _then) = _$TicketingGradeUiModelCopyWithImpl;
 @useResult
 $Res call({
  String id, String name, int count
@@ -343,14 +343,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$TicketingTicketGradeInfoCopyWithImpl<$Res>
-    implements $TicketingTicketGradeInfoCopyWith<$Res> {
-  _$TicketingTicketGradeInfoCopyWithImpl(this._self, this._then);
+class _$TicketingGradeUiModelCopyWithImpl<$Res>
+    implements $TicketingGradeUiModelCopyWith<$Res> {
+  _$TicketingGradeUiModelCopyWithImpl(this._self, this._then);
 
-  final TicketingTicketGradeInfo _self;
-  final $Res Function(TicketingTicketGradeInfo) _then;
+  final TicketingGradeUiModel _self;
+  final $Res Function(TicketingGradeUiModel) _then;
 
-/// Create a copy of TicketingTicketGradeInfo
+/// Create a copy of TicketingGradeUiModel
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? count = null,}) {
   return _then(_self.copyWith(
@@ -364,8 +364,8 @@ as int,
 }
 
 
-/// Adds pattern-matching-related methods to [TicketingTicketGradeInfo].
-extension TicketingTicketGradeInfoPatterns on TicketingTicketGradeInfo {
+/// Adds pattern-matching-related methods to [TicketingGradeUiModel].
+extension TicketingGradeUiModelPatterns on TicketingGradeUiModel {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -378,10 +378,10 @@ extension TicketingTicketGradeInfoPatterns on TicketingTicketGradeInfo {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TicketingTicketGradeInfo value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TicketingGradeUiModel value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _TicketingTicketGradeInfo() when $default != null:
+case _TicketingGradeUiModel() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -400,10 +400,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TicketingTicketGradeInfo value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TicketingGradeUiModel value)  $default,){
 final _that = this;
 switch (_that) {
-case _TicketingTicketGradeInfo():
+case _TicketingGradeUiModel():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -421,10 +421,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TicketingTicketGradeInfo value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TicketingGradeUiModel value)?  $default,){
 final _that = this;
 switch (_that) {
-case _TicketingTicketGradeInfo() when $default != null:
+case _TicketingGradeUiModel() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -444,7 +444,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  int count)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _TicketingTicketGradeInfo() when $default != null:
+case _TicketingGradeUiModel() when $default != null:
 return $default(_that.id,_that.name,_that.count);case _:
   return orElse();
 
@@ -465,7 +465,7 @@ return $default(_that.id,_that.name,_that.count);case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  int count)  $default,) {final _that = this;
 switch (_that) {
-case _TicketingTicketGradeInfo():
+case _TicketingGradeUiModel():
 return $default(_that.id,_that.name,_that.count);case _:
   throw StateError('Unexpected subclass');
 
@@ -485,7 +485,7 @@ return $default(_that.id,_that.name,_that.count);case _:
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  int count)?  $default,) {final _that = this;
 switch (_that) {
-case _TicketingTicketGradeInfo() when $default != null:
+case _TicketingGradeUiModel() when $default != null:
 return $default(_that.id,_that.name,_that.count);case _:
   return null;
 
@@ -497,25 +497,25 @@ return $default(_that.id,_that.name,_that.count);case _:
 /// @nodoc
 
 
-class _TicketingTicketGradeInfo implements TicketingTicketGradeInfo {
-  const _TicketingTicketGradeInfo({required this.id, required this.name, required this.count});
+class _TicketingGradeUiModel implements TicketingGradeUiModel {
+  const _TicketingGradeUiModel({required this.id, required this.name, required this.count});
   
 
 @override final  String id;
 @override final  String name;
 @override final  int count;
 
-/// Create a copy of TicketingTicketGradeInfo
+/// Create a copy of TicketingGradeUiModel
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$TicketingTicketGradeInfoCopyWith<_TicketingTicketGradeInfo> get copyWith => __$TicketingTicketGradeInfoCopyWithImpl<_TicketingTicketGradeInfo>(this, _$identity);
+_$TicketingGradeUiModelCopyWith<_TicketingGradeUiModel> get copyWith => __$TicketingGradeUiModelCopyWithImpl<_TicketingGradeUiModel>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TicketingTicketGradeInfo&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.count, count) || other.count == count));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TicketingGradeUiModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.count, count) || other.count == count));
 }
 
 
@@ -524,15 +524,15 @@ int get hashCode => Object.hash(runtimeType,id,name,count);
 
 @override
 String toString() {
-  return 'TicketingTicketGradeInfo(id: $id, name: $name, count: $count)';
+  return 'TicketingGradeUiModel(id: $id, name: $name, count: $count)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$TicketingTicketGradeInfoCopyWith<$Res> implements $TicketingTicketGradeInfoCopyWith<$Res> {
-  factory _$TicketingTicketGradeInfoCopyWith(_TicketingTicketGradeInfo value, $Res Function(_TicketingTicketGradeInfo) _then) = __$TicketingTicketGradeInfoCopyWithImpl;
+abstract mixin class _$TicketingGradeUiModelCopyWith<$Res> implements $TicketingGradeUiModelCopyWith<$Res> {
+  factory _$TicketingGradeUiModelCopyWith(_TicketingGradeUiModel value, $Res Function(_TicketingGradeUiModel) _then) = __$TicketingGradeUiModelCopyWithImpl;
 @override @useResult
 $Res call({
  String id, String name, int count
@@ -543,17 +543,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$TicketingTicketGradeInfoCopyWithImpl<$Res>
-    implements _$TicketingTicketGradeInfoCopyWith<$Res> {
-  __$TicketingTicketGradeInfoCopyWithImpl(this._self, this._then);
+class __$TicketingGradeUiModelCopyWithImpl<$Res>
+    implements _$TicketingGradeUiModelCopyWith<$Res> {
+  __$TicketingGradeUiModelCopyWithImpl(this._self, this._then);
 
-  final _TicketingTicketGradeInfo _self;
-  final $Res Function(_TicketingTicketGradeInfo) _then;
+  final _TicketingGradeUiModel _self;
+  final $Res Function(_TicketingGradeUiModel) _then;
 
-/// Create a copy of TicketingTicketGradeInfo
+/// Create a copy of TicketingGradeUiModel
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? count = null,}) {
-  return _then(_TicketingTicketGradeInfo(
+  return _then(_TicketingGradeUiModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable

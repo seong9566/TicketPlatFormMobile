@@ -1,6 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ticket_platform_mobile/features/ticketing/domain/usecases/get_ticketing_info_usecase.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_listing_ui_model.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_info_ui_model.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/viewmodels/ticketing_state.dart';
 
 part 'ticketing_viewmodel.g.dart';
@@ -15,9 +15,9 @@ class TicketingViewModel extends _$TicketingViewModel {
     final entity = await _getTicketingInfoUseCase.call(
       int.parse(performanceId),
     );
-    final uiModel = TicketingListingUiModel.fromEntity(entity);
+    final uiModel = TicketingInfoUiModel.fromEntity(entity);
 
-    final allGrade = TicketingTicketGradeInfo(
+    final allGrade = TicketingGradeUiModel(
       id: 'all',
       name: '전체좌석',
       count: entity.tickets.length,
@@ -35,7 +35,7 @@ class TicketingViewModel extends _$TicketingViewModel {
     );
   }
 
-  void selectGrade(TicketingTicketGradeInfo grade) {
+  void selectGrade(TicketingGradeUiModel grade) {
     state = AsyncValue.data(state.value!.copyWith(selectedGrade: grade));
   }
 

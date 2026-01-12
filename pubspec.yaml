@@ -47,6 +47,7 @@ dependencies:
   intl: ^0.20.2
   logger: ^2.6.2
   flutter_staggered_animations: ^1.1.1
+  flutter_svg: ^2.2.3
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +76,8 @@ flutter:
 
   assets:
     - assets/
+    - assets/icons/
+    - assets/icons/social/
 
   fonts:
     - family: SUIT
@@ -97,3 +100,13 @@ flutter:
           weight: 800
         - asset: assets/font/SUIT-Heavy.ttf
           weight: 900
+
+    - family: Roboto
+      fonts:
+        - asset: assets/font/google_login/Roboto-Regular.ttf
+          weight: 400
+        - asset: assets/font/google_login/Roboto-Medium.ttf
+          weight: 500
+        - asset: assets/font/google_login/Roboto-Bold.ttf
+          weight: 700
+

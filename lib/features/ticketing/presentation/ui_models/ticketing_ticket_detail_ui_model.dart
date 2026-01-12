@@ -1,12 +1,13 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ticket_platform_mobile/features/ticketing/domain/entities/ticketing_info_entity.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_common_ui_model.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_ticket_ui_model.dart';
 
-part 'ticketing_detail_ui_model.freezed.dart';
+part 'ticketing_ticket_detail_ui_model.freezed.dart';
 
 @freezed
-abstract class TicketingDetailUiModel with _$TicketingDetailUiModel {
-  const factory TicketingDetailUiModel({
+abstract class TicketingTicketDetailUiModel
+    with _$TicketingTicketDetailUiModel {
+  const factory TicketingTicketDetailUiModel({
     required int ticketId,
     required String performanceTitle,
     required String performanceImageUrl,
@@ -25,10 +26,12 @@ abstract class TicketingDetailUiModel with _$TicketingDetailUiModel {
     required List<String> transactionFeatures,
     required bool isFavorited,
     String? listingImageUrl,
-  }) = _TicketingDetailUiModel;
+  }) = _TicketingTicketDetailUiModel;
 
-  factory TicketingDetailUiModel.fromEntity(TicketingTicketEntity entity) {
-    return TicketingDetailUiModel(
+  factory TicketingTicketDetailUiModel.fromEntity(
+    TicketingTicketEntity entity,
+  ) {
+    return TicketingTicketDetailUiModel(
       ticketId: entity.ticketId,
       performanceTitle: '', // Not available in TicketingTicketEntity
       performanceImageUrl: '', // Not available in TicketingTicketEntity

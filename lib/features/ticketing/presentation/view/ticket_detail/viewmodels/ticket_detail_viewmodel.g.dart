@@ -51,7 +51,7 @@ final class TicketDetailViewModelProvider
 }
 
 String _$ticketDetailViewModelHash() =>
-    r'e54134aec576b699b359097d4e9f2adccbe852a3';
+    r'cb3663a0f6042beca22c7466d4505a1cb6a0406d';
 
 final class TicketDetailViewModelFamily extends $Family
     with

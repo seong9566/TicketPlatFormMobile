@@ -1,11 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ticket_platform_mobile/features/ticketing/domain/entities/ticketing_info_entity.dart';
 
-part 'ticketing_common_ui_model.freezed.dart';
+part 'ticketing_ticket_ui_model.freezed.dart';
 
 @freezed
-abstract class TicketingCommonUiModel with _$TicketingCommonUiModel {
-  const factory TicketingCommonUiModel({
+abstract class TicketingTicketUiModel with _$TicketingTicketUiModel {
+  const factory TicketingTicketUiModel({
     required int ticketId,
     required String title,
     required String gradeName,
@@ -20,10 +20,10 @@ abstract class TicketingCommonUiModel with _$TicketingCommonUiModel {
     @Default([]) List<String> transactionFeatures,
     String? listingImageUrl,
     @Default(false) bool isFavorited,
-  }) = _TicketingCommonUiModel;
+  }) = _TicketingTicketUiModel;
 
-  factory TicketingCommonUiModel.fromEntity(TicketingTicketEntity entity) {
-    return TicketingCommonUiModel(
+  factory TicketingTicketUiModel.fromEntity(TicketingTicketEntity entity) {
+    return TicketingTicketUiModel(
       ticketId: entity.ticketId,
       title: entity.ticketTitle,
       gradeName: entity.seatType ?? '일반',

@@ -6,10 +6,10 @@ import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/core/utils/date_format_util.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_listing_ui_model.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_info_ui_model.dart';
 
 class TicketDetailPerformanceHeader extends StatelessWidget {
-  final TicketingListingUiModel info;
+  final TicketingInfoUiModel info;
 
   const TicketDetailPerformanceHeader({super.key, required this.info});
 

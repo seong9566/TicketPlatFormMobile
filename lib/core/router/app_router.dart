@@ -5,6 +5,10 @@ import 'package:ticket_platform_mobile/features/home/presentation/views/main_tab
 import 'package:ticket_platform_mobile/features/events/presentation/view/events_view.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticketing_view.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/ticket_detail_view.dart';
+import 'package:ticket_platform_mobile/features/auth/presentation/view/login_view.dart';
+import 'package:ticket_platform_mobile/features/auth/presentation/view/find_id_view.dart';
+import 'package:ticket_platform_mobile/features/auth/presentation/view/find_password_view.dart';
+import 'package:ticket_platform_mobile/features/auth/presentation/view/sign_up_view.dart'; // Added import for SignUpView
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 
 part 'app_router.g.dart';
@@ -12,7 +16,7 @@ part 'app_router.g.dart';
 @riverpod
 GoRouter goRouter(Ref ref) {
   return GoRouter(
-    initialLocation: '/home',
+    initialLocation: AppRouterPath.login,
     routes: [
       GoRoute(
         path: AppRouterPath.home,
@@ -51,6 +55,26 @@ GoRouter goRouter(Ref ref) {
           final listId = state.pathParameters['listId']!;
           return TicketDetailView(performanceId: perfId, listingId: listId);
         },
+      ),
+      GoRoute(
+        path: AppRouterPath.login,
+        name: 'login',
+        builder: (context, state) => const LoginView(),
+      ),
+      GoRoute(
+        path: AppRouterPath.findId,
+        name: 'findId',
+        builder: (context, state) => const FindIdView(),
+      ),
+      GoRoute(
+        path: AppRouterPath.findPassword,
+        name: 'findPassword',
+        builder: (context, state) => const FindPasswordView(),
+      ),
+      GoRoute(
+        path: AppRouterPath.signUp, // Added signUp path
+        name: 'signUp',
+        builder: (context, state) => const SignUpView(),
       ),
     ],
   );
