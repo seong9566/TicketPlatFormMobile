@@ -18,10 +18,7 @@ class ProfileView extends StatelessWidget {
         elevation: 0,
         backgroundColor: AppColors.background,
         foregroundColor: AppColors.textPrimary,
-        title: const Text(
-          '내 정보 관리',
-          style: AppTextStyles.body1,
-        ),
+        title: const Text('내 정보 관리', style: AppTextStyles.body1),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -33,22 +30,12 @@ class ProfileView extends StatelessWidget {
             ProfileSection(
               title: '거래',
               children: const [
-                ProfileMenuTile(
-                  icon: Icons.receipt_long,
-                  title: '판매 내역',
-                ),
+                ProfileMenuTile(icon: Icons.receipt_long, title: '판매 내역'),
                 ProfileMenuTile(
                   icon: Icons.shopping_bag_outlined,
                   title: '구매 내역',
                 ),
-                ProfileMenuTile(
-                  icon: Icons.favorite_border,
-                  title: '찜 목록',
-                ),
-                ProfileMenuTile(
-                  icon: Icons.credit_card,
-                  title: '결제 수단 관리',
-                ),
+                // ProfileMenuTile(icon: Icons.credit_card, title: '결제 수단 관리'),
               ],
             ),
             ProfileSection(
@@ -70,13 +57,13 @@ class ProfileView extends StatelessWidget {
             ProfileSection(
               title: '계정 인증',
               children: const [
-                ProfileMenuTile(
-                  icon: Icons.verified_user_outlined,
-                  title: '실명 인증',
-                  trailingText: '인증 완료',
-                  trailingTextColor: AppColors.success,
-                  showChevron: false,
-                ),
+                // ProfileMenuTile(
+                //   icon: Icons.verified_user_outlined,
+                //   title: '실명 인증',
+                //   trailingText: '인증 완료',
+                //   trailingTextColor: AppColors.success,
+                //   showChevron: false,
+                // ),
                 ProfileMenuTile(
                   icon: Icons.account_balance_outlined,
                   title: '계좌 인증',
@@ -94,33 +81,21 @@ class ProfileView extends StatelessWidget {
             ProfileSection(
               title: '설정',
               children: const [
-                ProfileMenuTile(
-                  icon: Icons.notifications_none,
-                  title: '알림 설정',
-                ),
-                ProfileMenuTile(
-                  icon: Icons.place_outlined,
-                  title: '배송지 관리',
-                ),
+                ProfileMenuTile(icon: Icons.notifications_none, title: '알림 설정'),
+                ProfileMenuTile(icon: Icons.place_outlined, title: '배송지 관리'),
               ],
             ),
-            ProfileSection(
-              title: '고객 지원',
-              children: const [
-                ProfileMenuTile(
-                  icon: Icons.headset_mic_outlined,
-                  title: '고객센터 / 1:1 문의',
-                ),
-                ProfileMenuTile(
-                  icon: Icons.campaign_outlined,
-                  title: '공지사항',
-                ),
-                ProfileMenuTile(
-                  icon: Icons.help_outline,
-                  title: '자주 묻는 질문',
-                ),
-              ],
-            ),
+            // ProfileSection(
+            //   title: '고객 지원',
+            //   children: const [
+            //     ProfileMenuTile(
+            //       icon: Icons.headset_mic_outlined,
+            //       title: '고객센터 / 1:1 문의',
+            //     ),
+            //     ProfileMenuTile(icon: Icons.campaign_outlined, title: '공지사항'),
+            //     ProfileMenuTile(icon: Icons.help_outline, title: '자주 묻는 질문'),
+            //   ],
+            // ),
             ProfileSection(
               title: '약관 및 정보',
               children: const [
@@ -128,10 +103,7 @@ class ProfileView extends StatelessWidget {
                   icon: Icons.description_outlined,
                   title: '이용약관',
                 ),
-                ProfileMenuTile(
-                  icon: Icons.shield_outlined,
-                  title: '개인정보처리방침',
-                ),
+                ProfileMenuTile(icon: Icons.shield_outlined, title: '개인정보처리방침'),
                 ProfileMenuTile(
                   icon: Icons.info_outline,
                   title: '앱 버전',
