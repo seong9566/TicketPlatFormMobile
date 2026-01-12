@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ticket_platform_mobile/core/constants/app_constants.dart';
 import 'package:ticket_platform_mobile/core/network/api_endpoint.dart';
 import 'package:ticket_platform_mobile/core/network/api_interceptor.dart';
+import 'package:ticket_platform_mobile/core/storage/token_storage.dart';
 import 'package:ticket_platform_mobile/core/utils/logger.dart';
 
 part 'dio_provider.g.dart';
@@ -25,9 +26,10 @@ Dio dio(Ref ref) {
 
   dio.interceptors.addAll([
     ApiInterceptor(
-      getToken: () async {
-        // TODO: TokenStorage 또는 AuthRepository 연결 필요
-        return null;
+      tokenStorage: ref.read(tokenStorageProvider),
+      onTokenExpired: () async {
+        // TODO: 로그인 화면으로 이동하는 로직 필요
+        AppLogger.w('Token expired. Logging out.');
       },
     ),
     ApiLogInterceptor(),

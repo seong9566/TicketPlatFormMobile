@@ -17,13 +17,14 @@ class ApiEndpoint {
 
   // Auth
 
-  static const String login = '/api/v1/auth/login';
-  static const String signup = '/api/v1/auth/signup';
-  static const String logout = '/api/v1/auth/logout';
+  static const String login = '/auth/login';
+  static const String signup = '/auth/sign';
+  static const String logout = '/auth/logout';
+  static const String tokenRefresh = '/auth/refresh';
 
   // Ticketing
-  static const String ticketingInfo = '/api/v1/ticketing/info';
-  static const String ticketListings = '/api/v1/ticketing/listings';
+  static const String ticketingInfo = '/api/ticketing/info';
+  static const String ticketListings = '/api/ticketing/listings';
   static const String ticketDetail = '/api/tickets/detail';
 
   static const String eventTickets = '/api/events/tickets';
