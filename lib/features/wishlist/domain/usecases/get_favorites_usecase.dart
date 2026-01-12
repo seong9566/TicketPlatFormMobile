@@ -6,7 +6,7 @@ class GetFavoritesUsecase {
 
   GetFavoritesUsecase(this._repository);
 
-  Future<List<WishlistItemEntity>> call(int userId) async {
-    return await _repository.getFavorites(userId);
+  Future<List<WishlistItemEntity>> call() async {
+    return await _repository.getFavorites();
   }
 }

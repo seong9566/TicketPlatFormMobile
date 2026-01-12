@@ -28,11 +28,10 @@ class TicketDetailViewModel extends _$TicketDetailViewModel {
     final detail = state.value?.detail;
     if (detail == null) return;
 
-    const userId = 1;
     final ticketId = detail.ticketId;
 
     final result = await AsyncValue.guard(() async {
-      await _toggleFavoriteUsecase.call(userId: userId, ticketId: ticketId);
+      await _toggleFavoriteUsecase.call(ticketId: ticketId);
     });
 
     if (!result.hasError) {

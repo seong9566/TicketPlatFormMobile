@@ -33,7 +33,7 @@ final class WishlistViewModelProvider
   WishlistViewModel create() => WishlistViewModel();
 }
 
-String _$wishlistViewModelHash() => r'7e7a6a32943a5652b337cf302fb84a835ea0b7c1';
+String _$wishlistViewModelHash() => r'1d15fe52152b8aed63560f81d8615aad2f33a547';
 
 abstract class _$WishlistViewModel extends $AsyncNotifier<WishlistState> {
   FutureOr<WishlistState> build();

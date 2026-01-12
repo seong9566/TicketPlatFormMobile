@@ -6,7 +6,7 @@ import 'package:ticket_platform_mobile/features/wishlist/data/dto/response/favor
 import 'package:ticket_platform_mobile/features/wishlist/data/dto/response/favorite_toggle_resp_dto.dart';
 
 abstract class FavoriteRemoteDataSource {
-  Future<BaseResponse<List<FavoriteRespDto>>> getFavorites(int userId);
+  Future<BaseResponse<List<FavoriteRespDto>>> getFavorites();
   Future<BaseResponse<FavoriteToggleRespDto>> toggleFavorite(
     FavoriteToggleReqDto req,
   );
@@ -19,11 +19,8 @@ class FavoriteRemoteDataSourceImpl implements FavoriteRemoteDataSource {
   FavoriteRemoteDataSourceImpl(this._dio);
 
   @override
-  Future<BaseResponse<List<FavoriteRespDto>>> getFavorites(int userId) async {
-    final response = await _dio.get(
-      _endpoint,
-      queryParameters: {'userId': userId},
-    );
+  Future<BaseResponse<List<FavoriteRespDto>>> getFavorites() async {
+    final response = await _dio.get(_endpoint);
 
     return BaseResponse<List<FavoriteRespDto>>.fromJson(
       response.data as Map<String, dynamic>,

@@ -10,9 +10,9 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   FavoriteRepositoryImpl(this._remoteDataSource);
 
   @override
-  Future<List<WishlistItemEntity>> getFavorites(int userId) async {
+  Future<List<WishlistItemEntity>> getFavorites() async {
     try {
-      final response = await _remoteDataSource.getFavorites(userId);
+      final response = await _remoteDataSource.getFavorites();
       if (response.success && response.data != null) {
         return response.data!.map((dto) => dto.toEntity()).toList();
       }
@@ -23,12 +23,9 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   }
 
   @override
-  Future<bool> toggleFavorite({
-    required int userId,
-    required int ticketId,
-  }) async {
+  Future<bool> toggleFavorite({required int ticketId}) async {
     try {
-      final req = FavoriteToggleReqDto(userId: userId, ticketId: ticketId);
+      final req = FavoriteToggleReqDto(ticketId: ticketId);
       final response = await _remoteDataSource.toggleFavorite(req);
       if (response.success && response.data != null) {
         return response.data!.isFavorited;

@@ -5,7 +5,7 @@ class ToggleFavoriteUsecase {
 
   ToggleFavoriteUsecase(this._repository);
 
-  Future<bool> call({required int userId, required int ticketId}) async {
-    return await _repository.toggleFavorite(userId: userId, ticketId: ticketId);
+  Future<bool> call({required int ticketId}) async {
+    return await _repository.toggleFavorite(ticketId: ticketId);
   }
 }

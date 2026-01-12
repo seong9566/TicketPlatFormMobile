@@ -16,8 +16,7 @@ class WishlistViewModel extends _$WishlistViewModel {
 
   @override
   Future<WishlistState> build() async {
-    const userId = 1;
-    final entities = await _getFavoritesUsecase.call(userId);
+    final entities = await _getFavoritesUsecase.call();
 
     return WishlistState(
       items: entities.map((e) => WishlistUiModel.fromEntity(e)).toList(),
@@ -29,10 +28,10 @@ class WishlistViewModel extends _$WishlistViewModel {
     state = await AsyncValue.guard(() => build());
   }
 
+  // UseId는 서버에서 토큰 값으로 사용 하기 때문에 제외
   Future<void> toggleLike(int ticketId) async {
-    const userId = 1;
     final result = await AsyncValue.guard(
-      () => _toggleFavoriteUsecase.call(userId: userId, ticketId: ticketId),
+      () => _toggleFavoriteUsecase.call(ticketId: ticketId),
     );
 
     if (result.hasError) {
