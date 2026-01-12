@@ -8,7 +8,8 @@ import 'package:ticket_platform_mobile/features/ticketing/presentation/view/tick
 import 'package:ticket_platform_mobile/features/auth/presentation/view/login_view.dart';
 import 'package:ticket_platform_mobile/features/auth/presentation/view/find_id_view.dart';
 import 'package:ticket_platform_mobile/features/auth/presentation/view/find_password_view.dart';
-import 'package:ticket_platform_mobile/features/auth/presentation/view/sign_up_view.dart'; // Added import for SignUpView
+import 'package:ticket_platform_mobile/features/auth/presentation/view/sign_up_view.dart';
+import 'package:ticket_platform_mobile/features/splash/presentation/view/splash_view.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 
 part 'app_router.g.dart';
@@ -16,8 +17,14 @@ part 'app_router.g.dart';
 @riverpod
 GoRouter goRouter(Ref ref) {
   return GoRouter(
-    initialLocation: AppRouterPath.login,
+    initialLocation: AppRouterPath.splash,
     routes: [
+      GoRoute(
+        path: AppRouterPath.splash,
+        name: 'splash',
+        builder: (context, state) =>
+            const SplashView(), // Added import for SplashView
+      ),
       GoRoute(
         path: AppRouterPath.home,
         name: 'home',
