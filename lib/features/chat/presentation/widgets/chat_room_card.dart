@@ -7,10 +7,12 @@ import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/ui_models/chat_room_ui_model.dart';
 
 class ChatRoomCard extends StatelessWidget {
-  final ChatRoomUiModel chatRoom;
+  final ChatRoomListUiModel chatRoom;
   final VoidCallback onTap;
 
   const ChatRoomCard({super.key, required this.chatRoom, required this.onTap});
+
+  bool get isHighlighted => chatRoom.unreadCount > 0;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,7 @@ class ChatRoomCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: chatRoom.isHighlighted
+          color: isHighlighted
               ? AppColors.chatHighlightBackground
               : Colors.white,
         ),
@@ -38,13 +40,18 @@ class ChatRoomCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        chatRoom.userName,
-                        style: AppTextStyles.body1.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                      Expanded(
+                        child: Text(
+                          chatRoom.otherUserNickname,
+                          style: AppTextStyles.body1.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
+                      const SizedBox(width: 8),
                       Text(
                         chatRoom.timeDisplay,
                         style: AppTextStyles.caption.copyWith(
@@ -54,17 +61,29 @@ class ChatRoomCard extends StatelessWidget {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 2),
+                  Text(
+                    chatRoom.ticketTitle,
+                    style: AppTextStyles.caption.copyWith(
+                      color: AppColors.textSecondary,
+                      fontSize: 12,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   const SizedBox(height: 4),
                   Row(
                     children: [
                       Expanded(
                         child: Text(
-                          chatRoom.lastMessage,
+                          chatRoom.lastMessage.isNotEmpty
+                              ? chatRoom.lastMessage
+                              : '메시지가 없습니다',
                           style: AppTextStyles.body2.copyWith(
-                            color: chatRoom.isHighlighted
+                            color: isHighlighted
                                 ? AppColors.primary
                                 : AppColors.textSecondary,
-                            fontWeight: chatRoom.isHighlighted
+                            fontWeight: isHighlighted
                                 ? FontWeight.w600
                                 : FontWeight.normal,
                           ),
@@ -78,6 +97,10 @@ class ChatRoomCard extends StatelessWidget {
                       ],
                     ],
                   ),
+                  if (chatRoom.transactionStatusName != null) ...[
+                    const SizedBox(height: 4),
+                    _buildTransactionStatus(),
+                  ],
                 ],
               ),
             ),
@@ -91,10 +114,10 @@ class ChatRoomCard extends StatelessWidget {
     return CircleAvatar(
       radius: 30,
       backgroundColor: AppColors.chatAvatarDefault,
-      backgroundImage: chatRoom.userProfileImageUrl != null
-          ? CachedNetworkImageProvider(chatRoom.userProfileImageUrl!)
+      backgroundImage: chatRoom.otherUserProfileImageUrl != null
+          ? CachedNetworkImageProvider(chatRoom.otherUserProfileImageUrl!)
           : null,
-      child: chatRoom.userProfileImageUrl == null
+      child: chatRoom.otherUserProfileImageUrl == null
           ? const Icon(Icons.person, color: Colors.white, size: 32)
           : null,
     );
@@ -113,6 +136,39 @@ class ChatRoomCard extends StatelessWidget {
           color: Colors.white,
           fontWeight: FontWeight.bold,
           fontSize: 11,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTransactionStatus() {
+    Color statusColor;
+    switch (chatRoom.transactionStatusCode) {
+      case 'pending':
+        statusColor = Colors.orange;
+        break;
+      case 'completed':
+        statusColor = AppColors.success;
+        break;
+      case 'cancelled':
+        statusColor = AppColors.destructive;
+        break;
+      default:
+        statusColor = AppColors.textSecondary;
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      decoration: BoxDecoration(
+        color: statusColor.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Text(
+        chatRoom.transactionStatusName!,
+        style: AppTextStyles.caption.copyWith(
+          color: statusColor,
+          fontSize: 10,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );

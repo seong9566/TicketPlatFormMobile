@@ -31,4 +31,18 @@ class ApiEndpoint {
 
   // Favorites
   static const String favoriteTickets = '/api/favorites/tickets';
+
+  // Chat
+  static const String chatRooms = '/api/chat/rooms';
+  static const String chatMessages = '/api/chat/messages';
+
+  static String chatRoomDetail(int roomId) => '/api/chat/rooms/$roomId';
+  static String chatRoomMessages(int roomId) => '/api/chat/rooms/$roomId/messages';
+  static String chatRoomRead(int roomId) => '/api/chat/rooms/$roomId/read';
+  static String requestPayment(int roomId) => '/api/chat/rooms/$roomId/request-payment';
+  static String confirmPurchase(int roomId) => '/api/chat/rooms/$roomId/confirm-purchase';
+  static String cancelTransaction(int roomId) => '/api/chat/rooms/$roomId/cancel';
+
+  // SignalR Hub
+  static String get chatHub => '$baseUrl/hubs/chat';
 }
