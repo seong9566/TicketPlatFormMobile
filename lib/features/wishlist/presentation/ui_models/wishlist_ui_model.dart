@@ -4,6 +4,7 @@ import 'package:ticket_platform_mobile/features/wishlist/domain/entities/wishlis
 
 class WishlistUiModel {
   final int ticketId;
+  final int? eventId;
   final String ticketTitle;
   final String? seatInfo;
   final String? seatType;
@@ -20,6 +21,7 @@ class WishlistUiModel {
 
   WishlistUiModel({
     required this.ticketId,
+    this.eventId,
     required this.ticketTitle,
     this.seatInfo,
     this.seatType,
@@ -43,6 +45,7 @@ class WishlistUiModel {
 
     return WishlistUiModel(
       ticketId: entity.ticketId,
+      eventId: entity.eventId,
       ticketTitle: entity.ticketTitle,
       seatInfo: entity.seatInfo,
       seatType: entity.seatType,

@@ -30,6 +30,9 @@ GoRouter goRouter(Ref ref) {
         name: 'home',
         builder: (context, state) => const MainTabView(),
       ),
+
+      /// 공연 목록 화면
+      /// queryParam: category (선택)
       GoRoute(
         path: AppRouterPath.events,
         name: 'events',
@@ -38,6 +41,9 @@ GoRouter goRouter(Ref ref) {
           return EventsView(category: category);
         },
       ),
+
+      /// 채팅방 화면
+      /// pathParam: id (채팅방 ID)
       GoRoute(
         path: '${AppRouterPath.chatRoom}/:id',
         name: 'chatRoom',
@@ -46,23 +52,26 @@ GoRouter goRouter(Ref ref) {
           return ChatRoomView(chatRoomId: id);
         },
       ),
+
+      /// 공연 예매 목록 화면
+      /// 파라미터:
+      /// - performanceId: 공연(이벤트) ID
       GoRoute(
-        path: '${AppRouterPath.ticketing}/:id',
-        name: 'ticketing',
-        builder: (context, state) {
-          final id = state.pathParameters['id']!;
-          return TicketingView(performanceId: id);
-        },
+        path: '${AppRouterPath.ticketing}/:perfId',
+        builder: (context, state) =>
+            TicketingView(performanceId: state.pathParameters['perfId'] ?? '0'),
       ),
+
+      /// 티켓 상세 정보 화면
+      /// 파라미터:
+      /// - listId: 티켓 목록 ID (ticketId)
       GoRoute(
-        path: '${AppRouterPath.ticketDetail}/:perfId/:listId',
-        name: 'ticketDetail',
-        builder: (context, state) {
-          final perfId = state.pathParameters['perfId']!;
-          final listId = state.pathParameters['listId']!;
-          return TicketDetailView(performanceId: perfId, listingId: listId);
-        },
+        path: '${AppRouterPath.ticketDetail}/:listId',
+        builder: (context, state) =>
+            TicketDetailView(listingId: state.pathParameters['listId'] ?? '0'),
       ),
+
+      /// 로그인 화면
       GoRoute(
         path: AppRouterPath.login,
         name: 'login',

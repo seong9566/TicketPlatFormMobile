@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FavoriteRespDto {
 
- int get ticketId; String get ticketTitle; String? get seatInfo; String? get seatType; int get price; int get originalPrice; int get remainingQuantity; String get createdAt; String get favoritedAt; String get eventTitle; String get eventDate; String get venueName; String get eventPosterImageUrl; TicketingSellerRespDto get seller;
+ int get ticketId; int? get eventId; String get ticketTitle; String? get seatInfo; String? get seatType; int get price; int get originalPrice; int get remainingQuantity; String get createdAt; String get favoritedAt; String get eventTitle; String get eventDate; String get venueName; String get eventPosterImageUrl; TicketingSellerRespDto get seller;
 /// Create a copy of FavoriteRespDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $FavoriteRespDtoCopyWith<FavoriteRespDto> get copyWith => _$FavoriteRespDtoCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FavoriteRespDto&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.ticketTitle, ticketTitle) || other.ticketTitle == ticketTitle)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.seatType, seatType) || other.seatType == seatType)&&(identical(other.price, price) || other.price == price)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&(identical(other.remainingQuantity, remainingQuantity) || other.remainingQuantity == remainingQuantity)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.favoritedAt, favoritedAt) || other.favoritedAt == favoritedAt)&&(identical(other.eventTitle, eventTitle) || other.eventTitle == eventTitle)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.venueName, venueName) || other.venueName == venueName)&&(identical(other.eventPosterImageUrl, eventPosterImageUrl) || other.eventPosterImageUrl == eventPosterImageUrl)&&(identical(other.seller, seller) || other.seller == seller));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FavoriteRespDto&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.eventId, eventId) || other.eventId == eventId)&&(identical(other.ticketTitle, ticketTitle) || other.ticketTitle == ticketTitle)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.seatType, seatType) || other.seatType == seatType)&&(identical(other.price, price) || other.price == price)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&(identical(other.remainingQuantity, remainingQuantity) || other.remainingQuantity == remainingQuantity)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.favoritedAt, favoritedAt) || other.favoritedAt == favoritedAt)&&(identical(other.eventTitle, eventTitle) || other.eventTitle == eventTitle)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.venueName, venueName) || other.venueName == venueName)&&(identical(other.eventPosterImageUrl, eventPosterImageUrl) || other.eventPosterImageUrl == eventPosterImageUrl)&&(identical(other.seller, seller) || other.seller == seller));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ticketId,ticketTitle,seatInfo,seatType,price,originalPrice,remainingQuantity,createdAt,favoritedAt,eventTitle,eventDate,venueName,eventPosterImageUrl,seller);
+int get hashCode => Object.hash(runtimeType,ticketId,eventId,ticketTitle,seatInfo,seatType,price,originalPrice,remainingQuantity,createdAt,favoritedAt,eventTitle,eventDate,venueName,eventPosterImageUrl,seller);
 
 @override
 String toString() {
-  return 'FavoriteRespDto(ticketId: $ticketId, ticketTitle: $ticketTitle, seatInfo: $seatInfo, seatType: $seatType, price: $price, originalPrice: $originalPrice, remainingQuantity: $remainingQuantity, createdAt: $createdAt, favoritedAt: $favoritedAt, eventTitle: $eventTitle, eventDate: $eventDate, venueName: $venueName, eventPosterImageUrl: $eventPosterImageUrl, seller: $seller)';
+  return 'FavoriteRespDto(ticketId: $ticketId, eventId: $eventId, ticketTitle: $ticketTitle, seatInfo: $seatInfo, seatType: $seatType, price: $price, originalPrice: $originalPrice, remainingQuantity: $remainingQuantity, createdAt: $createdAt, favoritedAt: $favoritedAt, eventTitle: $eventTitle, eventDate: $eventDate, venueName: $venueName, eventPosterImageUrl: $eventPosterImageUrl, seller: $seller)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $FavoriteRespDtoCopyWith<$Res>  {
   factory $FavoriteRespDtoCopyWith(FavoriteRespDto value, $Res Function(FavoriteRespDto) _then) = _$FavoriteRespDtoCopyWithImpl;
 @useResult
 $Res call({
- int ticketId, String ticketTitle, String? seatInfo, String? seatType, int price, int originalPrice, int remainingQuantity, String createdAt, String favoritedAt, String eventTitle, String eventDate, String venueName, String eventPosterImageUrl, TicketingSellerRespDto seller
+ int ticketId, int? eventId, String ticketTitle, String? seatInfo, String? seatType, int price, int originalPrice, int remainingQuantity, String createdAt, String favoritedAt, String eventTitle, String eventDate, String venueName, String eventPosterImageUrl, TicketingSellerRespDto seller
 });
 
 
@@ -65,10 +65,11 @@ class _$FavoriteRespDtoCopyWithImpl<$Res>
 
 /// Create a copy of FavoriteRespDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? ticketId = null,Object? ticketTitle = null,Object? seatInfo = freezed,Object? seatType = freezed,Object? price = null,Object? originalPrice = null,Object? remainingQuantity = null,Object? createdAt = null,Object? favoritedAt = null,Object? eventTitle = null,Object? eventDate = null,Object? venueName = null,Object? eventPosterImageUrl = null,Object? seller = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? ticketId = null,Object? eventId = freezed,Object? ticketTitle = null,Object? seatInfo = freezed,Object? seatType = freezed,Object? price = null,Object? originalPrice = null,Object? remainingQuantity = null,Object? createdAt = null,Object? favoritedAt = null,Object? eventTitle = null,Object? eventDate = null,Object? venueName = null,Object? eventPosterImageUrl = null,Object? seller = null,}) {
   return _then(_self.copyWith(
 ticketId: null == ticketId ? _self.ticketId : ticketId // ignore: cast_nullable_to_non_nullable
-as int,ticketTitle: null == ticketTitle ? _self.ticketTitle : ticketTitle // ignore: cast_nullable_to_non_nullable
+as int,eventId: freezed == eventId ? _self.eventId : eventId // ignore: cast_nullable_to_non_nullable
+as int?,ticketTitle: null == ticketTitle ? _self.ticketTitle : ticketTitle // ignore: cast_nullable_to_non_nullable
 as String,seatInfo: freezed == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
 as String?,seatType: freezed == seatType ? _self.seatType : seatType // ignore: cast_nullable_to_non_nullable
 as String?,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
@@ -175,10 +176,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int ticketId,  String ticketTitle,  String? seatInfo,  String? seatType,  int price,  int originalPrice,  int remainingQuantity,  String createdAt,  String favoritedAt,  String eventTitle,  String eventDate,  String venueName,  String eventPosterImageUrl,  TicketingSellerRespDto seller)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int ticketId,  int? eventId,  String ticketTitle,  String? seatInfo,  String? seatType,  int price,  int originalPrice,  int remainingQuantity,  String createdAt,  String favoritedAt,  String eventTitle,  String eventDate,  String venueName,  String eventPosterImageUrl,  TicketingSellerRespDto seller)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _FavoriteRespDto() when $default != null:
-return $default(_that.ticketId,_that.ticketTitle,_that.seatInfo,_that.seatType,_that.price,_that.originalPrice,_that.remainingQuantity,_that.createdAt,_that.favoritedAt,_that.eventTitle,_that.eventDate,_that.venueName,_that.eventPosterImageUrl,_that.seller);case _:
+return $default(_that.ticketId,_that.eventId,_that.ticketTitle,_that.seatInfo,_that.seatType,_that.price,_that.originalPrice,_that.remainingQuantity,_that.createdAt,_that.favoritedAt,_that.eventTitle,_that.eventDate,_that.venueName,_that.eventPosterImageUrl,_that.seller);case _:
   return orElse();
 
 }
@@ -196,10 +197,10 @@ return $default(_that.ticketId,_that.ticketTitle,_that.seatInfo,_that.seatType,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int ticketId,  String ticketTitle,  String? seatInfo,  String? seatType,  int price,  int originalPrice,  int remainingQuantity,  String createdAt,  String favoritedAt,  String eventTitle,  String eventDate,  String venueName,  String eventPosterImageUrl,  TicketingSellerRespDto seller)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int ticketId,  int? eventId,  String ticketTitle,  String? seatInfo,  String? seatType,  int price,  int originalPrice,  int remainingQuantity,  String createdAt,  String favoritedAt,  String eventTitle,  String eventDate,  String venueName,  String eventPosterImageUrl,  TicketingSellerRespDto seller)  $default,) {final _that = this;
 switch (_that) {
 case _FavoriteRespDto():
-return $default(_that.ticketId,_that.ticketTitle,_that.seatInfo,_that.seatType,_that.price,_that.originalPrice,_that.remainingQuantity,_that.createdAt,_that.favoritedAt,_that.eventTitle,_that.eventDate,_that.venueName,_that.eventPosterImageUrl,_that.seller);case _:
+return $default(_that.ticketId,_that.eventId,_that.ticketTitle,_that.seatInfo,_that.seatType,_that.price,_that.originalPrice,_that.remainingQuantity,_that.createdAt,_that.favoritedAt,_that.eventTitle,_that.eventDate,_that.venueName,_that.eventPosterImageUrl,_that.seller);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -216,10 +217,10 @@ return $default(_that.ticketId,_that.ticketTitle,_that.seatInfo,_that.seatType,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int ticketId,  String ticketTitle,  String? seatInfo,  String? seatType,  int price,  int originalPrice,  int remainingQuantity,  String createdAt,  String favoritedAt,  String eventTitle,  String eventDate,  String venueName,  String eventPosterImageUrl,  TicketingSellerRespDto seller)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int ticketId,  int? eventId,  String ticketTitle,  String? seatInfo,  String? seatType,  int price,  int originalPrice,  int remainingQuantity,  String createdAt,  String favoritedAt,  String eventTitle,  String eventDate,  String venueName,  String eventPosterImageUrl,  TicketingSellerRespDto seller)?  $default,) {final _that = this;
 switch (_that) {
 case _FavoriteRespDto() when $default != null:
-return $default(_that.ticketId,_that.ticketTitle,_that.seatInfo,_that.seatType,_that.price,_that.originalPrice,_that.remainingQuantity,_that.createdAt,_that.favoritedAt,_that.eventTitle,_that.eventDate,_that.venueName,_that.eventPosterImageUrl,_that.seller);case _:
+return $default(_that.ticketId,_that.eventId,_that.ticketTitle,_that.seatInfo,_that.seatType,_that.price,_that.originalPrice,_that.remainingQuantity,_that.createdAt,_that.favoritedAt,_that.eventTitle,_that.eventDate,_that.venueName,_that.eventPosterImageUrl,_that.seller);case _:
   return null;
 
 }
@@ -231,10 +232,11 @@ return $default(_that.ticketId,_that.ticketTitle,_that.seatInfo,_that.seatType,_
 @JsonSerializable()
 
 class _FavoriteRespDto implements FavoriteRespDto {
-  const _FavoriteRespDto({required this.ticketId, required this.ticketTitle, required this.seatInfo, required this.seatType, required this.price, required this.originalPrice, required this.remainingQuantity, required this.createdAt, required this.favoritedAt, required this.eventTitle, required this.eventDate, required this.venueName, required this.eventPosterImageUrl, required this.seller});
+  const _FavoriteRespDto({required this.ticketId, this.eventId, required this.ticketTitle, required this.seatInfo, required this.seatType, required this.price, required this.originalPrice, required this.remainingQuantity, required this.createdAt, required this.favoritedAt, required this.eventTitle, required this.eventDate, required this.venueName, required this.eventPosterImageUrl, required this.seller});
   factory _FavoriteRespDto.fromJson(Map<String, dynamic> json) => _$FavoriteRespDtoFromJson(json);
 
 @override final  int ticketId;
+@override final  int? eventId;
 @override final  String ticketTitle;
 @override final  String? seatInfo;
 @override final  String? seatType;
@@ -262,16 +264,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FavoriteRespDto&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.ticketTitle, ticketTitle) || other.ticketTitle == ticketTitle)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.seatType, seatType) || other.seatType == seatType)&&(identical(other.price, price) || other.price == price)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&(identical(other.remainingQuantity, remainingQuantity) || other.remainingQuantity == remainingQuantity)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.favoritedAt, favoritedAt) || other.favoritedAt == favoritedAt)&&(identical(other.eventTitle, eventTitle) || other.eventTitle == eventTitle)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.venueName, venueName) || other.venueName == venueName)&&(identical(other.eventPosterImageUrl, eventPosterImageUrl) || other.eventPosterImageUrl == eventPosterImageUrl)&&(identical(other.seller, seller) || other.seller == seller));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FavoriteRespDto&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.eventId, eventId) || other.eventId == eventId)&&(identical(other.ticketTitle, ticketTitle) || other.ticketTitle == ticketTitle)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.seatType, seatType) || other.seatType == seatType)&&(identical(other.price, price) || other.price == price)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&(identical(other.remainingQuantity, remainingQuantity) || other.remainingQuantity == remainingQuantity)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.favoritedAt, favoritedAt) || other.favoritedAt == favoritedAt)&&(identical(other.eventTitle, eventTitle) || other.eventTitle == eventTitle)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.venueName, venueName) || other.venueName == venueName)&&(identical(other.eventPosterImageUrl, eventPosterImageUrl) || other.eventPosterImageUrl == eventPosterImageUrl)&&(identical(other.seller, seller) || other.seller == seller));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ticketId,ticketTitle,seatInfo,seatType,price,originalPrice,remainingQuantity,createdAt,favoritedAt,eventTitle,eventDate,venueName,eventPosterImageUrl,seller);
+int get hashCode => Object.hash(runtimeType,ticketId,eventId,ticketTitle,seatInfo,seatType,price,originalPrice,remainingQuantity,createdAt,favoritedAt,eventTitle,eventDate,venueName,eventPosterImageUrl,seller);
 
 @override
 String toString() {
-  return 'FavoriteRespDto(ticketId: $ticketId, ticketTitle: $ticketTitle, seatInfo: $seatInfo, seatType: $seatType, price: $price, originalPrice: $originalPrice, remainingQuantity: $remainingQuantity, createdAt: $createdAt, favoritedAt: $favoritedAt, eventTitle: $eventTitle, eventDate: $eventDate, venueName: $venueName, eventPosterImageUrl: $eventPosterImageUrl, seller: $seller)';
+  return 'FavoriteRespDto(ticketId: $ticketId, eventId: $eventId, ticketTitle: $ticketTitle, seatInfo: $seatInfo, seatType: $seatType, price: $price, originalPrice: $originalPrice, remainingQuantity: $remainingQuantity, createdAt: $createdAt, favoritedAt: $favoritedAt, eventTitle: $eventTitle, eventDate: $eventDate, venueName: $venueName, eventPosterImageUrl: $eventPosterImageUrl, seller: $seller)';
 }
 
 
@@ -282,7 +284,7 @@ abstract mixin class _$FavoriteRespDtoCopyWith<$Res> implements $FavoriteRespDto
   factory _$FavoriteRespDtoCopyWith(_FavoriteRespDto value, $Res Function(_FavoriteRespDto) _then) = __$FavoriteRespDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int ticketId, String ticketTitle, String? seatInfo, String? seatType, int price, int originalPrice, int remainingQuantity, String createdAt, String favoritedAt, String eventTitle, String eventDate, String venueName, String eventPosterImageUrl, TicketingSellerRespDto seller
+ int ticketId, int? eventId, String ticketTitle, String? seatInfo, String? seatType, int price, int originalPrice, int remainingQuantity, String createdAt, String favoritedAt, String eventTitle, String eventDate, String venueName, String eventPosterImageUrl, TicketingSellerRespDto seller
 });
 
 
@@ -299,10 +301,11 @@ class __$FavoriteRespDtoCopyWithImpl<$Res>
 
 /// Create a copy of FavoriteRespDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? ticketId = null,Object? ticketTitle = null,Object? seatInfo = freezed,Object? seatType = freezed,Object? price = null,Object? originalPrice = null,Object? remainingQuantity = null,Object? createdAt = null,Object? favoritedAt = null,Object? eventTitle = null,Object? eventDate = null,Object? venueName = null,Object? eventPosterImageUrl = null,Object? seller = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? ticketId = null,Object? eventId = freezed,Object? ticketTitle = null,Object? seatInfo = freezed,Object? seatType = freezed,Object? price = null,Object? originalPrice = null,Object? remainingQuantity = null,Object? createdAt = null,Object? favoritedAt = null,Object? eventTitle = null,Object? eventDate = null,Object? venueName = null,Object? eventPosterImageUrl = null,Object? seller = null,}) {
   return _then(_FavoriteRespDto(
 ticketId: null == ticketId ? _self.ticketId : ticketId // ignore: cast_nullable_to_non_nullable
-as int,ticketTitle: null == ticketTitle ? _self.ticketTitle : ticketTitle // ignore: cast_nullable_to_non_nullable
+as int,eventId: freezed == eventId ? _self.eventId : eventId // ignore: cast_nullable_to_non_nullable
+as int?,ticketTitle: null == ticketTitle ? _self.ticketTitle : ticketTitle // ignore: cast_nullable_to_non_nullable
 as String,seatInfo: freezed == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
 as String?,seatType: freezed == seatType ? _self.seatType : seatType // ignore: cast_nullable_to_non_nullable
 as String?,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable

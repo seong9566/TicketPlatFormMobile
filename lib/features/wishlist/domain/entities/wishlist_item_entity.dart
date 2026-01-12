@@ -7,6 +7,7 @@ part 'wishlist_item_entity.freezed.dart';
 abstract class WishlistItemEntity with _$WishlistItemEntity {
   const factory WishlistItemEntity({
     required int ticketId,
+    int? eventId,
     required String ticketTitle,
     required String? seatInfo,
     required String? seatType,

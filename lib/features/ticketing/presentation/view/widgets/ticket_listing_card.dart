@@ -9,11 +9,13 @@ import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models
 class TicketListingCard extends StatelessWidget {
   final TicketingTicketUiModel ticket;
   final VoidCallback onTap;
+  final VoidCallback? onFavoriteTap;
 
   const TicketListingCard({
     super.key,
     required this.ticket,
     required this.onTap,
+    this.onFavoriteTap,
   });
 
   @override
@@ -30,6 +32,15 @@ class TicketListingCard extends StatelessWidget {
         children: [
           _buildHeaderSection(),
           const SizedBox(height: AppSpacing.md),
+          if (ticket.description != null && ticket.description!.isNotEmpty) ...[
+            Text(
+              ticket.description!,
+              style: AppTextStyles.body2.copyWith(
+                color: AppColors.textSecondary,
+                fontSize: 12,
+              ),
+            ),
+          ],
           _buildBottomSection(context),
         ],
       ),
@@ -45,98 +56,95 @@ class TicketListingCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Title 섹션
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildGradeBadge(),
-                  const SizedBox(width: AppSpacing.sm),
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          ticket.seatInfo ?? '좌석 정보 없음',
-                          style: AppTextStyles.body1.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-                        if (ticket.description != null &&
-                            ticket.description!.isNotEmpty) ...[
-                          const SizedBox(height: 4),
-                          Text(
-                            ticket.description!,
-                            style: AppTextStyles.body2.copyWith(
-                              color: AppColors.textSecondary,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ],
+                    child: Text(
+                      ticket.title,
+                      style: AppTextStyles.body1,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  GestureDetector(
+                    onTap: onFavoriteTap,
+                    child: Icon(
+                      ticket.isFavorited
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      size: 20,
+                      color: ticket.isFavorited
+                          ? Colors.red
+                          : AppColors.textTertiary,
                     ),
                   ),
                 ],
               ),
-              if (ticket.transactionFeatures.isNotEmpty) ...[
-                const SizedBox(height: 4),
-                Text(
-                  ticket.transactionFeatures.join(' | '),
-                  style: AppTextStyles.body2.copyWith(
+              Row(
+                children: [
+                  const Icon(
+                    Icons.event_seat_outlined,
+                    size: 14,
                     color: AppColors.textSecondary,
-                    fontSize: 12,
                   ),
-                ),
-              ],
+                  const SizedBox(width: 4),
+                  Text(
+                    '${ticket.seatInfo ?? '좌석 정보 없음'} | ${ticket.gradeName}',
+                    style: AppTextStyles.body2.copyWith(
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12,
+                    ),
+                  ),
+                  if (ticket.transactionFeatures.isNotEmpty) ...[
+                    Text(
+                      ' | ${ticket.transactionFeatures.join(' | ')}',
+                      style: AppTextStyles.body2.copyWith(
+                        color: AppColors.textSecondary,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
             ],
           ),
         ),
-        const SizedBox(width: AppSpacing.md),
-        _buildPriceSection(),
       ],
-    );
-  }
-
-  Widget _buildGradeBadge() {
-    return _buildBadge(
-      ticket.gradeName,
-      AppColors.success.withValues(alpha: 0.1),
-      AppColors.success,
-    );
-  }
-
-  Widget _buildBadge(String text, Color backgroundColor, Color textColor) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(6),
-      ),
-      child: Text(
-        text,
-        style: AppTextStyles.caption.copyWith(
-          color: textColor,
-          fontWeight: FontWeight.bold,
-          fontSize: 11,
-        ),
-      ),
     );
   }
 
   Widget _buildBottomSection(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(child: _buildSellerSection()),
-        const SizedBox(width: AppSpacing.sm),
-        _buildBuyButton(context),
+        _buildPriceSection(),
+        InkWell(
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            decoration: BoxDecoration(
+              color: AppColors.success,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              '구매하기',
+              style: AppTextStyles.body2.copyWith(
+                color: AppColors.primaryForeground,
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
 
   Widget _buildPriceSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
+    return Row(
       children: [
         Text(
           NumberFormatUtil.formatPrice(ticket.price),
@@ -146,8 +154,8 @@ class TicketListingCard extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+
         if (ticket.price != ticket.originalPrice) ...[
-          const SizedBox(height: 2),
           Text(
             '정가 ${NumberFormatUtil.formatPrice(ticket.originalPrice)}',
             style: AppTextStyles.body2.copyWith(
@@ -157,82 +165,6 @@ class TicketListingCard extends StatelessWidget {
             ),
           ),
         ],
-      ],
-    );
-  }
-
-  Widget _buildBuyButton(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        decoration: BoxDecoration(
-          color: AppColors.success,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Text(
-          '구매하기',
-          style: AppTextStyles.body2.copyWith(
-            color: AppColors.primaryForeground,
-            fontWeight: FontWeight.w600,
-            fontSize: 14,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSellerSection() {
-    return Row(
-      children: [
-        // 프로필 이미지
-        Container(
-          width: 24,
-          height: 24,
-          decoration: BoxDecoration(
-            color: AppColors.success.withValues(alpha: 0.1), // 연한 초록색 배경
-            shape: BoxShape.circle,
-          ),
-          child: Center(
-            child: Text(
-              ticket.seller.nickname.isNotEmpty
-                  ? ticket.seller.nickname[0]
-                  : '?',
-              style: TextStyle(
-                color: AppColors.success, // 진한 초록색 텍스트
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                ticket.title,
-                style: AppTextStyles.body2.copyWith(
-                  color: AppColors.textTertiary,
-                  fontSize: 13,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 2),
-              Text(
-                ticket.seatInfo ?? '',
-                style: AppTextStyles.heading3.copyWith(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
-        ),
       ],
     );
   }

@@ -70,6 +70,10 @@ abstract class TicketingTicketRespDto with _$TicketingTicketRespDto {
   const factory TicketingTicketRespDto({
     required int ticketId,
     required String ticketTitle,
+    String? eventTitle,
+    String? eventDate,
+    String? venueName,
+    String? eventPosterImageUrl,
     required String? seatInfo,
     required String? seatType,
     required int price,
@@ -82,7 +86,7 @@ abstract class TicketingTicketRespDto with _$TicketingTicketRespDto {
     @Default(false) bool isSingleTicket,
     @Default([]) List<String> ticketImages,
     required TicketingSellerRespDto seller,
-    @Default(false) bool isFavorited,
+    bool? isFavorited,
   }) = _TicketingTicketRespDto;
 
   factory TicketingTicketRespDto.fromJson(Map<String, dynamic> json) =>
@@ -94,6 +98,12 @@ extension TicketingTicketRespDtoX on TicketingTicketRespDto {
     return TicketingTicketEntity(
       ticketId: ticketId,
       ticketTitle: ticketTitle,
+      eventTitle: eventTitle,
+      eventDate: eventDate != null
+          ? DateTime.tryParse(eventDate!.replaceAll('.', '-'))
+          : null,
+      venueName: venueName,
+      eventPosterImageUrl: eventPosterImageUrl,
       seatInfo: seatInfo,
       seatType: seatType,
       price: price,

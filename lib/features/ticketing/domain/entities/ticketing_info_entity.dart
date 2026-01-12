@@ -34,6 +34,10 @@ abstract class TicketingTicketEntity with _$TicketingTicketEntity {
   const factory TicketingTicketEntity({
     required int ticketId,
     required String ticketTitle,
+    String? eventTitle,
+    DateTime? eventDate,
+    String? venueName,
+    String? eventPosterImageUrl,
     required String? seatInfo,
     required String? seatType,
     required int price,
@@ -46,7 +50,7 @@ abstract class TicketingTicketEntity with _$TicketingTicketEntity {
     required bool isSingleTicket,
     required List<String> ticketImages,
     required TicketingSellerEntity seller,
-    @Default(false) bool isFavorited,
+    bool? isFavorited,
   }) = _TicketingTicketEntity;
 }
 

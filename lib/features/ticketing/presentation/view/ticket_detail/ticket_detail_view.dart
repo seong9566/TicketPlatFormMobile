@@ -10,23 +10,15 @@ import 'package:ticket_platform_mobile/features/ticketing/presentation/view/tick
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_header.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_seat_features.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/viewmodels/ticket_detail_viewmodel.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/viewmodels/ticketing_viewmodel.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_info_ui_model.dart';
 
 class TicketDetailView extends ConsumerWidget {
-  final String performanceId;
   final String listingId;
 
-  const TicketDetailView({
-    super.key,
-    required this.performanceId,
-    required this.listingId,
-  });
+  const TicketDetailView({super.key, required this.listingId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ticketingStateAsync = ref.watch(
-      ticketingViewModelProvider(performanceId),
-    );
     final ticketId = int.tryParse(listingId) ?? 0;
     final ticketDetailStateAsync = ref.watch(
       ticketDetailViewModelProvider(ticketId),
@@ -38,54 +30,53 @@ class TicketDetailView extends ConsumerWidget {
       body: SafeArea(
         top: true,
         bottom: false,
-        child: ticketingStateAsync.when(
-          data: (ticketingState) {
-            final info = ticketingState.ticketingInfo;
-            if (info == null) {
-              return const Center(child: Text('공연 정보를 불러올 수 없습니다.'));
+        child: ticketDetailStateAsync.when(
+          data: (ticketDetailState) {
+            final detail = ticketDetailState.detail;
+            if (detail == null) {
+              return const Center(child: Text('티켓 정보를 불러올 수 없습니다.'));
             }
 
-            return ticketDetailStateAsync.when(
-              data: (ticketDetailState) {
-                final detail = ticketDetailState.detail;
-                if (detail == null) {
-                  return const Center(child: Text('티켓 정보를 불러올 수 없습니다.'));
-                }
-
-                return SingleChildScrollView(
-                  padding: const EdgeInsets.only(bottom: 120),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TicketDetailHeader(detail: detail),
-                      const SizedBox(height: AppSpacing.xs),
-                      TicketDetailPerformanceHeader(info: info),
-                      _buildSectionHeader('상세 설명'),
-                      _buildDescription(detail.description),
-                      _buildSectionHeader('좌석 특징'),
-                      TicketDetailSeatFeatures(tags: detail.tags),
-                      _buildProductImage(detail.listingImageUrl),
-                      if (detail.listingImageUrl != null &&
-                          detail.listingImageUrl!.isNotEmpty) ...[
-                        const SizedBox(height: AppSpacing.md),
-                        const Center(
-                          child: Text(
-                            '* 상품 이미지는 판매자가 직접 등록한 이미지입니다.',
-                            style: TextStyle(
-                              color: Color(0xFF94A3B8),
-                              fontSize: 11,
-                            ),
-                          ),
-                        ),
-                      ],
-                      TicketDetailSellerInfo(seller: detail.seller),
-                      const SizedBox(height: AppSpacing.lg),
-                    ],
+            return SingleChildScrollView(
+              padding: const EdgeInsets.only(bottom: 120),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TicketDetailHeader(detail: detail),
+                  const SizedBox(height: AppSpacing.xs),
+                  TicketDetailPerformanceHeader(
+                    info: TicketingInfoUiModel(
+                      title: detail.performanceTitle,
+                      imageUrl: detail.performanceImageUrl,
+                      eventDate: detail.performanceDate,
+                      location: detail.location,
+                      isHot: false, // Default or derived if needed
+                      ticketGrades: [],
+                      tickets: [],
+                    ),
                   ),
-                );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (err, stack) => Center(child: Text('Error: $err')),
+                  _buildSectionHeader('상세 설명'),
+                  _buildDescription(detail.description),
+                  _buildSectionHeader('좌석 특징'),
+                  TicketDetailSeatFeatures(tags: detail.tags),
+                  _buildProductImage(detail.listingImageUrl),
+                  if (detail.listingImageUrl != null &&
+                      detail.listingImageUrl!.isNotEmpty) ...[
+                    const SizedBox(height: AppSpacing.md),
+                    const Center(
+                      child: Text(
+                        '* 상품 이미지는 판매자가 직접 등록한 이미지입니다.',
+                        style: TextStyle(
+                          color: Color(0xFF94A3B8),
+                          fontSize: 11,
+                        ),
+                      ),
+                    ),
+                  ],
+                  TicketDetailSellerInfo(seller: detail.seller),
+                  const SizedBox(height: AppSpacing.lg),
+                ],
+              ),
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),

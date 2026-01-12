@@ -67,7 +67,7 @@ class TicketingView extends ConsumerWidget {
                           onSortTap: () => _showSortBottomSheet(context, ref),
                         ),
                       ),
-                      _buildListingList(filteredListings),
+                      _buildListingList(filteredListings, ref),
                     ],
                   ),
                 ),
@@ -143,7 +143,10 @@ class TicketingView extends ConsumerWidget {
     );
   }
 
-  Widget _buildListingList(List<TicketingTicketUiModel> tickets) {
+  Widget _buildListingList(
+    List<TicketingTicketUiModel> tickets,
+    WidgetRef ref,
+  ) {
     if (tickets.isEmpty) {
       return const SliverToBoxAdapter(
         child: Padding(
@@ -161,9 +164,12 @@ class TicketingView extends ConsumerWidget {
           return TicketListingCard(
             ticket: ticket,
             onTap: () {
-              context.push(
-                '${AppRouterPath.ticketDetail}/$performanceId/${ticket.ticketId}',
-              );
+              context.push('${AppRouterPath.ticketDetail}/${ticket.ticketId}');
+            },
+            onFavoriteTap: () {
+              ref
+                  .read(ticketingViewModelProvider(performanceId).notifier)
+                  .toggleFavorite(ticket.ticketId);
             },
           );
         }, childCount: tickets.length),

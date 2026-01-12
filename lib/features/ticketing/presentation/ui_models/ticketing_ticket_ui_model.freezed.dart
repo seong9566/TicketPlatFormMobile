@@ -14,7 +14,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TicketingTicketUiModel {
 
- int get ticketId; String get title; String get gradeName; String? get seatInfo; int get price; int get originalPrice; List<String> get tags; TicketingSellerUiModel get seller; String? get description; DateTime get createdAt; String get ticketCountInfo; List<String> get transactionFeatures; String? get listingImageUrl; bool get isFavorited;
+ int get ticketId; String get title; String get gradeName;// seatType
+ String? get seatInfo; int get price; int get originalPrice; List<String> get tags; TicketingSellerUiModel get seller; String? get description; DateTime get createdAt; String get ticketCountInfo; List<String> get transactionFeatures; String? get listingImageUrl; bool get isFavorited;
 /// Create a copy of TicketingTicketUiModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -234,6 +235,7 @@ class _TicketingTicketUiModel implements TicketingTicketUiModel {
 @override final  int ticketId;
 @override final  String title;
 @override final  String gradeName;
+// seatType
 @override final  String? seatInfo;
 @override final  int price;
 @override final  int originalPrice;

@@ -9,6 +9,7 @@ part 'favorite_resp_dto.g.dart';
 abstract class FavoriteRespDto with _$FavoriteRespDto {
   const factory FavoriteRespDto({
     required int ticketId,
+    int? eventId,
     required String ticketTitle,
     required String? seatInfo,
     required String? seatType,
@@ -32,6 +33,7 @@ extension FavoriteRespDtoX on FavoriteRespDto {
   WishlistItemEntity toEntity() {
     return WishlistItemEntity(
       ticketId: ticketId,
+      eventId: eventId ?? 0,
       ticketTitle: ticketTitle,
       seatInfo: seatInfo,
       seatType: seatType,

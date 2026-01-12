@@ -65,6 +65,10 @@ _TicketingTicketRespDto _$TicketingTicketRespDtoFromJson(
 ) => _TicketingTicketRespDto(
   ticketId: (json['ticketId'] as num).toInt(),
   ticketTitle: json['ticketTitle'] as String,
+  eventTitle: json['eventTitle'] as String?,
+  eventDate: json['eventDate'] as String?,
+  venueName: json['venueName'] as String?,
+  eventPosterImageUrl: json['eventPosterImageUrl'] as String?,
   seatInfo: json['seatInfo'] as String?,
   seatType: json['seatType'] as String?,
   price: (json['price'] as num).toInt(),
@@ -85,7 +89,7 @@ _TicketingTicketRespDto _$TicketingTicketRespDtoFromJson(
   seller: TicketingSellerRespDto.fromJson(
     json['seller'] as Map<String, dynamic>,
   ),
-  isFavorited: json['isFavorited'] as bool? ?? false,
+  isFavorited: json['isFavorited'] as bool?,
 );
 
 Map<String, dynamic> _$TicketingTicketRespDtoToJson(
@@ -93,6 +97,10 @@ Map<String, dynamic> _$TicketingTicketRespDtoToJson(
 ) => <String, dynamic>{
   'ticketId': instance.ticketId,
   'ticketTitle': instance.ticketTitle,
+  'eventTitle': instance.eventTitle,
+  'eventDate': instance.eventDate,
+  'venueName': instance.venueName,
+  'eventPosterImageUrl': instance.eventPosterImageUrl,
   'seatInfo': instance.seatInfo,
   'seatType': instance.seatType,
   'price': instance.price,

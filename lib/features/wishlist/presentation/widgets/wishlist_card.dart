@@ -9,8 +9,14 @@ import 'package:ticket_platform_mobile/features/wishlist/presentation/ui_models/
 class WishlistCard extends StatelessWidget {
   final WishlistUiModel item;
   final VoidCallback onLikeTap;
+  final VoidCallback? onTap;
 
-  const WishlistCard({super.key, required this.item, required this.onLikeTap});
+  const WishlistCard({
+    super.key,
+    required this.item,
+    required this.onLikeTap,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,143 +24,135 @@ class WishlistCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: AppSpacing.md),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16), // Rounded as per image
+        borderRadius: BorderRadius.circular(16),
       ),
       clipBehavior: Clip.antiAlias,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(AppSpacing.md),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Poster Image
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(AppRadius.md),
-                  child: CachedNetworkImage(
-                    imageUrl: item.eventPosterImageUrl,
-                    width: 90,
-                    height: 90,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => Container(
-                      color: const Color(0xFFF1F5F9),
-                      child: const Center(
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      ),
-                    ),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.md),
-                // Details
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item.eventTitle,
-                                  style: AppTextStyles.caption.copyWith(
-                                    color: AppColors.textTertiary,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  item.ticketTitle,
-                                  style: AppTextStyles.body1.copyWith(
-                                    color: AppColors.textPrimary,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: onLikeTap,
-                            child: const Icon(
-                              Icons.favorite,
-                              color: Color(0xFF22C55E),
-                              size: 24,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          if (item.discountRate.isNotEmpty) ...[
-                            Text(
-                              item.discountRate,
-                              style: AppTextStyles.body1.copyWith(
-                                color: AppColors.destructive,
-                                fontWeight: FontWeight.w900,
-                              ),
-                            ),
-                            const SizedBox(width: 4),
-                          ],
-                          Text(
-                            '${item.priceDisplay}원',
-                            style: AppTextStyles.heading3.copyWith(
-                              fontWeight: FontWeight.w900,
-                              color: AppColors.textPrimary,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        '${item.venueName} · ${item.eventDate}',
-                        style: AppTextStyles.caption.copyWith(
-                          color: AppColors.textTertiary,
+      child: InkWell(
+        onTap: onTap,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(AppSpacing.md),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Poster Image
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(AppRadius.md),
+                    child: CachedNetworkImage(
+                      imageUrl: item.eventPosterImageUrl,
+                      width: 90,
+                      height: 90,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Container(
+                        color: const Color(0xFFF1F5F9),
+                        child: const Center(
+                          child: CircularProgressIndicator(strokeWidth: 2),
                         ),
                       ),
-                    ],
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          _buildDivider(),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.md,
-              vertical: AppSpacing.sm,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '판매자: ${item.sellerNickname}',
-                  style: AppTextStyles.caption.copyWith(
-                    color: AppColors.textSecondary,
-                    fontWeight: FontWeight.w600,
+                  const SizedBox(width: AppSpacing.md),
+                  // Details
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    item.eventTitle,
+                                    style: AppTextStyles.caption.copyWith(
+                                      color: AppColors.textTertiary,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    item.ticketTitle,
+                                    style: AppTextStyles.body1.copyWith(
+                                      color: AppColors.textPrimary,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: onLikeTap,
+                              child: const Icon(
+                                Icons.favorite,
+                                color: Color(0xFF22C55E),
+                                size: 24,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            if (item.discountRate.isNotEmpty) ...[
+                              Text(
+                                item.discountRate,
+                                style: AppTextStyles.body1.copyWith(
+                                  color: AppColors.destructive,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                            ],
+                            Text(
+                              '${item.priceDisplay}원',
+                              style: AppTextStyles.heading3.copyWith(
+                                fontWeight: FontWeight.w900,
+                                color: AppColors.textPrimary,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '${item.venueName} · ${item.eventDate}',
+                          style: AppTextStyles.caption.copyWith(
+                            color: AppColors.textTertiary,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Text(
-                  '찜한 날짜: ${item.favoritedAtDisplay}',
-                  style: AppTextStyles.caption.copyWith(
-                    color: AppColors.textTertiary,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+            _buildDivider(),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.sm,
+              ),
+              child: Text(
+                '판매자: ${item.sellerNickname}',
+                style: AppTextStyles.caption.copyWith(
+                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

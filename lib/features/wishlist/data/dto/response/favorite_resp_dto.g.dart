@@ -9,6 +9,7 @@ part of 'favorite_resp_dto.dart';
 _FavoriteRespDto _$FavoriteRespDtoFromJson(Map<String, dynamic> json) =>
     _FavoriteRespDto(
       ticketId: (json['ticketId'] as num).toInt(),
+      eventId: (json['eventId'] as num?)?.toInt(),
       ticketTitle: json['ticketTitle'] as String,
       seatInfo: json['seatInfo'] as String?,
       seatType: json['seatType'] as String?,
@@ -29,6 +30,7 @@ _FavoriteRespDto _$FavoriteRespDtoFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$FavoriteRespDtoToJson(_FavoriteRespDto instance) =>
     <String, dynamic>{
       'ticketId': instance.ticketId,
+      'eventId': instance.eventId,
       'ticketTitle': instance.ticketTitle,
       'seatInfo': instance.seatInfo,
       'seatType': instance.seatType,

@@ -3,12 +3,26 @@ import 'package:ticket_platform_mobile/features/ticketing/domain/entities/ticket
 
 part 'ticketing_ticket_ui_model.freezed.dart';
 
+/// 티켓 정보 UI 모델
+/// title : 티켓 제목
+/// gradeName(seatType) : 좌석 등급
+/// seatInfo : 좌석 정보
+/// price : 티켓 가격
+/// originalPrice : 원가격
+/// tags(seatFeatures) : 티켓 태그
+/// seller : 판매자 정보
+/// description : 티켓 설명
+/// createdAt : 생성일
+/// ticketCountInfo : 티켓 수
+/// transactionFeatures : 티켓 특징
+/// listingImageUrl : 티켓 이미지
+/// isFavorited : 즐겨찾기
 @freezed
 abstract class TicketingTicketUiModel with _$TicketingTicketUiModel {
   const factory TicketingTicketUiModel({
     required int ticketId,
     required String title,
-    required String gradeName,
+    required String gradeName, // seatType
     required String? seatInfo,
     required int price,
     required int originalPrice,
@@ -35,7 +49,7 @@ abstract class TicketingTicketUiModel with _$TicketingTicketUiModel {
       description: entity.description,
       createdAt: entity.createdAt,
       transactionFeatures: entity.seatFeatures,
-      isFavorited: entity.isFavorited,
+      isFavorited: entity.isFavorited ?? false,
     );
   }
 }

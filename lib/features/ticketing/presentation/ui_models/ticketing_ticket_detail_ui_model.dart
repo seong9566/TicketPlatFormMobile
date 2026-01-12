@@ -26,6 +26,10 @@ abstract class TicketingTicketDetailUiModel
     required List<String> transactionFeatures,
     required bool isFavorited,
     String? listingImageUrl,
+    String? eventTitle,
+    DateTime? eventDate,
+    String? venueName,
+    String? eventPosterImageUrl,
   }) = _TicketingTicketDetailUiModel;
 
   factory TicketingTicketDetailUiModel.fromEntity(
@@ -33,10 +37,10 @@ abstract class TicketingTicketDetailUiModel
   ) {
     return TicketingTicketDetailUiModel(
       ticketId: entity.ticketId,
-      performanceTitle: '', // Not available in TicketingTicketEntity
-      performanceImageUrl: '', // Not available in TicketingTicketEntity
-      performanceDate: DateTime.now(), // Not available in TicketingTicketEntity
-      location: '', // Not available in TicketingTicketEntity
+      performanceTitle: entity.eventTitle ?? '',
+      performanceImageUrl: entity.eventPosterImageUrl ?? '',
+      performanceDate: entity.eventDate ?? DateTime.now(),
+      location: entity.venueName ?? '',
       ticketTitle: entity.ticketTitle,
       gradeName: entity.seatType ?? '',
       seatInfo: entity.seatInfo,
@@ -48,10 +52,14 @@ abstract class TicketingTicketDetailUiModel
       images: entity.ticketImages,
       ticketCountInfo: '1인 1매',
       transactionFeatures: entity.seatFeatures,
-      isFavorited: entity.isFavorited,
+      isFavorited: entity.isFavorited ?? false,
       listingImageUrl: entity.ticketImages.isNotEmpty
           ? entity.ticketImages.first
           : null,
+      eventTitle: entity.eventTitle,
+      eventDate: entity.eventDate,
+      venueName: entity.venueName,
+      eventPosterImageUrl: entity.eventPosterImageUrl,
     );
   }
 }
