@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ticket_platform_mobile/core/constants/app_assets.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
+import 'package:ticket_platform_mobile/features/auth/presentation/viewmodels/login_state.dart';
 import 'package:ticket_platform_mobile/features/auth/presentation/viewmodels/login_viewmodel.dart';
+import 'package:ticket_platform_mobile/shared/widgets/app_dialog.dart';
 import 'package:ticket_platform_mobile/shared/widgets/app_text_field.dart';
 import 'package:ticket_platform_mobile/shared/widgets/app_button.dart';
 
@@ -17,6 +20,29 @@ class LoginView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(loginViewModelProvider);
     final viewModel = ref.read(loginViewModelProvider.notifier);
+
+    ref.listen(loginViewModelProvider.select((s) => s.isSuccess), (
+      previous,
+      next,
+    ) {
+      if (next) {
+        context.go(AppRouterPath.home);
+      }
+    });
+
+    ref.listen(loginViewModelProvider.select((s) => s.errorMessage), (
+      previous,
+      next,
+    ) {
+      if (next != null) {
+        AppDialog.showAlert(
+          context: context,
+          title: '로그인 실패',
+          content: next,
+          onConfirm: viewModel.clearError,
+        );
+      }
+    });
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -39,7 +65,7 @@ class LoginView extends ConsumerWidget {
 
   Widget _buildLoginCard(
     BuildContext context,
-    state,
+    LoginState state,
     LoginViewModel viewModel,
   ) {
     return Container(
@@ -100,7 +126,7 @@ class LoginView extends ConsumerWidget {
             Text('티켓허브', style: AppTextStyles.heading2.copyWith(fontSize: 28)),
           ],
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: AppSpacing.md),
         Text(
           '간편하게 로그인하고 티켓을 거래하세요',
           style: AppTextStyles.body2.copyWith(color: AppColors.textSecondary),
@@ -110,54 +136,43 @@ class LoginView extends ConsumerWidget {
   }
 
   Widget _buildSocialLogin() {
-    return Column(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildKakaoButton(),
-        const SizedBox(height: 12),
-        _buildGoogleButton(),
+        _buildOAuthButton(
+          iconPath: AppAssets.kakaoLogo,
+          backgroundColor: const Color(0xffFEE500),
+          onTap: () {},
+        ),
+        const SizedBox(width: AppSpacing.md),
+        _buildOAuthButton(
+          iconPath: AppAssets.naverLogo,
+          backgroundColor: const Color(0xff03C75A),
+          onTap: () {},
+        ),
       ],
     );
   }
 
-  Widget _buildKakaoButton() {
+  Widget _buildOAuthButton({
+    required String iconPath,
+    required Color backgroundColor,
+    required VoidCallback onTap,
+  }) {
     return InkWell(
-      onTap: () {}, // TODO: Kakao Login
-      borderRadius: BorderRadius.circular(8),
-      child: SizedBox(
-        height: 48,
-        child: Image.asset(AppAssets.kakaoLogin, fit: BoxFit.contain),
-      ),
-    );
-  }
-
-  Widget _buildGoogleButton() {
-    return InkWell(
-      onTap: () {}, // TODO: Google Login
+      onTap: onTap,
       borderRadius: BorderRadius.circular(8),
       child: Container(
-        height: 42,
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.grey),
+          color: backgroundColor,
+          shape: BoxShape.circle,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const SizedBox(width: 12),
-            Image.asset(AppAssets.googleLogo, width: 40, height: 40),
-            const SizedBox(width: 10),
-            const Text(
-              'Google 계정으로 로그인',
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(width: 12),
-          ],
+        padding: EdgeInsets.all(17),
+        child: SvgPicture.asset(
+          iconPath,
+          fit: BoxFit.cover,
+          width: 20,
+          height: 20,
         ),
       ),
     );

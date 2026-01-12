@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:ticket_platform_mobile/core/utils/error_handler.dart';
 import 'package:ticket_platform_mobile/features/auth/data/dto/request/auth_req_dto.dart';
 import 'package:ticket_platform_mobile/features/auth/domain/usecases/login_usecase.dart';
 import 'package:ticket_platform_mobile/features/auth/presentation/providers/auth_providers_di.dart';
@@ -7,7 +8,7 @@ import 'package:ticket_platform_mobile/features/auth/presentation/viewmodels/log
 part 'login_viewmodel.g.dart';
 
 @riverpod
-class LoginViewModel extends _$LoginViewModel {
+class LoginViewModel extends _$LoginViewModel with ErrorHandler {
   LoginUsecase get _loginUsecase => ref.read(loginUsecaseProvider);
 
   @override
@@ -38,10 +39,7 @@ class LoginViewModel extends _$LoginViewModel {
       await _loginUsecase.call(req);
       state = state.copyWith(isLoading: false, isSuccess: true);
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: '로그인에 실패했습니다. 다시 시도해주세요.',
-      );
+      state = state.copyWith(isLoading: false, errorMessage: handleError(e));
     }
   }
 
