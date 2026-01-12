@@ -72,7 +72,7 @@ GoRouter goRouter(Ref ref) {
         builder: (context, state) => const FindPasswordView(),
       ),
       GoRoute(
-        path: AppRouterPath.signUp, // Added signUp path
+        path: AppRouterPath.signUp,
         name: 'signUp',
         builder: (context, state) => const SignUpView(),
       ),

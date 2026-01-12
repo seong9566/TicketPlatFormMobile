@@ -1,22 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ticket_platform_mobile/core/constants/app_assets.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
+import 'package:ticket_platform_mobile/features/auth/presentation/viewmodels/sign_up_state.dart';
 import 'package:ticket_platform_mobile/features/auth/presentation/viewmodels/sign_up_viewmodel.dart';
 import 'package:ticket_platform_mobile/shared/widgets/app_button.dart';
+import 'package:ticket_platform_mobile/shared/widgets/app_dialog.dart';
 import 'package:ticket_platform_mobile/shared/widgets/app_text_field.dart';
 
-class SignUpView extends ConsumerWidget {
+class SignUpView extends ConsumerStatefulWidget {
   const SignUpView({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SignUpView> createState() => _SignUpViewState();
+}
+
+class _SignUpViewState extends ConsumerState<SignUpView> {
+  final FocusNode _emailFocus = FocusNode();
+  final FocusNode _phoneFocus = FocusNode();
+  final FocusNode _passwordFocus = FocusNode();
+  final FocusNode _confirmPasswordFocus = FocusNode();
+
+  @override
+  void dispose() {
+    _emailFocus.dispose();
+    _phoneFocus.dispose();
+    _passwordFocus.dispose();
+    _confirmPasswordFocus.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(signUpViewModelProvider);
     final viewModel = ref.read(signUpViewModelProvider.notifier);
+
+    ref.listen(signUpViewModelProvider.select((s) => s.isSuccess), (
+      previous,
+      next,
+    ) {
+      if (next) {
+        AppDialog.showAlert(
+          context: context,
+          barrierDismissible: false,
+          title: '회원가입 성공',
+          content: '회원가입이 완료되었습니다.\n로그인해주세요.',
+          onConfirm: () => context.pop(),
+        );
+      }
+    });
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -36,7 +70,7 @@ class SignUpView extends ConsumerWidget {
 
   Widget _buildSignUpCard(
     BuildContext context,
-    state,
+    SignUpState state,
     SignUpViewModel viewModel,
   ) {
     return Container(
@@ -57,11 +91,9 @@ class SignUpView extends ConsumerWidget {
         children: [
           _buildHeader(),
           const SizedBox(height: AppSpacing.xl),
-          _buildSocialLogin(),
-          const SizedBox(height: AppSpacing.xl),
-          _buildDivider(),
-          const SizedBox(height: AppSpacing.xl),
           _buildEmailField(viewModel),
+          const SizedBox(height: AppSpacing.md),
+          _buildPhoneField(viewModel),
           const SizedBox(height: AppSpacing.md),
           _buildPasswordField(state, viewModel),
           const SizedBox(height: AppSpacing.md),
@@ -114,96 +146,39 @@ class SignUpView extends ConsumerWidget {
     );
   }
 
-  Widget _buildSocialLogin() {
-    return Column(
-      children: [
-        _buildKakaoButton(),
-        const SizedBox(height: 12),
-        _buildGoogleButton(),
-      ],
-    );
-  }
-
-  Widget _buildKakaoButton() {
-    return InkWell(
-      onTap: () {}, // TODO: Kakao Login
-      borderRadius: BorderRadius.circular(12),
-      child: Image.asset(AppAssets.kakaoLogin, fit: BoxFit.contain),
-    );
-  }
-
-  Widget _buildGoogleButton() {
-    return InkWell(
-      onTap: () {}, // TODO: Google Login
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        height: 52,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.border.withValues(alpha: 0.8)),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(AppAssets.googleLogo, width: 24, height: 24),
-            const SizedBox(width: 12),
-            const Text(
-              '구글로 로그인',
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Color(0xFF1F1F1F),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDivider() {
-    return Row(
-      children: [
-        Expanded(
-          child: Container(
-            height: 1,
-            color: AppColors.border.withValues(alpha: 0.5),
-          ),
-        ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            '또는',
-            style: TextStyle(color: AppColors.textTertiary, fontSize: 13),
-          ),
-        ),
-        Expanded(
-          child: Container(
-            height: 1,
-            color: AppColors.border.withValues(alpha: 0.5),
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _buildEmailField(SignUpViewModel viewModel) {
     return AppTextField(
       label: '이메일',
       hintText: 'example@email.com',
       onChanged: viewModel.onEmailChanged,
       keyboardType: TextInputType.emailAddress,
+      focusNode: _emailFocus,
+      textInputAction: TextInputAction.next,
+      onFieldSubmitted: (_) => _phoneFocus.requestFocus(),
     );
   }
 
-  Widget _buildPasswordField(state, SignUpViewModel viewModel) {
+  Widget _buildPhoneField(SignUpViewModel viewModel) {
+    return AppTextField(
+      label: '휴대폰 번호',
+      hintText: '010-1234-5678',
+      onChanged: viewModel.onPhoneChanged,
+      keyboardType: TextInputType.phone,
+      focusNode: _phoneFocus,
+      textInputAction: TextInputAction.next,
+      onFieldSubmitted: (_) => _passwordFocus.requestFocus(),
+    );
+  }
+
+  Widget _buildPasswordField(SignUpState state, SignUpViewModel viewModel) {
     return AppTextField(
       label: '비밀번호',
       hintText: '비밀번호를 입력하세요',
       obscureText: !state.isPasswordVisible,
       onChanged: viewModel.onPasswordChanged,
+      focusNode: _passwordFocus,
+      textInputAction: TextInputAction.next,
+      onFieldSubmitted: (_) => _confirmPasswordFocus.requestFocus(),
       suffixIcon: IconButton(
         icon: Icon(
           state.isPasswordVisible ? Icons.visibility : Icons.visibility_off,
@@ -214,12 +189,18 @@ class SignUpView extends ConsumerWidget {
     );
   }
 
-  Widget _buildConfirmPasswordField(state, SignUpViewModel viewModel) {
+  Widget _buildConfirmPasswordField(
+    SignUpState state,
+    SignUpViewModel viewModel,
+  ) {
     return AppTextField(
       label: '비밀번호 확인',
       hintText: '비밀번호를 다시 입력하세요',
       obscureText: !state.isConfirmPasswordVisible,
       onChanged: viewModel.onConfirmPasswordChanged,
+      focusNode: _confirmPasswordFocus,
+      textInputAction: TextInputAction.done,
+      onFieldSubmitted: (_) => viewModel.signUp(),
       suffixIcon: IconButton(
         icon: Icon(
           state.isConfirmPasswordVisible
@@ -232,7 +213,7 @@ class SignUpView extends ConsumerWidget {
     );
   }
 
-  Widget _buildAgreementCheckbox(state, SignUpViewModel viewModel) {
+  Widget _buildAgreementCheckbox(SignUpState state, SignUpViewModel viewModel) {
     return Row(
       children: [
         SizedBox(
@@ -279,7 +260,7 @@ class SignUpView extends ConsumerWidget {
     );
   }
 
-  Widget _buildSignUpButton(state, SignUpViewModel viewModel) {
+  Widget _buildSignUpButton(SignUpState state, SignUpViewModel viewModel) {
     return AppButton(
       text: '회원가입',
       isLoading: state.isLoading,

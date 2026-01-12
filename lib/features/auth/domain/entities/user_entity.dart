@@ -1,0 +1,14 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'user_entity.freezed.dart';
+
+@freezed
+abstract class UserEntity with _$UserEntity {
+  const factory UserEntity({
+    required int id,
+    required String email,
+    required String role,
+    required String provider,
+    String? lastLoginAt,
+  }) = _UserEntity;
+}

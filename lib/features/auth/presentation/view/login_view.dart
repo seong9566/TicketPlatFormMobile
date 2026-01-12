@@ -252,15 +252,13 @@ class LoginView extends ConsumerWidget {
         ),
         _buildTextLink(
           '회원가입',
-          () => context.pushNamed(AppRouterPath.signUp),
+          () => context.push(AppRouterPath.signUp),
           color: AppColors.primary,
           fontWeight: FontWeight.bold,
         ),
       ],
     );
   }
-
-  // Removed old _buildFooterLinks
 
   Widget _buildTextLink(
     String text,

@@ -1,10 +1,15 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:ticket_platform_mobile/features/auth/data/dto/request/auth_req_dto.dart';
+import 'package:ticket_platform_mobile/features/auth/domain/usecases/sign_up_usecase.dart';
+import 'package:ticket_platform_mobile/features/auth/presentation/providers/auth_providers_di.dart';
 import 'package:ticket_platform_mobile/features/auth/presentation/viewmodels/sign_up_state.dart';
 
 part 'sign_up_viewmodel.g.dart';
 
 @riverpod
 class SignUpViewModel extends _$SignUpViewModel {
+  SignUpUsecase get _signUpUsecase => ref.read(signUpUsecaseProvider);
+
   @override
   SignUpState build() => const SignUpState();
 
@@ -18,6 +23,10 @@ class SignUpViewModel extends _$SignUpViewModel {
 
   void onConfirmPasswordChanged(String value) {
     state = state.copyWith(confirmPassword: value, errorMessage: null);
+  }
+
+  void onPhoneChanged(String value) {
+    state = state.copyWith(phone: value, errorMessage: null);
   }
 
   void toggleAgreed(bool? value) {
@@ -54,10 +63,23 @@ class SignUpViewModel extends _$SignUpViewModel {
 
     state = state.copyWith(isLoading: true, errorMessage: null);
 
-    // TODO: Implement actual Sign Up logic
-    await Future.delayed(const Duration(seconds: 1));
+    try {
+      final req = SignUpReqDto(
+        email: state.email,
+        password: state.password,
+        phone: state.phone,
+        provider: 'email',
+      );
 
-    state = state.copyWith(isLoading: false);
-    // Success logic would typically involve navigation or showing a success message
+      await _signUpUsecase.call(req);
+      state = state.copyWith(isLoading: false, isSuccess: true);
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: e.toString().contains('Failure')
+            ? e.toString()
+            : '회원가입에 실패했습니다.',
+      );
+    }
   }
 }
