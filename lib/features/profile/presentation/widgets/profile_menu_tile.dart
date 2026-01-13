@@ -14,6 +14,7 @@ class ProfileMenuTile extends StatelessWidget {
     this.trailingButtonLabel,
     this.titleColor,
     this.showChevron = true,
+    this.onTap,
   });
 
   final IconData? icon;
@@ -23,11 +24,12 @@ class ProfileMenuTile extends StatelessWidget {
   final String? trailingButtonLabel;
   final Color? titleColor;
   final bool showChevron;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.lg,

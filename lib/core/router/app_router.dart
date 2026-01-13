@@ -16,6 +16,7 @@ import 'package:ticket_platform_mobile/features/sell/presentation/views/sell_reg
 import 'package:ticket_platform_mobile/features/sell/presentation/views/sell_seat_info_view.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/views/sell_ticket_category_view.dart';
 import 'package:ticket_platform_mobile/features/splash/presentation/view/splash_view.dart';
+import 'package:ticket_platform_mobile/features/profile/presentation/views/transaction_history_view.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 
 part 'app_router.g.dart';
@@ -56,6 +57,18 @@ GoRouter goRouter(Ref ref) {
         builder: (context, state) {
           final id = state.pathParameters['id']!;
           return ChatRoomView(chatRoomId: id);
+        },
+      ),
+
+      /// 거래 내역 화면
+      /// pathParam: initialIndex (0: 구매, 1: 판매)
+      GoRoute(
+        path: '${AppRouterPath.transactionHistory.path}/:initialIndex',
+        name: AppRouterPath.transactionHistory.name,
+        builder: (context, state) {
+          final initialIndex =
+              int.tryParse(state.pathParameters['initialIndex'] ?? '0') ?? 0;
+          return TransactionHistoryView(initialIndex: initialIndex);
         },
       ),
 

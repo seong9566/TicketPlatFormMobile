@@ -6,6 +6,8 @@ import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/widgets/profile_header_section.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/widgets/profile_menu_tile.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/widgets/profile_section.dart';
+import 'package:go_router/go_router.dart';
+import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
@@ -29,11 +31,22 @@ class ProfileView extends StatelessWidget {
             const SizedBox(height: AppSpacing.lg),
             ProfileSection(
               title: '거래',
-              children: const [
-                ProfileMenuTile(icon: Icons.receipt_long, title: '판매 내역'),
+              children: [
+                ProfileMenuTile(
+                  icon: Icons.receipt_long,
+                  title: '판매 내역',
+                  onTap: () => context.pushNamed(
+                    AppRouterPath.transactionHistory.name,
+                    pathParameters: {'initialIndex': '1'},
+                  ),
+                ),
                 ProfileMenuTile(
                   icon: Icons.shopping_bag_outlined,
                   title: '구매 내역',
+                  onTap: () => context.pushNamed(
+                    AppRouterPath.transactionHistory.name,
+                    pathParameters: {'initialIndex': '0'},
+                  ),
                 ),
                 // ProfileMenuTile(icon: Icons.credit_card, title: '결제 수단 관리'),
               ],

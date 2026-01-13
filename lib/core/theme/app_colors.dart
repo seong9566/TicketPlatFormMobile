@@ -38,6 +38,8 @@ class AppColors {
   static const badgeSoldOutBackground = Color(0xFFFFEBEB);
   static const badgeSoldOutText = Color(0xFFFF5252);
   static const badgeHotBackground = Color(0xFFE8FCF5);
+  static const badgeWaitingBackground = Color(0xFFFFE082); // 입금 대기 배경
+  static const badgeWaitingText = Color(0xFF6F4C00); // 입금 대기 텍스트
 
   // Borders
   static const border = Color(0xFFE2E8F0);
