@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ticket_platform_mobile/core/enums/category.dart';
+import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/widgets/event_card.dart';
+import 'package:ticket_platform_mobile/shared/widgets/app_search_bar.dart';
 
 /// 티켓 판매 공연 선택 화면
 class SellEventSelectionView extends StatefulWidget {
@@ -30,20 +32,20 @@ class _SellEventSelectionViewState extends State<SellEventSelectionView> {
       location: '올림픽공원 KSPO DOME',
       imageUrl: '',
     ),
-    EventItem(
-      id: '2',
-      title: 'aespa LIVE TOUR - SYNK : Parallel Line',
-      date: '2024.11.29 - 2024.12.01',
-      location: '고척스카이돔',
-      imageUrl: '',
-    ),
-    EventItem(
-      id: '3',
-      title: 'AKMU 10th ANNIVERSARY CONCERT',
-      date: '2024.12.24 - 2024.12.25',
-      location: '경희대학교 평화의전당',
-      imageUrl: '',
-    ),
+    // EventItem(
+    //   id: '2',
+    //   title: 'aespa LIVE TOUR - SYNK : Parallel Line',
+    //   date: '2024.11.29 - 2024.12.01',
+    //   location: '고척스카이돔',
+    //   imageUrl: '',
+    // ),
+    // EventItem(
+    //   id: '3',
+    //   title: 'AKMU 10th ANNIVERSARY CONCERT',
+    //   date: '2024.12.24 - 2024.12.25',
+    //   location: '경희대학교 평화의전당',
+    //   imageUrl: '',
+    // ),
   ];
 
   @override
@@ -56,31 +58,44 @@ class _SellEventSelectionViewState extends State<SellEventSelectionView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => context.pop(),
-        ),
-        title: Text(
-          '공연 선택',
-          style: AppTextStyles.heading3.copyWith(
-            color: Colors.black,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        centerTitle: true,
-      ),
+      appBar: _buildAppBar(context),
       body: Column(
         children: [
-          _buildSearchBar(),
-          _buildFilterSection(),
-          const SizedBox(height: AppSpacing.md),
-          _buildEventList(),
+          Expanded(
+            child: SingleChildScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              child: Column(
+                children: [
+                  _buildSearchBar(),
+                  _buildFilterSection(),
+                  const SizedBox(height: AppSpacing.md),
+                  _buildEventList(),
+                ],
+              ),
+            ),
+          ),
           _buildNextButton(),
         ],
       ),
+    );
+  }
+
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.black),
+        onPressed: () => context.pop(),
+      ),
+      title: Text(
+        '공연 선택',
+        style: AppTextStyles.heading3.copyWith(
+          color: Colors.black,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      centerTitle: true,
     );
   }
 
@@ -88,25 +103,13 @@ class _SellEventSelectionViewState extends State<SellEventSelectionView> {
   Widget _buildSearchBar() {
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.lg),
-      child: TextField(
+      child: AppSearchBar(
+        showBackIcon: false,
         controller: _searchController,
-        decoration: InputDecoration(
-          hintText: '공연명을 검색하세요',
-          hintStyle: AppTextStyles.body1.copyWith(
-            color: AppColors.textTertiary,
-          ),
-          prefixIcon: const Icon(Icons.search, color: AppColors.textTertiary),
-          filled: true,
-          fillColor: AppColors.muted,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.md,
-            vertical: AppSpacing.md,
-          ),
-        ),
+        hintText: '공연명을 검색하세요',
+        onChanged: (value) {
+          // TODO: 검색 로직 구현
+        },
       ),
     );
   }
@@ -145,23 +148,23 @@ class _SellEventSelectionViewState extends State<SellEventSelectionView> {
 
   /// 공연 목록 리스트
   Widget _buildEventList() {
-    return Expanded(
-      child: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-        itemCount: _mockEvents.length,
-        itemBuilder: (context, index) {
-          final event = _mockEvents[index];
-          final isSelected = _selectedEvent == event.id;
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      itemCount: _mockEvents.length,
+      itemBuilder: (context, index) {
+        final event = _mockEvents[index];
+        final isSelected = _selectedEvent == event.id;
 
-          return EventCard(
-            event: event,
-            isSelected: isSelected,
-            onTap: () {
-              setState(() => _selectedEvent = event.id);
-            },
-          );
-        },
-      ),
+        return EventCard(
+          event: event,
+          isSelected: isSelected,
+          onTap: () {
+            setState(() => _selectedEvent = event.id);
+          },
+        );
+      },
     );
   }
 
@@ -177,7 +180,14 @@ class _SellEventSelectionViewState extends State<SellEventSelectionView> {
             onPressed: _selectedEvent == null
                 ? null
                 : () {
-                    // TODO: 다음 단계로 이동
+                    final selectedEventItem = _mockEvents.firstWhere(
+                      (e) => e.id == _selectedEvent,
+                    );
+                    context.pushNamed(
+                      AppRouterPath.sellDateTimeSelection.name,
+                      pathParameters: {'eventId': selectedEventItem.id},
+                      queryParameters: {'eventTitle': selectedEventItem.title},
+                    );
                   },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,

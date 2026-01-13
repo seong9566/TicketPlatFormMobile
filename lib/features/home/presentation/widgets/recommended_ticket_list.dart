@@ -18,8 +18,9 @@ class RecommendedEventList extends StatelessWidget {
       children: events
           .map(
             (event) => InkWell(
-              onTap: () =>
-                  context.push('${AppRouterPath.ticketing}/${event.eventId}'),
+              onTap: () => context.push(
+                '${AppRouterPath.ticketing.path}/${event.eventId}',
+              ),
               child: Container(
                 margin: const EdgeInsets.only(
                   bottom: AppSpacing.md,

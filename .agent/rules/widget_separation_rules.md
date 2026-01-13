@@ -226,6 +226,60 @@ Widget _buildEventList() {
 
 ---
 
+
+## 🏗️ 메서드 배치 순서
+
+### 규칙
+View 파일 내 메서드들은 다음과 같은 순서로 배치해야 합니다.
+
+1. **상태 변수 및 Controller 선언**
+2. **`initState`, `dispose` 등 생명주기 메서드**
+3. **사용자 정의 함수 (Logic, Event Handler)**
+   - 반환값이 `Widget`이 아닌 함수들 (예: `void`, `Future<void>`, `bool` 등)
+   - **반드시 `build()` 메서드 위에 위치해야 합니다.**
+4. **`build()` 메서드**
+5. **UI 빌드 메서드 (`_buildXxx`)**
+
+### ✅ 올바른 순서 예시
+```dart
+class _MyViewState extends State<MyView> {
+  // 1. 변수/Controller
+  final TextEditingController _controller = TextEditingController();
+
+  // 2. 생명주기
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  // 3. 사용자 정의 함수 (Widget build 위에 위치)
+  void _handleSubmit() {
+    // 로직 처리
+  }
+
+  bool get _isValid => _controller.text.isNotEmpty;
+
+  // 4. build 메서드
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          _buildInputSection(),
+        ],
+      ),
+    );
+  }
+
+  // 5. UI 빌드 메서드
+  Widget _buildInputSection() {
+    return TextField(controller: _controller);
+  }
+}
+```
+
+---
 ## ✅ 체크리스트
 
 ### PR 전 자가 점검

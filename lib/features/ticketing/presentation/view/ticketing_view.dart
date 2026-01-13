@@ -164,7 +164,9 @@ class TicketingView extends ConsumerWidget {
           return TicketListingCard(
             ticket: ticket,
             onTap: () {
-              context.push('${AppRouterPath.ticketDetail}/${ticket.ticketId}');
+              context.push(
+                '${AppRouterPath.ticketDetail.path}/${ticket.ticketId}',
+              );
             },
             onFavoriteTap: () {
               ref

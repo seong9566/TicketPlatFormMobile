@@ -54,8 +54,8 @@ class _SplashViewState extends ConsumerState<SplashView>
     ref.listen(splashViewModelProvider, (previous, next) {
       // ignore: unused_result
       next.maybeWhen(
-        authenticated: () => context.go(AppRouterPath.home),
-        unauthenticated: () => context.go(AppRouterPath.login),
+        authenticated: () => context.go(AppRouterPath.home.path),
+        unauthenticated: () => context.go(AppRouterPath.login.path),
         orElse: () {},
       );
     });

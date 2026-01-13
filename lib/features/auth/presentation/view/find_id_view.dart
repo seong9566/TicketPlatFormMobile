@@ -140,7 +140,7 @@ class FindIdView extends ConsumerWidget {
       children: [
         const Text('비밀번호가 기억나지 않으세요? ', style: AppTextStyles.body2),
         GestureDetector(
-          onTap: () => context.pushReplacement(AppRouterPath.findPassword),
+          onTap: () => context.pushReplacement(AppRouterPath.findPassword.path),
           child: const Text(
             '비밀번호 찾기',
             style: TextStyle(

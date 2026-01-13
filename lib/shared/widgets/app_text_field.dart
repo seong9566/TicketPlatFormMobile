@@ -35,8 +35,20 @@ class AppTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: AppTextStyles.body2),
-        const SizedBox(height: 8),
+        if (label.isNotEmpty) ...[
+          Text(label, style: AppTextStyles.body2),
+          const SizedBox(height: 8),
+        ],
+
+        /**
+ * 월 고정 지출 
+ * 
+ * 월세 : 60만원
+ * 교통비 : 6만원
+ * 컴퓨터 할부 : 12만원 
+ * 저축 : 80만원
+ * 
+ */
         TextFormField(
           controller: controller,
           obscureText: obscureText,

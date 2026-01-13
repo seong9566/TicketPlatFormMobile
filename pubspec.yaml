@@ -53,6 +53,7 @@ dependencies:
   # Chat / Real-time
   signalr_netcore: ^1.4.4
   image_picker: ^1.1.2
+  table_calendar: ^3.2.0
 
 dev_dependencies:
   flutter_test:

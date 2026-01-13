@@ -45,8 +45,9 @@ class PopularEventList extends StatelessWidget {
             ),
             clipBehavior: Clip.antiAlias,
             child: InkWell(
-              onTap: () =>
-                  context.push('${AppRouterPath.ticketing}/${event.eventId}'),
+              onTap: () => context.push(
+                '${AppRouterPath.ticketing.path}/${event.eventId}',
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

@@ -6,8 +6,12 @@ import 'package:ticket_platform_mobile/core/router/app_router.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 
+import 'package:intl/date_symbol_data_local.dart';
+
 void main() {
-  runApp(const ProviderScope(child: TicketPlatformApp()));
+  initializeDateFormatting().then((_) {
+    runApp(const ProviderScope(child: TicketPlatformApp()));
+  });
 }
 
 class TicketPlatformApp extends ConsumerWidget {

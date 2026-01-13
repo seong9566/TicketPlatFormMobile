@@ -16,7 +16,7 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.push('${AppRouterPath.ticketing}/${event.id}'),
+      onTap: () => context.push('${AppRouterPath.ticketing.path}/${event.id}'),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

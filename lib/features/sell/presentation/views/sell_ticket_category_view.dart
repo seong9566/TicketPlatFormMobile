@@ -70,6 +70,7 @@ class _SellTicketCategoryViewState extends State<SellTicketCategoryView> {
                           crossAxisCount: 2,
                           crossAxisSpacing: AppSpacing.md,
                           mainAxisSpacing: AppSpacing.md,
+
                           childAspectRatio: 1.0,
                         ),
                     itemCount: _categories.length,
@@ -103,7 +104,7 @@ class _SellTicketCategoryViewState extends State<SellTicketCategoryView> {
                       ? null
                       : () {
                           context.push(
-                            '${AppRouterPath.sellEventSelection}/${_selectedCategory!.code}',
+                            '${AppRouterPath.sellEventSelection.path}/${_selectedCategory!.code}',
                           );
                         },
                   style: ElevatedButton.styleFrom(

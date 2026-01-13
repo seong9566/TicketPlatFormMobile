@@ -46,7 +46,7 @@ class WishlistView extends ConsumerWidget {
                       item: item,
                       onTap: () {
                         context.push(
-                          '${AppRouterPath.ticketDetail}/${item.ticketId}',
+                          '${AppRouterPath.ticketDetail.path}/${item.ticketId}',
                         );
                       },
                       onLikeTap: () {

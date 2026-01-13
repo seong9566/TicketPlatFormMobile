@@ -12,7 +12,7 @@ import 'package:ticket_platform_mobile/features/home/presentation/widgets/home_e
 import 'package:ticket_platform_mobile/features/home/presentation/widgets/home_common_widgets.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/widgets/popular_event_list.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/widgets/recommended_ticket_list.dart';
-import 'package:ticket_platform_mobile/shared/widgets/search_bar.dart';
+import 'package:ticket_platform_mobile/shared/widgets/app_search_bar.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
@@ -73,10 +73,11 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppSpacing.lg,
                   ),
-                  child: GestureDetector(
+                  child: AppSearchBar(
+                    showBackIcon: false,
+                    hintText: '아티스트, 공연, 장소 검색하기',
                     onTap: () =>
                         ref.read(currentTabIndexProvider.notifier).setIndex(1),
-                    child: const SearchBar(showBackIcon: false),
                   ),
                 ),
                 const SizedBox(height: AppSpacing.md),
@@ -153,7 +154,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.push(AppRouterPath.sellTicketCategory),
+        onPressed: () => context.push(AppRouterPath.sellTicketCategory.path),
         backgroundColor: const Color(0xFF22C55E),
         elevation: 4,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),

@@ -26,7 +26,7 @@ class LoginView extends ConsumerWidget {
       next,
     ) {
       if (next) {
-        context.go(AppRouterPath.home);
+        context.go(AppRouterPath.home.path);
       }
     });
 
@@ -238,7 +238,7 @@ class LoginView extends ConsumerWidget {
       children: [
         _buildTextLink(
           '아이디 찾기',
-          () => context.push(AppRouterPath.findId),
+          () => context.push(AppRouterPath.findId.path),
           color: AppColors.textTertiary,
         ),
         const SizedBox(width: 12),
@@ -250,7 +250,7 @@ class LoginView extends ConsumerWidget {
         const SizedBox(width: 12),
         _buildTextLink(
           '비밀번호 찾기',
-          () => context.push(AppRouterPath.findPassword),
+          () => context.push(AppRouterPath.findPassword.path),
           color: AppColors.textTertiary,
         ),
       ],
@@ -267,7 +267,7 @@ class LoginView extends ConsumerWidget {
         ),
         _buildTextLink(
           '회원가입',
-          () => context.push(AppRouterPath.signUp),
+          () => context.push(AppRouterPath.signUp.path),
           color: AppColors.primary,
           fontWeight: FontWeight.bold,
         ),

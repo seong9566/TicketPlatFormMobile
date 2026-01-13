@@ -1,17 +1,42 @@
-abstract class AppRouterPath {
-  static const String splash = '/';
-  static const String home = '/home';
-  static const String events = '/events';
-  static const String ticketing = '/ticketing';
-  static const String ticketDetail = '/ticket_detail';
-  static const String wishlist = '/wishlist';
-  static const String chatRoom = '/chat_room';
-  static const String sellTicketCategory = '/sell/category';
-  static const String sellEventSelection = '/sell/event-selection';
+/// 라우트 정보를 담는 클래스
+class _Route {
+  final String path;
+  final String name;
 
-  static const String profile = '/profile';
-  static const String login = '/login';
-  static const String findId = '/find_id';
-  static const String findPassword = '/find_password';
-  static const String signUp = '/sign_up';
+  const _Route(this.path, this.name);
+}
+
+/// 앱 라우터 경로 상수
+class AppRouterPath {
+  const AppRouterPath._();
+
+  static const splash = _Route('/', 'splash');
+  static const home = _Route('/home', 'home');
+  static const events = _Route('/events', 'events');
+  static const search = _Route('/search', 'search');
+  static const profile = _Route('/profile', 'profile');
+
+  static const ticketing = _Route('/ticketing', 'ticketing');
+  static const ticketDetail = _Route('/ticket_detail', 'ticketDetail');
+  static const chatRoom = _Route('/chat_room', 'chatRoom');
+
+  static const sellTicketCategory = _Route(
+    '/sell/category',
+    'sellTicketCategory',
+  );
+  static const sellEventSelection = _Route(
+    '/sell/event-selection',
+    'sellEventSelection',
+  );
+  static const sellDateTimeSelection = _Route(
+    '/sell/date-time-selection',
+    'sellDateTimeSelection',
+  );
+  static const sellSeatInfo = _Route('/sell/seat-info', 'sellSeatInfo');
+  static const sellRegister = _Route('/sell/register', 'sellRegister');
+
+  static const login = _Route('/login', 'login');
+  static const signUp = _Route('/sign-up', 'signUp');
+  static const findId = _Route('/find-id', 'findId');
+  static const findPassword = _Route('/find-password', 'findPassword');
 }

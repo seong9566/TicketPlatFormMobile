@@ -3,7 +3,7 @@ import 'package:flutter/material.dart' hide SearchBar;
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/features/search/presentation/widgets/popular_search_section.dart';
 import 'package:ticket_platform_mobile/features/search/presentation/widgets/recent_search_section.dart';
-import 'package:ticket_platform_mobile/shared/widgets/search_bar.dart';
+import 'package:ticket_platform_mobile/shared/widgets/app_search_bar.dart';
 import 'package:ticket_platform_mobile/features/search/presentation/widgets/search_category_chips.dart';
 
 class SearchView extends StatelessWidget {
@@ -11,12 +11,7 @@ class SearchView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const recentKeywords = [
-      '세븐틴 콘서트',
-      '뮤지컬 위키드',
-      'BTS',
-      '아이유 콘서트',
-    ];
+    const recentKeywords = ['세븐틴 콘서트', '뮤지컬 위키드', 'BTS', '아이유 콘서트'];
 
     const popularKeywords = [
       '세븐틴',
@@ -40,16 +35,17 @@ class SearchView extends StatelessWidget {
             const SizedBox(height: AppSpacing.md),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-              child: SearchBar(showBackIcon: false,),
+              child: AppSearchBar(
+                showBackIcon: false,
+                hintText: '아티스트, 공연, 장소 검색',
+              ),
             ),
             const SizedBox(height: AppSpacing.md),
             const SearchCategoryChips(),
             const SizedBox(height: AppSpacing.lg),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.lg,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
