@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ticket_platform_mobile/core/enums/category.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
-import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 
@@ -20,36 +19,6 @@ class HomeEventRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color getBgColor(Category type) {
-      switch (type) {
-        case Category.concert:
-          return AppColors.categoryConcertBg;
-        case Category.musical:
-          return AppColors.categoryMusicalBg;
-        case Category.sports:
-          return AppColors.categorySportsBg;
-        case Category.etc:
-          return AppColors.categoryExhibitionBg;
-        default:
-          return AppColors.primaryLight;
-      }
-    }
-
-    Color getIconColor(Category type) {
-      switch (type) {
-        case Category.concert:
-          return AppColors.categoryConcert;
-        case Category.musical:
-          return AppColors.categoryMusical;
-        case Category.sports:
-          return AppColors.categorySports;
-        case Category.etc:
-          return AppColors.categoryExhibition;
-        default:
-          return AppColors.primary;
-      }
-    }
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
       child: Row(
@@ -80,13 +49,13 @@ class HomeEventRow extends StatelessWidget {
                       width: 52,
                       height: 52,
                       decoration: BoxDecoration(
-                        color: getBgColor(event.type),
+                        color: event.type.backgroundColor,
                         borderRadius: BorderRadius.circular(18),
                       ),
                       child: Icon(
                         event.icon,
-                        color: getIconColor(event.type),
-                        size: 24,
+                        size: 28,
+                        color: event.type.color,
                       ),
                     ),
                     const SizedBox(height: 12),

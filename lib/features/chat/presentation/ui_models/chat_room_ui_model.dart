@@ -1,7 +1,10 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/chat_room_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/message_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/transaction_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/user_profile_entity.dart';
+
+part 'chat_room_ui_model.freezed.dart';
 
 class ChatRoomListUiModel {
   final int roomId;
@@ -77,34 +80,22 @@ class ChatRoomListUiModel {
   }
 }
 
-class ChatRoomDetailUiModel {
-  final int roomId;
-  final TicketInfoUiModel ticket;
-  final UserProfileUiModel buyer;
-  final UserProfileUiModel seller;
-  final String statusCode;
-  final String statusName;
-  final TransactionUiModel? transaction;
-  final bool canSendMessage;
-  final bool canRequestPayment;
-  final bool canConfirmPurchase;
-  final bool canCancelTransaction;
-  final List<MessageUiModel> messages;
-
-  ChatRoomDetailUiModel({
-    required this.roomId,
-    required this.ticket,
-    required this.buyer,
-    required this.seller,
-    required this.statusCode,
-    required this.statusName,
-    this.transaction,
-    required this.canSendMessage,
-    required this.canRequestPayment,
-    required this.canConfirmPurchase,
-    required this.canCancelTransaction,
-    required this.messages,
-  });
+@freezed
+abstract class ChatRoomDetailUiModel with _$ChatRoomDetailUiModel {
+  const factory ChatRoomDetailUiModel({
+    required int roomId,
+    required TicketInfoUiModel ticket,
+    required UserProfileUiModel buyer,
+    required UserProfileUiModel seller,
+    required String statusCode,
+    required String statusName,
+    TransactionUiModel? transaction,
+    required bool canSendMessage,
+    required bool canRequestPayment,
+    required bool canConfirmPurchase,
+    required bool canCancelTransaction,
+    required List<MessageUiModel> messages,
+  }) = _ChatRoomDetailUiModel;
 
   factory ChatRoomDetailUiModel.fromEntity(ChatRoomEntity entity) {
     return ChatRoomDetailUiModel(
@@ -153,9 +144,9 @@ class TicketInfoUiModel {
 
   static String _formatNumber(int number) {
     return number.toString().replaceAllMapped(
-          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-          (Match m) => '${m[1]},',
-        );
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+      (Match m) => '${m[1]},',
+    );
   }
 }
 
@@ -221,9 +212,9 @@ class TransactionUiModel {
 
   static String _formatNumber(int number) {
     return number.toString().replaceAllMapped(
-          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-          (Match m) => '${m[1]},',
-        );
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+      (Match m) => '${m[1]},',
+    );
   }
 }
 

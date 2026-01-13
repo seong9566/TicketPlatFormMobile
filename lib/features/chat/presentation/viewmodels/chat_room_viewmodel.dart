@@ -1,3 +1,18 @@
+/// ChatRoomViewModel - Presentation Layer
+///
+/// **역할: UI 상태 관리 및 사용자 인터랙션 처리**
+///
+/// - SignalR Stream 구독 → 실시간 메시지 수신
+/// - UseCase 호출 → 비즈니스 로직 실행
+/// - AsyncValue<ChatRoomDetailUiModel> → UI 상태 관리
+///
+/// **Data Layer와의 차이:**
+/// - ViewModel: UI 상태 관리 (AsyncValue, copyWith)
+/// - DataSource: 외부 데이터 소스 관리 (SignalR, Stream 변환)
+///
+/// **의존성:**
+/// - Domain Layer (UseCase) ONLY - Data Layer 직접 접근 금지
+/// - 예외: SignalR Stream 구독 (DataSource의 Stream을 구독)
 import 'dart:async';
 import 'dart:io';
 
@@ -18,11 +33,18 @@ part 'chat_room_viewmodel.g.dart';
 
 @riverpod
 class ChatRoomViewModel extends _$ChatRoomViewModel {
+  /// 메모리에 보관할 최대 메시지 수
+  /// - 200개 초과 시 오래된 메시지 자동 삭제
+  /// - 삭제된 메시지는 loadMoreMessages()로 재로드 가능
+  static const int _maxMessagesInMemory = 200;
   StreamSubscription<MessageEntity>? _messageSubscription;
   StreamSubscription<RoomUpdatedEvent>? _roomUpdatedSubscription;
   int? _lastMessageId;
   bool _hasMoreMessages = true;
 
+  /// AsyncNotifier 초기화 및 데이터 로드
+  /// - dispose 시 리스너 정리 및 채팅방 퇴장
+  /// - 채팅방 상세 정보 fetch
   @override
   FutureOr<ChatRoomDetailUiModel> build(int roomId) async {
     ref.onDispose(() {
@@ -34,9 +56,14 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
     return _fetchChatRoomDetail(roomId);
   }
 
+  /// 채팅방 상세 정보 조회
+  /// - UseCase를 통해 채팅방 정보 및 메시지 로드
+  /// - 읽음 처리 (markAsRead)
+  /// - SignalR 채팅방 입장 및 이벤트 리스너 설정
   Future<ChatRoomDetailUiModel> _fetchChatRoomDetail(int roomId) async {
-    final entity =
-        await ref.read(getChatRoomDetailUsecaseProvider).call(roomId);
+    final entity = await ref
+        .read(getChatRoomDetailUsecaseProvider)
+        .call(roomId);
 
     await ref.read(markAsReadUsecaseProvider).call(roomId);
 
@@ -50,6 +77,8 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
     return ChatRoomDetailUiModel.fromEntity(entity);
   }
 
+  /// SignalR 채팅방 입장
+  /// - 연결되어 있을 때만 입장 시도
   void _joinRoom(int roomId) {
     try {
       final signalR = ref.read(chatSignalRDataSourceProvider);
@@ -61,6 +90,8 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
     }
   }
 
+  /// SignalR 채팅방 퇴장
+  /// - 화면 종료 시 자동 호출 (ref.onDispose)
   void _leaveRoom() {
     try {
       final currentRoom = state.value;
@@ -81,14 +112,14 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
     _messageSubscription = signalR.onReceiveMessage
         .where((msg) => msg.roomId == roomId)
         .listen((message) {
-      _addNewMessage(message);
-    });
+          _addNewMessage(message);
+        });
 
     _roomUpdatedSubscription = signalR.onRoomUpdated
         .where((event) => event.roomId == roomId)
         .listen((event) {
-      _handleRoomUpdate(event);
-    });
+          _handleRoomUpdate(event);
+        });
   }
 
   void _addNewMessage(MessageEntity message) {
@@ -96,22 +127,15 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
     if (current == null) return;
 
     final newMessageUi = MessageUiModel.fromEntity(message);
-    final List<MessageUiModel> updatedMessages = [newMessageUi, ...current.messages];
+    var updatedMessages = [newMessageUi, ...current.messages];
 
-    state = AsyncValue.data(ChatRoomDetailUiModel(
-      roomId: current.roomId,
-      ticket: current.ticket,
-      buyer: current.buyer,
-      seller: current.seller,
-      statusCode: current.statusCode,
-      statusName: current.statusName,
-      transaction: current.transaction,
-      canSendMessage: current.canSendMessage,
-      canRequestPayment: current.canRequestPayment,
-      canConfirmPurchase: current.canConfirmPurchase,
-      canCancelTransaction: current.canCancelTransaction,
-      messages: updatedMessages,
-    ));
+    // 메시지가 너무 많으면 오래된 메시지 삭제
+    if (updatedMessages.length > _maxMessagesInMemory) {
+      updatedMessages = updatedMessages.take(_maxMessagesInMemory).toList();
+      _hasMoreMessages = true;
+    }
+
+    state = AsyncValue.data(current.copyWith(messages: updatedMessages));
   }
 
   void _handleRoomUpdate(RoomUpdatedEvent event) {
@@ -134,7 +158,9 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
     if (current == null) return;
 
     try {
-      final moreMessages = await ref.read(getMessagesUsecaseProvider).call(
+      final moreMessages = await ref
+          .read(getMessagesUsecaseProvider)
+          .call(
             GetMessagesParams(
               roomId: current.roomId,
               lastMessageId: _lastMessageId,
@@ -150,24 +176,12 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
       _lastMessageId = moreMessages.last.messageId;
       _hasMoreMessages = moreMessages.length >= 50;
 
-      final moreMessagesUi =
-          moreMessages.map(MessageUiModel.fromEntity).toList();
+      final moreMessagesUi = moreMessages
+          .map(MessageUiModel.fromEntity)
+          .toList();
       final updatedMessages = [...current.messages, ...moreMessagesUi];
 
-      state = AsyncValue.data(ChatRoomDetailUiModel(
-        roomId: current.roomId,
-        ticket: current.ticket,
-        buyer: current.buyer,
-        seller: current.seller,
-        statusCode: current.statusCode,
-        statusName: current.statusName,
-        transaction: current.transaction,
-        canSendMessage: current.canSendMessage,
-        canRequestPayment: current.canRequestPayment,
-        canConfirmPurchase: current.canConfirmPurchase,
-        canCancelTransaction: current.canCancelTransaction,
-        messages: updatedMessages,
-      ));
+      state = AsyncValue.data(current.copyWith(messages: updatedMessages));
     } catch (e, stack) {
       AppLogger.e('Error loading more messages', e, stack);
     }
@@ -178,7 +192,9 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
     if (current == null) return false;
 
     try {
-      await ref.read(sendMessageUsecaseProvider).call(
+      await ref
+          .read(sendMessageUsecaseProvider)
+          .call(
             SendMessageParams(
               roomId: current.roomId,
               message: message.isNotEmpty ? message : null,
@@ -197,7 +213,9 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
     if (current == null) return false;
 
     try {
-      await ref.read(requestPaymentUsecaseProvider).call(
+      await ref
+          .read(requestPaymentUsecaseProvider)
+          .call(
             RequestPaymentParams(
               roomId: current.roomId,
               transactionId: transactionId,
@@ -216,7 +234,9 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
     if (current == null) return false;
 
     try {
-      await ref.read(confirmPurchaseUsecaseProvider).call(
+      await ref
+          .read(confirmPurchaseUsecaseProvider)
+          .call(
             ConfirmPurchaseParams(
               roomId: current.roomId,
               transactionId: transactionId,
@@ -235,7 +255,9 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
     if (current == null) return false;
 
     try {
-      await ref.read(cancelTransactionUsecaseProvider).call(
+      await ref
+          .read(cancelTransactionUsecaseProvider)
+          .call(
             CancelTransactionParams(
               roomId: current.roomId,
               transactionId: transactionId,

@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:ticket_platform_mobile/core/enums/category.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/view/chat_room_view.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/views/main_tab_view.dart';
 import 'package:ticket_platform_mobile/features/events/presentation/view/events_view.dart';
@@ -9,6 +10,8 @@ import 'package:ticket_platform_mobile/features/auth/presentation/view/login_vie
 import 'package:ticket_platform_mobile/features/auth/presentation/view/find_id_view.dart';
 import 'package:ticket_platform_mobile/features/auth/presentation/view/find_password_view.dart';
 import 'package:ticket_platform_mobile/features/auth/presentation/view/sign_up_view.dart';
+import 'package:ticket_platform_mobile/features/sell/presentation/views/sell_event_selection_view.dart';
+import 'package:ticket_platform_mobile/features/sell/presentation/views/sell_ticket_category_view.dart';
 import 'package:ticket_platform_mobile/features/splash/presentation/view/splash_view.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 
@@ -87,6 +90,26 @@ GoRouter goRouter(Ref ref) {
         name: 'findPassword',
         builder: (context, state) => const FindPasswordView(),
       ),
+
+      /// 티켓 판매 카테고리 선택 화면
+      GoRoute(
+        path: AppRouterPath.sellTicketCategory,
+        name: 'sellTicketCategory',
+        builder: (context, state) => const SellTicketCategoryView(),
+      ),
+
+      /// 티켓 판매 공연 선택 화면
+      /// pathParam: category (카테고리)
+      GoRoute(
+        path: '${AppRouterPath.sellEventSelection}/:category',
+        name: 'sellEventSelection',
+        builder: (context, state) {
+          final categoryCode = state.pathParameters['category'] ?? '';
+          final category = Category.fromCode(categoryCode);
+          return SellEventSelectionView(category: category);
+        },
+      ),
+
       GoRoute(
         path: AppRouterPath.signUp,
         name: 'signUp',

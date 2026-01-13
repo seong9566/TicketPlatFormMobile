@@ -124,3 +124,8 @@ lib/
 - **Logging**: 배포(Release) 빌드에서는 로그 출력 최소화 및 민감 정보 마스킹 필수.
 - **Obfuscation**: 출시 시 코드 난독화(`--obfuscate`) 적용.
 
+- **Hard-coding**: 문자열, 색상, 수치는 반드시 `core/constants` 또는 `core/theme` 사용.
+  - 🚫 색상 하드코딩 절대 금지: Color(0xFFXXXXXX) 직접 사용 금지. 반드시 AppColors.xxx 사용.
+  - 🚫 텍스트 스타일 하드코딩 금지: TextStyle(fontSize: 16) 등 직접 정의 금지. 반드시 AppTextStyles.xxx 사용.
+  - 🚫 간격 하드코딩 금지: 숫자 리터럴 금지. 반드시 AppSpacing.xxx 사용.
+  - 예외: Colors.white, Colors.black, Colors.transparent만 직접 사용 허용.

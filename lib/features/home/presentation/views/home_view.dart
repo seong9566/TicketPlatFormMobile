@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart' hide SearchBar;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ticket_platform_mobile/core/enums/category.dart';
+import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/viewmodels/home_viewmodel.dart';
@@ -68,15 +70,13 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 const HomeHeader(),
                 const SizedBox(height: AppSpacing.md),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.lg,
+                  ),
                   child: GestureDetector(
-                    onTap: () => ref
-                        .read(currentTabIndexProvider.notifier)
-                        .setIndex(1),
-                    child: const SearchBar(
-                      showBackIcon: false,
-                    ),
+                    onTap: () =>
+                        ref.read(currentTabIndexProvider.notifier).setIndex(1),
+                    child: const SearchBar(showBackIcon: false),
                   ),
                 ),
                 const SizedBox(height: AppSpacing.md),
@@ -94,9 +94,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   data: (data) => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      HomeSectionHeader(
-                        title: '🔥 현재 인기 공연',
-                      ),
+                      HomeSectionHeader(title: '🔥 현재 인기 공연'),
                       const SizedBox(height: AppSpacing.md),
                       PopularEventList(events: data.popularEvents),
                       const SizedBox(height: AppSpacing.xl),
@@ -155,7 +153,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => context.push(AppRouterPath.sellTicketCategory),
         backgroundColor: const Color(0xFF22C55E),
         elevation: 4,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),

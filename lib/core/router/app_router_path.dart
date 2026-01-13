@@ -6,6 +6,8 @@ abstract class AppRouterPath {
   static const String ticketDetail = '/ticket_detail';
   static const String wishlist = '/wishlist';
   static const String chatRoom = '/chat_room';
+  static const String sellTicketCategory = '/sell/category';
+  static const String sellEventSelection = '/sell/event-selection';
 
   static const String profile = '/profile';
   static const String login = '/login';
