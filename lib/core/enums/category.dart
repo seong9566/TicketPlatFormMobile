@@ -23,9 +23,9 @@ enum Category {
     AppColors.categoryMusical,
     AppColors.categoryMusicalBg,
   ),
-  classic(
-    'classic',
-    '클래식/무용',
+  exhibition(
+    'exhibition',
+    '전시/행사',
     4,
     AppColors.categoryExhibition,
     AppColors.categoryExhibitionBg,

@@ -35,13 +35,21 @@ class ApiEndpoint {
   // Chat
   static const String chatRooms = '/api/chat/rooms';
   static const String chatMessages = '/api/chat/messages';
+  static const String chatRoomDetail = '/api/chat/rooms/detail';
+  static const String chatRoomRead = '/api/chat/rooms/read';
+  static const String requestPayment = '/api/chat/rooms/request-payment';
+  static const String confirmPurchase = '/api/chat/rooms/confirm-purchase';
+  static const String cancelTransaction = '/api/chat/rooms/cancel';
+  static const String chatMessageImageUrl = '/api/chat/messages/image-url';
 
-  static String chatRoomDetail(int roomId) => '/api/chat/rooms/$roomId';
-  static String chatRoomMessages(int roomId) => '/api/chat/rooms/$roomId/messages';
-  static String chatRoomRead(int roomId) => '/api/chat/rooms/$roomId/read';
-  static String requestPayment(int roomId) => '/api/chat/rooms/$roomId/request-payment';
-  static String confirmPurchase(int roomId) => '/api/chat/rooms/$roomId/confirm-purchase';
-  static String cancelTransaction(int roomId) => '/api/chat/rooms/$roomId/cancel';
+  // Sell
+  // Categories는 로컬에서 Enum으로 관리 중
+  static const String sellCategories = '/api/sell/categories';
+  static const String sellEvents = '/api/sell/events';
+  static const String sellEventSchedules = '/api/sell/events/schedules';
+  static const String sellSeatOptions = '/api/sell/events/seat-options';
+  static const String sellTickets = '/api/sell/tickets';
+  static const String sellMyTickets = '/api/sell/my-tickets';
 
   // SignalR Hub
   static String get chatHub => '$baseUrl/hubs/chat';

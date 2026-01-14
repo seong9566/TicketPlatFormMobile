@@ -91,8 +91,7 @@ class ChatRepositoryImpl implements ChatRepository {
     required int transactionId,
   }) async {
     final response = await _remoteDataSource.requestPayment(
-      roomId: roomId,
-      req: RequestPaymentReqDto(transactionId: transactionId),
+      RequestPaymentReqDto(roomId: roomId, transactionId: transactionId),
     );
     return response.dataOrThrow.toResult();
   }
@@ -103,8 +102,7 @@ class ChatRepositoryImpl implements ChatRepository {
     required int transactionId,
   }) async {
     final response = await _remoteDataSource.confirmPurchase(
-      roomId: roomId,
-      req: ConfirmPurchaseReqDto(transactionId: transactionId),
+      ConfirmPurchaseReqDto(roomId: roomId, transactionId: transactionId),
     );
     return response.dataOrThrow.toResult();
   }
@@ -116,8 +114,8 @@ class ChatRepositoryImpl implements ChatRepository {
     required String cancelReason,
   }) async {
     await _remoteDataSource.cancelTransaction(
-      roomId: roomId,
-      req: CancelTransactionReqDto(
+      CancelTransactionReqDto(
+        roomId: roomId,
         transactionId: transactionId,
         cancelReason: cancelReason,
       ),

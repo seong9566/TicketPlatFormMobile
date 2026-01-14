@@ -22,7 +22,7 @@ class _SellTicketCategoryViewState extends State<SellTicketCategoryView> {
     CategoryItem(category: Category.concert, icon: Icons.music_note),
     CategoryItem(category: Category.musical, icon: Icons.theater_comedy),
     CategoryItem(category: Category.sports, icon: Icons.sports_soccer),
-    CategoryItem(category: Category.classic, icon: Icons.celebration),
+    CategoryItem(category: Category.exhibition, icon: Icons.celebration),
   ];
 
   @override

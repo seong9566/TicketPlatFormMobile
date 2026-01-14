@@ -23,7 +23,8 @@ abstract class ChatRemoteDataSource {
 
   /// 채팅방 생성 또는 조회
   Future<BaseResponse<ChatRoomRespDto>> createOrGetChatRoom(
-      CreateChatRoomReqDto req);
+    CreateChatRoomReqDto req,
+  );
 
   /// 메시지 전송
   Future<BaseResponse<SendMessageRespDto>> sendMessage({
@@ -43,22 +44,17 @@ abstract class ChatRemoteDataSource {
   Future<BaseResponse<void>> markAsRead(int roomId);
 
   /// 결제 요청
-  Future<BaseResponse<PaymentRequestRespDto>> requestPayment({
-    required int roomId,
-    required RequestPaymentReqDto req,
-  });
+  Future<BaseResponse<PaymentRequestRespDto>> requestPayment(
+    RequestPaymentReqDto req,
+  );
 
   /// 구매 확정
-  Future<BaseResponse<PurchaseConfirmRespDto>> confirmPurchase({
-    required int roomId,
-    required ConfirmPurchaseReqDto req,
-  });
+  Future<BaseResponse<PurchaseConfirmRespDto>> confirmPurchase(
+    ConfirmPurchaseReqDto req,
+  );
 
   /// 거래 취소
-  Future<BaseResponse<void>> cancelTransaction({
-    required int roomId,
-    required CancelTransactionReqDto req,
-  });
+  Future<BaseResponse<void>> cancelTransaction(CancelTransactionReqDto req);
 }
 
 class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
@@ -88,7 +84,8 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   Future<BaseResponse<ChatRoomRespDto>> getChatRoomDetail(int roomId) async {
     return safeApiCall<ChatRoomRespDto>(
       apiCall: (options) => _dio.get(
-        ApiEndpoint.chatRoomDetail(roomId),
+        ApiEndpoint.chatRoomDetail,
+        queryParameters: {'roomId': roomId},
         options: options,
       ),
       apiName: 'getChatRoomDetail',
@@ -99,13 +96,11 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
 
   @override
   Future<BaseResponse<ChatRoomRespDto>> createOrGetChatRoom(
-      CreateChatRoomReqDto req) async {
+    CreateChatRoomReqDto req,
+  ) async {
     return safeApiCall<ChatRoomRespDto>(
-      apiCall: (options) => _dio.post(
-        ApiEndpoint.chatRooms,
-        data: req.toMap(),
-        options: options,
-      ),
+      apiCall: (options) =>
+          _dio.post(ApiEndpoint.chatRooms, data: req.toMap(), options: options),
       apiName: 'createOrGetChatRoom',
       dataParser: (json) =>
           ChatRoomRespDto.fromJson(json as Map<String, dynamic>),
@@ -131,8 +126,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
           'image',
           await MultipartFile.fromFile(
             imageFile.path,
-            filename:
-                'chat_image_${DateTime.now().millisecondsSinceEpoch}.jpg',
+            filename: 'chat_image_${DateTime.now().millisecondsSinceEpoch}.jpg',
           ),
         ),
       );
@@ -159,14 +153,14 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
     int? lastMessageId,
     int limit = 50,
   }) async {
-    final queryParams = <String, dynamic>{'limit': limit};
+    final queryParams = <String, dynamic>{'roomId': roomId, 'limit': limit};
     if (lastMessageId != null) {
       queryParams['lastMessageId'] = lastMessageId;
     }
 
     return safeApiCall<List<MessageDto>>(
       apiCall: (options) => _dio.get(
-        ApiEndpoint.chatRoomMessages(roomId),
+        ApiEndpoint.chatMessages,
         queryParameters: queryParams,
         options: options,
       ),
@@ -181,7 +175,8 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   Future<BaseResponse<void>> markAsRead(int roomId) async {
     return safeApiCall<void>(
       apiCall: (options) => _dio.post(
-        ApiEndpoint.chatRoomRead(roomId),
+        ApiEndpoint.chatRoomRead,
+        data: {'roomId': roomId},
         options: options,
       ),
       apiName: 'markAsRead',
@@ -190,14 +185,13 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   }
 
   @override
-  Future<BaseResponse<PaymentRequestRespDto>> requestPayment({
-    required int roomId,
-    required RequestPaymentReqDto req,
-  }) async {
+  Future<BaseResponse<PaymentRequestRespDto>> requestPayment(
+    RequestPaymentReqDto req,
+  ) async {
     return safeApiCall<PaymentRequestRespDto>(
       apiCall: (options) => _dio.post(
-        ApiEndpoint.requestPayment(roomId),
-        data: req.toMap(),
+        ApiEndpoint.requestPayment,
+        data: req.toJson(),
         options: options,
       ),
       apiName: 'requestPayment',
@@ -207,14 +201,13 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   }
 
   @override
-  Future<BaseResponse<PurchaseConfirmRespDto>> confirmPurchase({
-    required int roomId,
-    required ConfirmPurchaseReqDto req,
-  }) async {
+  Future<BaseResponse<PurchaseConfirmRespDto>> confirmPurchase(
+    ConfirmPurchaseReqDto req,
+  ) async {
     return safeApiCall<PurchaseConfirmRespDto>(
       apiCall: (options) => _dio.post(
-        ApiEndpoint.confirmPurchase(roomId),
-        data: req.toMap(),
+        ApiEndpoint.confirmPurchase,
+        data: req.toJson(),
         options: options,
       ),
       apiName: 'confirmPurchase',
@@ -224,14 +217,13 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   }
 
   @override
-  Future<BaseResponse<void>> cancelTransaction({
-    required int roomId,
-    required CancelTransactionReqDto req,
-  }) async {
+  Future<BaseResponse<void>> cancelTransaction(
+    CancelTransactionReqDto req,
+  ) async {
     return safeApiCall<void>(
       apiCall: (options) => _dio.post(
-        ApiEndpoint.cancelTransaction(roomId),
-        data: req.toMap(),
+        ApiEndpoint.cancelTransaction,
+        data: req.toJson(),
         options: options,
       ),
       apiName: 'cancelTransaction',
