@@ -6,6 +6,7 @@ import 'package:ticket_platform_mobile/features/sell/domain/usecases/get_sell_ca
 import 'package:ticket_platform_mobile/features/sell/domain/usecases/get_sell_events_usecase.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/usecases/get_sell_schedules_usecase.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/usecases/get_sell_seat_options_usecase.dart';
+import 'package:ticket_platform_mobile/features/sell/domain/usecases/refresh_ticket_image_urls_usecase.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/usecases/register_sell_ticket_usecase.dart';
 
 part 'sell_providers_di.g.dart';
@@ -43,4 +44,9 @@ GetMySellTicketsUsecase getMySellTicketsUsecase(Ref ref) {
 @riverpod
 CancelSellTicketUsecase cancelSellTicketUsecase(Ref ref) {
   return CancelSellTicketUsecase(ref.watch(sellRepositoryProvider));
+}
+
+@riverpod
+RefreshTicketImageUrlsUsecase refreshTicketImageUrlsUsecase(Ref ref) {
+  return RefreshTicketImageUrlsUsecase(ref.watch(sellRepositoryProvider));
 }

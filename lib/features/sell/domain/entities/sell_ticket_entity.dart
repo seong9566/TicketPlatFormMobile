@@ -2,6 +2,16 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'sell_ticket_entity.freezed.dart';
 
+/// 티켓 이미지
+@freezed
+abstract class TicketImageEntity with _$TicketImageEntity {
+  const factory TicketImageEntity({
+    required int imageId,
+    required String imageUrl,
+    required DateTime expiresAt,
+  }) = _TicketImageEntity;
+}
+
 /// 내 판매 티켓
 @freezed
 abstract class SellMyTicketEntity with _$SellMyTicketEntity {
@@ -39,6 +49,7 @@ abstract class SellTicketRegisterResult with _$SellTicketRegisterResult {
     required int ticketId,
     required String status,
     required String message,
+    List<TicketImageEntity>? images,
   }) = _SellTicketRegisterResult;
 }
 

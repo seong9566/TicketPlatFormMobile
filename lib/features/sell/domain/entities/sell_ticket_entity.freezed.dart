@@ -12,6 +12,269 @@ part of 'sell_ticket_entity.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
+mixin _$TicketImageEntity {
+
+ int get imageId; String get imageUrl; DateTime get expiresAt;
+/// Create a copy of TicketImageEntity
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TicketImageEntityCopyWith<TicketImageEntity> get copyWith => _$TicketImageEntityCopyWithImpl<TicketImageEntity>(this as TicketImageEntity, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketImageEntity&&(identical(other.imageId, imageId) || other.imageId == imageId)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,imageId,imageUrl,expiresAt);
+
+@override
+String toString() {
+  return 'TicketImageEntity(imageId: $imageId, imageUrl: $imageUrl, expiresAt: $expiresAt)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $TicketImageEntityCopyWith<$Res>  {
+  factory $TicketImageEntityCopyWith(TicketImageEntity value, $Res Function(TicketImageEntity) _then) = _$TicketImageEntityCopyWithImpl;
+@useResult
+$Res call({
+ int imageId, String imageUrl, DateTime expiresAt
+});
+
+
+
+
+}
+/// @nodoc
+class _$TicketImageEntityCopyWithImpl<$Res>
+    implements $TicketImageEntityCopyWith<$Res> {
+  _$TicketImageEntityCopyWithImpl(this._self, this._then);
+
+  final TicketImageEntity _self;
+  final $Res Function(TicketImageEntity) _then;
+
+/// Create a copy of TicketImageEntity
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? imageId = null,Object? imageUrl = null,Object? expiresAt = null,}) {
+  return _then(_self.copyWith(
+imageId: null == imageId ? _self.imageId : imageId // ignore: cast_nullable_to_non_nullable
+as int,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
+as String,expiresAt: null == expiresAt ? _self.expiresAt : expiresAt // ignore: cast_nullable_to_non_nullable
+as DateTime,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [TicketImageEntity].
+extension TicketImageEntityPatterns on TicketImageEntity {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TicketImageEntity value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _TicketImageEntity() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TicketImageEntity value)  $default,){
+final _that = this;
+switch (_that) {
+case _TicketImageEntity():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TicketImageEntity value)?  $default,){
+final _that = this;
+switch (_that) {
+case _TicketImageEntity() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int imageId,  String imageUrl,  DateTime expiresAt)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _TicketImageEntity() when $default != null:
+return $default(_that.imageId,_that.imageUrl,_that.expiresAt);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int imageId,  String imageUrl,  DateTime expiresAt)  $default,) {final _that = this;
+switch (_that) {
+case _TicketImageEntity():
+return $default(_that.imageId,_that.imageUrl,_that.expiresAt);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int imageId,  String imageUrl,  DateTime expiresAt)?  $default,) {final _that = this;
+switch (_that) {
+case _TicketImageEntity() when $default != null:
+return $default(_that.imageId,_that.imageUrl,_that.expiresAt);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _TicketImageEntity implements TicketImageEntity {
+  const _TicketImageEntity({required this.imageId, required this.imageUrl, required this.expiresAt});
+  
+
+@override final  int imageId;
+@override final  String imageUrl;
+@override final  DateTime expiresAt;
+
+/// Create a copy of TicketImageEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$TicketImageEntityCopyWith<_TicketImageEntity> get copyWith => __$TicketImageEntityCopyWithImpl<_TicketImageEntity>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TicketImageEntity&&(identical(other.imageId, imageId) || other.imageId == imageId)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,imageId,imageUrl,expiresAt);
+
+@override
+String toString() {
+  return 'TicketImageEntity(imageId: $imageId, imageUrl: $imageUrl, expiresAt: $expiresAt)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$TicketImageEntityCopyWith<$Res> implements $TicketImageEntityCopyWith<$Res> {
+  factory _$TicketImageEntityCopyWith(_TicketImageEntity value, $Res Function(_TicketImageEntity) _then) = __$TicketImageEntityCopyWithImpl;
+@override @useResult
+$Res call({
+ int imageId, String imageUrl, DateTime expiresAt
+});
+
+
+
+
+}
+/// @nodoc
+class __$TicketImageEntityCopyWithImpl<$Res>
+    implements _$TicketImageEntityCopyWith<$Res> {
+  __$TicketImageEntityCopyWithImpl(this._self, this._then);
+
+  final _TicketImageEntity _self;
+  final $Res Function(_TicketImageEntity) _then;
+
+/// Create a copy of TicketImageEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? imageId = null,Object? imageUrl = null,Object? expiresAt = null,}) {
+  return _then(_TicketImageEntity(
+imageId: null == imageId ? _self.imageId : imageId // ignore: cast_nullable_to_non_nullable
+as int,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
+as String,expiresAt: null == expiresAt ? _self.expiresAt : expiresAt // ignore: cast_nullable_to_non_nullable
+as DateTime,
+  ));
+}
+
+
+}
+
+/// @nodoc
 mixin _$SellMyTicketEntity {
 
  int get ticketId; String get title; DateTime get eventDatetime; String get seatInfo; int get quantity; int get remainingQuantity; int get price; int get originalPrice; String get status; DateTime get createdAt; String? get thumbnailUrl;
@@ -576,7 +839,7 @@ as int,
 /// @nodoc
 mixin _$SellTicketRegisterResult {
 
- int get ticketId; String get status; String get message;
+ int get ticketId; String get status; String get message; List<TicketImageEntity>? get images;
 /// Create a copy of SellTicketRegisterResult
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -587,16 +850,16 @@ $SellTicketRegisterResultCopyWith<SellTicketRegisterResult> get copyWith => _$Se
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SellTicketRegisterResult&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.status, status) || other.status == status)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SellTicketRegisterResult&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.status, status) || other.status == status)&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other.images, images));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,ticketId,status,message);
+int get hashCode => Object.hash(runtimeType,ticketId,status,message,const DeepCollectionEquality().hash(images));
 
 @override
 String toString() {
-  return 'SellTicketRegisterResult(ticketId: $ticketId, status: $status, message: $message)';
+  return 'SellTicketRegisterResult(ticketId: $ticketId, status: $status, message: $message, images: $images)';
 }
 
 
@@ -607,7 +870,7 @@ abstract mixin class $SellTicketRegisterResultCopyWith<$Res>  {
   factory $SellTicketRegisterResultCopyWith(SellTicketRegisterResult value, $Res Function(SellTicketRegisterResult) _then) = _$SellTicketRegisterResultCopyWithImpl;
 @useResult
 $Res call({
- int ticketId, String status, String message
+ int ticketId, String status, String message, List<TicketImageEntity>? images
 });
 
 
@@ -624,12 +887,13 @@ class _$SellTicketRegisterResultCopyWithImpl<$Res>
 
 /// Create a copy of SellTicketRegisterResult
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? ticketId = null,Object? status = null,Object? message = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? ticketId = null,Object? status = null,Object? message = null,Object? images = freezed,}) {
   return _then(_self.copyWith(
 ticketId: null == ticketId ? _self.ticketId : ticketId // ignore: cast_nullable_to_non_nullable
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String,
+as String,images: freezed == images ? _self.images : images // ignore: cast_nullable_to_non_nullable
+as List<TicketImageEntity>?,
   ));
 }
 
@@ -714,10 +978,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int ticketId,  String status,  String message)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int ticketId,  String status,  String message,  List<TicketImageEntity>? images)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SellTicketRegisterResult() when $default != null:
-return $default(_that.ticketId,_that.status,_that.message);case _:
+return $default(_that.ticketId,_that.status,_that.message,_that.images);case _:
   return orElse();
 
 }
@@ -735,10 +999,10 @@ return $default(_that.ticketId,_that.status,_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int ticketId,  String status,  String message)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int ticketId,  String status,  String message,  List<TicketImageEntity>? images)  $default,) {final _that = this;
 switch (_that) {
 case _SellTicketRegisterResult():
-return $default(_that.ticketId,_that.status,_that.message);case _:
+return $default(_that.ticketId,_that.status,_that.message,_that.images);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -755,10 +1019,10 @@ return $default(_that.ticketId,_that.status,_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int ticketId,  String status,  String message)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int ticketId,  String status,  String message,  List<TicketImageEntity>? images)?  $default,) {final _that = this;
 switch (_that) {
 case _SellTicketRegisterResult() when $default != null:
-return $default(_that.ticketId,_that.status,_that.message);case _:
+return $default(_that.ticketId,_that.status,_that.message,_that.images);case _:
   return null;
 
 }
@@ -770,12 +1034,21 @@ return $default(_that.ticketId,_that.status,_that.message);case _:
 
 
 class _SellTicketRegisterResult implements SellTicketRegisterResult {
-  const _SellTicketRegisterResult({required this.ticketId, required this.status, required this.message});
+  const _SellTicketRegisterResult({required this.ticketId, required this.status, required this.message, final  List<TicketImageEntity>? images}): _images = images;
   
 
 @override final  int ticketId;
 @override final  String status;
 @override final  String message;
+ final  List<TicketImageEntity>? _images;
+@override List<TicketImageEntity>? get images {
+  final value = _images;
+  if (value == null) return null;
+  if (_images is EqualUnmodifiableListView) return _images;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
 
 /// Create a copy of SellTicketRegisterResult
 /// with the given fields replaced by the non-null parameter values.
@@ -787,16 +1060,16 @@ _$SellTicketRegisterResultCopyWith<_SellTicketRegisterResult> get copyWith => __
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SellTicketRegisterResult&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.status, status) || other.status == status)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SellTicketRegisterResult&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.status, status) || other.status == status)&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other._images, _images));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,ticketId,status,message);
+int get hashCode => Object.hash(runtimeType,ticketId,status,message,const DeepCollectionEquality().hash(_images));
 
 @override
 String toString() {
-  return 'SellTicketRegisterResult(ticketId: $ticketId, status: $status, message: $message)';
+  return 'SellTicketRegisterResult(ticketId: $ticketId, status: $status, message: $message, images: $images)';
 }
 
 
@@ -807,7 +1080,7 @@ abstract mixin class _$SellTicketRegisterResultCopyWith<$Res> implements $SellTi
   factory _$SellTicketRegisterResultCopyWith(_SellTicketRegisterResult value, $Res Function(_SellTicketRegisterResult) _then) = __$SellTicketRegisterResultCopyWithImpl;
 @override @useResult
 $Res call({
- int ticketId, String status, String message
+ int ticketId, String status, String message, List<TicketImageEntity>? images
 });
 
 
@@ -824,12 +1097,13 @@ class __$SellTicketRegisterResultCopyWithImpl<$Res>
 
 /// Create a copy of SellTicketRegisterResult
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? ticketId = null,Object? status = null,Object? message = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? ticketId = null,Object? status = null,Object? message = null,Object? images = freezed,}) {
   return _then(_SellTicketRegisterResult(
 ticketId: null == ticketId ? _self.ticketId : ticketId // ignore: cast_nullable_to_non_nullable
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String,
+as String,images: freezed == images ? _self._images : images // ignore: cast_nullable_to_non_nullable
+as List<TicketImageEntity>?,
   ));
 }
 

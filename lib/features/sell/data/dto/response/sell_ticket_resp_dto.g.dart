@@ -6,12 +6,29 @@ part of 'sell_ticket_resp_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+_TicketImageRespDto _$TicketImageRespDtoFromJson(Map<String, dynamic> json) =>
+    _TicketImageRespDto(
+      imageId: (json['imageId'] as num).toInt(),
+      imageUrl: json['imageUrl'] as String,
+      expiresAt: json['expiresAt'] as String,
+    );
+
+Map<String, dynamic> _$TicketImageRespDtoToJson(_TicketImageRespDto instance) =>
+    <String, dynamic>{
+      'imageId': instance.imageId,
+      'imageUrl': instance.imageUrl,
+      'expiresAt': instance.expiresAt,
+    };
+
 _SellTicketRegisterRespDto _$SellTicketRegisterRespDtoFromJson(
   Map<String, dynamic> json,
 ) => _SellTicketRegisterRespDto(
   ticketId: (json['ticketId'] as num).toInt(),
   status: json['status'] as String,
   message: json['message'] as String,
+  images: (json['images'] as List<dynamic>?)
+      ?.map((e) => TicketImageRespDto.fromJson(e as Map<String, dynamic>))
+      .toList(),
 );
 
 Map<String, dynamic> _$SellTicketRegisterRespDtoToJson(
@@ -20,7 +37,20 @@ Map<String, dynamic> _$SellTicketRegisterRespDtoToJson(
   'ticketId': instance.ticketId,
   'status': instance.status,
   'message': instance.message,
+  'images': instance.images,
 };
+
+_TicketImagesRefreshRespDto _$TicketImagesRefreshRespDtoFromJson(
+  Map<String, dynamic> json,
+) => _TicketImagesRefreshRespDto(
+  images: (json['images'] as List<dynamic>)
+      .map((e) => TicketImageRespDto.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
+
+Map<String, dynamic> _$TicketImagesRefreshRespDtoToJson(
+  _TicketImagesRefreshRespDto instance,
+) => <String, dynamic>{'images': instance.images};
 
 _SellMyTicketRespDto _$SellMyTicketRespDtoFromJson(Map<String, dynamic> json) =>
     _SellMyTicketRespDto(

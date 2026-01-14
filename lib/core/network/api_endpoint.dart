@@ -50,6 +50,8 @@ class ApiEndpoint {
   static const String sellSeatOptions = '/api/sell/events/seat-options';
   static const String sellTickets = '/api/sell/tickets';
   static const String sellMyTickets = '/api/sell/my-tickets';
+  static const String sellTicketImageRefresh =
+      '/api/sell/tickets/images/refresh';
 
   // SignalR Hub
   static String get chatHub => '$baseUrl/hubs/chat';

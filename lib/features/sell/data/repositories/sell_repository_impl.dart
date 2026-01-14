@@ -111,6 +111,7 @@ class SellRepositoryImpl implements SellRepository {
         ticketId: data.ticketId,
         status: data.status,
         message: data.message,
+        images: data.images?.map((dto) => dto.toEntity()).toList(),
       ),
       errorMessage: '티켓 등록에 실패했습니다.',
     );
@@ -146,6 +147,15 @@ class SellRepositoryImpl implements SellRepository {
         message: data.message,
       ),
       errorMessage: '티켓 취소에 실패했습니다.',
+    );
+  }
+
+  @override
+  Future<List<TicketImageEntity>> refreshTicketImageUrls(int ticketId) async {
+    final response = await _remoteDataSource.refreshTicketImageUrls(ticketId);
+    return response.mapOrThrow(
+      (data) => data.images.map((dto) => dto.toEntity()).toList(),
+      errorMessage: '이미지 URL 재발급에 실패했습니다.',
     );
   }
 }

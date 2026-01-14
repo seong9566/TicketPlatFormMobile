@@ -4,6 +4,19 @@ import 'package:ticket_platform_mobile/features/sell/domain/entities/sell_ticket
 part 'sell_ticket_resp_dto.freezed.dart';
 part 'sell_ticket_resp_dto.g.dart';
 
+/// 티켓 이미지 응답
+@freezed
+abstract class TicketImageRespDto with _$TicketImageRespDto {
+  const factory TicketImageRespDto({
+    required int imageId,
+    required String imageUrl,
+    required String expiresAt,
+  }) = _TicketImageRespDto;
+
+  factory TicketImageRespDto.fromJson(Map<String, dynamic> json) =>
+      _$TicketImageRespDtoFromJson(json);
+}
+
 /// 티켓 등록 응답
 @freezed
 abstract class SellTicketRegisterRespDto with _$SellTicketRegisterRespDto {
@@ -11,10 +24,22 @@ abstract class SellTicketRegisterRespDto with _$SellTicketRegisterRespDto {
     required int ticketId,
     required String status,
     required String message,
+    List<TicketImageRespDto>? images,
   }) = _SellTicketRegisterRespDto;
 
   factory SellTicketRegisterRespDto.fromJson(Map<String, dynamic> json) =>
       _$SellTicketRegisterRespDtoFromJson(json);
+}
+
+/// 이미지 URL 재발급 응답
+@freezed
+abstract class TicketImagesRefreshRespDto with _$TicketImagesRefreshRespDto {
+  const factory TicketImagesRefreshRespDto({
+    required List<TicketImageRespDto> images,
+  }) = _TicketImagesRefreshRespDto;
+
+  factory TicketImagesRefreshRespDto.fromJson(Map<String, dynamic> json) =>
+      _$TicketImagesRefreshRespDtoFromJson(json);
 }
 
 /// 내 티켓 목록 아이템
@@ -64,6 +89,16 @@ abstract class SellTicketCancelRespDto with _$SellTicketCancelRespDto {
 
   factory SellTicketCancelRespDto.fromJson(Map<String, dynamic> json) =>
       _$SellTicketCancelRespDtoFromJson(json);
+}
+
+// ========== Extensions ==========
+
+extension TicketImageRespDtoX on TicketImageRespDto {
+  TicketImageEntity toEntity() => TicketImageEntity(
+    imageId: imageId,
+    imageUrl: imageUrl,
+    expiresAt: DateTime.parse(expiresAt),
+  );
 }
 
 extension SellMyTicketRespDtoX on SellMyTicketRespDto {

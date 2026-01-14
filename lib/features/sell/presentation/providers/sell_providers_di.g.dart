@@ -344,3 +344,54 @@ final class CancelSellTicketUsecaseProvider
 
 String _$cancelSellTicketUsecaseHash() =>
     r'792843b5573cd186f6cfdd895e445951dde3c2bc';
+
+@ProviderFor(refreshTicketImageUrlsUsecase)
+const refreshTicketImageUrlsUsecaseProvider =
+    RefreshTicketImageUrlsUsecaseProvider._();
+
+final class RefreshTicketImageUrlsUsecaseProvider
+    extends
+        $FunctionalProvider<
+          RefreshTicketImageUrlsUsecase,
+          RefreshTicketImageUrlsUsecase,
+          RefreshTicketImageUrlsUsecase
+        >
+    with $Provider<RefreshTicketImageUrlsUsecase> {
+  const RefreshTicketImageUrlsUsecaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'refreshTicketImageUrlsUsecaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$refreshTicketImageUrlsUsecaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<RefreshTicketImageUrlsUsecase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  RefreshTicketImageUrlsUsecase create(Ref ref) {
+    return refreshTicketImageUrlsUsecase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(RefreshTicketImageUrlsUsecase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<RefreshTicketImageUrlsUsecase>(
+        value,
+      ),
+    );
+  }
+}
+
+String _$refreshTicketImageUrlsUsecaseHash() =>
+    r'3fb0f3a7b0173911afb431bd505e6b45f15e91e4';

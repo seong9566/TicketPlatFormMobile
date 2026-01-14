@@ -49,4 +49,7 @@ abstract class SellRepository {
 
   /// 티켓 취소
   Future<SellTicketCancelResult> cancelTicket(int ticketId);
+
+  /// 티켓 이미지 URL 재발급
+  Future<List<TicketImageEntity>> refreshTicketImageUrls(int ticketId);
 }

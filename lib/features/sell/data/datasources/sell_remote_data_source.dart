@@ -38,6 +38,11 @@ abstract class SellRemoteDataSource {
 
   /// 티켓 취소
   Future<BaseResponse<SellTicketCancelRespDto>> cancelTicket(int ticketId);
+
+  /// 티켓 이미지 URL 재발급
+  Future<BaseResponse<TicketImagesRefreshRespDto>> refreshTicketImageUrls(
+    int ticketId,
+  );
 }
 
 class SellRemoteDataSourceImpl implements SellRemoteDataSource {
@@ -167,6 +172,22 @@ class SellRemoteDataSourceImpl implements SellRemoteDataSource {
       apiName: 'cancelTicket',
       dataParser: (json) =>
           SellTicketCancelRespDto.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
+  @override
+  Future<BaseResponse<TicketImagesRefreshRespDto>> refreshTicketImageUrls(
+    int ticketId,
+  ) async {
+    return safeApiCall<TicketImagesRefreshRespDto>(
+      apiCall: (options) => _dio.get(
+        ApiEndpoint.sellTicketImageRefresh,
+        queryParameters: {'ticketId': ticketId},
+        options: options,
+      ),
+      apiName: 'refreshTicketImageUrls',
+      dataParser: (json) =>
+          TicketImagesRefreshRespDto.fromJson(json as Map<String, dynamic>),
     );
   }
 }
