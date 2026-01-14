@@ -145,16 +145,20 @@ GoRouter goRouter(Ref ref) {
       ),
 
       /// 티켓 판매 좌석 정보 입력 화면
-      /// pathParam: eventId
-      /// queryParam: date, time
       GoRoute(
         path: '${AppRouterPath.sellSeatInfo.path}/:eventId',
         name: AppRouterPath.sellSeatInfo.name,
         builder: (context, state) {
           final eventId = state.pathParameters['eventId'] ?? '';
+          final scheduleId = state.uri.queryParameters['scheduleId'] ?? '';
           final date = state.uri.queryParameters['date'] ?? '';
           final time = state.uri.queryParameters['time'] ?? '';
-          return SellSeatInfoView(eventId: eventId, date: date, time: time);
+          return SellSeatInfoView(
+            eventId: eventId,
+            scheduleId: scheduleId,
+            date: date,
+            time: time,
+          );
         },
       ),
 

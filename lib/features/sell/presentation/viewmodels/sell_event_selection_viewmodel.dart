@@ -3,7 +3,7 @@ import 'package:ticket_platform_mobile/features/sell/presentation/providers/sell
 import 'package:ticket_platform_mobile/features/sell/presentation/ui_models/sell_event_ui_model.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_event_selection_state.dart';
 
-part 'sell_event_selection_view_model.g.dart';
+part 'sell_event_selection_viewmodel.g.dart';
 
 @riverpod
 class SellEventSelectionViewModel extends _$SellEventSelectionViewModel {

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
+import 'package:ticket_platform_mobile/features/sell/presentation/ui_models/sell_schedule_ui_model.dart';
+import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_date_time_selection_state.dart';
+import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_date_time_selection_viewmodel.dart';
 import 'package:ticket_platform_mobile/shared/widgets/app_button.dart';
 import 'package:ticket_platform_mobile/shared/widgets/date_selection_calendar.dart';
 
 /// 티켓 판매 날짜/시간 선택 화면
-class SellDateTimeSelectionView extends StatefulWidget {
+class SellDateTimeSelectionView extends ConsumerStatefulWidget {
   final String eventId;
   final String eventTitle;
 
@@ -19,89 +23,62 @@ class SellDateTimeSelectionView extends StatefulWidget {
   });
 
   @override
-  State<SellDateTimeSelectionView> createState() =>
+  ConsumerState<SellDateTimeSelectionView> createState() =>
       _SellDateTimeSelectionViewState();
 }
 
-class _SellDateTimeSelectionViewState extends State<SellDateTimeSelectionView> {
+class _SellDateTimeSelectionViewState
+    extends ConsumerState<SellDateTimeSelectionView> {
   DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
-  String? _selectedTime;
 
-  // TODO: API에서 실제 공연 일정 가져오기
-  // 날짜별 시간대 정보
-  final _dateTimeSlots = <DateTime, List<String>>{
-    DateTime(2026, 1, 5): ['14:00', '19:30', '22:00'],
-    DateTime(2026, 1, 7): ['14:00'],
-    DateTime(2026, 1, 10): ['19:30'],
-    DateTime(2026, 1, 11): ['14:00', '19:30'],
-    DateTime(2026, 1, 13): ['14:00', '19:30'],
-    DateTime(2026, 1, 14): ['19:30'],
-    DateTime(2026, 1, 20): ['14:00'],
-    DateTime(2026, 1, 21): ['14:00', '19:30'],
-    DateTime(2026, 1, 26): ['14:00', '19:30', '22:00'],
-    DateTime(2026, 1, 27): ['19:30'],
-    DateTime(2026, 1, 28): ['14:00', '19:30', '22:00', '21:00'],
-  };
+  int get _eventIdInt => int.parse(widget.eventId);
 
-  List<String> get _selectedDateTimeSlots {
-    if (_selectedDay == null) return [];
-    final key = _dateTimeSlots.keys.firstWhere(
-      (date) =>
-          date.year == _selectedDay!.year &&
-          date.month == _selectedDay!.month &&
-          date.day == _selectedDay!.day,
-      orElse: () => DateTime(1970),
+  void _onDateSelected(DateTime selectedDay, DateTime focusedDay) {
+    ref
+        .read(sellDateTimeSelectionViewModelProvider(_eventIdInt).notifier)
+        .selectDate(selectedDay);
+    setState(() => _focusedDay = focusedDay);
+  }
+
+  void _onScheduleSelected(String scheduleId) {
+    ref
+        .read(sellDateTimeSelectionViewModelProvider(_eventIdInt).notifier)
+        .selectSchedule(scheduleId);
+  }
+
+  void _onConfirm(SellDateTimeSelectionState state) {
+    final schedule = state.selectedSchedule;
+    if (schedule == null) return;
+
+    context.pushNamed(
+      AppRouterPath.sellSeatInfo.name,
+      pathParameters: {'eventId': widget.eventId},
+      queryParameters: {
+        'scheduleId': schedule.scheduleId,
+        'date': state.selectedDate.toString(),
+        'time': schedule.time,
+      },
     );
-    return _dateTimeSlots[key] ?? [];
   }
 
   @override
   Widget build(BuildContext context) {
+    final asyncState = ref.watch(
+      sellDateTimeSelectionViewModelProvider(_eventIdInt),
+    );
+
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: _buildAppBar(context, widget.eventTitle),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              child: Column(
-                children: [
-                  DateSelectionCalendar(
-                    focusedDay: _focusedDay,
-                    selectedDay: _selectedDay,
-                    availableDates: _dateTimeSlots.keys.toList(),
-                    onDaySelected: (selectedDay, focusedDay) {
-                      setState(() {
-                        _selectedDay = selectedDay;
-                        _focusedDay = focusedDay;
-                        _selectedTime = null; // 날짜 변경 시 시간 선택 초기화
-                      });
-                    },
-                    onPageChanged: (focusedDay) {
-                      setState(() {
-                        _focusedDay = focusedDay;
-                      });
-                    },
-                  ),
-
-                  // 날짜에 맞는 일정이 있다면
-                  if (_selectedDay != null &&
-                      _selectedDateTimeSlots.isNotEmpty) ...[
-                    _buildTimeSlotSection(),
-                  ],
-                ],
-              ),
-            ),
-          ),
-          _buildConfirmButton(),
-        ],
+      appBar: _buildAppBar(),
+      body: asyncState.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stack) => _buildErrorView(error),
+        data: (state) => _buildBody(state),
       ),
     );
   }
 
-  AppBar _buildAppBar(BuildContext context, String eventTitle) {
+  AppBar _buildAppBar() {
     return AppBar(
       backgroundColor: Colors.white,
       elevation: 0,
@@ -110,7 +87,7 @@ class _SellDateTimeSelectionViewState extends State<SellDateTimeSelectionView> {
         onPressed: () => context.pop(),
       ),
       title: Text(
-        eventTitle,
+        widget.eventTitle,
         style: AppTextStyles.heading3.copyWith(
           color: Colors.black,
           fontWeight: FontWeight.w600,
@@ -121,8 +98,55 @@ class _SellDateTimeSelectionViewState extends State<SellDateTimeSelectionView> {
     );
   }
 
+  Widget _buildErrorView(Object error) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('오류가 발생했습니다: $error'),
+          const SizedBox(height: AppSpacing.md),
+          ElevatedButton(
+            onPressed: () => ref.invalidate(
+              sellDateTimeSelectionViewModelProvider(_eventIdInt),
+            ),
+            child: const Text('다시 시도'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBody(SellDateTimeSelectionState state) {
+    return Column(
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            child: Column(
+              children: [
+                DateSelectionCalendar(
+                  focusedDay: _focusedDay,
+                  selectedDay: state.selectedDate,
+                  availableDates: state.availableDates,
+                  onDaySelected: _onDateSelected,
+                  onPageChanged: (focusedDay) {
+                    setState(() => _focusedDay = focusedDay);
+                  },
+                ),
+                if (state.selectedDate != null &&
+                    state.selectedDateSchedules.isNotEmpty)
+                  _buildTimeSlotSection(state),
+              ],
+            ),
+          ),
+        ),
+        _buildConfirmButton(state),
+      ],
+    );
+  }
+
   /// 시간 선택 섹션
-  Widget _buildTimeSlotSection() {
+  Widget _buildTimeSlotSection(SellDateTimeSelectionState state) {
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.lg),
       child: Column(
@@ -138,34 +162,8 @@ class _SellDateTimeSelectionViewState extends State<SellDateTimeSelectionView> {
             child: Wrap(
               spacing: AppSpacing.sm,
               runSpacing: AppSpacing.sm,
-              children: _selectedDateTimeSlots.map((time) {
-                final isSelected = _selectedTime == time;
-                return GestureDetector(
-                  onTap: () {
-                    setState(() => _selectedTime = time);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.lg,
-                      vertical: AppSpacing.md,
-                    ),
-                    decoration: BoxDecoration(
-                      color: isSelected ? AppColors.primary : AppColors.muted,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      time,
-                      style: AppTextStyles.body1.copyWith(
-                        color: isSelected
-                            ? Colors.white
-                            : AppColors.textPrimary,
-                        fontWeight: isSelected
-                            ? FontWeight.w600
-                            : FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                );
+              children: state.selectedDateSchedules.map((schedule) {
+                return _buildTimeSlotChip(schedule, state);
               }).toList(),
             ),
           ),
@@ -174,27 +172,45 @@ class _SellDateTimeSelectionViewState extends State<SellDateTimeSelectionView> {
     );
   }
 
+  Widget _buildTimeSlotChip(
+    SellScheduleUiModel schedule,
+    SellDateTimeSelectionState state,
+  ) {
+    final isSelected = state.selectedScheduleId == schedule.scheduleId;
+
+    return GestureDetector(
+      onTap: () => _onScheduleSelected(schedule.scheduleId),
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.md,
+        ),
+        decoration: BoxDecoration(
+          color: isSelected ? AppColors.primary : AppColors.muted,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Text(
+          schedule.time,
+          style: AppTextStyles.body1.copyWith(
+            color: isSelected ? Colors.white : AppColors.textPrimary,
+            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+          ),
+        ),
+      ),
+    );
+  }
+
   /// 하단 확인 버튼
-  Widget _buildConfirmButton() {
-    final isEnabled = _selectedDay != null && _selectedTime != null;
+  Widget _buildConfirmButton(SellDateTimeSelectionState state) {
+    final isEnabled =
+        state.selectedDate != null && state.selectedScheduleId != null;
 
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
         child: AppButton(
           text: '선택 완료',
-          onPressed: isEnabled
-              ? () {
-                  context.pushNamed(
-                    AppRouterPath.sellSeatInfo.name,
-                    pathParameters: {'eventId': widget.eventId},
-                    queryParameters: {
-                      'date': _selectedDay.toString(),
-                      'time': _selectedTime!,
-                    },
-                  );
-                }
-              : null,
+          onPressed: isEnabled ? () => _onConfirm(state) : null,
           isLoading: false,
         ),
       ),

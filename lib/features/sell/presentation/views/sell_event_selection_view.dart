@@ -8,7 +8,7 @@ import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/ui_models/sell_event_ui_model.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_event_selection_state.dart';
-import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_event_selection_view_model.dart';
+import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_event_selection_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/widgets/sell_event_card.dart';
 import 'package:ticket_platform_mobile/shared/widgets/app_search_bar.dart';
 

@@ -28,7 +28,7 @@ lib/features/<feature>/
     ├── ui_models/<feature>_<action>_ui_model.dart  # ★ UiModel 필수
     ├── viewmodels/
     │   ├── <feature>_<action>_state.dart           # ★ State 분리
-    │   └── <feature>_<action>_view_model.dart
+    │   └── <feature>_<action>_viewmodel.dart
     ├── views/<feature>_<action>_view.dart
     └── widgets/<feature>_<widget_name>.dart     # ★ 위젯 분리
 ```

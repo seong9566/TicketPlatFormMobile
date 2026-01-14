@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'sell_event_selection_view_model.dart';
+part of 'sell_event_selection_viewmodel.dart';
 
 // **************************************************************************
 // RiverpodGenerator
