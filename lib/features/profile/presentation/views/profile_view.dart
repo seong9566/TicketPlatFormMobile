@@ -1,24 +1,52 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
+import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/profile_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/widgets/profile_header_section.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/widgets/profile_menu_tile.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/widgets/profile_section.dart';
-import 'package:go_router/go_router.dart';
-import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
+import 'package:ticket_platform_mobile/shared/widgets/app_dialog.dart';
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends ConsumerWidget {
   const ProfileView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final asyncState = ref.watch(profileViewModelProvider);
+
+    /// 로그아웃 확인 다이얼로그
+    void showLogoutDialog(BuildContext context, WidgetRef ref) {
+      AppDialog.showConfirm(
+        context: context,
+        title: '로그아웃',
+        content: '정말 로그아웃 하시겠습니까?',
+        onConfirm: () async {
+          final success = await ref
+              .read(profileViewModelProvider.notifier)
+              .logout();
+          if (context.mounted) {
+            if (success) {
+              // 화면 이동 (autoDispose로 자연 dispose됨)
+              context.go(AppRouterPath.login.path);
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('로그아웃에 실패했습니다. 다시 시도해주세요.')),
+              );
+            }
+          }
+        },
+      );
+    }
+
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: AppColors.background,
+        backgroundColor: Colors.white,
         foregroundColor: AppColors.textPrimary,
         title: const Text('내 정보 관리', style: AppTextStyles.body1),
         centerTitle: true,
@@ -48,7 +76,6 @@ class ProfileView extends StatelessWidget {
                     pathParameters: {'initialIndex': '0'},
                   ),
                 ),
-                // ProfileMenuTile(icon: Icons.credit_card, title: '결제 수단 관리'),
               ],
             ),
             ProfileSection(
@@ -70,13 +97,6 @@ class ProfileView extends StatelessWidget {
             ProfileSection(
               title: '계정 인증',
               children: const [
-                // ProfileMenuTile(
-                //   icon: Icons.verified_user_outlined,
-                //   title: '실명 인증',
-                //   trailingText: '인증 완료',
-                //   trailingTextColor: AppColors.success,
-                //   showChevron: false,
-                // ),
                 ProfileMenuTile(
                   icon: Icons.account_balance_outlined,
                   title: '계좌 인증',
@@ -98,17 +118,6 @@ class ProfileView extends StatelessWidget {
                 ProfileMenuTile(icon: Icons.place_outlined, title: '배송지 관리'),
               ],
             ),
-            // ProfileSection(
-            //   title: '고객 지원',
-            //   children: const [
-            //     ProfileMenuTile(
-            //       icon: Icons.headset_mic_outlined,
-            //       title: '고객센터 / 1:1 문의',
-            //     ),
-            //     ProfileMenuTile(icon: Icons.campaign_outlined, title: '공지사항'),
-            //     ProfileMenuTile(icon: Icons.help_outline, title: '자주 묻는 질문'),
-            //   ],
-            // ),
             ProfileSection(
               title: '약관 및 정보',
               children: const [
@@ -130,13 +139,16 @@ class ProfileView extends StatelessWidget {
               color: AppColors.background,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   ProfileMenuTile(
                     icon: Icons.logout,
                     title: '로그아웃',
                     showChevron: false,
+                    onTap: asyncState.isLoading
+                        ? null
+                        : () => showLogoutDialog(context, ref),
                   ),
-                  ProfileMenuTile(
+                  const ProfileMenuTile(
                     icon: Icons.person_off_outlined,
                     title: '회원 탈퇴',
                     titleColor: AppColors.destructive,
