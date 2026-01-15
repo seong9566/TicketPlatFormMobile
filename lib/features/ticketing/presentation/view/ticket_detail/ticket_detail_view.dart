@@ -7,8 +7,8 @@ import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_bottom_action.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticketing_header_section.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_seller_info.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_header.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_seat_features.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_seat_info.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_price_info.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/viewmodels/ticket_detail_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_info_ui_model.dart';
 
@@ -53,12 +53,13 @@ class TicketDetailView extends ConsumerWidget {
                       tickets: [],
                     ),
                   ),
-                  TicketDetailHeader(detail: detail),
-                  const SizedBox(height: AppSpacing.xs),
+                  const SizedBox(height: AppSpacing.md),
+                  TicketDetailSeatInfo(detail: detail),
+                  const SizedBox(height: AppSpacing.lg),
+                  TicketDetailPriceInfo(detail: detail),
+                  const SizedBox(height: AppSpacing.lg),
                   _buildSectionHeader('상세 설명'),
                   _buildDescription(detail.description),
-                  _buildSectionHeader('좌석 특징'),
-                  TicketDetailSeatFeatures(tags: detail.tags),
 
                   if (detail.listingImageUrl != null &&
                       detail.listingImageUrl!.isNotEmpty) ...[
@@ -74,8 +75,9 @@ class TicketDetailView extends ConsumerWidget {
                       ),
                     ),
                   ],
-                  TicketDetailSellerInfo(seller: detail.seller),
                   const SizedBox(height: AppSpacing.lg),
+                  TicketDetailSellerInfo(seller: detail.seller),
+                  const SizedBox(height: 120), // Bottom padding for scroll
                 ],
               ),
             );

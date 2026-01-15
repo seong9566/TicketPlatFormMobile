@@ -12,116 +12,112 @@ class TicketDetailSellerInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final responseRate = seller.responseRate ?? seller.responseRateManual;
     final tradeCount = seller.totalTradeCount > 0
         ? seller.totalTradeCount
         : seller.transactionCountManual;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.lg,
-        vertical: AppSpacing.md,
-      ),
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.md,
-          vertical: AppSpacing.lg,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+          child: Text(
+            '판매자 정보',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: AppColors.textPrimary,
+            ),
+          ),
         ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(AppRadius.lg),
-          border: Border.all(color: const Color(0xFFF1F5F9)),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: AppColors.success.withValues(alpha: 0.1),
-                shape: BoxShape.circle,
+        const SizedBox(height: AppSpacing.md),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF8FAFC),
+            borderRadius: BorderRadius.circular(AppRadius.lg),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  image: seller.profileImageUrl.isNotEmpty
+                      ? DecorationImage(
+                          image: NetworkImage(seller.profileImageUrl),
+                          fit: BoxFit.cover,
+                        )
+                      : null,
+                  color: seller.profileImageUrl.isEmpty
+                      ? AppColors
+                            .textTertiary // Fallback color
+                      : null,
+                  shape: BoxShape.circle,
+                ),
+                // 이미지가 없을 때만 텍스트 표시
+                child: seller.profileImageUrl.isEmpty
+                    ? Center(
+                        child: Text(
+                          seller.nickname.isNotEmpty ? seller.nickname[0] : '?',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                    : null,
               ),
-              child: Center(
-                child: Text(
-                  seller.nickname.isNotEmpty ? seller.nickname[0] : '?',
-                  style: TextStyle(
-                    color: AppColors.success,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      seller.nickname, // 판매자 닉네임
+                      style: AppTextStyles.body2.copyWith(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 15,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      '거래 $tradeCount회', // 거래 횟수만 표시 (이미지 기준)
+                      style: AppTextStyles.caption.copyWith(
+                        color: AppColors.textSecondary,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-            const SizedBox(width: AppSpacing.md),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              // 매너온도 (아이콘 + 텍스트)
+              Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    seller.nickname,
-                    style: AppTextStyles.body2.copyWith(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 15,
-                      color: AppColors.textPrimary,
-                    ),
+                  const Icon(
+                    Icons.thermostat_outlined,
+                    color: AppColors.success,
+                    size: 18,
                   ),
-                  const SizedBox(height: 2),
+                  const SizedBox(width: 4),
                   Text(
-                    '응답률 $responseRate% · 거래 $tradeCount건',
-                    style: AppTextStyles.caption.copyWith(
-                      color: AppColors.textSecondary,
-                      fontSize: 12,
+                    '${seller.mannerTemperature.toStringAsFixed(1)}°C',
+                    style: const TextStyle(
+                      color: AppColors.success,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 15,
                     ),
                   ),
                 ],
               ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      '${seller.mannerTemperature.toStringAsFixed(1)}°C',
-                      style: TextStyle(
-                        color: AppColors.success,
-                        fontWeight: FontWeight.w900,
-                        fontSize: 15,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    Icon(
-                      Icons.sentiment_very_satisfied,
-                      color: const Color(0xFFFF9500), // 주황색
-                      size: 20,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 6),
-                Container(
-                  width: 60,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE2E8F0),
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                  child: FractionallySizedBox(
-                    alignment: Alignment.centerLeft,
-                    widthFactor: seller.mannerTemperature / 100,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.success,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

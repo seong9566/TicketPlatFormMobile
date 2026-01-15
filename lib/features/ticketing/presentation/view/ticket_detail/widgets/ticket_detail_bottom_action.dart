@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
-import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/viewmodels/ticket_detail_viewmodel.dart';
 
 class TicketDetailBottomAction extends ConsumerWidget {
   final int ticketId;
@@ -13,16 +11,10 @@ class TicketDetailBottomAction extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(ticketDetailViewModelProvider(ticketId));
-    final detail = state.value?.detail;
-    final isFavorited = detail?.isFavorited ?? false;
-
     return Container(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.lg,
-        AppSpacing.md,
-        AppSpacing.lg,
-        20,
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.md,
       ),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -36,54 +28,39 @@ class TicketDetailBottomAction extends ConsumerWidget {
       ),
       child: Row(
         children: [
-          InkWell(
-            onTap: () {
-              ref
-                  .read(ticketDetailViewModelProvider(ticketId).notifier)
-                  .toggleLike();
-            },
-            borderRadius: BorderRadius.circular(AppRadius.md),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: isFavorited
-                      ? AppColors.destructive
-                      : const Color(0xFFF1F5F9),
+          Expanded(
+            child: SizedBox(
+              height: 52,
+              child: OutlinedButton(
+                onPressed: () {},
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(color: Color(0xFFE2E8F0)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppRadius.lg),
+                  ),
+                  foregroundColor: AppColors.textPrimary,
                 ),
-                borderRadius: BorderRadius.circular(AppRadius.md),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    isFavorited
-                        ? Icons.favorite_rounded
-                        : Icons.favorite_border_rounded,
-                    size: 24,
-                    color: isFavorited
-                        ? AppColors.destructive
-                        : AppColors.textTertiary,
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    '찜하기',
-                    style: AppTextStyles.caption.copyWith(
-                      color: isFavorited
-                          ? AppColors.destructive
-                          : AppColors.textTertiary,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w600,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.chat_bubble_outline, size: 20),
+                    const SizedBox(width: 4),
+                    const Text(
+                      '채팅하기',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
           const SizedBox(width: AppSpacing.md),
           Expanded(
             child: SizedBox(
-              height: 56,
+              height: 52,
               child: ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
@@ -91,23 +68,12 @@ class TicketDetailBottomAction extends ConsumerWidget {
                   foregroundColor: Colors.white,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppRadius.md),
+                    borderRadius: BorderRadius.circular(AppRadius.lg),
                   ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.chat_bubble_outline, size: 20),
-                    const SizedBox(width: 6),
-                    const Text(
-                      '채팅으로 문의하기',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: -0.5,
-                      ),
-                    ),
-                  ],
+                child: const Text(
+                  '구매하기',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                 ),
               ),
             ),
