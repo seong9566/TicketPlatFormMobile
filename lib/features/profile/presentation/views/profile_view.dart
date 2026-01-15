@@ -80,14 +80,14 @@ class ProfileView extends ConsumerWidget {
             ),
             ProfileSection(
               title: '계정 정보',
-              children: const [
+              children: [
                 ProfileMenuTile(
                   icon: Icons.person_outline,
                   title: '아이디',
-                  trailingText: 'user_id@email.com',
+                  trailingText: asyncState.value?.profile?.email ?? '',
                   showChevron: false,
                 ),
-                ProfileMenuTile(
+                const ProfileMenuTile(
                   icon: Icons.lock_outline,
                   title: '비밀번호',
                   trailingText: '변경하기',
