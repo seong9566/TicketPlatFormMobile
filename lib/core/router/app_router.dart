@@ -17,6 +17,8 @@ import 'package:ticket_platform_mobile/features/sell/presentation/views/sell_sea
 import 'package:ticket_platform_mobile/features/sell/presentation/views/sell_ticket_category_view.dart';
 import 'package:ticket_platform_mobile/features/splash/presentation/view/splash_view.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/views/transaction_history_view.dart';
+import 'package:ticket_platform_mobile/features/profile/presentation/views/profile_edit_view.dart';
+import 'package:ticket_platform_mobile/features/profile/presentation/ui_models/my_profile_ui_model.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 
 part 'app_router.g.dart';
@@ -168,6 +170,16 @@ GoRouter goRouter(Ref ref) {
         path: AppRouterPath.signUp.path,
         name: AppRouterPath.signUp.name,
         builder: (context, state) => const SignUpView(),
+      ),
+
+      /// 내 프로필 수정 화면
+      GoRoute(
+        path: AppRouterPath.profileEdit.path,
+        name: AppRouterPath.profileEdit.name,
+        builder: (context, state) {
+          final profile = state.extra as MyProfileUiModel?;
+          return ProfileEditView(profile: profile);
+        },
       ),
     ],
   );

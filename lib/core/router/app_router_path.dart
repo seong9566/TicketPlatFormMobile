@@ -15,6 +15,7 @@ class AppRouterPath {
   static const events = _Route('/events', 'events');
   static const search = _Route('/search', 'search');
   static const profile = _Route('/profile', 'profile');
+  static const profileEdit = _Route('/profile/edit', 'profileEdit');
   static const transactionHistory = _Route(
     '/transaction-history',
     'transactionHistory',

@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
+import 'package:ticket_platform_mobile/features/profile/presentation/ui_models/my_profile_ui_model.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/profile_viewmodel.dart';
 
 class ProfileHeaderSection extends ConsumerWidget {
@@ -18,15 +21,17 @@ class ProfileHeaderSection extends ConsumerWidget {
       color: AppColors.background,
       padding: const EdgeInsets.all(AppSpacing.lg),
       child: asyncState.when(
-        loading: () => _buildContent(null, isLoading: true),
-        error: (error, stack) => _buildContent(null, errorMessage: '프로필 로드 실패'),
-        data: (state) => _buildContent(state.profile),
+        loading: () => _buildContent(null, context: context, isLoading: true),
+        error: (error, stack) =>
+            _buildContent(null, context: context, errorMessage: '프로필 로드 실패'),
+        data: (state) => _buildContent(state.profile, context: context),
       ),
     );
   }
 
   Widget _buildContent(
-    dynamic profile, {
+    MyProfileUiModel? profile, {
+    required BuildContext context,
     bool isLoading = false,
     String? errorMessage,
   }) {
@@ -57,7 +62,25 @@ class ProfileHeaderSection extends ConsumerWidget {
                           ),
                   ),
                   const SizedBox(width: AppSpacing.xs),
-                  Icon(Icons.edit, size: 18, color: AppColors.textSecondary),
+                  InkWell(
+                    onTap: () {
+                      if (profile != null) {
+                        context.pushNamed(
+                          AppRouterPath.profileEdit.name,
+                          extra: profile,
+                        );
+                      }
+                    },
+                    borderRadius: BorderRadius.circular(4),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Icon(
+                        Icons.edit,
+                        size: 18,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 4),

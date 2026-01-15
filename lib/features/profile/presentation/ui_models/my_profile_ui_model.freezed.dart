@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MyProfileUiModel {
 
- int get userId; String get nickname; String? get profileImageUrl; String? get bio; String get mannerTemperatureText; String get totalTradeCountText;
+ int get userId; String get email; String get nickname; String? get profileImageUrl; String? get bio; String get mannerTemperatureText; String get totalTradeCountText;
 /// Create a copy of MyProfileUiModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $MyProfileUiModelCopyWith<MyProfileUiModel> get copyWith => _$MyProfileUiModelCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MyProfileUiModel&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImageUrl, profileImageUrl) || other.profileImageUrl == profileImageUrl)&&(identical(other.bio, bio) || other.bio == bio)&&(identical(other.mannerTemperatureText, mannerTemperatureText) || other.mannerTemperatureText == mannerTemperatureText)&&(identical(other.totalTradeCountText, totalTradeCountText) || other.totalTradeCountText == totalTradeCountText));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MyProfileUiModel&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.email, email) || other.email == email)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImageUrl, profileImageUrl) || other.profileImageUrl == profileImageUrl)&&(identical(other.bio, bio) || other.bio == bio)&&(identical(other.mannerTemperatureText, mannerTemperatureText) || other.mannerTemperatureText == mannerTemperatureText)&&(identical(other.totalTradeCountText, totalTradeCountText) || other.totalTradeCountText == totalTradeCountText));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,userId,nickname,profileImageUrl,bio,mannerTemperatureText,totalTradeCountText);
+int get hashCode => Object.hash(runtimeType,userId,email,nickname,profileImageUrl,bio,mannerTemperatureText,totalTradeCountText);
 
 @override
 String toString() {
-  return 'MyProfileUiModel(userId: $userId, nickname: $nickname, profileImageUrl: $profileImageUrl, bio: $bio, mannerTemperatureText: $mannerTemperatureText, totalTradeCountText: $totalTradeCountText)';
+  return 'MyProfileUiModel(userId: $userId, email: $email, nickname: $nickname, profileImageUrl: $profileImageUrl, bio: $bio, mannerTemperatureText: $mannerTemperatureText, totalTradeCountText: $totalTradeCountText)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $MyProfileUiModelCopyWith<$Res>  {
   factory $MyProfileUiModelCopyWith(MyProfileUiModel value, $Res Function(MyProfileUiModel) _then) = _$MyProfileUiModelCopyWithImpl;
 @useResult
 $Res call({
- int userId, String nickname, String? profileImageUrl, String? bio, String mannerTemperatureText, String totalTradeCountText
+ int userId, String email, String nickname, String? profileImageUrl, String? bio, String mannerTemperatureText, String totalTradeCountText
 });
 
 
@@ -62,10 +62,11 @@ class _$MyProfileUiModelCopyWithImpl<$Res>
 
 /// Create a copy of MyProfileUiModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,Object? nickname = null,Object? profileImageUrl = freezed,Object? bio = freezed,Object? mannerTemperatureText = null,Object? totalTradeCountText = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,Object? email = null,Object? nickname = null,Object? profileImageUrl = freezed,Object? bio = freezed,Object? mannerTemperatureText = null,Object? totalTradeCountText = null,}) {
   return _then(_self.copyWith(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
-as int,nickname: null == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
+as int,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String,nickname: null == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
 as String,profileImageUrl: freezed == profileImageUrl ? _self.profileImageUrl : profileImageUrl // ignore: cast_nullable_to_non_nullable
 as String?,bio: freezed == bio ? _self.bio : bio // ignore: cast_nullable_to_non_nullable
 as String?,mannerTemperatureText: null == mannerTemperatureText ? _self.mannerTemperatureText : mannerTemperatureText // ignore: cast_nullable_to_non_nullable
@@ -155,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int userId,  String nickname,  String? profileImageUrl,  String? bio,  String mannerTemperatureText,  String totalTradeCountText)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int userId,  String email,  String nickname,  String? profileImageUrl,  String? bio,  String mannerTemperatureText,  String totalTradeCountText)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MyProfileUiModel() when $default != null:
-return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.bio,_that.mannerTemperatureText,_that.totalTradeCountText);case _:
+return $default(_that.userId,_that.email,_that.nickname,_that.profileImageUrl,_that.bio,_that.mannerTemperatureText,_that.totalTradeCountText);case _:
   return orElse();
 
 }
@@ -176,10 +177,10 @@ return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.bio,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int userId,  String nickname,  String? profileImageUrl,  String? bio,  String mannerTemperatureText,  String totalTradeCountText)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int userId,  String email,  String nickname,  String? profileImageUrl,  String? bio,  String mannerTemperatureText,  String totalTradeCountText)  $default,) {final _that = this;
 switch (_that) {
 case _MyProfileUiModel():
-return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.bio,_that.mannerTemperatureText,_that.totalTradeCountText);case _:
+return $default(_that.userId,_that.email,_that.nickname,_that.profileImageUrl,_that.bio,_that.mannerTemperatureText,_that.totalTradeCountText);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +197,10 @@ return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.bio,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int userId,  String nickname,  String? profileImageUrl,  String? bio,  String mannerTemperatureText,  String totalTradeCountText)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int userId,  String email,  String nickname,  String? profileImageUrl,  String? bio,  String mannerTemperatureText,  String totalTradeCountText)?  $default,) {final _that = this;
 switch (_that) {
 case _MyProfileUiModel() when $default != null:
-return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.bio,_that.mannerTemperatureText,_that.totalTradeCountText);case _:
+return $default(_that.userId,_that.email,_that.nickname,_that.profileImageUrl,_that.bio,_that.mannerTemperatureText,_that.totalTradeCountText);case _:
   return null;
 
 }
@@ -211,10 +212,11 @@ return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.bio,_tha
 
 
 class _MyProfileUiModel implements MyProfileUiModel {
-  const _MyProfileUiModel({required this.userId, required this.nickname, this.profileImageUrl, this.bio, required this.mannerTemperatureText, required this.totalTradeCountText});
+  const _MyProfileUiModel({required this.userId, required this.email, required this.nickname, this.profileImageUrl, this.bio, required this.mannerTemperatureText, required this.totalTradeCountText});
   
 
 @override final  int userId;
+@override final  String email;
 @override final  String nickname;
 @override final  String? profileImageUrl;
 @override final  String? bio;
@@ -231,16 +233,16 @@ _$MyProfileUiModelCopyWith<_MyProfileUiModel> get copyWith => __$MyProfileUiMode
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MyProfileUiModel&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImageUrl, profileImageUrl) || other.profileImageUrl == profileImageUrl)&&(identical(other.bio, bio) || other.bio == bio)&&(identical(other.mannerTemperatureText, mannerTemperatureText) || other.mannerTemperatureText == mannerTemperatureText)&&(identical(other.totalTradeCountText, totalTradeCountText) || other.totalTradeCountText == totalTradeCountText));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MyProfileUiModel&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.email, email) || other.email == email)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImageUrl, profileImageUrl) || other.profileImageUrl == profileImageUrl)&&(identical(other.bio, bio) || other.bio == bio)&&(identical(other.mannerTemperatureText, mannerTemperatureText) || other.mannerTemperatureText == mannerTemperatureText)&&(identical(other.totalTradeCountText, totalTradeCountText) || other.totalTradeCountText == totalTradeCountText));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,userId,nickname,profileImageUrl,bio,mannerTemperatureText,totalTradeCountText);
+int get hashCode => Object.hash(runtimeType,userId,email,nickname,profileImageUrl,bio,mannerTemperatureText,totalTradeCountText);
 
 @override
 String toString() {
-  return 'MyProfileUiModel(userId: $userId, nickname: $nickname, profileImageUrl: $profileImageUrl, bio: $bio, mannerTemperatureText: $mannerTemperatureText, totalTradeCountText: $totalTradeCountText)';
+  return 'MyProfileUiModel(userId: $userId, email: $email, nickname: $nickname, profileImageUrl: $profileImageUrl, bio: $bio, mannerTemperatureText: $mannerTemperatureText, totalTradeCountText: $totalTradeCountText)';
 }
 
 
@@ -251,7 +253,7 @@ abstract mixin class _$MyProfileUiModelCopyWith<$Res> implements $MyProfileUiMod
   factory _$MyProfileUiModelCopyWith(_MyProfileUiModel value, $Res Function(_MyProfileUiModel) _then) = __$MyProfileUiModelCopyWithImpl;
 @override @useResult
 $Res call({
- int userId, String nickname, String? profileImageUrl, String? bio, String mannerTemperatureText, String totalTradeCountText
+ int userId, String email, String nickname, String? profileImageUrl, String? bio, String mannerTemperatureText, String totalTradeCountText
 });
 
 
@@ -268,10 +270,11 @@ class __$MyProfileUiModelCopyWithImpl<$Res>
 
 /// Create a copy of MyProfileUiModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? nickname = null,Object? profileImageUrl = freezed,Object? bio = freezed,Object? mannerTemperatureText = null,Object? totalTradeCountText = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? email = null,Object? nickname = null,Object? profileImageUrl = freezed,Object? bio = freezed,Object? mannerTemperatureText = null,Object? totalTradeCountText = null,}) {
   return _then(_MyProfileUiModel(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
-as int,nickname: null == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
+as int,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String,nickname: null == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
 as String,profileImageUrl: freezed == profileImageUrl ? _self.profileImageUrl : profileImageUrl // ignore: cast_nullable_to_non_nullable
 as String?,bio: freezed == bio ? _self.bio : bio // ignore: cast_nullable_to_non_nullable
 as String?,mannerTemperatureText: null == mannerTemperatureText ? _self.mannerTemperatureText : mannerTemperatureText // ignore: cast_nullable_to_non_nullable
