@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 
@@ -38,7 +39,7 @@ class AppDialog extends StatelessWidget {
         content: content,
         confirmText: confirmText,
         onConfirm: () {
-          Navigator.pop(context);
+          context.pop(context);
           onConfirm?.call();
         },
       ),
@@ -64,11 +65,11 @@ class AppDialog extends StatelessWidget {
         confirmText: confirmText,
         cancelText: cancelText,
         onConfirm: () {
-          Navigator.pop(context);
+          context.pop();
           onConfirm();
         },
         onCancel: () {
-          Navigator.pop(context);
+          context.pop();
           onCancel?.call();
         },
       ),
@@ -95,11 +96,11 @@ class AppDialog extends StatelessWidget {
         cancelText: cancelText,
         isDestructive: true,
         onConfirm: () {
-          Navigator.pop(context);
+          context.pop(context);
           onConfirm();
         },
         onCancel: () {
-          Navigator.pop(context);
+          context.pop(context);
           onCancel?.call();
         },
       ),
@@ -130,7 +131,7 @@ class AppDialog extends StatelessWidget {
           Align(
             alignment: Alignment.topRight,
             child: IconButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => context.pop(context),
               icon: const Icon(
                 Icons.close,
                 color: AppColors.textTertiary,
@@ -180,7 +181,7 @@ class AppDialog extends StatelessWidget {
         Expanded(
           child: _buildButton(
             text: cancelText!,
-            onPressed: onCancel ?? () => Navigator.pop(context),
+            onPressed: onCancel ?? () => context.pop(context),
             color: Colors.white,
             textColor: AppColors.textPrimary,
             hasBorder: true,
