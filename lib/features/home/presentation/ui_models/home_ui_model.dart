@@ -12,10 +12,12 @@ class HomeUiModel {
 
   factory HomeUiModel.fromEntity(HomeEntity entity) {
     return HomeUiModel(
-      popularEvents:
-          entity.popularEvents.map(PopularEventUiModel.fromEntity).toList(),
-      recommendedEvents:
-          entity.recommendedEvents.map(RecommendedEventUiModel.fromEntity).toList(),
+      popularEvents: entity.popularEvents
+          .map(PopularEventUiModel.fromEntity)
+          .toList(),
+      recommendedEvents: entity.recommendedEvents
+          .map(RecommendedEventUiModel.fromEntity)
+          .toList(),
     );
   }
 }
@@ -55,7 +57,7 @@ class PopularEventUiModel {
       displayPrice: NumberFormatUtil.formatPrice(entity.minTicketPrice),
       discountLabel: '-${entity.ticketDiscountRate}%',
       imageUrl: entity.posterImageUrl ?? '',
-      availableTicketLabel: '${entity.availableTicketCount}장 판매중',
+      availableTicketLabel: '${entity.availableTicketCount}건 판매중',
       categoryId: entity.categoryId,
     );
   }
@@ -95,7 +97,7 @@ class RecommendedEventUiModel {
       venue: entity.venue,
       displayPrice: NumberFormatUtil.formatPrice(entity.minTicketPrice),
       discountLabel: '-${entity.ticketDiscountRate}%',
-      availableTicketLabel: '${entity.availableTicketCount}장',
+      availableTicketLabel: '${entity.availableTicketCount}건',
       categoryId: entity.categoryId,
       isWishedByMe: entity.isWishedByMe,
     );
