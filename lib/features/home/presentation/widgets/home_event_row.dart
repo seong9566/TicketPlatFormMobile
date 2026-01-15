@@ -26,7 +26,7 @@ class HomeEventRow extends StatelessWidget {
           return Expanded(
             child: GestureDetector(
               onTap: () => context.push(
-                '${AppRouterPath.events}?category=${event.type.label}',
+                '${AppRouterPath.events.path}?category=${event.type.label}',
               ),
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 4),

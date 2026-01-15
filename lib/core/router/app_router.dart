@@ -150,15 +150,7 @@ GoRouter goRouter(Ref ref) {
         name: AppRouterPath.sellSeatInfo.name,
         builder: (context, state) {
           final eventId = state.pathParameters['eventId'] ?? '';
-          final scheduleId = state.uri.queryParameters['scheduleId'] ?? '';
-          final date = state.uri.queryParameters['date'] ?? '';
-          final time = state.uri.queryParameters['time'] ?? '';
-          return SellSeatInfoView(
-            eventId: eventId,
-            scheduleId: scheduleId,
-            date: date,
-            time: time,
-          );
+          return SellSeatInfoView(eventId: eventId);
         },
       ),
 
@@ -167,7 +159,8 @@ GoRouter goRouter(Ref ref) {
         path: '${AppRouterPath.sellRegister.path}/:eventId',
         name: AppRouterPath.sellRegister.name,
         builder: (context, state) {
-          return const SellRegisterView();
+          final eventId = state.pathParameters['eventId'] ?? '';
+          return SellRegisterView(eventId: eventId);
         },
       ),
 

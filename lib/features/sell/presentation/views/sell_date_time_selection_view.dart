@@ -6,8 +6,8 @@ import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/ui_models/sell_schedule_ui_model.dart';
-import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_date_time_selection_state.dart';
-import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_date_time_selection_viewmodel.dart';
+import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_register_state.dart';
+import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_register_viewmodel.dart';
 import 'package:ticket_platform_mobile/shared/widgets/app_button.dart';
 import 'package:ticket_platform_mobile/shared/widgets/date_selection_calendar.dart';
 
@@ -33,48 +33,44 @@ class _SellDateTimeSelectionViewState
 
   int get _eventIdInt => int.parse(widget.eventId);
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref
+          .read(sellRegisterViewModelProvider.notifier)
+          .loadSchedules(_eventIdInt);
+    });
+  }
+
   void _onDateSelected(DateTime selectedDay, DateTime focusedDay) {
-    ref
-        .read(sellDateTimeSelectionViewModelProvider(_eventIdInt).notifier)
-        .selectDate(selectedDay);
+    ref.read(sellRegisterViewModelProvider.notifier).selectDate(selectedDay);
     setState(() => _focusedDay = focusedDay);
   }
 
-  void _onScheduleSelected(String scheduleId) {
-    ref
-        .read(sellDateTimeSelectionViewModelProvider(_eventIdInt).notifier)
-        .selectSchedule(scheduleId);
+  void _onScheduleSelected(SellScheduleUiModel schedule) {
+    ref.read(sellRegisterViewModelProvider.notifier).selectSchedule(schedule);
   }
 
-  void _onConfirm(SellDateTimeSelectionState state) {
-    final schedule = state.selectedSchedule;
-    if (schedule == null) return;
-
+  void _onConfirm() {
     context.pushNamed(
       AppRouterPath.sellSeatInfo.name,
       pathParameters: {'eventId': widget.eventId},
-      queryParameters: {
-        'scheduleId': schedule.scheduleId,
-        'date': state.selectedDate.toString(),
-        'time': schedule.time,
-      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final asyncState = ref.watch(
-      sellDateTimeSelectionViewModelProvider(_eventIdInt),
-    );
+    final state = ref.watch(sellRegisterViewModelProvider);
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: _buildAppBar(),
-      body: asyncState.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => _buildErrorView(error),
-        data: (state) => _buildBody(state),
-      ),
+      body: state.isLoading && state.schedules.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : state.errorMessage != null && state.schedules.isEmpty
+          ? _buildErrorView(state.errorMessage!)
+          : _buildBody(state),
     );
   }
 
@@ -98,7 +94,7 @@ class _SellDateTimeSelectionViewState
     );
   }
 
-  Widget _buildErrorView(Object error) {
+  Widget _buildErrorView(String error) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -106,9 +102,9 @@ class _SellDateTimeSelectionViewState
           Text('오류가 발생했습니다: $error'),
           const SizedBox(height: AppSpacing.md),
           ElevatedButton(
-            onPressed: () => ref.invalidate(
-              sellDateTimeSelectionViewModelProvider(_eventIdInt),
-            ),
+            onPressed: () => ref
+                .read(sellRegisterViewModelProvider.notifier)
+                .loadSchedules(_eventIdInt),
             child: const Text('다시 시도'),
           ),
         ],
@@ -116,7 +112,7 @@ class _SellDateTimeSelectionViewState
     );
   }
 
-  Widget _buildBody(SellDateTimeSelectionState state) {
+  Widget _buildBody(SellRegisterState state) {
     return Column(
       children: [
         Expanded(
@@ -145,8 +141,7 @@ class _SellDateTimeSelectionViewState
     );
   }
 
-  /// 시간 선택 섹션
-  Widget _buildTimeSlotSection(SellDateTimeSelectionState state) {
+  Widget _buildTimeSlotSection(SellRegisterState state) {
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.lg),
       child: Column(
@@ -174,12 +169,13 @@ class _SellDateTimeSelectionViewState
 
   Widget _buildTimeSlotChip(
     SellScheduleUiModel schedule,
-    SellDateTimeSelectionState state,
+    SellRegisterState state,
   ) {
-    final isSelected = state.selectedScheduleId == schedule.scheduleId;
+    final isSelected =
+        state.selectedSchedule?.scheduleId == schedule.scheduleId;
 
     return GestureDetector(
-      onTap: () => _onScheduleSelected(schedule.scheduleId),
+      onTap: () => _onScheduleSelected(schedule),
       child: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.lg,
@@ -200,17 +196,16 @@ class _SellDateTimeSelectionViewState
     );
   }
 
-  /// 하단 확인 버튼
-  Widget _buildConfirmButton(SellDateTimeSelectionState state) {
+  Widget _buildConfirmButton(SellRegisterState state) {
     final isEnabled =
-        state.selectedDate != null && state.selectedScheduleId != null;
+        state.selectedDate != null && state.selectedSchedule != null;
 
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
         child: AppButton(
           text: '선택 완료',
-          onPressed: isEnabled ? () => _onConfirm(state) : null,
+          onPressed: isEnabled ? _onConfirm : null,
           isLoading: false,
         ),
       ),

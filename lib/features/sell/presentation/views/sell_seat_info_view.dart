@@ -6,25 +6,16 @@ import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/ui_models/sell_seat_option_ui_model.dart';
-import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_seat_info_state.dart';
-import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_seat_info_viewmodel.dart';
+import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_register_state.dart';
+import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_register_viewmodel.dart';
 import 'package:ticket_platform_mobile/shared/widgets/app_button.dart';
 import 'package:ticket_platform_mobile/shared/widgets/app_text_field.dart';
 
 /// 좌석 정보 입력 화면
 class SellSeatInfoView extends ConsumerStatefulWidget {
   final String eventId;
-  final String scheduleId;
-  final String date;
-  final String time;
 
-  const SellSeatInfoView({
-    super.key,
-    required this.eventId,
-    required this.scheduleId,
-    required this.date,
-    required this.time,
-  });
+  const SellSeatInfoView({super.key, required this.eventId});
 
   @override
   ConsumerState<SellSeatInfoView> createState() => _SellSeatInfoViewState();
@@ -38,6 +29,16 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
   int get _eventIdInt => int.parse(widget.eventId);
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref
+          .read(sellRegisterViewModelProvider.notifier)
+          .loadSeatOptions(_eventIdInt);
+    });
+  }
+
+  @override
   void dispose() {
     _customLocationController.dispose();
     _areaController.dispose();
@@ -47,43 +48,30 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
 
   void _onLocationSelected(SellSeatLocationUiModel location) {
     ref
-        .read(sellSeatInfoViewModelProvider(_eventIdInt).notifier)
+        .read(sellRegisterViewModelProvider.notifier)
         .selectLocation(location.locationId);
     Navigator.pop(context);
   }
 
-  void _onConfirm(SellSeatInfoState state) {
-    final locationName = state.isCustomLocation
-        ? state.customLocation
-        : state.selectedLocationName;
-
+  void _onConfirm() {
     context.pushNamed(
       AppRouterPath.sellRegister.name,
       pathParameters: {'eventId': widget.eventId},
-      queryParameters: {
-        'scheduleId': widget.scheduleId,
-        'date': widget.date,
-        'time': widget.time,
-        'locationId': state.selectedLocationId ?? '',
-        'location': locationName ?? '',
-        'area': state.area,
-        'row': state.row,
-      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final asyncState = ref.watch(sellSeatInfoViewModelProvider(_eventIdInt));
+    final state = ref.watch(sellRegisterViewModelProvider);
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: _buildAppBar(),
-      body: asyncState.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => _buildErrorView(error),
-        data: (state) => _buildBody(state),
-      ),
+      body: state.isLoading && state.seatOptions == null
+          ? const Center(child: CircularProgressIndicator())
+          : state.errorMessage != null && state.seatOptions == null
+          ? _buildErrorView(state.errorMessage!)
+          : _buildBody(state),
     );
   }
 
@@ -103,7 +91,7 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
     );
   }
 
-  Widget _buildErrorView(Object error) {
+  Widget _buildErrorView(String error) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -111,8 +99,9 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
           Text('오류가 발생했습니다: $error'),
           const SizedBox(height: AppSpacing.md),
           ElevatedButton(
-            onPressed: () =>
-                ref.invalidate(sellSeatInfoViewModelProvider(_eventIdInt)),
+            onPressed: () => ref
+                .read(sellRegisterViewModelProvider.notifier)
+                .loadSeatOptions(_eventIdInt),
             child: const Text('다시 시도'),
           ),
         ],
@@ -120,7 +109,7 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
     );
   }
 
-  Widget _buildBody(SellSeatInfoState state) {
+  Widget _buildBody(SellRegisterState state) {
     return Column(
       children: [
         Expanded(
@@ -157,8 +146,7 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
     );
   }
 
-  /// 위치 선택 섹션
-  Widget _buildLocationSection(SellSeatInfoState state) {
+  Widget _buildLocationSection(SellRegisterState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -172,7 +160,7 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
             hintText: '위치를 입력해주세요',
             onChanged: (value) {
               ref
-                  .read(sellSeatInfoViewModelProvider(_eventIdInt).notifier)
+                  .read(sellRegisterViewModelProvider.notifier)
                   .updateCustomLocation(value);
             },
           ),
@@ -181,7 +169,7 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
     );
   }
 
-  Widget _buildLocationSelector(SellSeatInfoState state) {
+  Widget _buildLocationSelector(SellRegisterState state) {
     return GestureDetector(
       onTap: () => _showLocationBottomSheet(state),
       child: Container(
@@ -215,7 +203,7 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
     );
   }
 
-  void _showLocationBottomSheet(SellSeatInfoState state) {
+  void _showLocationBottomSheet(SellRegisterState state) {
     FocusScope.of(context).unfocus();
     showModalBottomSheet(
       context: context,
@@ -228,7 +216,7 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
     );
   }
 
-  Widget _buildLocationBottomSheetContent(SellSeatInfoState state) {
+  Widget _buildLocationBottomSheetContent(SellRegisterState state) {
     return SafeArea(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -296,30 +284,24 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
     );
   }
 
-  /// 구역 입력 필드
-  Widget _buildAreaField(SellSeatInfoState state) {
+  Widget _buildAreaField(SellRegisterState state) {
     return AppTextField(
       label: '구역',
       controller: _areaController,
       hintText: '예: A구역, B구역',
       onChanged: (value) {
-        ref
-            .read(sellSeatInfoViewModelProvider(_eventIdInt).notifier)
-            .updateArea(value);
+        ref.read(sellRegisterViewModelProvider.notifier).updateArea(value);
       },
     );
   }
 
-  /// 열 입력 필드
-  Widget _buildRowField(SellSeatInfoState state) {
+  Widget _buildRowField(SellRegisterState state) {
     return AppTextField(
       label: '열',
       controller: _rowController,
       hintText: '예: 1열, 2열',
       onChanged: (value) {
-        ref
-            .read(sellSeatInfoViewModelProvider(_eventIdInt).notifier)
-            .updateRow(value);
+        ref.read(sellRegisterViewModelProvider.notifier).updateRow(value);
       },
     );
   }
@@ -361,13 +343,13 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
     );
   }
 
-  Widget _buildConfirmButton(SellSeatInfoState state) {
+  Widget _buildConfirmButton(SellRegisterState state) {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
         child: AppButton(
           text: '다음',
-          onPressed: state.isValid ? () => _onConfirm(state) : null,
+          onPressed: state.isSeatInfoValid ? _onConfirm : null,
           isLoading: false,
         ),
       ),

@@ -7,8 +7,8 @@ import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/ui_models/sell_event_ui_model.dart';
-import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_event_selection_state.dart';
-import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_event_selection_viewmodel.dart';
+import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_register_state.dart';
+import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_register_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/widgets/sell_event_card.dart';
 import 'package:ticket_platform_mobile/shared/widgets/app_search_bar.dart';
 
@@ -29,30 +29,31 @@ class _SellEventSelectionViewState
   String _selectedRegion = '지역';
 
   @override
+  void initState() {
+    super.initState();
+    // 화면 진입 시 이벤트 목록 로드
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref
+          .read(sellRegisterViewModelProvider.notifier)
+          .loadEvents(widget.category.categoryId);
+    });
+  }
+
+  @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
   }
 
-  void _onEventSelected(int eventId) {
-    ref
-        .read(
-          sellEventSelectionViewModelProvider(
-            widget.category.categoryId,
-          ).notifier,
-        )
-        .selectEvent(eventId);
+  void _onEventSelected(SellEventUiModel event) {
+    ref.read(sellRegisterViewModelProvider.notifier).selectEvent(event);
   }
 
   void _onSearch() {
     final keyword = _searchController.text;
     ref
-        .read(
-          sellEventSelectionViewModelProvider(
-            widget.category.categoryId,
-          ).notifier,
-        )
-        .search(keyword);
+        .read(sellRegisterViewModelProvider.notifier)
+        .searchEvents(widget.category.categoryId, keyword);
   }
 
   void _onNextPressed(SellEventUiModel event) {
@@ -65,18 +66,16 @@ class _SellEventSelectionViewState
 
   @override
   Widget build(BuildContext context) {
-    final asyncState = ref.watch(
-      sellEventSelectionViewModelProvider(widget.category.categoryId),
-    );
+    final state = ref.watch(sellRegisterViewModelProvider);
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: _buildAppBar(),
-      body: asyncState.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => _buildErrorView(error),
-        data: (state) => _buildBody(state),
-      ),
+      body: state.isLoading && state.events.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : state.errorMessage != null && state.events.isEmpty
+          ? _buildErrorView(state.errorMessage!)
+          : _buildBody(state),
     );
   }
 
@@ -99,7 +98,7 @@ class _SellEventSelectionViewState
     );
   }
 
-  Widget _buildErrorView(Object error) {
+  Widget _buildErrorView(String error) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -107,9 +106,9 @@ class _SellEventSelectionViewState
           Text('오류가 발생했습니다: $error'),
           const SizedBox(height: AppSpacing.md),
           ElevatedButton(
-            onPressed: () => ref.invalidate(
-              sellEventSelectionViewModelProvider(widget.category.categoryId),
-            ),
+            onPressed: () => ref
+                .read(sellRegisterViewModelProvider.notifier)
+                .loadEvents(widget.category.categoryId),
             child: const Text('다시 시도'),
           ),
         ],
@@ -117,7 +116,7 @@ class _SellEventSelectionViewState
     );
   }
 
-  Widget _buildBody(SellEventSelectionState state) {
+  Widget _buildBody(SellRegisterState state) {
     return Column(
       children: [
         Expanded(
@@ -126,7 +125,7 @@ class _SellEventSelectionViewState
             child: Column(
               children: [
                 _buildSearchBar(),
-                _buildFilterSection(state.totalCount),
+                _buildFilterSection(state.eventsTotalCount),
                 const SizedBox(height: AppSpacing.md),
                 _buildEventList(state),
               ],
@@ -138,7 +137,6 @@ class _SellEventSelectionViewState
     );
   }
 
-  /// 검색바 위젯
   Widget _buildSearchBar() {
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.lg),
@@ -151,7 +149,6 @@ class _SellEventSelectionViewState
     );
   }
 
-  /// 필터 섹션 (총 개수 + 지역 드롭다운)
   Widget _buildFilterSection(int totalCount) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
@@ -183,8 +180,7 @@ class _SellEventSelectionViewState
     );
   }
 
-  /// 공연 목록 리스트
-  Widget _buildEventList(SellEventSelectionState state) {
+  Widget _buildEventList(SellRegisterState state) {
     if (state.events.isEmpty) {
       return Padding(
         padding: const EdgeInsets.all(AppSpacing.xl),
@@ -204,25 +200,19 @@ class _SellEventSelectionViewState
       itemCount: state.events.length,
       itemBuilder: (context, index) {
         final event = state.events[index];
-        final isSelected = state.selectedEventId == event.eventId;
+        final isSelected = state.selectedEvent?.eventId == event.eventId;
 
         return SellEventCard(
           event: event,
           isSelected: isSelected,
-          onTap: () => _onEventSelected(event.eventId),
+          onTap: () => _onEventSelected(event),
         );
       },
     );
   }
 
-  /// 하단 다음 버튼
-  Widget _buildNextButton(SellEventSelectionState state) {
-    final isEnabled = state.selectedEventId != null;
-    final selectedEvent = isEnabled
-        ? state.events
-              .where((e) => e.eventId == state.selectedEventId)
-              .firstOrNull
-        : null;
+  Widget _buildNextButton(SellRegisterState state) {
+    final isEnabled = state.selectedEvent != null;
 
     return SafeArea(
       child: Padding(
@@ -231,8 +221,8 @@ class _SellEventSelectionViewState
           width: double.infinity,
           height: 56,
           child: ElevatedButton(
-            onPressed: selectedEvent != null
-                ? () => _onNextPressed(selectedEvent)
+            onPressed: isEnabled
+                ? () => _onNextPressed(state.selectedEvent!)
                 : null,
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,

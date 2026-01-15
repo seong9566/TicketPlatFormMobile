@@ -43,7 +43,24 @@ class ApiLogInterceptor extends Interceptor {
     final method = options.method;
     final baseUrl = options.baseUrl;
     final apiPath = options.path;
-    final data = options.data != null ? jsonEncode(options.data) : 'null';
+
+    // FormData는 jsonEncode 불가하므로 별도 처리
+    String data;
+    if (options.data is FormData) {
+      final formData = options.data as FormData;
+      final fields = formData.fields
+          .map((e) => '${e.key}: ${e.value}')
+          .join(', ');
+      final files = formData.files
+          .map((e) => '${e.key}: ${e.value.filename}')
+          .join(', ');
+      data = 'FormData(fields: {$fields}, files: [$files])';
+    } else if (options.data != null) {
+      data = jsonEncode(options.data);
+    } else {
+      data = 'null';
+    }
+
     final queryParams = options.queryParameters.isNotEmpty
         ? jsonEncode(options.queryParameters)
         : 'null';

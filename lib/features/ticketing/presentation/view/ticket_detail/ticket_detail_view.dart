@@ -5,7 +5,7 @@ import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_bottom_action.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_performance_header.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticketing_header_section.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_seller_info.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_header.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_seat_features.dart';
@@ -42,26 +42,27 @@ class TicketDetailView extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TicketDetailHeader(detail: detail),
-                  const SizedBox(height: AppSpacing.xs),
-                  TicketDetailPerformanceHeader(
-                    info: TicketingInfoUiModel(
+                  TicketingHeaderSection(
+                    ticketingInfo: TicketingInfoUiModel(
                       title: detail.performanceTitle,
                       imageUrl: detail.performanceImageUrl,
                       eventDate: detail.performanceDate,
                       location: detail.location,
-                      isHot: false, // Default or derived if needed
+                      isHot: false, // detailView에서 사용하지 않음
                       ticketGrades: [],
                       tickets: [],
                     ),
                   ),
+                  TicketDetailHeader(detail: detail),
+                  const SizedBox(height: AppSpacing.xs),
                   _buildSectionHeader('상세 설명'),
                   _buildDescription(detail.description),
                   _buildSectionHeader('좌석 특징'),
                   TicketDetailSeatFeatures(tags: detail.tags),
-                  _buildProductImage(detail.listingImageUrl),
+
                   if (detail.listingImageUrl != null &&
                       detail.listingImageUrl!.isNotEmpty) ...[
+                    _buildProductImage(detail.listingImageUrl),
                     const SizedBox(height: AppSpacing.md),
                     const Center(
                       child: Text(
