@@ -55,6 +55,8 @@ class ApiEndpoint {
 
   // Profile
   static const String myProfile = '/api/users/profile';
+  static String userProfile(int userId) => '/api/users/profile/user';
+  static const String profileImageRefresh = '/api/users/profile/image-refresh';
 
   // SignalR Hub
   static String get chatHub => '$baseUrl/hubs/chat';

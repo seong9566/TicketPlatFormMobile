@@ -8,6 +8,7 @@ part 'my_profile_resp_dto.g.dart';
 abstract class MyProfileRespDto with _$MyProfileRespDto {
   const factory MyProfileRespDto({
     required int userId,
+    required String email,
     required String nickname,
     String? profileImageUrl,
     String? bio,
@@ -22,6 +23,7 @@ abstract class MyProfileRespDto with _$MyProfileRespDto {
 extension MyProfileRespDtoX on MyProfileRespDto {
   MyProfileEntity toEntity() => MyProfileEntity(
     userId: userId,
+    email: email,
     nickname: nickname,
     profileImageUrl: profileImageUrl,
     bio: bio,

@@ -9,6 +9,7 @@ part of 'my_profile_resp_dto.dart';
 _MyProfileRespDto _$MyProfileRespDtoFromJson(Map<String, dynamic> json) =>
     _MyProfileRespDto(
       userId: (json['userId'] as num).toInt(),
+      email: json['email'] as String,
       nickname: json['nickname'] as String,
       profileImageUrl: json['profileImageUrl'] as String?,
       bio: json['bio'] as String?,
@@ -19,6 +20,7 @@ _MyProfileRespDto _$MyProfileRespDtoFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$MyProfileRespDtoToJson(_MyProfileRespDto instance) =>
     <String, dynamic>{
       'userId': instance.userId,
+      'email': instance.email,
       'nickname': instance.nickname,
       'profileImageUrl': instance.profileImageUrl,
       'bio': instance.bio,

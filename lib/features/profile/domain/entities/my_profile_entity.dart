@@ -6,6 +6,7 @@ part 'my_profile_entity.freezed.dart';
 abstract class MyProfileEntity with _$MyProfileEntity {
   const factory MyProfileEntity({
     required int userId,
+    required String email,
     required String nickname,
     String? profileImageUrl,
     String? bio,
