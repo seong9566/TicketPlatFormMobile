@@ -53,6 +53,9 @@ class ApiEndpoint {
   static const String sellTicketImageRefresh =
       '/api/sell/tickets/images/refresh';
 
+  // Profile
+  static const String myProfile = '/api/users/profile';
+
   // SignalR Hub
   static String get chatHub => '$baseUrl/hubs/chat';
 }
