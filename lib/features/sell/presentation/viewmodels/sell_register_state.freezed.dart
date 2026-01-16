@@ -17,8 +17,16 @@ mixin _$SellRegisterState {
 // Step 1: 공연 선택
  List<SellEventUiModel> get events; int get eventsTotalCount; int get eventsCurrentPage; int get eventsTotalPages; bool get eventsHasMore; String get eventsKeyword; SellEventUiModel? get selectedEvent;// Step 2: 일정 선택
  List<SellScheduleUiModel> get schedules; DateTime? get selectedDate; SellScheduleUiModel? get selectedSchedule;// Step 3: 좌석 정보
- SellSeatOptionsUiModel? get seatOptions; String? get selectedLocationId; bool get isCustomLocation; String get customLocation; String get area; String get row;// Step 4: 등록 정보
- int get quantity; bool get isConsecutive; String get price; String get description; List<File> get images;// 공통
+ SellSeatOptionsUiModel? get seatOptions; String? get selectedLocationId; bool get isCustomLocation; String get customLocation; String get seatDetail;// 열/입장번호 상세 정보
+ String? get seatGrade;// 좌석 등급
+ String? get seatFloor;// 좌석 위치 (층)
+ String? get seatRowType;// 'row' or 'entrance'
+// Step 4: 등록 정보 (Price)
+ int get quantity; bool get isConsecutive; String get price;// Step 6: 추가 정보
+ String get description; List<File> get images; List<String> get noteTags;// 특이사항 (기존 seatFeatures 대체)
+ String? get dealMethod;// 거래 방식
+ bool get isHolding;// 티켓 보유 여부
+// 공통
  bool get isLoading; String? get errorMessage;
 /// Create a copy of SellRegisterState
 /// with the given fields replaced by the non-null parameter values.
@@ -30,16 +38,16 @@ $SellRegisterStateCopyWith<SellRegisterState> get copyWith => _$SellRegisterStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SellRegisterState&&const DeepCollectionEquality().equals(other.events, events)&&(identical(other.eventsTotalCount, eventsTotalCount) || other.eventsTotalCount == eventsTotalCount)&&(identical(other.eventsCurrentPage, eventsCurrentPage) || other.eventsCurrentPage == eventsCurrentPage)&&(identical(other.eventsTotalPages, eventsTotalPages) || other.eventsTotalPages == eventsTotalPages)&&(identical(other.eventsHasMore, eventsHasMore) || other.eventsHasMore == eventsHasMore)&&(identical(other.eventsKeyword, eventsKeyword) || other.eventsKeyword == eventsKeyword)&&(identical(other.selectedEvent, selectedEvent) || other.selectedEvent == selectedEvent)&&const DeepCollectionEquality().equals(other.schedules, schedules)&&(identical(other.selectedDate, selectedDate) || other.selectedDate == selectedDate)&&(identical(other.selectedSchedule, selectedSchedule) || other.selectedSchedule == selectedSchedule)&&(identical(other.seatOptions, seatOptions) || other.seatOptions == seatOptions)&&(identical(other.selectedLocationId, selectedLocationId) || other.selectedLocationId == selectedLocationId)&&(identical(other.isCustomLocation, isCustomLocation) || other.isCustomLocation == isCustomLocation)&&(identical(other.customLocation, customLocation) || other.customLocation == customLocation)&&(identical(other.area, area) || other.area == area)&&(identical(other.row, row) || other.row == row)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.isConsecutive, isConsecutive) || other.isConsecutive == isConsecutive)&&(identical(other.price, price) || other.price == price)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.images, images)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SellRegisterState&&const DeepCollectionEquality().equals(other.events, events)&&(identical(other.eventsTotalCount, eventsTotalCount) || other.eventsTotalCount == eventsTotalCount)&&(identical(other.eventsCurrentPage, eventsCurrentPage) || other.eventsCurrentPage == eventsCurrentPage)&&(identical(other.eventsTotalPages, eventsTotalPages) || other.eventsTotalPages == eventsTotalPages)&&(identical(other.eventsHasMore, eventsHasMore) || other.eventsHasMore == eventsHasMore)&&(identical(other.eventsKeyword, eventsKeyword) || other.eventsKeyword == eventsKeyword)&&(identical(other.selectedEvent, selectedEvent) || other.selectedEvent == selectedEvent)&&const DeepCollectionEquality().equals(other.schedules, schedules)&&(identical(other.selectedDate, selectedDate) || other.selectedDate == selectedDate)&&(identical(other.selectedSchedule, selectedSchedule) || other.selectedSchedule == selectedSchedule)&&(identical(other.seatOptions, seatOptions) || other.seatOptions == seatOptions)&&(identical(other.selectedLocationId, selectedLocationId) || other.selectedLocationId == selectedLocationId)&&(identical(other.isCustomLocation, isCustomLocation) || other.isCustomLocation == isCustomLocation)&&(identical(other.customLocation, customLocation) || other.customLocation == customLocation)&&(identical(other.seatDetail, seatDetail) || other.seatDetail == seatDetail)&&(identical(other.seatGrade, seatGrade) || other.seatGrade == seatGrade)&&(identical(other.seatFloor, seatFloor) || other.seatFloor == seatFloor)&&(identical(other.seatRowType, seatRowType) || other.seatRowType == seatRowType)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.isConsecutive, isConsecutive) || other.isConsecutive == isConsecutive)&&(identical(other.price, price) || other.price == price)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.images, images)&&const DeepCollectionEquality().equals(other.noteTags, noteTags)&&(identical(other.dealMethod, dealMethod) || other.dealMethod == dealMethod)&&(identical(other.isHolding, isHolding) || other.isHolding == isHolding)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hashAll([runtimeType,const DeepCollectionEquality().hash(events),eventsTotalCount,eventsCurrentPage,eventsTotalPages,eventsHasMore,eventsKeyword,selectedEvent,const DeepCollectionEquality().hash(schedules),selectedDate,selectedSchedule,seatOptions,selectedLocationId,isCustomLocation,customLocation,area,row,quantity,isConsecutive,price,description,const DeepCollectionEquality().hash(images),isLoading,errorMessage]);
+int get hashCode => Object.hashAll([runtimeType,const DeepCollectionEquality().hash(events),eventsTotalCount,eventsCurrentPage,eventsTotalPages,eventsHasMore,eventsKeyword,selectedEvent,const DeepCollectionEquality().hash(schedules),selectedDate,selectedSchedule,seatOptions,selectedLocationId,isCustomLocation,customLocation,seatDetail,seatGrade,seatFloor,seatRowType,quantity,isConsecutive,price,description,const DeepCollectionEquality().hash(images),const DeepCollectionEquality().hash(noteTags),dealMethod,isHolding,isLoading,errorMessage]);
 
 @override
 String toString() {
-  return 'SellRegisterState(events: $events, eventsTotalCount: $eventsTotalCount, eventsCurrentPage: $eventsCurrentPage, eventsTotalPages: $eventsTotalPages, eventsHasMore: $eventsHasMore, eventsKeyword: $eventsKeyword, selectedEvent: $selectedEvent, schedules: $schedules, selectedDate: $selectedDate, selectedSchedule: $selectedSchedule, seatOptions: $seatOptions, selectedLocationId: $selectedLocationId, isCustomLocation: $isCustomLocation, customLocation: $customLocation, area: $area, row: $row, quantity: $quantity, isConsecutive: $isConsecutive, price: $price, description: $description, images: $images, isLoading: $isLoading, errorMessage: $errorMessage)';
+  return 'SellRegisterState(events: $events, eventsTotalCount: $eventsTotalCount, eventsCurrentPage: $eventsCurrentPage, eventsTotalPages: $eventsTotalPages, eventsHasMore: $eventsHasMore, eventsKeyword: $eventsKeyword, selectedEvent: $selectedEvent, schedules: $schedules, selectedDate: $selectedDate, selectedSchedule: $selectedSchedule, seatOptions: $seatOptions, selectedLocationId: $selectedLocationId, isCustomLocation: $isCustomLocation, customLocation: $customLocation, seatDetail: $seatDetail, seatGrade: $seatGrade, seatFloor: $seatFloor, seatRowType: $seatRowType, quantity: $quantity, isConsecutive: $isConsecutive, price: $price, description: $description, images: $images, noteTags: $noteTags, dealMethod: $dealMethod, isHolding: $isHolding, isLoading: $isLoading, errorMessage: $errorMessage)';
 }
 
 
@@ -50,7 +58,7 @@ abstract mixin class $SellRegisterStateCopyWith<$Res>  {
   factory $SellRegisterStateCopyWith(SellRegisterState value, $Res Function(SellRegisterState) _then) = _$SellRegisterStateCopyWithImpl;
 @useResult
 $Res call({
- List<SellEventUiModel> events, int eventsTotalCount, int eventsCurrentPage, int eventsTotalPages, bool eventsHasMore, String eventsKeyword, SellEventUiModel? selectedEvent, List<SellScheduleUiModel> schedules, DateTime? selectedDate, SellScheduleUiModel? selectedSchedule, SellSeatOptionsUiModel? seatOptions, String? selectedLocationId, bool isCustomLocation, String customLocation, String area, String row, int quantity, bool isConsecutive, String price, String description, List<File> images, bool isLoading, String? errorMessage
+ List<SellEventUiModel> events, int eventsTotalCount, int eventsCurrentPage, int eventsTotalPages, bool eventsHasMore, String eventsKeyword, SellEventUiModel? selectedEvent, List<SellScheduleUiModel> schedules, DateTime? selectedDate, SellScheduleUiModel? selectedSchedule, SellSeatOptionsUiModel? seatOptions, String? selectedLocationId, bool isCustomLocation, String customLocation, String seatDetail, String? seatGrade, String? seatFloor, String? seatRowType, int quantity, bool isConsecutive, String price, String description, List<File> images, List<String> noteTags, String? dealMethod, bool isHolding, bool isLoading, String? errorMessage
 });
 
 
@@ -67,7 +75,7 @@ class _$SellRegisterStateCopyWithImpl<$Res>
 
 /// Create a copy of SellRegisterState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? events = null,Object? eventsTotalCount = null,Object? eventsCurrentPage = null,Object? eventsTotalPages = null,Object? eventsHasMore = null,Object? eventsKeyword = null,Object? selectedEvent = freezed,Object? schedules = null,Object? selectedDate = freezed,Object? selectedSchedule = freezed,Object? seatOptions = freezed,Object? selectedLocationId = freezed,Object? isCustomLocation = null,Object? customLocation = null,Object? area = null,Object? row = null,Object? quantity = null,Object? isConsecutive = null,Object? price = null,Object? description = null,Object? images = null,Object? isLoading = null,Object? errorMessage = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? events = null,Object? eventsTotalCount = null,Object? eventsCurrentPage = null,Object? eventsTotalPages = null,Object? eventsHasMore = null,Object? eventsKeyword = null,Object? selectedEvent = freezed,Object? schedules = null,Object? selectedDate = freezed,Object? selectedSchedule = freezed,Object? seatOptions = freezed,Object? selectedLocationId = freezed,Object? isCustomLocation = null,Object? customLocation = null,Object? seatDetail = null,Object? seatGrade = freezed,Object? seatFloor = freezed,Object? seatRowType = freezed,Object? quantity = null,Object? isConsecutive = null,Object? price = null,Object? description = null,Object? images = null,Object? noteTags = null,Object? dealMethod = freezed,Object? isHolding = null,Object? isLoading = null,Object? errorMessage = freezed,}) {
   return _then(_self.copyWith(
 events: null == events ? _self.events : events // ignore: cast_nullable_to_non_nullable
 as List<SellEventUiModel>,eventsTotalCount: null == eventsTotalCount ? _self.eventsTotalCount : eventsTotalCount // ignore: cast_nullable_to_non_nullable
@@ -83,14 +91,19 @@ as SellScheduleUiModel?,seatOptions: freezed == seatOptions ? _self.seatOptions 
 as SellSeatOptionsUiModel?,selectedLocationId: freezed == selectedLocationId ? _self.selectedLocationId : selectedLocationId // ignore: cast_nullable_to_non_nullable
 as String?,isCustomLocation: null == isCustomLocation ? _self.isCustomLocation : isCustomLocation // ignore: cast_nullable_to_non_nullable
 as bool,customLocation: null == customLocation ? _self.customLocation : customLocation // ignore: cast_nullable_to_non_nullable
-as String,area: null == area ? _self.area : area // ignore: cast_nullable_to_non_nullable
-as String,row: null == row ? _self.row : row // ignore: cast_nullable_to_non_nullable
-as String,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
+as String,seatDetail: null == seatDetail ? _self.seatDetail : seatDetail // ignore: cast_nullable_to_non_nullable
+as String,seatGrade: freezed == seatGrade ? _self.seatGrade : seatGrade // ignore: cast_nullable_to_non_nullable
+as String?,seatFloor: freezed == seatFloor ? _self.seatFloor : seatFloor // ignore: cast_nullable_to_non_nullable
+as String?,seatRowType: freezed == seatRowType ? _self.seatRowType : seatRowType // ignore: cast_nullable_to_non_nullable
+as String?,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
 as int,isConsecutive: null == isConsecutive ? _self.isConsecutive : isConsecutive // ignore: cast_nullable_to_non_nullable
 as bool,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,images: null == images ? _self.images : images // ignore: cast_nullable_to_non_nullable
-as List<File>,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as List<File>,noteTags: null == noteTags ? _self.noteTags : noteTags // ignore: cast_nullable_to_non_nullable
+as List<String>,dealMethod: freezed == dealMethod ? _self.dealMethod : dealMethod // ignore: cast_nullable_to_non_nullable
+as String?,isHolding: null == isHolding ? _self.isHolding : isHolding // ignore: cast_nullable_to_non_nullable
+as bool,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -213,10 +226,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<SellEventUiModel> events,  int eventsTotalCount,  int eventsCurrentPage,  int eventsTotalPages,  bool eventsHasMore,  String eventsKeyword,  SellEventUiModel? selectedEvent,  List<SellScheduleUiModel> schedules,  DateTime? selectedDate,  SellScheduleUiModel? selectedSchedule,  SellSeatOptionsUiModel? seatOptions,  String? selectedLocationId,  bool isCustomLocation,  String customLocation,  String area,  String row,  int quantity,  bool isConsecutive,  String price,  String description,  List<File> images,  bool isLoading,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<SellEventUiModel> events,  int eventsTotalCount,  int eventsCurrentPage,  int eventsTotalPages,  bool eventsHasMore,  String eventsKeyword,  SellEventUiModel? selectedEvent,  List<SellScheduleUiModel> schedules,  DateTime? selectedDate,  SellScheduleUiModel? selectedSchedule,  SellSeatOptionsUiModel? seatOptions,  String? selectedLocationId,  bool isCustomLocation,  String customLocation,  String seatDetail,  String? seatGrade,  String? seatFloor,  String? seatRowType,  int quantity,  bool isConsecutive,  String price,  String description,  List<File> images,  List<String> noteTags,  String? dealMethod,  bool isHolding,  bool isLoading,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SellRegisterState() when $default != null:
-return $default(_that.events,_that.eventsTotalCount,_that.eventsCurrentPage,_that.eventsTotalPages,_that.eventsHasMore,_that.eventsKeyword,_that.selectedEvent,_that.schedules,_that.selectedDate,_that.selectedSchedule,_that.seatOptions,_that.selectedLocationId,_that.isCustomLocation,_that.customLocation,_that.area,_that.row,_that.quantity,_that.isConsecutive,_that.price,_that.description,_that.images,_that.isLoading,_that.errorMessage);case _:
+return $default(_that.events,_that.eventsTotalCount,_that.eventsCurrentPage,_that.eventsTotalPages,_that.eventsHasMore,_that.eventsKeyword,_that.selectedEvent,_that.schedules,_that.selectedDate,_that.selectedSchedule,_that.seatOptions,_that.selectedLocationId,_that.isCustomLocation,_that.customLocation,_that.seatDetail,_that.seatGrade,_that.seatFloor,_that.seatRowType,_that.quantity,_that.isConsecutive,_that.price,_that.description,_that.images,_that.noteTags,_that.dealMethod,_that.isHolding,_that.isLoading,_that.errorMessage);case _:
   return orElse();
 
 }
@@ -234,10 +247,10 @@ return $default(_that.events,_that.eventsTotalCount,_that.eventsCurrentPage,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<SellEventUiModel> events,  int eventsTotalCount,  int eventsCurrentPage,  int eventsTotalPages,  bool eventsHasMore,  String eventsKeyword,  SellEventUiModel? selectedEvent,  List<SellScheduleUiModel> schedules,  DateTime? selectedDate,  SellScheduleUiModel? selectedSchedule,  SellSeatOptionsUiModel? seatOptions,  String? selectedLocationId,  bool isCustomLocation,  String customLocation,  String area,  String row,  int quantity,  bool isConsecutive,  String price,  String description,  List<File> images,  bool isLoading,  String? errorMessage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<SellEventUiModel> events,  int eventsTotalCount,  int eventsCurrentPage,  int eventsTotalPages,  bool eventsHasMore,  String eventsKeyword,  SellEventUiModel? selectedEvent,  List<SellScheduleUiModel> schedules,  DateTime? selectedDate,  SellScheduleUiModel? selectedSchedule,  SellSeatOptionsUiModel? seatOptions,  String? selectedLocationId,  bool isCustomLocation,  String customLocation,  String seatDetail,  String? seatGrade,  String? seatFloor,  String? seatRowType,  int quantity,  bool isConsecutive,  String price,  String description,  List<File> images,  List<String> noteTags,  String? dealMethod,  bool isHolding,  bool isLoading,  String? errorMessage)  $default,) {final _that = this;
 switch (_that) {
 case _SellRegisterState():
-return $default(_that.events,_that.eventsTotalCount,_that.eventsCurrentPage,_that.eventsTotalPages,_that.eventsHasMore,_that.eventsKeyword,_that.selectedEvent,_that.schedules,_that.selectedDate,_that.selectedSchedule,_that.seatOptions,_that.selectedLocationId,_that.isCustomLocation,_that.customLocation,_that.area,_that.row,_that.quantity,_that.isConsecutive,_that.price,_that.description,_that.images,_that.isLoading,_that.errorMessage);case _:
+return $default(_that.events,_that.eventsTotalCount,_that.eventsCurrentPage,_that.eventsTotalPages,_that.eventsHasMore,_that.eventsKeyword,_that.selectedEvent,_that.schedules,_that.selectedDate,_that.selectedSchedule,_that.seatOptions,_that.selectedLocationId,_that.isCustomLocation,_that.customLocation,_that.seatDetail,_that.seatGrade,_that.seatFloor,_that.seatRowType,_that.quantity,_that.isConsecutive,_that.price,_that.description,_that.images,_that.noteTags,_that.dealMethod,_that.isHolding,_that.isLoading,_that.errorMessage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -254,10 +267,10 @@ return $default(_that.events,_that.eventsTotalCount,_that.eventsCurrentPage,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<SellEventUiModel> events,  int eventsTotalCount,  int eventsCurrentPage,  int eventsTotalPages,  bool eventsHasMore,  String eventsKeyword,  SellEventUiModel? selectedEvent,  List<SellScheduleUiModel> schedules,  DateTime? selectedDate,  SellScheduleUiModel? selectedSchedule,  SellSeatOptionsUiModel? seatOptions,  String? selectedLocationId,  bool isCustomLocation,  String customLocation,  String area,  String row,  int quantity,  bool isConsecutive,  String price,  String description,  List<File> images,  bool isLoading,  String? errorMessage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<SellEventUiModel> events,  int eventsTotalCount,  int eventsCurrentPage,  int eventsTotalPages,  bool eventsHasMore,  String eventsKeyword,  SellEventUiModel? selectedEvent,  List<SellScheduleUiModel> schedules,  DateTime? selectedDate,  SellScheduleUiModel? selectedSchedule,  SellSeatOptionsUiModel? seatOptions,  String? selectedLocationId,  bool isCustomLocation,  String customLocation,  String seatDetail,  String? seatGrade,  String? seatFloor,  String? seatRowType,  int quantity,  bool isConsecutive,  String price,  String description,  List<File> images,  List<String> noteTags,  String? dealMethod,  bool isHolding,  bool isLoading,  String? errorMessage)?  $default,) {final _that = this;
 switch (_that) {
 case _SellRegisterState() when $default != null:
-return $default(_that.events,_that.eventsTotalCount,_that.eventsCurrentPage,_that.eventsTotalPages,_that.eventsHasMore,_that.eventsKeyword,_that.selectedEvent,_that.schedules,_that.selectedDate,_that.selectedSchedule,_that.seatOptions,_that.selectedLocationId,_that.isCustomLocation,_that.customLocation,_that.area,_that.row,_that.quantity,_that.isConsecutive,_that.price,_that.description,_that.images,_that.isLoading,_that.errorMessage);case _:
+return $default(_that.events,_that.eventsTotalCount,_that.eventsCurrentPage,_that.eventsTotalPages,_that.eventsHasMore,_that.eventsKeyword,_that.selectedEvent,_that.schedules,_that.selectedDate,_that.selectedSchedule,_that.seatOptions,_that.selectedLocationId,_that.isCustomLocation,_that.customLocation,_that.seatDetail,_that.seatGrade,_that.seatFloor,_that.seatRowType,_that.quantity,_that.isConsecutive,_that.price,_that.description,_that.images,_that.noteTags,_that.dealMethod,_that.isHolding,_that.isLoading,_that.errorMessage);case _:
   return null;
 
 }
@@ -269,7 +282,7 @@ return $default(_that.events,_that.eventsTotalCount,_that.eventsCurrentPage,_tha
 
 
 class _SellRegisterState extends SellRegisterState {
-  const _SellRegisterState({final  List<SellEventUiModel> events = const [], this.eventsTotalCount = 0, this.eventsCurrentPage = 1, this.eventsTotalPages = 0, this.eventsHasMore = false, this.eventsKeyword = '', this.selectedEvent, final  List<SellScheduleUiModel> schedules = const [], this.selectedDate, this.selectedSchedule, this.seatOptions, this.selectedLocationId, this.isCustomLocation = false, this.customLocation = '', this.area = '', this.row = '', this.quantity = 1, this.isConsecutive = false, this.price = '', this.description = '', final  List<File> images = const [], this.isLoading = false, this.errorMessage}): _events = events,_schedules = schedules,_images = images,super._();
+  const _SellRegisterState({final  List<SellEventUiModel> events = const [], this.eventsTotalCount = 0, this.eventsCurrentPage = 1, this.eventsTotalPages = 0, this.eventsHasMore = false, this.eventsKeyword = '', this.selectedEvent, final  List<SellScheduleUiModel> schedules = const [], this.selectedDate, this.selectedSchedule, this.seatOptions, this.selectedLocationId, this.isCustomLocation = false, this.customLocation = '', this.seatDetail = '', this.seatGrade, this.seatFloor, this.seatRowType, this.quantity = 1, this.isConsecutive = false, this.price = '', this.description = '', final  List<File> images = const [], final  List<String> noteTags = const [], this.dealMethod, this.isHolding = true, this.isLoading = false, this.errorMessage}): _events = events,_schedules = schedules,_images = images,_noteTags = noteTags,super._();
   
 
 // Step 1: 공연 선택
@@ -303,12 +316,19 @@ class _SellRegisterState extends SellRegisterState {
 @override final  String? selectedLocationId;
 @override@JsonKey() final  bool isCustomLocation;
 @override@JsonKey() final  String customLocation;
-@override@JsonKey() final  String area;
-@override@JsonKey() final  String row;
-// Step 4: 등록 정보
+@override@JsonKey() final  String seatDetail;
+// 열/입장번호 상세 정보
+@override final  String? seatGrade;
+// 좌석 등급
+@override final  String? seatFloor;
+// 좌석 위치 (층)
+@override final  String? seatRowType;
+// 'row' or 'entrance'
+// Step 4: 등록 정보 (Price)
 @override@JsonKey() final  int quantity;
 @override@JsonKey() final  bool isConsecutive;
 @override@JsonKey() final  String price;
+// Step 6: 추가 정보
 @override@JsonKey() final  String description;
  final  List<File> _images;
 @override@JsonKey() List<File> get images {
@@ -317,6 +337,18 @@ class _SellRegisterState extends SellRegisterState {
   return EqualUnmodifiableListView(_images);
 }
 
+ final  List<String> _noteTags;
+@override@JsonKey() List<String> get noteTags {
+  if (_noteTags is EqualUnmodifiableListView) return _noteTags;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_noteTags);
+}
+
+// 특이사항 (기존 seatFeatures 대체)
+@override final  String? dealMethod;
+// 거래 방식
+@override@JsonKey() final  bool isHolding;
+// 티켓 보유 여부
 // 공통
 @override@JsonKey() final  bool isLoading;
 @override final  String? errorMessage;
@@ -331,16 +363,16 @@ _$SellRegisterStateCopyWith<_SellRegisterState> get copyWith => __$SellRegisterS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SellRegisterState&&const DeepCollectionEquality().equals(other._events, _events)&&(identical(other.eventsTotalCount, eventsTotalCount) || other.eventsTotalCount == eventsTotalCount)&&(identical(other.eventsCurrentPage, eventsCurrentPage) || other.eventsCurrentPage == eventsCurrentPage)&&(identical(other.eventsTotalPages, eventsTotalPages) || other.eventsTotalPages == eventsTotalPages)&&(identical(other.eventsHasMore, eventsHasMore) || other.eventsHasMore == eventsHasMore)&&(identical(other.eventsKeyword, eventsKeyword) || other.eventsKeyword == eventsKeyword)&&(identical(other.selectedEvent, selectedEvent) || other.selectedEvent == selectedEvent)&&const DeepCollectionEquality().equals(other._schedules, _schedules)&&(identical(other.selectedDate, selectedDate) || other.selectedDate == selectedDate)&&(identical(other.selectedSchedule, selectedSchedule) || other.selectedSchedule == selectedSchedule)&&(identical(other.seatOptions, seatOptions) || other.seatOptions == seatOptions)&&(identical(other.selectedLocationId, selectedLocationId) || other.selectedLocationId == selectedLocationId)&&(identical(other.isCustomLocation, isCustomLocation) || other.isCustomLocation == isCustomLocation)&&(identical(other.customLocation, customLocation) || other.customLocation == customLocation)&&(identical(other.area, area) || other.area == area)&&(identical(other.row, row) || other.row == row)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.isConsecutive, isConsecutive) || other.isConsecutive == isConsecutive)&&(identical(other.price, price) || other.price == price)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._images, _images)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SellRegisterState&&const DeepCollectionEquality().equals(other._events, _events)&&(identical(other.eventsTotalCount, eventsTotalCount) || other.eventsTotalCount == eventsTotalCount)&&(identical(other.eventsCurrentPage, eventsCurrentPage) || other.eventsCurrentPage == eventsCurrentPage)&&(identical(other.eventsTotalPages, eventsTotalPages) || other.eventsTotalPages == eventsTotalPages)&&(identical(other.eventsHasMore, eventsHasMore) || other.eventsHasMore == eventsHasMore)&&(identical(other.eventsKeyword, eventsKeyword) || other.eventsKeyword == eventsKeyword)&&(identical(other.selectedEvent, selectedEvent) || other.selectedEvent == selectedEvent)&&const DeepCollectionEquality().equals(other._schedules, _schedules)&&(identical(other.selectedDate, selectedDate) || other.selectedDate == selectedDate)&&(identical(other.selectedSchedule, selectedSchedule) || other.selectedSchedule == selectedSchedule)&&(identical(other.seatOptions, seatOptions) || other.seatOptions == seatOptions)&&(identical(other.selectedLocationId, selectedLocationId) || other.selectedLocationId == selectedLocationId)&&(identical(other.isCustomLocation, isCustomLocation) || other.isCustomLocation == isCustomLocation)&&(identical(other.customLocation, customLocation) || other.customLocation == customLocation)&&(identical(other.seatDetail, seatDetail) || other.seatDetail == seatDetail)&&(identical(other.seatGrade, seatGrade) || other.seatGrade == seatGrade)&&(identical(other.seatFloor, seatFloor) || other.seatFloor == seatFloor)&&(identical(other.seatRowType, seatRowType) || other.seatRowType == seatRowType)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.isConsecutive, isConsecutive) || other.isConsecutive == isConsecutive)&&(identical(other.price, price) || other.price == price)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._images, _images)&&const DeepCollectionEquality().equals(other._noteTags, _noteTags)&&(identical(other.dealMethod, dealMethod) || other.dealMethod == dealMethod)&&(identical(other.isHolding, isHolding) || other.isHolding == isHolding)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hashAll([runtimeType,const DeepCollectionEquality().hash(_events),eventsTotalCount,eventsCurrentPage,eventsTotalPages,eventsHasMore,eventsKeyword,selectedEvent,const DeepCollectionEquality().hash(_schedules),selectedDate,selectedSchedule,seatOptions,selectedLocationId,isCustomLocation,customLocation,area,row,quantity,isConsecutive,price,description,const DeepCollectionEquality().hash(_images),isLoading,errorMessage]);
+int get hashCode => Object.hashAll([runtimeType,const DeepCollectionEquality().hash(_events),eventsTotalCount,eventsCurrentPage,eventsTotalPages,eventsHasMore,eventsKeyword,selectedEvent,const DeepCollectionEquality().hash(_schedules),selectedDate,selectedSchedule,seatOptions,selectedLocationId,isCustomLocation,customLocation,seatDetail,seatGrade,seatFloor,seatRowType,quantity,isConsecutive,price,description,const DeepCollectionEquality().hash(_images),const DeepCollectionEquality().hash(_noteTags),dealMethod,isHolding,isLoading,errorMessage]);
 
 @override
 String toString() {
-  return 'SellRegisterState(events: $events, eventsTotalCount: $eventsTotalCount, eventsCurrentPage: $eventsCurrentPage, eventsTotalPages: $eventsTotalPages, eventsHasMore: $eventsHasMore, eventsKeyword: $eventsKeyword, selectedEvent: $selectedEvent, schedules: $schedules, selectedDate: $selectedDate, selectedSchedule: $selectedSchedule, seatOptions: $seatOptions, selectedLocationId: $selectedLocationId, isCustomLocation: $isCustomLocation, customLocation: $customLocation, area: $area, row: $row, quantity: $quantity, isConsecutive: $isConsecutive, price: $price, description: $description, images: $images, isLoading: $isLoading, errorMessage: $errorMessage)';
+  return 'SellRegisterState(events: $events, eventsTotalCount: $eventsTotalCount, eventsCurrentPage: $eventsCurrentPage, eventsTotalPages: $eventsTotalPages, eventsHasMore: $eventsHasMore, eventsKeyword: $eventsKeyword, selectedEvent: $selectedEvent, schedules: $schedules, selectedDate: $selectedDate, selectedSchedule: $selectedSchedule, seatOptions: $seatOptions, selectedLocationId: $selectedLocationId, isCustomLocation: $isCustomLocation, customLocation: $customLocation, seatDetail: $seatDetail, seatGrade: $seatGrade, seatFloor: $seatFloor, seatRowType: $seatRowType, quantity: $quantity, isConsecutive: $isConsecutive, price: $price, description: $description, images: $images, noteTags: $noteTags, dealMethod: $dealMethod, isHolding: $isHolding, isLoading: $isLoading, errorMessage: $errorMessage)';
 }
 
 
@@ -351,7 +383,7 @@ abstract mixin class _$SellRegisterStateCopyWith<$Res> implements $SellRegisterS
   factory _$SellRegisterStateCopyWith(_SellRegisterState value, $Res Function(_SellRegisterState) _then) = __$SellRegisterStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<SellEventUiModel> events, int eventsTotalCount, int eventsCurrentPage, int eventsTotalPages, bool eventsHasMore, String eventsKeyword, SellEventUiModel? selectedEvent, List<SellScheduleUiModel> schedules, DateTime? selectedDate, SellScheduleUiModel? selectedSchedule, SellSeatOptionsUiModel? seatOptions, String? selectedLocationId, bool isCustomLocation, String customLocation, String area, String row, int quantity, bool isConsecutive, String price, String description, List<File> images, bool isLoading, String? errorMessage
+ List<SellEventUiModel> events, int eventsTotalCount, int eventsCurrentPage, int eventsTotalPages, bool eventsHasMore, String eventsKeyword, SellEventUiModel? selectedEvent, List<SellScheduleUiModel> schedules, DateTime? selectedDate, SellScheduleUiModel? selectedSchedule, SellSeatOptionsUiModel? seatOptions, String? selectedLocationId, bool isCustomLocation, String customLocation, String seatDetail, String? seatGrade, String? seatFloor, String? seatRowType, int quantity, bool isConsecutive, String price, String description, List<File> images, List<String> noteTags, String? dealMethod, bool isHolding, bool isLoading, String? errorMessage
 });
 
 
@@ -368,7 +400,7 @@ class __$SellRegisterStateCopyWithImpl<$Res>
 
 /// Create a copy of SellRegisterState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? events = null,Object? eventsTotalCount = null,Object? eventsCurrentPage = null,Object? eventsTotalPages = null,Object? eventsHasMore = null,Object? eventsKeyword = null,Object? selectedEvent = freezed,Object? schedules = null,Object? selectedDate = freezed,Object? selectedSchedule = freezed,Object? seatOptions = freezed,Object? selectedLocationId = freezed,Object? isCustomLocation = null,Object? customLocation = null,Object? area = null,Object? row = null,Object? quantity = null,Object? isConsecutive = null,Object? price = null,Object? description = null,Object? images = null,Object? isLoading = null,Object? errorMessage = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? events = null,Object? eventsTotalCount = null,Object? eventsCurrentPage = null,Object? eventsTotalPages = null,Object? eventsHasMore = null,Object? eventsKeyword = null,Object? selectedEvent = freezed,Object? schedules = null,Object? selectedDate = freezed,Object? selectedSchedule = freezed,Object? seatOptions = freezed,Object? selectedLocationId = freezed,Object? isCustomLocation = null,Object? customLocation = null,Object? seatDetail = null,Object? seatGrade = freezed,Object? seatFloor = freezed,Object? seatRowType = freezed,Object? quantity = null,Object? isConsecutive = null,Object? price = null,Object? description = null,Object? images = null,Object? noteTags = null,Object? dealMethod = freezed,Object? isHolding = null,Object? isLoading = null,Object? errorMessage = freezed,}) {
   return _then(_SellRegisterState(
 events: null == events ? _self._events : events // ignore: cast_nullable_to_non_nullable
 as List<SellEventUiModel>,eventsTotalCount: null == eventsTotalCount ? _self.eventsTotalCount : eventsTotalCount // ignore: cast_nullable_to_non_nullable
@@ -384,14 +416,19 @@ as SellScheduleUiModel?,seatOptions: freezed == seatOptions ? _self.seatOptions 
 as SellSeatOptionsUiModel?,selectedLocationId: freezed == selectedLocationId ? _self.selectedLocationId : selectedLocationId // ignore: cast_nullable_to_non_nullable
 as String?,isCustomLocation: null == isCustomLocation ? _self.isCustomLocation : isCustomLocation // ignore: cast_nullable_to_non_nullable
 as bool,customLocation: null == customLocation ? _self.customLocation : customLocation // ignore: cast_nullable_to_non_nullable
-as String,area: null == area ? _self.area : area // ignore: cast_nullable_to_non_nullable
-as String,row: null == row ? _self.row : row // ignore: cast_nullable_to_non_nullable
-as String,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
+as String,seatDetail: null == seatDetail ? _self.seatDetail : seatDetail // ignore: cast_nullable_to_non_nullable
+as String,seatGrade: freezed == seatGrade ? _self.seatGrade : seatGrade // ignore: cast_nullable_to_non_nullable
+as String?,seatFloor: freezed == seatFloor ? _self.seatFloor : seatFloor // ignore: cast_nullable_to_non_nullable
+as String?,seatRowType: freezed == seatRowType ? _self.seatRowType : seatRowType // ignore: cast_nullable_to_non_nullable
+as String?,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
 as int,isConsecutive: null == isConsecutive ? _self.isConsecutive : isConsecutive // ignore: cast_nullable_to_non_nullable
 as bool,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,images: null == images ? _self._images : images // ignore: cast_nullable_to_non_nullable
-as List<File>,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as List<File>,noteTags: null == noteTags ? _self._noteTags : noteTags // ignore: cast_nullable_to_non_nullable
+as List<String>,dealMethod: freezed == dealMethod ? _self.dealMethod : dealMethod // ignore: cast_nullable_to_non_nullable
+as String?,isHolding: null == isHolding ? _self.isHolding : isHolding // ignore: cast_nullable_to_non_nullable
+as bool,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,
   ));

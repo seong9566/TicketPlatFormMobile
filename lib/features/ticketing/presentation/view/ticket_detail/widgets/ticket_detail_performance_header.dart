@@ -6,12 +6,20 @@ import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/core/utils/date_format_util.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_info_ui_model.dart';
 
 class TicketDetailPerformanceHeader extends StatelessWidget {
-  final TicketingInfoUiModel info;
+  final String imageUrl;
+  final String title;
+  final DateTime eventDate;
+  final String location;
 
-  const TicketDetailPerformanceHeader({super.key, required this.info});
+  const TicketDetailPerformanceHeader({
+    super.key,
+    required this.imageUrl,
+    required this.title,
+    required this.eventDate,
+    required this.location,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +48,7 @@ class TicketDetailPerformanceHeader extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(AppRadius.md - 1),
               child: CachedNetworkImage(
-                imageUrl: info.imageUrl,
+                imageUrl: imageUrl,
                 width: 72,
                 height: 72,
                 fit: BoxFit.cover,
@@ -60,7 +68,7 @@ class TicketDetailPerformanceHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  info.title,
+                  title,
                   style: AppTextStyles.heading3.copyWith(
                     fontSize: 16,
                     letterSpacing: -0.3,
@@ -70,7 +78,7 @@ class TicketDetailPerformanceHeader extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  DateFormatUtil.formatFullDateTime(info.eventDate),
+                  DateFormatUtil.formatFullDateTime(eventDate),
                   style: AppTextStyles.caption.copyWith(
                     color: AppColors.textTertiary,
                     fontSize: 12,
@@ -78,7 +86,7 @@ class TicketDetailPerformanceHeader extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  info.location,
+                  location,
                   style: AppTextStyles.caption.copyWith(
                     color: AppColors.textTertiary,
                     fontSize: 12,

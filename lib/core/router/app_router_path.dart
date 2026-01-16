@@ -38,6 +38,12 @@ class AppRouterPath {
     'sellDateTimeSelection',
   );
   static const sellSeatInfo = _Route('/sell/seat-info', 'sellSeatInfo');
+  static const sellPrice = _Route('/sell/price', 'sellPrice');
+  static const sellAdditionalInfo = _Route(
+    '/sell/additional-info',
+    'sellAdditionalInfo',
+  );
+  // Deprecated: Will be removed after refactoring
   static const sellRegister = _Route('/sell/register', 'sellRegister');
 
   static const login = _Route('/login', 'login');

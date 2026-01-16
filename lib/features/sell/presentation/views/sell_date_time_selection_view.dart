@@ -63,35 +63,15 @@ class _SellDateTimeSelectionViewState
   Widget build(BuildContext context) {
     final state = ref.watch(sellRegisterViewModelProvider);
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: _buildAppBar(),
-      body: state.isLoading && state.schedules.isEmpty
-          ? const Center(child: CircularProgressIndicator())
-          : state.errorMessage != null && state.schedules.isEmpty
-          ? _buildErrorView(state.errorMessage!)
-          : _buildBody(state),
-    );
-  }
+    if (state.isLoading && state.schedules.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
-  AppBar _buildAppBar() {
-    return AppBar(
-      backgroundColor: Colors.white,
-      elevation: 0,
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: Colors.black),
-        onPressed: () => context.pop(),
-      ),
-      title: Text(
-        widget.eventTitle,
-        style: AppTextStyles.heading3.copyWith(
-          color: Colors.black,
-          fontWeight: FontWeight.w600,
-          fontSize: 16,
-        ),
-      ),
-      centerTitle: true,
-    );
+    if (state.errorMessage != null && state.schedules.isEmpty) {
+      return _buildErrorView(state.errorMessage!);
+    }
+
+    return _buildBody(state);
   }
 
   Widget _buildErrorView(String error) {
@@ -119,6 +99,7 @@ class _SellDateTimeSelectionViewState
           child: SingleChildScrollView(
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 DateSelectionCalendar(
                   focusedDay: _focusedDay,
@@ -207,6 +188,7 @@ class _SellDateTimeSelectionViewState
           text: '선택 완료',
           onPressed: isEnabled ? _onConfirm : null,
           isLoading: false,
+          backgroundColor: isEnabled ? AppColors.primary : AppColors.disabled,
         ),
       ),
     );

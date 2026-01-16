@@ -34,16 +34,21 @@ abstract class SellRegisterState
     String? selectedLocationId,
     @Default(false) bool isCustomLocation,
     @Default('') String customLocation,
-    @Default('') String area,
-    @Default('') String row,
-
-    // Step 4: 등록 정보
+    @Default('') String seatDetail, // 열/입장번호 상세 정보
+    String? seatGrade, // 좌석 등급
+    String? seatFloor, // 좌석 위치 (층)
+    String? seatRowType, // 'row' or 'entrance'
+    // Step 4: 등록 정보 (Price)
     @Default(1) int quantity,
     @Default(false) bool isConsecutive,
     @Default('') String price,
+
+    // Step 6: 추가 정보
     @Default('') String description,
     @Default([]) List<File> images,
-
+    @Default([]) List<String> noteTags, // 특이사항 (기존 seatFeatures 대체)
+    String? dealMethod, // 거래 방식
+    @Default(true) bool isHolding, // 티켓 보유 여부
     // 공통
     @Default(false) bool isLoading,
     String? errorMessage,
@@ -111,7 +116,7 @@ extension SellRegisterStateX on SellRegisterState {
     return schedulesByDate[dateOnly] ?? [];
   }
 
-  /// 좌석 위치 이름
+  /// 좌석 위치 이름 (구역)
   String? get selectedLocationName {
     if (isCustomLocation) {
       return customLocation.isNotEmpty ? customLocation : null;
@@ -147,19 +152,32 @@ extension SellRegisterStateX on SellRegisterState {
     final locationValid = isCustomLocation
         ? customLocation.isNotEmpty
         : selectedLocationId != null;
-    return locationValid && area.isNotEmpty && row.isNotEmpty;
+    // Grade, Floor, RowType 모두 선택되어야 함. RowDetail도 필수.
+    // Floor는 Optional일 수도 있으나 요구사항상 "선택"이라 했으므로 일단 검사.
+    // 다만 Floor/Grade가 null이면 선택 안된 것.
+    return locationValid &&
+        seatGrade != null &&
+        seatFloor != null &&
+        seatRowType != null &&
+        seatDetail.isNotEmpty;
   }
 
   /// 등록 정보 유효성
   bool get isRegisterValid => price.isNotEmpty;
 
-  /// 좌석 정보 문자열
+  /// 좌석 정보 문자열 (API 전송용 조합)
   String get seatInfo {
     final parts = <String>[];
+    if (seatGrade != null) parts.add(seatGrade!);
+    if (seatFloor != null) parts.add(seatFloor!);
+
     final location = selectedLocationName;
     if (location != null && location.isNotEmpty) parts.add(location);
-    if (area.isNotEmpty) parts.add(area);
-    if (row.isNotEmpty) parts.add(row);
+
+    if (seatDetail.isNotEmpty) {
+      final type = seatRowType == 'row' ? '열' : '';
+      parts.add('$seatDetail$type'); // "3열" 또는 "입장번호 3" 등. (여기서는 간단히 붙임)
+    }
     return parts.join(' ');
   }
 }

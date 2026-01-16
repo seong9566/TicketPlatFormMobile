@@ -23,8 +23,7 @@ class SellSeatInfoView extends ConsumerStatefulWidget {
 
 class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
   final _customLocationController = TextEditingController();
-  final _areaController = TextEditingController();
-  final _rowController = TextEditingController();
+  final _seatDetailController = TextEditingController();
 
   int get _eventIdInt => int.parse(widget.eventId);
 
@@ -41,8 +40,7 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
   @override
   void dispose() {
     _customLocationController.dispose();
-    _areaController.dispose();
-    _rowController.dispose();
+    _seatDetailController.dispose();
     super.dispose();
   }
 
@@ -53,42 +51,41 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
     Navigator.pop(context);
   }
 
+  void _onSeatGradeSelected(String grade) {
+    ref.read(sellRegisterViewModelProvider.notifier).selectSeatGrade(grade);
+    Navigator.pop(context);
+  }
+
   void _onConfirm() {
     context.pushNamed(
-      AppRouterPath.sellRegister.name,
+      AppRouterPath.sellPrice.name,
       pathParameters: {'eventId': widget.eventId},
     );
+  }
+
+  void _onSeatFloorSelected(String floor) {
+    ref.read(sellRegisterViewModelProvider.notifier).selectSeatFloor(floor);
+    Navigator.pop(context);
+  }
+
+  void _onSeatRowTypeSelected(String type) {
+    ref.read(sellRegisterViewModelProvider.notifier).selectSeatRowType(type);
+    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(sellRegisterViewModelProvider);
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: _buildAppBar(),
-      body: state.isLoading && state.seatOptions == null
-          ? const Center(child: CircularProgressIndicator())
-          : state.errorMessage != null && state.seatOptions == null
-          ? _buildErrorView(state.errorMessage!)
-          : _buildBody(state),
-    );
-  }
+    if (state.isLoading && state.seatOptions == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
-  AppBar _buildAppBar() {
-    return AppBar(
-      backgroundColor: Colors.white,
-      elevation: 0,
-      centerTitle: true,
-      title: Text(
-        '좌석 정보 입력',
-        style: AppTextStyles.body1.copyWith(fontWeight: FontWeight.bold),
-      ),
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: Colors.black),
-        onPressed: () => context.pop(),
-      ),
-    );
+    if (state.errorMessage != null && state.seatOptions == null) {
+      return _buildErrorView(state.errorMessage!);
+    }
+
+    return _buildBody(state);
   }
 
   Widget _buildErrorView(String error) {
@@ -112,6 +109,7 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
   Widget _buildBody(SellRegisterState state) {
     return Column(
       children: [
+        if (state.isLoading) const LinearProgressIndicator(),
         Expanded(
           child: SingleChildScrollView(
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -120,22 +118,16 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('정확한 좌석 정보를 입력해주세요.', style: AppTextStyles.heading2),
-                  const SizedBox(height: AppSpacing.xs),
-                  Text(
-                    '입력한 정보는 다른 사람에게 공개됩니다.',
-                    style: AppTextStyles.body2.copyWith(
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  Text('좌석 정보를 입력해주세요', style: AppTextStyles.heading2),
+                  const SizedBox(height: AppSpacing.xl),
+                  _buildSeatGradeField(state),
+                  const SizedBox(height: AppSpacing.xl),
+                  _buildSeatFloorField(state),
                   const SizedBox(height: AppSpacing.xl),
                   _buildLocationSection(state),
                   const SizedBox(height: AppSpacing.xl),
-                  _buildAreaField(state),
-                  const SizedBox(height: AppSpacing.xl),
-                  _buildRowField(state),
-                  const SizedBox(height: AppSpacing.xl),
-                  _buildInfoBox(),
+                  _buildSeatDetailField(state),
                 ],
               ),
             ),
@@ -146,12 +138,148 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
     );
   }
 
+  Widget _buildSeatGradeField(SellRegisterState state) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildLabel('좌석 등급 선택', isRequired: true),
+        GestureDetector(
+          onTap: () => _showSeatGradeBottomSheet(state),
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(AppSpacing.md),
+            decoration: BoxDecoration(
+              color: AppColors.inputBackground,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  state.seatGrade ?? '좌석 등급 선택',
+                  style: AppTextStyles.body1.copyWith(
+                    color: state.seatGrade != null
+                        ? AppColors.textPrimary
+                        : AppColors.textTertiary,
+                  ),
+                ),
+                const Icon(Icons.chevron_right, color: AppColors.textSecondary),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _showSeatGradeBottomSheet(SellRegisterState state) {
+    final grades = ['VIP', '일반', '지정석'];
+
+    FocusScope.of(context).unfocus();
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => _buildSelectionBottomSheet(
+        title: '좌석 등급 선택',
+        items: grades,
+        selectedItem: state.seatGrade,
+        onItemSelected: _onSeatGradeSelected,
+      ),
+    );
+  }
+
+  Widget _buildSeatFloorField(SellRegisterState state) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildLabel('좌석 위치 선택', isRequired: true),
+        GestureDetector(
+          onTap: () => _showSeatFloorBottomSheet(state),
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(AppSpacing.md),
+            decoration: BoxDecoration(
+              color: AppColors.inputBackground,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  state.seatFloor ?? '좌석 위치 선택',
+                  style: AppTextStyles.body1.copyWith(
+                    color: state.seatFloor != null
+                        ? AppColors.textPrimary
+                        : AppColors.textTertiary,
+                  ),
+                ),
+                const Icon(Icons.chevron_right, color: AppColors.textSecondary),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _showSeatFloorBottomSheet(SellRegisterState state) {
+    final floors = ['플로어석', '1층', '2층', '3층', '4층', '기타'];
+
+    FocusScope.of(context).unfocus();
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => _buildSelectionBottomSheet(
+        title: '좌석 위치 선택',
+        items: floors,
+        selectedItem: state.seatFloor,
+        onItemSelected: _onSeatFloorSelected,
+      ),
+    );
+  }
+
   Widget _buildLocationSection(SellRegisterState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildLabel('위치'),
-        _buildLocationSelector(state),
+        _buildLabel('좌석 구역 선택', isRequired: true),
+        GestureDetector(
+          onTap: () => _showLocationBottomSheet(state),
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(AppSpacing.md),
+            decoration: BoxDecoration(
+              color: AppColors.inputBackground,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  state.isCustomLocation
+                      ? '직접 입력'
+                      : (state.selectedLocationName ?? '좌석 구역 선택'),
+                  style: AppTextStyles.body1.copyWith(
+                    color:
+                        (state.selectedLocationId != null ||
+                            state.isCustomLocation)
+                        ? AppColors.textPrimary
+                        : AppColors.textTertiary,
+                  ),
+                ),
+                const Icon(Icons.chevron_right, color: AppColors.textSecondary),
+              ],
+            ),
+          ),
+        ),
         if (state.isCustomLocation) ...[
           const SizedBox(height: AppSpacing.sm),
           AppTextField(
@@ -169,40 +297,6 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
     );
   }
 
-  Widget _buildLocationSelector(SellRegisterState state) {
-    return GestureDetector(
-      onTap: () => _showLocationBottomSheet(state),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(AppSpacing.md),
-        decoration: BoxDecoration(
-          color: AppColors.inputBackground,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              state.isCustomLocation
-                  ? '직접 입력'
-                  : (state.selectedLocationName ?? '위치를 선택해주세요'),
-              style: AppTextStyles.body1.copyWith(
-                color:
-                    (state.selectedLocationId != null || state.isCustomLocation)
-                    ? AppColors.textPrimary
-                    : AppColors.textTertiary,
-              ),
-            ),
-            const Icon(
-              Icons.keyboard_arrow_down,
-              color: AppColors.textSecondary,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   void _showLocationBottomSheet(SellRegisterState state) {
     FocusScope.of(context).unfocus();
     showModalBottomSheet(
@@ -217,11 +311,12 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
   }
 
   Widget _buildLocationBottomSheetContent(SellRegisterState state) {
+    // Note: This one uses SellSeatLocationUiModel, so it's slightly different from generic string picker
     return SafeArea(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.sm),
           Container(
             width: 40,
             height: 4,
@@ -234,23 +329,25 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
             child: Text(
-              '위치',
+              '좌석 구역 선택',
               style: AppTextStyles.heading3.copyWith(
                 fontWeight: FontWeight.w600,
               ),
             ),
           ),
           const SizedBox(height: AppSpacing.md),
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: state.allLocations.length,
-            itemBuilder: (context, index) {
-              final location = state.allLocations[index];
-              final isSelected = location.locationId == 'custom'
-                  ? state.isCustomLocation
-                  : state.selectedLocationId == location.locationId;
-              return _buildLocationItem(location, isSelected);
-            },
+          Flexible(
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: state.allLocations.length,
+              itemBuilder: (context, index) {
+                final location = state.allLocations[index];
+                final isSelected = location.locationId == 'custom'
+                    ? state.isCustomLocation
+                    : state.selectedLocationId == location.locationId;
+                return _buildLocationItem(location, isSelected);
+              },
+            ),
           ),
           const SizedBox(height: AppSpacing.md),
         ],
@@ -266,79 +363,216 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
           horizontal: AppSpacing.lg,
           vertical: AppSpacing.md,
         ),
+        decoration: BoxDecoration(
+          color: isSelected ? AppColors.primary.withValues(alpha: 0.05) : null,
+        ),
         child: Row(
           children: [
-            if (isSelected)
-              const Icon(Icons.check, color: AppColors.primary, size: 20),
-            if (isSelected) const SizedBox(width: AppSpacing.sm),
-            Text(
-              location.locationName,
-              style: AppTextStyles.body1.copyWith(
-                color: isSelected ? AppColors.primary : AppColors.textPrimary,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+            Expanded(
+              child: Text(
+                location.locationName,
+                style: AppTextStyles.body1.copyWith(
+                  color: isSelected ? AppColors.primary : AppColors.textPrimary,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                ),
               ),
             ),
+            if (isSelected)
+              const Icon(Icons.check, color: AppColors.primary, size: 20),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildAreaField(SellRegisterState state) {
-    return AppTextField(
-      label: '구역',
-      controller: _areaController,
-      hintText: '예: A구역, B구역',
-      onChanged: (value) {
-        ref.read(sellRegisterViewModelProvider.notifier).updateArea(value);
-      },
-    );
-  }
+  Widget _buildSeatDetailField(SellRegisterState state) {
+    final typeLabel = state.seatRowType == 'row'
+        ? '열'
+        : state.seatRowType == 'entrance'
+        ? '입장 번호'
+        : '선택';
 
-  Widget _buildRowField(SellRegisterState state) {
-    return AppTextField(
-      label: '열',
-      controller: _rowController,
-      hintText: '예: 1열, 2열',
-      onChanged: (value) {
-        ref.read(sellRegisterViewModelProvider.notifier).updateRow(value);
-      },
-    );
-  }
-
-  Widget _buildLabel(String text) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.xs),
-      child: Text(
-        text,
-        style: AppTextStyles.body1.copyWith(fontWeight: FontWeight.w600),
-      ),
-    );
-  }
-
-  Widget _buildInfoBox() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      decoration: BoxDecoration(
-        color: const Color(0xFFE8F5E9),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Icon(Icons.info_outline, color: Color(0xFF2E7D32), size: 24),
-          const SizedBox(width: AppSpacing.sm),
-          Expanded(
-            child: Text(
-              "좌석이 없는 스탠딩 공연인 경우, 입장 번호를 '열'에 입력해주세요.",
-              style: AppTextStyles.body2.copyWith(
-                color: const Color(0xFF1B5E20),
-                height: 1.4,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildLabel('열 또는 입장 정보', isRequired: true),
+        Row(
+          children: [
+            // Type Selector
+            GestureDetector(
+              onTap: () => _showRowTypeBottomSheet(state),
+              child: Container(
+                width: 120, // Fixed width for selector
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.md,
+                  vertical: 16, // Match TextField height approx
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.inputBackground,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        typeLabel,
+                        style: AppTextStyles.body1.copyWith(
+                          color: state.seatRowType != null
+                              ? AppColors.textPrimary
+                              : AppColors.textTertiary,
+                        ),
+                      ),
+                    ),
+                    const Icon(
+                      Icons.keyboard_arrow_down,
+                      color: AppColors.textSecondary,
+                      size: 20,
+                    ),
+                  ],
+                ),
               ),
             ),
+            const SizedBox(width: AppSpacing.sm),
+            // Detail Input
+            Expanded(
+              child: AppTextField(
+                label: '',
+                controller: _seatDetailController,
+                hintText: '상세 정보 입력',
+                onChanged: (value) {
+                  ref
+                      .read(sellRegisterViewModelProvider.notifier)
+                      .updateSeatDetail(value);
+                },
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  void _showRowTypeBottomSheet(SellRegisterState state) {
+    final types = {'row': '열', 'entrance': '입장 번호'};
+
+    FocusScope.of(context).unfocus();
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => _buildSelectionBottomSheet(
+        title: '입장 정보 선택',
+        items: types.keys.toList(),
+        itemLabels: types, // Pass map for display names
+        selectedItem: state.seatRowType,
+        onItemSelected: _onSeatRowTypeSelected,
+      ),
+    );
+  }
+
+  // Generic helper for simple string list bottom sheets
+  Widget _buildSelectionBottomSheet({
+    required String title,
+    required List<String> items,
+    required Function(String) onItemSelected,
+    String? selectedItem,
+    Map<String, String>? itemLabels, // Optional display label mapping
+  }) {
+    return SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: AppSpacing.sm),
+          Container(
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: AppColors.border,
+              borderRadius: BorderRadius.circular(2),
+            ),
           ),
+          const SizedBox(height: AppSpacing.lg),
+          Text(
+            title,
+            style: AppTextStyles.heading3.copyWith(fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          Flexible(
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                final item = items[index];
+                final isSelected = selectedItem == item;
+                final label = itemLabels?[item] ?? item;
+
+                return InkWell(
+                  onTap: () => onItemSelected(item),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.lg,
+                      vertical: AppSpacing.md,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? AppColors.primary.withValues(alpha: 0.05)
+                          : null,
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            label,
+                            style: AppTextStyles.body1.copyWith(
+                              color: isSelected
+                                  ? AppColors.primary
+                                  : AppColors.textPrimary,
+                              fontWeight: isSelected
+                                  ? FontWeight.w600
+                                  : FontWeight.normal,
+                            ),
+                          ),
+                        ),
+                        if (isSelected)
+                          const Icon(
+                            Icons.check,
+                            color: AppColors.primary,
+                            size: 20,
+                          ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: AppSpacing.md),
         ],
+      ),
+    );
+  }
+
+  Widget _buildLabel(String text, {required bool isRequired}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.xs),
+      child: RichText(
+        text: TextSpan(
+          text: text,
+          style: AppTextStyles.body1.copyWith(fontWeight: FontWeight.w600),
+          children: [
+            if (isRequired)
+              TextSpan(
+                text: ' *',
+                style: AppTextStyles.body1.copyWith(
+                  color: Colors.red,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -351,6 +585,9 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
           text: '다음',
           onPressed: state.isSeatInfoValid ? _onConfirm : null,
           isLoading: false,
+          backgroundColor: state.isSeatInfoValid
+              ? AppColors.primary
+              : AppColors.disabled,
         ),
       ),
     );

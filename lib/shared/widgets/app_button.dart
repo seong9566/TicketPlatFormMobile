@@ -25,7 +25,12 @@ class AppButton extends StatelessWidget {
     this.borderRadius = 12,
     this.fontSize = 18,
     this.fontWeight = FontWeight.bold,
+    this.disabledBackgroundColor,
+    this.disabledForegroundColor,
   });
+
+  final Color? disabledBackgroundColor;
+  final Color? disabledForegroundColor;
 
   @override
   Widget build(BuildContext context) {

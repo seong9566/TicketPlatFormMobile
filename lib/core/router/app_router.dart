@@ -12,9 +12,11 @@ import 'package:ticket_platform_mobile/features/auth/presentation/view/find_pass
 import 'package:ticket_platform_mobile/features/auth/presentation/view/sign_up_view.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/views/sell_date_time_selection_view.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/views/sell_event_selection_view.dart';
-import 'package:ticket_platform_mobile/features/sell/presentation/views/sell_register_view.dart';
+import 'package:ticket_platform_mobile/features/sell/presentation/views/sell_price_view.dart';
+import 'package:ticket_platform_mobile/features/sell/presentation/views/sell_additional_info_view.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/views/sell_seat_info_view.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/views/sell_ticket_category_view.dart';
+import 'package:ticket_platform_mobile/features/sell/presentation/views/sell_shell_view.dart';
 import 'package:ticket_platform_mobile/features/splash/presentation/view/splash_view.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/views/transaction_history_view.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/views/profile_edit_view.dart';
@@ -111,59 +113,76 @@ GoRouter goRouter(Ref ref) {
         builder: (context, state) => const FindPasswordView(),
       ),
 
-      /// 티켓 판매 카테고리 선택 화면
-      GoRoute(
-        path: AppRouterPath.sellTicketCategory.path,
-        name: AppRouterPath.sellTicketCategory.name,
-        builder: (context, state) => const SellTicketCategoryView(),
-      ),
+      /// 판매 등록 플로우 (Shell Route)
+      ShellRoute(
+        builder: (context, state, child) =>
+            SellShellView(state: state, child: child),
+        routes: [
+          /// 티켓 판매 카테고리 선택 화면
+          GoRoute(
+            path: AppRouterPath.sellTicketCategory.path,
+            name: AppRouterPath.sellTicketCategory.name,
+            builder: (context, state) => const SellTicketCategoryView(),
+          ),
 
-      /// 티켓 판매 공연 선택 화면
-      /// pathParam: category (카테고리)
-      GoRoute(
-        path: '${AppRouterPath.sellEventSelection.path}/:category',
-        name: AppRouterPath.sellEventSelection.name,
-        builder: (context, state) {
-          final categoryCode = state.pathParameters['category'] ?? '';
-          final category = Category.fromCode(categoryCode);
-          return SellEventSelectionView(category: category);
-        },
-      ),
+          /// 티켓 판매 공연 선택 화면
+          /// pathParam: category (카테고리)
+          GoRoute(
+            path: '${AppRouterPath.sellEventSelection.path}/:category',
+            name: AppRouterPath.sellEventSelection.name,
+            builder: (context, state) {
+              final categoryCode = state.pathParameters['category'] ?? '';
+              final category = Category.fromCode(categoryCode);
+              return SellEventSelectionView(category: category);
+            },
+          ),
 
-      /// 티켓 판매 날짜/시간 선택 화면
-      /// pathParam: eventId (공연 ID)
-      /// queryParam: eventTitle (공연 제목)
-      GoRoute(
-        path: '${AppRouterPath.sellDateTimeSelection.path}/:eventId',
-        name: AppRouterPath.sellDateTimeSelection.name,
-        builder: (context, state) {
-          final eventId = state.pathParameters['eventId'] ?? '';
-          final eventTitle = state.uri.queryParameters['eventTitle'] ?? '';
-          return SellDateTimeSelectionView(
-            eventId: eventId,
-            eventTitle: eventTitle,
-          );
-        },
-      ),
+          /// 티켓 판매 날짜/시간 선택 화면
+          /// pathParam: eventId (공연 ID)
+          /// queryParam: eventTitle (공연 제목)
+          GoRoute(
+            path: '${AppRouterPath.sellDateTimeSelection.path}/:eventId',
+            name: AppRouterPath.sellDateTimeSelection.name,
+            builder: (context, state) {
+              final eventId = state.pathParameters['eventId'] ?? '';
+              final eventTitle = state.uri.queryParameters['eventTitle'] ?? '';
+              return SellDateTimeSelectionView(
+                eventId: eventId,
+                eventTitle: eventTitle,
+              );
+            },
+          ),
 
-      /// 티켓 판매 좌석 정보 입력 화면
-      GoRoute(
-        path: '${AppRouterPath.sellSeatInfo.path}/:eventId',
-        name: AppRouterPath.sellSeatInfo.name,
-        builder: (context, state) {
-          final eventId = state.pathParameters['eventId'] ?? '';
-          return SellSeatInfoView(eventId: eventId);
-        },
-      ),
+          /// 티켓 판매 좌석 정보 입력 화면
+          GoRoute(
+            path: '${AppRouterPath.sellSeatInfo.path}/:eventId',
+            name: AppRouterPath.sellSeatInfo.name,
+            builder: (context, state) {
+              final eventId = state.pathParameters['eventId'] ?? '';
+              return SellSeatInfoView(eventId: eventId);
+            },
+          ),
 
-      /// 티켓 판매 정보 입력 화면
-      GoRoute(
-        path: '${AppRouterPath.sellRegister.path}/:eventId',
-        name: AppRouterPath.sellRegister.name,
-        builder: (context, state) {
-          final eventId = state.pathParameters['eventId'] ?? '';
-          return SellRegisterView(eventId: eventId);
-        },
+          /// 티켓 판매 가격 설정 화면
+          GoRoute(
+            path: '${AppRouterPath.sellPrice.path}/:eventId',
+            name: AppRouterPath.sellPrice.name,
+            builder: (context, state) {
+              final eventId = state.pathParameters['eventId'] ?? '';
+              return SellPriceView(eventId: eventId);
+            },
+          ),
+
+          /// 티켓 판매 추가 정보 및 등록 화면
+          GoRoute(
+            path: '${AppRouterPath.sellAdditionalInfo.path}/:eventId',
+            name: AppRouterPath.sellAdditionalInfo.name,
+            builder: (context, state) {
+              final eventId = state.pathParameters['eventId'] ?? '';
+              return SellAdditionalInfoView(eventId: eventId);
+            },
+          ),
+        ],
       ),
 
       GoRoute(

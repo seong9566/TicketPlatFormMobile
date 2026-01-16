@@ -12,9 +12,7 @@ class TicketDetailSellerInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tradeCount = seller.totalTradeCount > 0
-        ? seller.totalTradeCount
-        : seller.transactionCountManual;
+    final tradeCount = seller.totalTradeCount;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,20 +42,20 @@ class TicketDetailSellerInfo extends StatelessWidget {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  image: seller.profileImageUrl.isNotEmpty
+                  image: (seller.profileImageUrl ?? '').isNotEmpty
                       ? DecorationImage(
-                          image: NetworkImage(seller.profileImageUrl),
+                          image: NetworkImage(seller.profileImageUrl!),
                           fit: BoxFit.cover,
                         )
                       : null,
-                  color: seller.profileImageUrl.isEmpty
+                  color: (seller.profileImageUrl ?? '').isEmpty
                       ? AppColors
                             .textTertiary // Fallback color
                       : null,
                   shape: BoxShape.circle,
                 ),
                 // 이미지가 없을 때만 텍스트 표시
-                child: seller.profileImageUrl.isEmpty
+                child: (seller.profileImageUrl ?? '').isEmpty
                     ? Center(
                         child: Text(
                           seller.nickname.isNotEmpty ? seller.nickname[0] : '?',

@@ -68,34 +68,15 @@ class _SellEventSelectionViewState
   Widget build(BuildContext context) {
     final state = ref.watch(sellRegisterViewModelProvider);
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: _buildAppBar(),
-      body: state.isLoading && state.events.isEmpty
-          ? const Center(child: CircularProgressIndicator())
-          : state.errorMessage != null && state.events.isEmpty
-          ? _buildErrorView(state.errorMessage!)
-          : _buildBody(state),
-    );
-  }
+    if (state.isLoading && state.events.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
-  AppBar _buildAppBar() {
-    return AppBar(
-      backgroundColor: Colors.white,
-      elevation: 0,
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: Colors.black),
-        onPressed: () => context.pop(),
-      ),
-      title: Text(
-        '공연 선택',
-        style: AppTextStyles.heading3.copyWith(
-          color: Colors.black,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-      centerTitle: true,
-    );
+    if (state.errorMessage != null && state.events.isEmpty) {
+      return _buildErrorView(state.errorMessage!);
+    }
+
+    return _buildBody(state);
   }
 
   Widget _buildErrorView(String error) {
@@ -123,10 +104,11 @@ class _SellEventSelectionViewState
           child: SingleChildScrollView(
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildSearchBar(),
-                _buildFilterSection(state.eventsTotalCount),
-                const SizedBox(height: AppSpacing.md),
+                // _buildFilterSection(state.eventsTotalCount),
+                // const SizedBox(height: AppSpacing.md),
                 _buildEventList(state),
               ],
             ),
@@ -149,36 +131,36 @@ class _SellEventSelectionViewState
     );
   }
 
-  Widget _buildFilterSection(int totalCount) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            '총 $totalCount개',
-            style: AppTextStyles.body1.copyWith(fontWeight: FontWeight.w600),
-          ),
-          DropdownButton<String>(
-            value: _selectedRegion,
-            icon: const Icon(Icons.keyboard_arrow_down),
-            underline: const SizedBox(),
-            items: ['지역', '서울', '부산', '대구', '인천']
-                .map(
-                  (region) =>
-                      DropdownMenuItem(value: region, child: Text(region)),
-                )
-                .toList(),
-            onChanged: (value) {
-              if (value != null) {
-                setState(() => _selectedRegion = value);
-              }
-            },
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _buildFilterSection(int totalCount) {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //       children: [
+  //         Text(
+  //           '총 $totalCount개',
+  //           style: AppTextStyles.body1.copyWith(fontWeight: FontWeight.w600),
+  //         ),
+  //         DropdownButton<String>(
+  //           value: _selectedRegion,
+  //           icon: const Icon(Icons.keyboard_arrow_down),
+  //           underline: const SizedBox(),
+  //           items: ['지역', '서울', '부산', '대구', '인천']
+  //               .map(
+  //                 (region) =>
+  //                     DropdownMenuItem(value: region, child: Text(region)),
+  //               )
+  //               .toList(),
+  //           onChanged: (value) {
+  //             if (value != null) {
+  //               setState(() => _selectedRegion = value);
+  //             }
+  //           },
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _buildEventList(SellRegisterState state) {
     if (state.events.isEmpty) {
@@ -226,7 +208,7 @@ class _SellEventSelectionViewState
                 : null,
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
-              disabledBackgroundColor: AppColors.border,
+              disabledBackgroundColor: AppColors.disabled,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
