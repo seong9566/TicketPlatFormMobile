@@ -24,7 +24,7 @@ class WishlistCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: AppSpacing.md),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppRadius.lg),
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -46,7 +46,7 @@ class WishlistCard extends StatelessWidget {
                       height: 90,
                       fit: BoxFit.cover,
                       placeholder: (context, url) => Container(
-                        color: const Color(0xFFF1F5F9),
+                        color: AppColors.muted,
                         child: const Center(
                           child: CircularProgressIndicator(strokeWidth: 2),
                         ),
@@ -70,24 +70,24 @@ class WishlistCard extends StatelessWidget {
                                 children: [
                                   Text(
                                     item.eventTitle,
-                                    style: AppTextStyles.caption.copyWith(
-                                      color: AppColors.textTertiary,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    item.ticketTitle,
                                     style: AppTextStyles.body1.copyWith(
                                       color: AppColors.textPrimary,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
+                                  if (item.seatDetail.isNotEmpty) ...[
+                                    const SizedBox(height: AppSpacing.xs),
+                                    Text(
+                                      item.seatDetail,
+                                      style: AppTextStyles.body2.copyWith(
+                                        color: AppColors.textTertiary,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
                                 ],
                               ),
                             ),
@@ -95,13 +95,13 @@ class WishlistCard extends StatelessWidget {
                               onTap: onLikeTap,
                               child: const Icon(
                                 Icons.favorite,
-                                color: Color(0xFF22C55E),
+                                color: AppColors.success,
                                 size: 24,
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: AppSpacing.sm),
                         Row(
                           children: [
                             if (item.discountRate.isNotEmpty) ...[
@@ -119,18 +119,19 @@ class WishlistCard extends StatelessWidget {
                               style: AppTextStyles.heading3.copyWith(
                                 fontWeight: FontWeight.w900,
                                 color: AppColors.textPrimary,
-                                fontSize: 18,
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 4),
-                        Text(
-                          '${item.venueName} · ${item.eventDate}',
-                          style: AppTextStyles.caption.copyWith(
-                            color: AppColors.textTertiary,
+                        if (item.eventMeta.isNotEmpty) ...[
+                          const SizedBox(height: AppSpacing.xs),
+                          Text(
+                            item.eventMeta,
+                            style: AppTextStyles.caption.copyWith(
+                              color: AppColors.textTertiary,
+                            ),
                           ),
-                        ),
+                        ],
                       ],
                     ),
                   ),
@@ -163,7 +164,7 @@ class WishlistCard extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: 1.0,
-        decoration: BoxDecoration(color: Color(0xFFE2E8F0)),
+        decoration: const BoxDecoration(color: AppColors.border),
       ),
     );
   }
