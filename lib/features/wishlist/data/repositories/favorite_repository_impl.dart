@@ -1,6 +1,7 @@
 import 'package:ticket_platform_mobile/core/network/base_response.dart';
 import 'package:ticket_platform_mobile/features/wishlist/data/datasources/favorite_remote_data_source.dart';
 import 'package:ticket_platform_mobile/features/wishlist/data/dto/request/favorite_toggle_req_dto.dart';
+import 'package:ticket_platform_mobile/features/wishlist/data/dto/response/favorite_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/wishlist/domain/entities/wishlist_item_entity.dart';
 import 'package:ticket_platform_mobile/features/wishlist/domain/repositories/favorite_repository.dart';
 
