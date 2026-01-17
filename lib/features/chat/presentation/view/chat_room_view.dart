@@ -12,6 +12,8 @@ import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/ui_models/chat_room_ui_model.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/viewmodels/chat_room_viewmodel.dart';
 
+import 'package:go_router/go_router.dart';
+
 class ChatRoomView extends ConsumerStatefulWidget {
   final String chatRoomId;
   const ChatRoomView({super.key, required this.chatRoomId});
@@ -48,7 +50,9 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
 
     if (!isEmpty && !_isTyping) {
       _isTyping = true;
-      ref.read(chatRoomViewModelProvider(roomId).notifier).sendTypingIndicator();
+      ref
+          .read(chatRoomViewModelProvider(roomId).notifier)
+          .sendTypingIndicator();
     }
 
     _typingDebounceTimer?.cancel();
@@ -81,9 +85,9 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
         .sendMessage(message);
 
     if (!success && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('메시지 전송에 실패했습니다')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('메시지 전송에 실패했습니다')));
     }
   }
 
@@ -103,9 +107,9 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
           .sendMessage('', imageFile: imageFile);
 
       if (!success && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('이미지 전송에 실패했습니다')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('이미지 전송에 실패했습니다')));
       }
     }
   }
@@ -137,7 +141,8 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
                 chatRoom: chatRoom,
                 onRequestPayment: () => _showRequestPaymentDialog(chatRoom),
                 onConfirmPurchase: () => _showConfirmPurchaseDialog(chatRoom),
-                onCancelTransaction: () => _showCancelTransactionDialog(chatRoom),
+                onCancelTransaction: () =>
+                    _showCancelTransactionDialog(chatRoom),
               ),
             _ChatInputBar(
               controller: _messageController,
@@ -152,9 +157,12 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('오류가 발생했습니다',
-                  style: AppTextStyles.body1
-                      .copyWith(color: AppColors.textSecondary)),
+              Text(
+                '오류가 발생했습니다',
+                style: AppTextStyles.body1.copyWith(
+                  color: AppColors.textSecondary,
+                ),
+              ),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () => ref
@@ -170,7 +178,9 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
   }
 
   PreferredSizeWidget _buildAppBar(
-      BuildContext context, AsyncValue<ChatRoomDetailUiModel> chatRoomAsync) {
+    BuildContext context,
+    AsyncValue<ChatRoomDetailUiModel> chatRoomAsync,
+  ) {
     final title = chatRoomAsync.value?.seller.nickname ?? '채팅';
 
     return AppBar(
@@ -216,13 +226,10 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
         title: const Text('결제 요청'),
         content: Text('${chatRoom.ticket.price}의 결제를 요청하시겠습니까?'),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('취소'),
-          ),
+          TextButton(onPressed: () => context.pop(), child: const Text('취소')),
           ElevatedButton(
             onPressed: () async {
-              Navigator.pop(context);
+              context.pop();
               if (chatRoom.transaction != null) {
                 await ref
                     .read(chatRoomViewModelProvider(roomId).notifier)
@@ -243,13 +250,10 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
         title: const Text('구매 확정'),
         content: const Text('구매를 확정하시겠습니까? 확정 후에는 취소할 수 없습니다.'),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('취소'),
-          ),
+          TextButton(onPressed: () => context.pop(), child: const Text('취소')),
           ElevatedButton(
             onPressed: () async {
-              Navigator.pop(context);
+              context.pop();
               if (chatRoom.transaction != null) {
                 await ref
                     .read(chatRoomViewModelProvider(roomId).notifier)
@@ -287,14 +291,13 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
           ],
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('닫기'),
-          ),
+          TextButton(onPressed: () => context.pop(), child: const Text('닫기')),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: AppColors.destructive),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.destructive,
+            ),
             onPressed: () async {
-              Navigator.pop(context);
+              context.pop();
               if (chatRoom.transaction != null) {
                 await ref
                     .read(chatRoomViewModelProvider(roomId).notifier)
@@ -370,8 +373,10 @@ class _ChatRoomTicketHeader extends StatelessWidget {
                   fontSize: 16,
                 ),
               ),
-              const Icon(Icons.keyboard_arrow_down,
-                  color: AppColors.textTertiary),
+              const Icon(
+                Icons.keyboard_arrow_down,
+                color: AppColors.textTertiary,
+              ),
             ],
           ),
         ],
@@ -393,7 +398,10 @@ class _ChatMessageList extends StatelessWidget {
   Widget build(BuildContext context) {
     if (messages.isEmpty) {
       return const Center(
-        child: Text('메시지가 없습니다', style: TextStyle(color: AppColors.textSecondary)),
+        child: Text(
+          '메시지가 없습니다',
+          style: TextStyle(color: AppColors.textSecondary),
+        ),
       );
     }
 
@@ -423,12 +431,14 @@ class _ChatBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     final isMine = message.isMyMessage;
     final bubbleColor = isMine ? AppColors.primary : Colors.white;
-    final textColor =
-        isMine ? AppColors.primaryForeground : AppColors.textPrimary;
+    final textColor = isMine
+        ? AppColors.primaryForeground
+        : AppColors.textPrimary;
 
     return Row(
-      mainAxisAlignment:
-          isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
+      mainAxisAlignment: isMine
+          ? MainAxisAlignment.end
+          : MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         if (!isMine) ...[
@@ -446,8 +456,9 @@ class _ChatBubble extends StatelessWidget {
         ],
         Flexible(
           child: Column(
-            crossAxisAlignment:
-                isMine ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            crossAxisAlignment: isMine
+                ? CrossAxisAlignment.end
+                : CrossAxisAlignment.start,
             children: [
               if (message.imageUrl != null)
                 ClipRRect(
@@ -629,8 +640,10 @@ class _ChatInputBar extends StatelessWidget {
         child: Row(
           children: [
             IconButton(
-              icon: const Icon(Icons.add_circle_outline,
-                  color: AppColors.textSecondary),
+              icon: const Icon(
+                Icons.add_circle_outline,
+                color: AppColors.textSecondary,
+              ),
               onPressed: canSendMessage ? onPickImage : null,
             ),
             const SizedBox(width: AppSpacing.xs),
@@ -647,8 +660,7 @@ class _ChatInputBar extends StatelessWidget {
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.only(left: AppSpacing.sm),
                     border: InputBorder.none,
-                    hintText:
-                        canSendMessage ? '메시지를 입력하세요' : '메시지를 보낼 수 없습니다',
+                    hintText: canSendMessage ? '메시지를 입력하세요' : '메시지를 보낼 수 없습니다',
                   ),
                   minLines: 1,
                   maxLines: 3,
@@ -667,8 +679,11 @@ class _ChatInputBar extends StatelessWidget {
                       : AppColors.textTertiary,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.arrow_upward,
-                    color: AppColors.primaryForeground, size: 22),
+                child: const Icon(
+                  Icons.arrow_upward,
+                  color: AppColors.primaryForeground,
+                  size: 22,
+                ),
               ),
               onPressed: canSendMessage ? onSend : null,
             ),

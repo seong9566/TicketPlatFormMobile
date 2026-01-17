@@ -48,12 +48,12 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
     ref
         .read(sellRegisterViewModelProvider.notifier)
         .selectLocation(location.locationId);
-    Navigator.pop(context);
+    context.pop();
   }
 
   void _onSeatGradeSelected(String grade) {
     ref.read(sellRegisterViewModelProvider.notifier).selectSeatGrade(grade);
-    Navigator.pop(context);
+    context.pop();
   }
 
   void _onConfirm() {
@@ -65,12 +65,12 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
 
   void _onSeatFloorSelected(String floor) {
     ref.read(sellRegisterViewModelProvider.notifier).selectSeatFloor(floor);
-    Navigator.pop(context);
+    context.pop();
   }
 
   void _onSeatRowTypeSelected(String type) {
     ref.read(sellRegisterViewModelProvider.notifier).selectSeatRowType(type);
-    Navigator.pop(context);
+    context.pop();
   }
 
   @override
