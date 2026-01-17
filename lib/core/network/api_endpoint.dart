@@ -4,11 +4,11 @@ class ApiEndpoint {
   const ApiEndpoint._();
 
   static String get baseUrl {
-    // 5244는 서버 실행 포트
-    // 에뮬레이터 : 10.0.2.2:5224
-    // 시뮬레이터 : 127.0.0.1:5244
-    if (Platform.isAndroid) return 'http://192.168.10.16:5224';
-    return 'http://localhost:5224';
+    // 회사 개발
+    // if (Platform.isAndroid) return 'http://192.168.10.16:5224';
+
+    // 내 맥북 개발
+    return 'http://127.0.0.1:5224';
   }
 
   // Home
