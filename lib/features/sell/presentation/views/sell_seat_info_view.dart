@@ -22,7 +22,6 @@ class SellSeatInfoView extends ConsumerStatefulWidget {
 }
 
 class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
-  final _customLocationController = TextEditingController();
   final _seatDetailController = TextEditingController();
 
   int get _eventIdInt => int.parse(widget.eventId);
@@ -39,7 +38,6 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
 
   @override
   void dispose() {
-    _customLocationController.dispose();
     _seatDetailController.dispose();
     super.dispose();
   }
@@ -51,8 +49,10 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
     context.pop();
   }
 
-  void _onSeatGradeSelected(String grade) {
-    ref.read(sellRegisterViewModelProvider.notifier).selectSeatGrade(grade);
+  void _onSeatGradeSelected(SellSeatGradeUiModel grade) {
+    ref
+        .read(sellRegisterViewModelProvider.notifier)
+        .selectSeatGrade(grade.gradeId);
     context.pop();
   }
 
@@ -61,11 +61,6 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
       AppRouterPath.sellPrice.name,
       pathParameters: {'eventId': widget.eventId},
     );
-  }
-
-  void _onSeatFloorSelected(String floor) {
-    ref.read(sellRegisterViewModelProvider.notifier).selectSeatFloor(floor);
-    context.pop();
   }
 
   void _onSeatRowTypeSelected(String type) {
@@ -121,12 +116,16 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
                   const SizedBox(height: AppSpacing.lg),
                   Text('좌석 정보를 입력해주세요', style: AppTextStyles.heading2),
                   const SizedBox(height: AppSpacing.xl),
+                  // 등급
                   _buildSeatGradeField(state),
                   const SizedBox(height: AppSpacing.xl),
-                  _buildSeatFloorField(state),
-                  const SizedBox(height: AppSpacing.xl),
+                  // 위치
                   _buildLocationSection(state),
                   const SizedBox(height: AppSpacing.xl),
+                  // 구역
+                  _buildAreaField(state),
+                  const SizedBox(height: AppSpacing.xl),
+                  // 상세 정보
                   _buildSeatDetailField(state),
                 ],
               ),
@@ -142,7 +141,7 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildLabel('좌석 등급 선택', isRequired: true),
+        _buildLabel('등급', isRequired: true),
         GestureDetector(
           onTap: () => _showSeatGradeBottomSheet(state),
           child: Container(
@@ -156,9 +155,9 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  state.seatGrade ?? '좌석 등급 선택',
+                  state.selectedGradeName ?? '등급 선택',
                   style: AppTextStyles.body1.copyWith(
-                    color: state.seatGrade != null
+                    color: state.selectedGradeId != null
                         ? AppColors.textPrimary
                         : AppColors.textTertiary,
                   ),
@@ -173,7 +172,7 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
   }
 
   void _showSeatGradeBottomSheet(SellRegisterState state) {
-    final grades = ['VIP', '일반', '지정석'];
+    final grades = state.seatOptions?.grades ?? [];
 
     FocusScope.of(context).unfocus();
     showModalBottomSheet(
@@ -183,22 +182,101 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => _buildSelectionBottomSheet(
+      builder: (context) => _buildGradeSelectionBottomSheet(
         title: '좌석 등급 선택',
         items: grades,
-        selectedItem: state.seatGrade,
+        selectedId: state.selectedGradeId,
         onItemSelected: _onSeatGradeSelected,
       ),
     );
   }
 
-  Widget _buildSeatFloorField(SellRegisterState state) {
+  Widget _buildGradeSelectionBottomSheet({
+    required String title,
+    required List<SellSeatGradeUiModel> items,
+    required Function(SellSeatGradeUiModel) onItemSelected,
+    int? selectedId,
+  }) {
+    return SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: AppSpacing.sm),
+          Container(
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: AppColors.border,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          Text(
+            title,
+            style: AppTextStyles.heading3.copyWith(fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          Flexible(
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                final item = items[index];
+                final isSelected = selectedId == item.gradeId;
+
+                return InkWell(
+                  onTap: () => onItemSelected(item),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.lg,
+                      vertical: AppSpacing.md,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? AppColors.primary.withValues(alpha: 0.05)
+                          : null,
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            item.gradeName,
+                            style: AppTextStyles.body1.copyWith(
+                              color: isSelected
+                                  ? AppColors.primary
+                                  : AppColors.textPrimary,
+                              fontWeight: isSelected
+                                  ? FontWeight.w600
+                                  : FontWeight.normal,
+                            ),
+                          ),
+                        ),
+                        if (isSelected)
+                          const Icon(
+                            Icons.check,
+                            color: AppColors.primary,
+                            size: 20,
+                          ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: AppSpacing.md),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAreaField(SellRegisterState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildLabel('좌석 위치 선택', isRequired: true),
+        _buildLabel('구역(Area)', isRequired: false),
         GestureDetector(
-          onTap: () => _showSeatFloorBottomSheet(state),
+          onTap: () => _showAreaBottomSheet(state),
           child: Container(
             width: double.infinity,
             padding: const EdgeInsets.all(AppSpacing.md),
@@ -210,9 +288,9 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  state.seatFloor ?? '좌석 위치 선택',
+                  state.selectedAreaName ?? '구역 선택',
                   style: AppTextStyles.body1.copyWith(
-                    color: state.seatFloor != null
+                    color: state.selectedAreaId != null
                         ? AppColors.textPrimary
                         : AppColors.textTertiary,
                   ),
@@ -226,8 +304,8 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
     );
   }
 
-  void _showSeatFloorBottomSheet(SellRegisterState state) {
-    final floors = ['플로어석', '1층', '2층', '3층', '4층', '기타'];
+  void _showAreaBottomSheet(SellRegisterState state) {
+    final areas = state.seatOptions?.areas ?? [];
 
     FocusScope.of(context).unfocus();
     showModalBottomSheet(
@@ -237,11 +315,95 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => _buildSelectionBottomSheet(
-        title: '좌석 위치 선택',
-        items: floors,
-        selectedItem: state.seatFloor,
-        onItemSelected: _onSeatFloorSelected,
+      builder: (context) => _buildAreaSelectionBottomSheet(
+        title: '구역 선택',
+        items: areas,
+        selectedId: state.selectedAreaId,
+        onItemSelected: (area) {
+          ref
+              .read(sellRegisterViewModelProvider.notifier)
+              .selectArea(area.areaId);
+          context.pop();
+        },
+      ),
+    );
+  }
+
+  Widget _buildAreaSelectionBottomSheet({
+    required String title,
+    required List<SellSeatAreaUiModel> items,
+    required Function(SellSeatAreaUiModel) onItemSelected,
+    int? selectedId,
+  }) {
+    return SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: AppSpacing.sm),
+          Container(
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: AppColors.border,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          Text(
+            title,
+            style: AppTextStyles.heading3.copyWith(fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          Flexible(
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                final item = items[index];
+                final isSelected = selectedId == item.areaId;
+
+                return InkWell(
+                  onTap: () => onItemSelected(item),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.lg,
+                      vertical: AppSpacing.md,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? AppColors.primary.withValues(alpha: 0.05)
+                          : null,
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            item.areaName,
+                            style: AppTextStyles.body1.copyWith(
+                              color: isSelected
+                                  ? AppColors.primary
+                                  : AppColors.textPrimary,
+                              fontWeight: isSelected
+                                  ? FontWeight.w600
+                                  : FontWeight.normal,
+                            ),
+                          ),
+                        ),
+                        if (isSelected)
+                          const Icon(
+                            Icons.check,
+                            color: AppColors.primary,
+                            size: 20,
+                          ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: AppSpacing.md),
+        ],
       ),
     );
   }
@@ -250,7 +412,7 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildLabel('좌석 구역 선택', isRequired: true),
+        _buildLabel('위치', isRequired: true),
         GestureDetector(
           onTap: () => _showLocationBottomSheet(state),
           child: Container(
@@ -264,13 +426,9 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  state.isCustomLocation
-                      ? '직접 입력'
-                      : (state.selectedLocationName ?? '좌석 구역 선택'),
+                  state.selectedLocationName ?? '위치 선택',
                   style: AppTextStyles.body1.copyWith(
-                    color:
-                        (state.selectedLocationId != null ||
-                            state.isCustomLocation)
+                    color: state.selectedLocationId != null
                         ? AppColors.textPrimary
                         : AppColors.textTertiary,
                   ),
@@ -280,19 +438,6 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
             ),
           ),
         ),
-        if (state.isCustomLocation) ...[
-          const SizedBox(height: AppSpacing.sm),
-          AppTextField(
-            label: '',
-            controller: _customLocationController,
-            hintText: '위치를 입력해주세요',
-            onChanged: (value) {
-              ref
-                  .read(sellRegisterViewModelProvider.notifier)
-                  .updateCustomLocation(value);
-            },
-          ),
-        ],
       ],
     );
   }
@@ -329,7 +474,7 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
             child: Text(
-              '좌석 구역 선택',
+              '좌석 위치 선택',
               style: AppTextStyles.heading3.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -342,9 +487,8 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
               itemCount: state.allLocations.length,
               itemBuilder: (context, index) {
                 final location = state.allLocations[index];
-                final isSelected = location.locationId == 'custom'
-                    ? state.isCustomLocation
-                    : state.selectedLocationId == location.locationId;
+                final isSelected =
+                    state.selectedLocationId == location.locationId;
                 return _buildLocationItem(location, isSelected);
               },
             ),
@@ -395,7 +539,7 @@ class _SellSeatInfoViewState extends ConsumerState<SellSeatInfoView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildLabel('열 또는 입장 정보', isRequired: true),
+        _buildLabel('상세 정보', isRequired: true),
         Row(
           children: [
             // Type Selector

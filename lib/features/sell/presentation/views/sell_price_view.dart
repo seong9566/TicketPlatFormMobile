@@ -5,6 +5,7 @@ import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
+import 'package:ticket_platform_mobile/core/utils/number_format_util.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_register_state.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_register_viewmodel.dart';
 import 'package:ticket_platform_mobile/shared/widgets/app_button.dart';
@@ -32,6 +33,10 @@ class _SellPriceViewState extends ConsumerState<SellPriceView> {
     if (state.price.isNotEmpty) {
       _priceController.text = state.price;
     }
+    // 정가 조회 호출
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(sellRegisterViewModelProvider.notifier).loadOriginalPrice();
+    });
   }
 
   @override
@@ -66,7 +71,7 @@ class _SellPriceViewState extends ConsumerState<SellPriceView> {
                   const SizedBox(height: AppSpacing.xl),
                   _buildQuantitySection(state),
                   const SizedBox(height: AppSpacing.xl),
-                  _buildListPriceSection(),
+                  _buildListPriceSection(state),
                   const SizedBox(height: AppSpacing.xl),
                   _buildPriceSection(state),
                 ],
@@ -164,7 +169,7 @@ class _SellPriceViewState extends ConsumerState<SellPriceView> {
     );
   }
 
-  Widget _buildListPriceSection() {
+  Widget _buildListPriceSection(SellRegisterState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -180,11 +185,7 @@ class _SellPriceViewState extends ConsumerState<SellPriceView> {
             color: AppColors.inputBackground,
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Text(
-            '공연 정보에서 자동 적용',
-            style: AppTextStyles.body1.copyWith(color: AppColors.textTertiary),
-            textAlign: TextAlign.center,
-          ),
+          child: _buildOriginalPriceContent(state.originalPrice),
         ),
       ],
     );
@@ -213,33 +214,42 @@ class _SellPriceViewState extends ConsumerState<SellPriceView> {
           },
         ),
         const SizedBox(height: AppSpacing.sm),
-        Container(
-          padding: const EdgeInsets.all(AppSpacing.md),
-          decoration: BoxDecoration(
-            color: AppColors.inputBackground,
-            borderRadius: BorderRadius.circular(8),
+        if (_isPriceInvalid(state))
+          Padding(
+            padding: const EdgeInsets.only(top: AppSpacing.xs),
+            child: Text(
+              '판매 가격은 정가보다 높을 수 없습니다.',
+              style: AppTextStyles.caption.copyWith(color: Colors.red),
+            ),
           ),
-          child: Row(
-            children: [
-              const Icon(
-                Icons.error_outline,
-                color: AppColors.textSecondary,
-                size: 20,
-              ),
-              const SizedBox(width: AppSpacing.xs),
-              Expanded(
-                child: Text(
-                  '티켓은 정가 이하로만 판매할 수 있습니다.',
-                  style: AppTextStyles.caption.copyWith(
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
       ],
     );
+  }
+
+  Widget _buildOriginalPriceContent(int? originalPrice) {
+    if (originalPrice == null) {
+      return Text(
+        '정가 정보 없음',
+        style: AppTextStyles.body1.copyWith(color: AppColors.textTertiary),
+        textAlign: TextAlign.center,
+      );
+    }
+    final formattedPrice = NumberFormatUtil.formatPrice(originalPrice);
+
+    return Text(
+      formattedPrice,
+      style: AppTextStyles.body1.copyWith(
+        color: AppColors.textPrimary,
+        fontWeight: FontWeight.w600,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  bool _isPriceInvalid(SellRegisterState state) {
+    if (state.originalPrice == null || state.price.isEmpty) return false;
+    final inputPrice = int.tryParse(state.price.replaceAll(',', '')) ?? 0;
+    return inputPrice > state.originalPrice!;
   }
 
   Widget _buildLabel(String text, {bool isRequired = false}) {
@@ -270,9 +280,10 @@ class _SellPriceViewState extends ConsumerState<SellPriceView> {
         padding: const EdgeInsets.all(AppSpacing.lg),
         child: AppButton(
           text: '다음',
-          onPressed: state.isRegisterValid ? _onConfirm : null,
-          isLoading: false,
-          backgroundColor: state.isRegisterValid
+          onPressed: (state.isRegisterValid && !_isPriceInvalid(state))
+              ? _onConfirm
+              : null,
+          backgroundColor: (state.isRegisterValid && !_isPriceInvalid(state))
               ? AppColors.primary
               : AppColors.disabled,
         ),

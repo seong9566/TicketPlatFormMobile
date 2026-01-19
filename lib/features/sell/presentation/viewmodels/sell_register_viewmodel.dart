@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ticket_platform_mobile/core/utils/pagination_mixin.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/providers/sell_providers_di.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/ui_models/sell_event_ui_model.dart';
+import 'package:ticket_platform_mobile/features/sell/presentation/ui_models/sell_feature_ui_model.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/ui_models/sell_schedule_ui_model.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/ui_models/sell_seat_option_ui_model.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_register_state.dart';
@@ -133,78 +134,81 @@ class SellRegisterViewModel extends _$SellRegisterViewModel
   Future<void> loadSeatOptions(int eventId) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
-      // Mock Data for Zone Selection as per request
-      // "구역선택 데이터는 1층 2층이 아닌, 1구역,2구역 이렇게 되어있어"
-      final mockLocations = <SellSeatLocationUiModel>[];
-
-      // F1 ~ F5
-      for (var i = 1; i <= 5; i++) {
-        mockLocations.add(
-          SellSeatLocationUiModel(locationId: 'F$i', locationName: 'F$i'),
-        );
-      }
-
-      // 1구역 ~ 10구역
-      for (var i = 1; i <= 10; i++) {
-        mockLocations.add(
-          SellSeatLocationUiModel(locationId: '$i', locationName: '${i}구역'),
-        );
-      }
-
-      final uiModel = SellSeatOptionsUiModel(
-        locations: mockLocations,
-        allowCustomLocation: true,
-      );
-
-      // API call commented out for mock data
-      // final usecase = ref.read(getSellSeatOptionsUsecaseProvider);
-      // final entity = await usecase.call(eventId);
-      // final uiModel = SellSeatOptionsUiModel.fromEntity(entity);
-
-      await Future.delayed(const Duration(milliseconds: 300));
+      final usecase = ref.read(getSellSeatOptionsUsecaseProvider);
+      final entity = await usecase.call(eventId);
+      final uiModel = SellSeatOptionsUiModel.fromEntity(entity);
 
       state = state.copyWith(
         isLoading: false,
         seatOptions: uiModel,
+        selectedGradeId: null,
         selectedLocationId: null,
-        isCustomLocation: false,
-        customLocation: '',
+        selectedAreaId: null,
+        originalPrice: null,
         seatDetail: '',
-        seatGrade: null,
         seatFloor: null,
         seatRowType: null,
-        noteTags: [],
-        dealMethod: null,
-        isHolding: true,
       );
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
   }
 
-  /// 위치 선택 (구역)
-  void selectLocation(String locationId) {
-    final isCustom = locationId == 'custom';
-    state = state.copyWith(
-      selectedLocationId: isCustom ? null : locationId,
-      isCustomLocation: isCustom,
-      customLocation: isCustom ? state.customLocation : '',
-    );
+  /// 특이사항 목록 로드
+  Future<void> loadFeatures() async {
+    state = state.copyWith(isLoading: true, errorMessage: null);
+    try {
+      final usecase = ref.read(getSellFeaturesUsecaseProvider);
+      final entities = await usecase.call();
+      final uiModels = entities
+          .map((e) => SellFeatureUiModel.fromEntity(e))
+          .toList();
+
+      state = state.copyWith(isLoading: false, features: uiModels);
+    } catch (e) {
+      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+    }
   }
 
-  /// 직접 입력 위치 업데이트
-  void updateCustomLocation(String value) {
-    state = state.copyWith(customLocation: value);
+  /// 위치 선택 (구역/상세 위치)
+  void selectLocation(int locationId) {
+    state = state.copyWith(selectedLocationId: locationId);
+  }
+
+  /// 구역 선택
+  void selectArea(int areaId) {
+    state = state.copyWith(selectedAreaId: areaId);
+  }
+
+  /// 정가 조회
+  Future<void> loadOriginalPrice() async {
+    // 필수 조건 체크: 등급 선택 여부
+    if (state.selectedEvent == null || state.selectedGradeId == null) return;
+
+    try {
+      final usecase = ref.read(getSellOriginalPriceUsecaseProvider);
+      final price = await usecase.call(
+        eventId: state.selectedEvent!.eventId,
+        gradeId: state.selectedGradeId!,
+        locationId: state.selectedLocationId,
+        areaId: state.selectedAreaId,
+      );
+
+      state = state.copyWith(originalPrice: price);
+    } catch (e) {
+      // 정가 조회 실패 시 특별한 에러 처리는 하지 않음 (null 상태 유지)
+      state = state.copyWith(originalPrice: null);
+    }
+  }
+
+  /// 좌석 등급 선택 (ID)
+  void selectSeatGrade(int gradeId) {
+    state = state.copyWith(selectedGradeId: gradeId);
   }
 
   /// 좌석 상세 위치 업데이트 (열/번호)
   void updateSeatDetail(String value) {
     state = state.copyWith(seatDetail: value);
-  }
-
-  /// 좌석 등급 선택
-  void selectSeatGrade(String grade) {
-    state = state.copyWith(seatGrade: grade);
   }
 
   /// 좌석 층 선택
@@ -217,25 +221,25 @@ class SellRegisterViewModel extends _$SellRegisterViewModel
     state = state.copyWith(seatRowType: type);
   }
 
-  /// 특이사항 태그 토글 (기존 seatFeature 대체)
-  void toggleNoteTag(String tag) {
-    final currentTags = [...state.noteTags];
-    if (currentTags.contains(tag)) {
-      currentTags.remove(tag);
+  /// 특이사항 ID 토글
+  void toggleFeature(int featureId) {
+    final currentIds = [...state.selectedFeatureIds];
+    if (currentIds.contains(featureId)) {
+      currentIds.remove(featureId);
     } else {
-      currentTags.add(tag);
+      currentIds.add(featureId);
     }
-    state = state.copyWith(noteTags: currentTags);
+    state = state.copyWith(selectedFeatureIds: currentIds);
   }
 
   /// 거래 방식 선택
-  void updateDealMethod(String method) {
-    state = state.copyWith(dealMethod: method);
+  void updateTradeMethod(int methodId) {
+    state = state.copyWith(selectedTradeMethodId: methodId);
   }
 
   /// 티켓 보유 여부 업데이트
-  void updateIsHolding(bool value) {
-    state = state.copyWith(isHolding: value);
+  void updateHasTicket(bool value) {
+    state = state.copyWith(hasTicket: value);
   }
 
   // ========== Step 4: 등록 ==========
@@ -287,8 +291,25 @@ class SellRegisterViewModel extends _$SellRegisterViewModel
 
   /// 티켓 등록
   Future<SellTicketRegisterResult?> registerTicket() async {
+    // 필수 필드 검증
     if (state.selectedEvent == null || state.selectedSchedule == null) {
       state = state.copyWith(errorMessage: '공연 및 일정을 선택해주세요.');
+      return null;
+    }
+
+    if (state.selectedGradeId == null) {
+      state = state.copyWith(errorMessage: '좌석 등급을 선택해주세요.');
+      return null;
+    }
+
+    if (!state.isSeatInfoValid) {
+      state = state.copyWith(errorMessage: '좌석 정보를 모두 입력해주세요.');
+      return null;
+    }
+
+    final priceValue = int.tryParse(state.price.replaceAll(',', ''));
+    if (priceValue == null || priceValue <= 0) {
+      state = state.copyWith(errorMessage: '올바른 가격을 입력해주세요.');
       return null;
     }
 
@@ -299,22 +320,30 @@ class SellRegisterViewModel extends _$SellRegisterViewModel
       final result = await usecase.call(
         eventId: state.selectedEvent!.eventId,
         scheduleId: state.selectedSchedule!.scheduleId,
+        seatGradeId: state.selectedGradeId!,
         locationId: state.selectedLocationId,
-        area: null, // Removed
-        row: null, // Removed
-        seatInfo: state.seatInfo,
-        isConsecutive: state.quantity > 1 ? state.isConsecutive : false,
+        areaId: state.selectedAreaId,
+        row: state.seatDetail,
         quantity: state.quantity,
-        price: int.parse(state.price.replaceAll(',', '')),
-        originalPrice: int.parse(state.price.replaceAll(',', '')),
+        isConsecutive: state.quantity > 1 ? state.isConsecutive : false,
+        price: priceValue,
+        originalPrice:
+            state.originalPrice ??
+            priceValue, // 정가 정보가 없으면 판매가와 동일하진 않겠지만 일단 fallback
+        tradeMethodId: state.selectedTradeMethodId ?? 1,
+        hasTicket: state.hasTicket,
         description: state.description.isNotEmpty ? state.description : null,
         images: state.images,
+        featureIds: state.selectedFeatureIds,
       );
 
       state = state.copyWith(isLoading: false);
       return result;
     } catch (e) {
-      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: '티켓 등록에 실패했습니다. 잠시 후 다시 시도해주세요.',
+      );
       return null;
     }
   }

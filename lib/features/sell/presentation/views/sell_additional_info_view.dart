@@ -32,6 +32,14 @@ class _SellAdditionalInfoViewState
   static const int _maxImages = 5;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(sellRegisterViewModelProvider.notifier).loadFeatures();
+    });
+  }
+
+  @override
   void dispose() {
     _notesController.dispose();
     super.dispose();
@@ -316,6 +324,7 @@ class _SellAdditionalInfoViewState
   }
 
   Widget _buildAddImageButton() {
+    final state = ref.read(sellRegisterViewModelProvider);
     return GestureDetector(
       onTap: _showImageSourceBottomSheet,
       child: Container(
@@ -335,7 +344,7 @@ class _SellAdditionalInfoViewState
             const Icon(Icons.camera_alt_outlined, color: AppColors.primary),
             const SizedBox(height: 4),
             Text(
-              '0/5',
+              '${state.images.length}/$_maxImages',
               style: AppTextStyles.caption.copyWith(
                 color: AppColors.primary,
                 fontWeight: FontWeight.w600,
@@ -348,16 +357,6 @@ class _SellAdditionalInfoViewState
   }
 
   Widget _buildSpecialNotesSection(SellRegisterState state) {
-    final tags = [
-      '예매처 ID로 전달',
-      '현장발권',
-      '모바일티켓',
-      '할인티켓(증빙필요)',
-      '신분증필요',
-      '시야제한석',
-      '현장도움',
-    ];
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -365,15 +364,15 @@ class _SellAdditionalInfoViewState
         Wrap(
           spacing: 8,
           runSpacing: 8,
-          children: tags.map((tag) {
-            final isSelected = state.noteTags.contains(tag);
+          children: state.features.map((feature) {
+            final isSelected = state.selectedFeatureIds.contains(feature.id);
             return FilterChip(
-              label: Text(tag),
+              label: Text(feature.nameKo),
               selected: isSelected,
               onSelected: (selected) {
                 ref
                     .read(sellRegisterViewModelProvider.notifier)
-                    .toggleNoteTag(tag);
+                    .toggleFeature(feature.id);
               },
               selectedColor: AppColors.primary.withValues(alpha: 0.2),
               checkmarkColor: AppColors.primary,
@@ -396,7 +395,7 @@ class _SellAdditionalInfoViewState
   }
 
   Widget _buildDealMethodSection(SellRegisterState state) {
-    final methods = ['PIN거래', '배송거래', '현장거래', '기타거래'];
+    final methods = {1: 'PIN거래', 2: '배송거래', 3: '현장거래', 4: '기타거래'};
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -405,19 +404,19 @@ class _SellAdditionalInfoViewState
         Wrap(
           spacing: 8,
           runSpacing: 8,
-          children: methods.map((method) {
-            final isSelected = state.dealMethod == method;
+          children: methods.entries.map((entry) {
+            final isSelected = state.selectedTradeMethodId == entry.key;
             return ChoiceChip(
-              label: Text(method),
+              label: Text(entry.value),
               selected: isSelected,
               onSelected: (selected) {
-                ref
-                    .read(sellRegisterViewModelProvider.notifier)
-                    .updateDealMethod(selected ? method : '');
-                // Note: single select, likely can't deselect to empty if required, but logic allows it currently.
+                if (selected) {
+                  ref
+                      .read(sellRegisterViewModelProvider.notifier)
+                      .updateTradeMethod(entry.key);
+                }
               },
               selectedColor: AppColors.primary.withValues(alpha: 0.2),
-              // checkmarkColor: AppColors.primary, // ChoiceChip doesn't have checkmarkColor directly usually, style label
               labelStyle: AppTextStyles.body2.copyWith(
                 color: isSelected ? AppColors.primary : AppColors.textPrimary,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
@@ -441,20 +440,20 @@ class _SellAdditionalInfoViewState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppToggle(
-          value: state.isHolding,
+          value: state.hasTicket,
           onChanged: (value) {
             ref
                 .read(sellRegisterViewModelProvider.notifier)
-                .updateIsHolding(value);
+                .updateHasTicket(value);
           },
           label: '티켓 보유 여부',
           activeColor: AppColors.primary,
         ),
         const SizedBox(height: AppSpacing.xs),
         Text(
-          state.isHolding ? '보유' : '미보유 (예매 완료 후 수령대기중)',
+          state.hasTicket ? '보유' : '미보유 (예매 완료 후 수령대기중)',
           style: AppTextStyles.body2.copyWith(
-            color: state.isHolding ? AppColors.primary : AppColors.textTertiary,
+            color: state.hasTicket ? AppColors.primary : AppColors.textTertiary,
           ),
         ),
       ],
