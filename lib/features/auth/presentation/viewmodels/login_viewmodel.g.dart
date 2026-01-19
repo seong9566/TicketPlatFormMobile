@@ -41,7 +41,7 @@ final class LoginViewModelProvider
   }
 }
 
-String _$loginViewModelHash() => r'8cf6b3df22fd5ecc9ca5cb9ae1aa71e773642dfc';
+String _$loginViewModelHash() => r'57ad5e1e44b30e04568b5e2eafd92407066ae4ee';
 
 abstract class _$LoginViewModel extends $Notifier<LoginState> {
   LoginState build();

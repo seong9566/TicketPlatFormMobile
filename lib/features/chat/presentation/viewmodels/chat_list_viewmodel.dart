@@ -18,10 +18,9 @@ class ChatListViewModel extends _$ChatListViewModel {
   }
 
   Future<List<ChatRoomListUiModel>> _fetchChatRooms() async {
-    final entities = await ref.read(getChatRoomsUsecaseProvider).call(
-          page: _currentPage,
-          pageSize: _pageSize,
-        );
+    final entities = await ref
+        .read(getChatRoomsUsecaseProvider)
+        .call(page: _currentPage, pageSize: _pageSize);
     _hasMore = entities.length >= _pageSize;
     return entities.map(ChatRoomListUiModel.fromEntity).toList();
   }

@@ -24,6 +24,17 @@ class TicketDetailViewModel extends _$TicketDetailViewModel {
     );
   }
 
+  /// 수동 새로고침 (에러 후 재시도)
+  Future<void> refresh(int ticketId) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      final entity = await _getTicketDetailUseCase.call(ticketId);
+      return TicketDetailState(
+        detail: TicketingTicketDetailUiModel.fromEntity(entity),
+      );
+    });
+  }
+
   Future<void> toggleLike() async {
     final detail = state.value?.detail;
     if (detail == null) return;

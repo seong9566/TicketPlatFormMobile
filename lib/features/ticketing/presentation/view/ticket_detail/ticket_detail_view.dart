@@ -84,7 +84,29 @@ class TicketDetailView extends ConsumerWidget {
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (err, stack) => Center(child: Text('Error: $err')),
+          error: (err, stack) => Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  '티켓 정보를 불러오는데 실패했습니다.',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                ElevatedButton(
+                  onPressed: () {
+                    ref
+                        .read(ticketDetailViewModelProvider(ticketId).notifier)
+                        .refresh(ticketId);
+                  },
+                  child: const Text('다시 시도'),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
       bottomNavigationBar: SafeArea(

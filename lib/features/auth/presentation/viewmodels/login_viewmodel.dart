@@ -12,7 +12,8 @@ class LoginViewModel extends _$LoginViewModel with ErrorHandler {
   LoginUsecase get _loginUsecase => ref.read(loginUsecaseProvider);
 
   @override
-  LoginState build() => const LoginState();
+  LoginState build() =>
+      const LoginState(email: 'test@test.com', password: '1234');
 
   void onEmailChanged(String value) {
     state = state.copyWith(email: value, errorMessage: null);
