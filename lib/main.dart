@@ -10,7 +10,15 @@ import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
   initializeDateFormatting().then((_) {
-    runApp(const ProviderScope(child: TicketPlatformApp()));
+    runApp(
+      ProviderScope(
+        // Riverpod3.0에 자동 재시도 로직이 생김 개발 시에는 필요가 없음.
+        retry: (retryCount, error) {
+          return null;
+        },
+        child: TicketPlatformApp(),
+      ),
+    );
   });
 }
 
