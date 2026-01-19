@@ -37,47 +37,77 @@ class SellMyTicketsReqDto {
   };
 }
 
+/// 좌석 정가 조회 요청
+class SellOriginalPriceReqDto {
+  final int eventId;
+  final int gradeId;
+  final int? locationId;
+  final int? areaId;
+
+  const SellOriginalPriceReqDto({
+    required this.eventId,
+    required this.gradeId,
+    this.locationId,
+    this.areaId,
+  });
+
+  Map<String, dynamic> toMap() => {
+    'eventId': eventId,
+    'gradeId': gradeId,
+    if (locationId != null) 'locationId': locationId,
+    if (areaId != null) 'areaId': areaId,
+  };
+}
+
 /// 티켓 등록 요청 (multipart/form-data)
 class SellTicketRegisterReqDto {
   final int eventId;
   final String scheduleId;
-  final String? locationId;
-  final String? area;
+  final int seatGradeId;
+  final int? locationId;
+  final int? areaId;
   final String? row;
-  final String seatInfo;
-  final bool isConsecutive;
   final int quantity;
+  final bool isConsecutive;
   final int price;
   final int originalPrice;
+  final int tradeMethodId;
+  final bool hasTicket;
   final String? description;
   final List<File> images;
+  final List<int> featureIds;
 
   const SellTicketRegisterReqDto({
     required this.eventId,
     required this.scheduleId,
+    required this.seatGradeId,
     this.locationId,
-    this.area,
+    this.areaId,
     this.row,
-    required this.seatInfo,
-    this.isConsecutive = false,
     required this.quantity,
+    this.isConsecutive = false,
     required this.price,
     required this.originalPrice,
+    required this.tradeMethodId,
+    required this.hasTicket,
     this.description,
     this.images = const [],
+    this.featureIds = const [],
   });
 
   Map<String, dynamic> toMap() => {
     'eventId': eventId,
     'scheduleId': scheduleId,
+    'seatGradeId': seatGradeId,
     if (locationId != null) 'locationId': locationId,
-    if (area != null) 'area': area,
+    if (areaId != null) 'areaId': areaId,
     if (row != null) 'row': row,
-    'seatInfo': seatInfo,
-    'isConsecutive': isConsecutive,
     'quantity': quantity,
+    'isConsecutive': isConsecutive,
     'price': price,
     'originalPrice': originalPrice,
+    'tradeMethodId': tradeMethodId,
+    'hasTicket': hasTicket,
     if (description != null) 'description': description,
   };
 }

@@ -31,6 +31,8 @@ extension BaseResponseExt<T> on BaseResponse<T> {
     throw Exception(errorMsg);
   }
 
+  T? get dataOrNull => isSuccess ? data : null;
+
   /// 상세 정보를 Entity로 변환하거나 실패 시 예외 발생
   E mapOrThrow<E>(E Function(T) mapper, {String? errorMessage}) {
     if (isSuccess && data != null) {

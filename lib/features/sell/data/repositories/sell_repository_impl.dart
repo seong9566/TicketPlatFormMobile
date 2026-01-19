@@ -6,11 +6,13 @@ import 'package:ticket_platform_mobile/features/sell/data/datasources/sell_remot
 import 'package:ticket_platform_mobile/features/sell/data/dto/request/sell_req_dto.dart';
 import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_category_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_event_resp_dto.dart';
+import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_feature_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_schedule_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_seat_option_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_ticket_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/entities/sell_category_entity.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/entities/sell_event_entity.dart';
+import 'package:ticket_platform_mobile/features/sell/domain/entities/sell_feature_entity.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/entities/sell_schedule_entity.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/entities/sell_seat_option_entity.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/entities/sell_ticket_entity.dart';
@@ -77,33 +79,62 @@ class SellRepositoryImpl implements SellRepository {
   }
 
   @override
+  Future<List<SellFeatureEntity>> getFeatures() async {
+    final response = await _remoteDataSource.getFeatures();
+    return response.mapListOrEmpty((dto) => dto.toEntity());
+  }
+
+  @override
+  Future<int?> getOriginalPrice({
+    required int eventId,
+    required int gradeId,
+    int? locationId,
+    int? areaId,
+  }) async {
+    final reqDto = SellOriginalPriceReqDto(
+      eventId: eventId,
+      gradeId: gradeId,
+      locationId: locationId,
+      areaId: areaId,
+    );
+    final response = await _remoteDataSource.getOriginalPrice(reqDto);
+    return response.dataOrNull;
+  }
+
+  @override
   Future<SellTicketRegisterResult> registerTicket({
     required int eventId,
     required String scheduleId,
-    String? locationId,
-    String? area,
+    required int seatGradeId,
+    int? locationId,
+    int? areaId,
     String? row,
-    required String seatInfo,
-    bool isConsecutive = false,
     required int quantity,
+    bool isConsecutive = false,
     required int price,
     required int originalPrice,
+    required int tradeMethodId,
+    required bool hasTicket,
     String? description,
     List<File> images = const [],
+    List<int> featureIds = const [],
   }) async {
     final reqDto = SellTicketRegisterReqDto(
       eventId: eventId,
       scheduleId: scheduleId,
+      seatGradeId: seatGradeId,
       locationId: locationId,
-      area: area,
+      areaId: areaId,
       row: row,
-      seatInfo: seatInfo,
-      isConsecutive: isConsecutive,
       quantity: quantity,
+      isConsecutive: isConsecutive,
       price: price,
       originalPrice: originalPrice,
+      tradeMethodId: tradeMethodId,
+      hasTicket: hasTicket,
       description: description,
       images: images,
+      featureIds: featureIds,
     );
     final response = await _remoteDataSource.registerTicket(reqDto);
     return response.mapOrThrow(

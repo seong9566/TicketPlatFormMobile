@@ -3,10 +3,10 @@ class ApiEndpoint {
 
   static String get baseUrl {
     // 회사 개발
-    // if (Platform.isAndroid) return 'http://192.168.10.16:5224';
+    return 'http://192.168.10.16:5224';
 
     // 내 맥북 개발
-    return 'http://127.0.0.1:5224';
+    // return 'http://127.0.0.1:5224';
   }
 
   // Home
@@ -46,6 +46,8 @@ class ApiEndpoint {
   static const String sellEvents = '/api/sell/events';
   static const String sellEventSchedules = '/api/sell/events/schedules';
   static const String sellSeatOptions = '/api/sell/events/seat-options';
+  static const String sellOriginalPrice = '/api/sell/events/original-price';
+  static const String sellFeatures = '/api/sell/features';
   static const String sellTickets = '/api/sell/tickets';
   static const String sellMyTickets = '/api/sell/my-tickets';
   static const String sellTicketImageRefresh =

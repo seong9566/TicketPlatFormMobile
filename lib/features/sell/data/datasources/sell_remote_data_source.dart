@@ -7,6 +7,7 @@ import 'package:ticket_platform_mobile/core/network/safe_api_call.dart';
 import 'package:ticket_platform_mobile/features/sell/data/dto/request/sell_req_dto.dart';
 import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_category_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_event_resp_dto.dart';
+import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_feature_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_schedule_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_seat_option_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_ticket_resp_dto.dart';
@@ -25,6 +26,12 @@ abstract class SellRemoteDataSource {
 
   /// 좌석 옵션 조회
   Future<BaseResponse<SellSeatOptionsRespDto>> getSeatOptions(int eventId);
+
+  /// 특이사항 목록 조회
+  Future<BaseResponse<List<SellFeatureRespDto>>> getFeatures();
+
+  /// 좌석 정가 조회
+  Future<BaseResponse<int?>> getOriginalPrice(SellOriginalPriceReqDto req);
 
   /// 티켓 등록
   Future<BaseResponse<SellTicketRegisterRespDto>> registerTicket(
@@ -109,6 +116,33 @@ class SellRemoteDataSourceImpl implements SellRemoteDataSource {
   }
 
   @override
+  Future<BaseResponse<List<SellFeatureRespDto>>> getFeatures() async {
+    return safeApiCall<List<SellFeatureRespDto>>(
+      apiCall: (options) =>
+          _dio.get(ApiEndpoint.sellFeatures, options: options),
+      apiName: 'getFeatures',
+      dataParser: (json) => (json as List)
+          .map((e) => SellFeatureRespDto.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  @override
+  Future<BaseResponse<int?>> getOriginalPrice(
+    SellOriginalPriceReqDto req,
+  ) async {
+    return safeApiCall<int?>(
+      apiCall: (options) => _dio.get(
+        ApiEndpoint.sellOriginalPrice,
+        queryParameters: req.toMap(),
+        options: options,
+      ),
+      apiName: 'getOriginalPrice',
+      dataParser: (json) => json as int?,
+    );
+  }
+
+  @override
   Future<BaseResponse<SellTicketRegisterRespDto>> registerTicket(
     SellTicketRegisterReqDto req,
   ) async {
@@ -126,6 +160,11 @@ class SellRemoteDataSourceImpl implements SellRemoteDataSource {
           ),
         ),
       );
+    }
+
+    // 특이사항 ID 추가 (다중 선택)
+    for (var featureId in req.featureIds) {
+      formData.fields.add(MapEntry('featureIds', featureId.toString()));
     }
 
     return safeApiCall<SellTicketRegisterRespDto>(
