@@ -38,7 +38,7 @@ class TransactionHistoryItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -58,9 +58,8 @@ class TransactionHistoryItem extends StatelessWidget {
                     width: 80,
                     height: 80,
                     fit: BoxFit.cover,
-                    placeholder: (context, url) => Container(
-                      color: AppColors.muted,
-                    ),
+                    placeholder: (context, url) =>
+                        Container(color: AppColors.muted),
                     errorWidget: (context, url, error) => Container(
                       color: AppColors.muted,
                       child: const Icon(Icons.error),
@@ -126,7 +125,7 @@ class TransactionHistoryItem extends StatelessWidget {
                   child: Text(
                     seat,
                     style: AppTextStyles.caption.copyWith(
-                      color: AppColors.success, // Using success color for seat as per image style hint
+                      color: AppColors.success,
                       fontWeight: FontWeight.w600,
                     ),
                     maxLines: 1,
@@ -137,7 +136,12 @@ class TransactionHistoryItem extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(AppSpacing.md, 0, AppSpacing.md, AppSpacing.md),
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.md,
+              0,
+              AppSpacing.md,
+              AppSpacing.md,
+            ),
             child: Row(
               children: [
                 Container(
@@ -146,7 +150,7 @@ class TransactionHistoryItem extends StatelessWidget {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: stateColor.withOpacity(0.2),
+                    color: stateColor.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(

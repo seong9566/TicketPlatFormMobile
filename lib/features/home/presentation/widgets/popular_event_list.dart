@@ -82,6 +82,8 @@ class PopularEventList extends StatelessWidget {
                         const SizedBox(height: 8),
                         Text(
                           event.description,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: AppTextStyles.body2.copyWith(
                             color: const Color(0xFF94A3B8),
                             fontSize: 12,
