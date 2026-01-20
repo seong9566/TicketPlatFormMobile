@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TicketingTicketDetailUiModel {
 
- int get ticketId; String get performanceTitle; String get performanceImageUrl; DateTime get performanceDate; String get location; String get ticketTitle; String get gradeName; String? get seatInfo; int get price; int get originalPrice; List<String> get tags; TicketingSellerUiModel get seller; String? get description; List<String> get images; String get ticketCountInfo; List<String> get transactionFeatures; bool get isFavorited; String? get listingImageUrl; String? get eventTitle; DateTime? get eventDate; String? get venueName; String? get eventPosterImageUrl;
+ int get ticketId; String? get performanceTitle; String? get performanceImageUrl; DateTime? get performanceDate; String? get location; String get gradeName; String? get seatInfo; int get price; int get originalPrice; List<String> get tags; TicketingSellerUiModel get seller; String? get description; List<String> get images; String get ticketCountInfo; List<String> get transactionFeatures; bool get isFavorited; String? get tradeMethodName; bool? get hasTicket; bool? get isConsecutive;
 /// Create a copy of TicketingTicketDetailUiModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $TicketingTicketDetailUiModelCopyWith<TicketingTicketDetailUiModel> get copyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketingTicketDetailUiModel&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.performanceTitle, performanceTitle) || other.performanceTitle == performanceTitle)&&(identical(other.performanceImageUrl, performanceImageUrl) || other.performanceImageUrl == performanceImageUrl)&&(identical(other.performanceDate, performanceDate) || other.performanceDate == performanceDate)&&(identical(other.location, location) || other.location == location)&&(identical(other.ticketTitle, ticketTitle) || other.ticketTitle == ticketTitle)&&(identical(other.gradeName, gradeName) || other.gradeName == gradeName)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.price, price) || other.price == price)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.images, images)&&(identical(other.ticketCountInfo, ticketCountInfo) || other.ticketCountInfo == ticketCountInfo)&&const DeepCollectionEquality().equals(other.transactionFeatures, transactionFeatures)&&(identical(other.isFavorited, isFavorited) || other.isFavorited == isFavorited)&&(identical(other.listingImageUrl, listingImageUrl) || other.listingImageUrl == listingImageUrl)&&(identical(other.eventTitle, eventTitle) || other.eventTitle == eventTitle)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.venueName, venueName) || other.venueName == venueName)&&(identical(other.eventPosterImageUrl, eventPosterImageUrl) || other.eventPosterImageUrl == eventPosterImageUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketingTicketDetailUiModel&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.performanceTitle, performanceTitle) || other.performanceTitle == performanceTitle)&&(identical(other.performanceImageUrl, performanceImageUrl) || other.performanceImageUrl == performanceImageUrl)&&(identical(other.performanceDate, performanceDate) || other.performanceDate == performanceDate)&&(identical(other.location, location) || other.location == location)&&(identical(other.gradeName, gradeName) || other.gradeName == gradeName)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.price, price) || other.price == price)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.images, images)&&(identical(other.ticketCountInfo, ticketCountInfo) || other.ticketCountInfo == ticketCountInfo)&&const DeepCollectionEquality().equals(other.transactionFeatures, transactionFeatures)&&(identical(other.isFavorited, isFavorited) || other.isFavorited == isFavorited)&&(identical(other.tradeMethodName, tradeMethodName) || other.tradeMethodName == tradeMethodName)&&(identical(other.hasTicket, hasTicket) || other.hasTicket == hasTicket)&&(identical(other.isConsecutive, isConsecutive) || other.isConsecutive == isConsecutive));
 }
 
 
 @override
-int get hashCode => Object.hashAll([runtimeType,ticketId,performanceTitle,performanceImageUrl,performanceDate,location,ticketTitle,gradeName,seatInfo,price,originalPrice,const DeepCollectionEquality().hash(tags),seller,description,const DeepCollectionEquality().hash(images),ticketCountInfo,const DeepCollectionEquality().hash(transactionFeatures),isFavorited,listingImageUrl,eventTitle,eventDate,venueName,eventPosterImageUrl]);
+int get hashCode => Object.hashAll([runtimeType,ticketId,performanceTitle,performanceImageUrl,performanceDate,location,gradeName,seatInfo,price,originalPrice,const DeepCollectionEquality().hash(tags),seller,description,const DeepCollectionEquality().hash(images),ticketCountInfo,const DeepCollectionEquality().hash(transactionFeatures),isFavorited,tradeMethodName,hasTicket,isConsecutive]);
 
 @override
 String toString() {
-  return 'TicketingTicketDetailUiModel(ticketId: $ticketId, performanceTitle: $performanceTitle, performanceImageUrl: $performanceImageUrl, performanceDate: $performanceDate, location: $location, ticketTitle: $ticketTitle, gradeName: $gradeName, seatInfo: $seatInfo, price: $price, originalPrice: $originalPrice, tags: $tags, seller: $seller, description: $description, images: $images, ticketCountInfo: $ticketCountInfo, transactionFeatures: $transactionFeatures, isFavorited: $isFavorited, listingImageUrl: $listingImageUrl, eventTitle: $eventTitle, eventDate: $eventDate, venueName: $venueName, eventPosterImageUrl: $eventPosterImageUrl)';
+  return 'TicketingTicketDetailUiModel(ticketId: $ticketId, performanceTitle: $performanceTitle, performanceImageUrl: $performanceImageUrl, performanceDate: $performanceDate, location: $location, gradeName: $gradeName, seatInfo: $seatInfo, price: $price, originalPrice: $originalPrice, tags: $tags, seller: $seller, description: $description, images: $images, ticketCountInfo: $ticketCountInfo, transactionFeatures: $transactionFeatures, isFavorited: $isFavorited, tradeMethodName: $tradeMethodName, hasTicket: $hasTicket, isConsecutive: $isConsecutive)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $TicketingTicketDetailUiModelCopyWith<$Res>  {
   factory $TicketingTicketDetailUiModelCopyWith(TicketingTicketDetailUiModel value, $Res Function(TicketingTicketDetailUiModel) _then) = _$TicketingTicketDetailUiModelCopyWithImpl;
 @useResult
 $Res call({
- int ticketId, String performanceTitle, String performanceImageUrl, DateTime performanceDate, String location, String ticketTitle, String gradeName, String? seatInfo, int price, int originalPrice, List<String> tags, TicketingSellerUiModel seller, String? description, List<String> images, String ticketCountInfo, List<String> transactionFeatures, bool isFavorited, String? listingImageUrl, String? eventTitle, DateTime? eventDate, String? venueName, String? eventPosterImageUrl
+ int ticketId, String? performanceTitle, String? performanceImageUrl, DateTime? performanceDate, String? location, String gradeName, String? seatInfo, int price, int originalPrice, List<String> tags, TicketingSellerUiModel seller, String? description, List<String> images, String ticketCountInfo, List<String> transactionFeatures, bool isFavorited, String? tradeMethodName, bool? hasTicket, bool? isConsecutive
 });
 
 
@@ -62,15 +62,14 @@ class _$TicketingTicketDetailUiModelCopyWithImpl<$Res>
 
 /// Create a copy of TicketingTicketDetailUiModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? ticketId = null,Object? performanceTitle = null,Object? performanceImageUrl = null,Object? performanceDate = null,Object? location = null,Object? ticketTitle = null,Object? gradeName = null,Object? seatInfo = freezed,Object? price = null,Object? originalPrice = null,Object? tags = null,Object? seller = null,Object? description = freezed,Object? images = null,Object? ticketCountInfo = null,Object? transactionFeatures = null,Object? isFavorited = null,Object? listingImageUrl = freezed,Object? eventTitle = freezed,Object? eventDate = freezed,Object? venueName = freezed,Object? eventPosterImageUrl = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? ticketId = null,Object? performanceTitle = freezed,Object? performanceImageUrl = freezed,Object? performanceDate = freezed,Object? location = freezed,Object? gradeName = null,Object? seatInfo = freezed,Object? price = null,Object? originalPrice = null,Object? tags = null,Object? seller = null,Object? description = freezed,Object? images = null,Object? ticketCountInfo = null,Object? transactionFeatures = null,Object? isFavorited = null,Object? tradeMethodName = freezed,Object? hasTicket = freezed,Object? isConsecutive = freezed,}) {
   return _then(_self.copyWith(
 ticketId: null == ticketId ? _self.ticketId : ticketId // ignore: cast_nullable_to_non_nullable
-as int,performanceTitle: null == performanceTitle ? _self.performanceTitle : performanceTitle // ignore: cast_nullable_to_non_nullable
-as String,performanceImageUrl: null == performanceImageUrl ? _self.performanceImageUrl : performanceImageUrl // ignore: cast_nullable_to_non_nullable
-as String,performanceDate: null == performanceDate ? _self.performanceDate : performanceDate // ignore: cast_nullable_to_non_nullable
-as DateTime,location: null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
-as String,ticketTitle: null == ticketTitle ? _self.ticketTitle : ticketTitle // ignore: cast_nullable_to_non_nullable
-as String,gradeName: null == gradeName ? _self.gradeName : gradeName // ignore: cast_nullable_to_non_nullable
+as int,performanceTitle: freezed == performanceTitle ? _self.performanceTitle : performanceTitle // ignore: cast_nullable_to_non_nullable
+as String?,performanceImageUrl: freezed == performanceImageUrl ? _self.performanceImageUrl : performanceImageUrl // ignore: cast_nullable_to_non_nullable
+as String?,performanceDate: freezed == performanceDate ? _self.performanceDate : performanceDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,location: freezed == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
+as String?,gradeName: null == gradeName ? _self.gradeName : gradeName // ignore: cast_nullable_to_non_nullable
 as String,seatInfo: freezed == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
 as String?,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
 as int,originalPrice: null == originalPrice ? _self.originalPrice : originalPrice // ignore: cast_nullable_to_non_nullable
@@ -81,12 +80,10 @@ as String?,images: null == images ? _self.images : images // ignore: cast_nullab
 as List<String>,ticketCountInfo: null == ticketCountInfo ? _self.ticketCountInfo : ticketCountInfo // ignore: cast_nullable_to_non_nullable
 as String,transactionFeatures: null == transactionFeatures ? _self.transactionFeatures : transactionFeatures // ignore: cast_nullable_to_non_nullable
 as List<String>,isFavorited: null == isFavorited ? _self.isFavorited : isFavorited // ignore: cast_nullable_to_non_nullable
-as bool,listingImageUrl: freezed == listingImageUrl ? _self.listingImageUrl : listingImageUrl // ignore: cast_nullable_to_non_nullable
-as String?,eventTitle: freezed == eventTitle ? _self.eventTitle : eventTitle // ignore: cast_nullable_to_non_nullable
-as String?,eventDate: freezed == eventDate ? _self.eventDate : eventDate // ignore: cast_nullable_to_non_nullable
-as DateTime?,venueName: freezed == venueName ? _self.venueName : venueName // ignore: cast_nullable_to_non_nullable
-as String?,eventPosterImageUrl: freezed == eventPosterImageUrl ? _self.eventPosterImageUrl : eventPosterImageUrl // ignore: cast_nullable_to_non_nullable
-as String?,
+as bool,tradeMethodName: freezed == tradeMethodName ? _self.tradeMethodName : tradeMethodName // ignore: cast_nullable_to_non_nullable
+as String?,hasTicket: freezed == hasTicket ? _self.hasTicket : hasTicket // ignore: cast_nullable_to_non_nullable
+as bool?,isConsecutive: freezed == isConsecutive ? _self.isConsecutive : isConsecutive // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 /// Create a copy of TicketingTicketDetailUiModel
@@ -180,10 +177,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int ticketId,  String performanceTitle,  String performanceImageUrl,  DateTime performanceDate,  String location,  String ticketTitle,  String gradeName,  String? seatInfo,  int price,  int originalPrice,  List<String> tags,  TicketingSellerUiModel seller,  String? description,  List<String> images,  String ticketCountInfo,  List<String> transactionFeatures,  bool isFavorited,  String? listingImageUrl,  String? eventTitle,  DateTime? eventDate,  String? venueName,  String? eventPosterImageUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int ticketId,  String? performanceTitle,  String? performanceImageUrl,  DateTime? performanceDate,  String? location,  String gradeName,  String? seatInfo,  int price,  int originalPrice,  List<String> tags,  TicketingSellerUiModel seller,  String? description,  List<String> images,  String ticketCountInfo,  List<String> transactionFeatures,  bool isFavorited,  String? tradeMethodName,  bool? hasTicket,  bool? isConsecutive)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TicketingTicketDetailUiModel() when $default != null:
-return $default(_that.ticketId,_that.performanceTitle,_that.performanceImageUrl,_that.performanceDate,_that.location,_that.ticketTitle,_that.gradeName,_that.seatInfo,_that.price,_that.originalPrice,_that.tags,_that.seller,_that.description,_that.images,_that.ticketCountInfo,_that.transactionFeatures,_that.isFavorited,_that.listingImageUrl,_that.eventTitle,_that.eventDate,_that.venueName,_that.eventPosterImageUrl);case _:
+return $default(_that.ticketId,_that.performanceTitle,_that.performanceImageUrl,_that.performanceDate,_that.location,_that.gradeName,_that.seatInfo,_that.price,_that.originalPrice,_that.tags,_that.seller,_that.description,_that.images,_that.ticketCountInfo,_that.transactionFeatures,_that.isFavorited,_that.tradeMethodName,_that.hasTicket,_that.isConsecutive);case _:
   return orElse();
 
 }
@@ -201,10 +198,10 @@ return $default(_that.ticketId,_that.performanceTitle,_that.performanceImageUrl,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int ticketId,  String performanceTitle,  String performanceImageUrl,  DateTime performanceDate,  String location,  String ticketTitle,  String gradeName,  String? seatInfo,  int price,  int originalPrice,  List<String> tags,  TicketingSellerUiModel seller,  String? description,  List<String> images,  String ticketCountInfo,  List<String> transactionFeatures,  bool isFavorited,  String? listingImageUrl,  String? eventTitle,  DateTime? eventDate,  String? venueName,  String? eventPosterImageUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int ticketId,  String? performanceTitle,  String? performanceImageUrl,  DateTime? performanceDate,  String? location,  String gradeName,  String? seatInfo,  int price,  int originalPrice,  List<String> tags,  TicketingSellerUiModel seller,  String? description,  List<String> images,  String ticketCountInfo,  List<String> transactionFeatures,  bool isFavorited,  String? tradeMethodName,  bool? hasTicket,  bool? isConsecutive)  $default,) {final _that = this;
 switch (_that) {
 case _TicketingTicketDetailUiModel():
-return $default(_that.ticketId,_that.performanceTitle,_that.performanceImageUrl,_that.performanceDate,_that.location,_that.ticketTitle,_that.gradeName,_that.seatInfo,_that.price,_that.originalPrice,_that.tags,_that.seller,_that.description,_that.images,_that.ticketCountInfo,_that.transactionFeatures,_that.isFavorited,_that.listingImageUrl,_that.eventTitle,_that.eventDate,_that.venueName,_that.eventPosterImageUrl);case _:
+return $default(_that.ticketId,_that.performanceTitle,_that.performanceImageUrl,_that.performanceDate,_that.location,_that.gradeName,_that.seatInfo,_that.price,_that.originalPrice,_that.tags,_that.seller,_that.description,_that.images,_that.ticketCountInfo,_that.transactionFeatures,_that.isFavorited,_that.tradeMethodName,_that.hasTicket,_that.isConsecutive);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -221,10 +218,10 @@ return $default(_that.ticketId,_that.performanceTitle,_that.performanceImageUrl,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int ticketId,  String performanceTitle,  String performanceImageUrl,  DateTime performanceDate,  String location,  String ticketTitle,  String gradeName,  String? seatInfo,  int price,  int originalPrice,  List<String> tags,  TicketingSellerUiModel seller,  String? description,  List<String> images,  String ticketCountInfo,  List<String> transactionFeatures,  bool isFavorited,  String? listingImageUrl,  String? eventTitle,  DateTime? eventDate,  String? venueName,  String? eventPosterImageUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int ticketId,  String? performanceTitle,  String? performanceImageUrl,  DateTime? performanceDate,  String? location,  String gradeName,  String? seatInfo,  int price,  int originalPrice,  List<String> tags,  TicketingSellerUiModel seller,  String? description,  List<String> images,  String ticketCountInfo,  List<String> transactionFeatures,  bool isFavorited,  String? tradeMethodName,  bool? hasTicket,  bool? isConsecutive)?  $default,) {final _that = this;
 switch (_that) {
 case _TicketingTicketDetailUiModel() when $default != null:
-return $default(_that.ticketId,_that.performanceTitle,_that.performanceImageUrl,_that.performanceDate,_that.location,_that.ticketTitle,_that.gradeName,_that.seatInfo,_that.price,_that.originalPrice,_that.tags,_that.seller,_that.description,_that.images,_that.ticketCountInfo,_that.transactionFeatures,_that.isFavorited,_that.listingImageUrl,_that.eventTitle,_that.eventDate,_that.venueName,_that.eventPosterImageUrl);case _:
+return $default(_that.ticketId,_that.performanceTitle,_that.performanceImageUrl,_that.performanceDate,_that.location,_that.gradeName,_that.seatInfo,_that.price,_that.originalPrice,_that.tags,_that.seller,_that.description,_that.images,_that.ticketCountInfo,_that.transactionFeatures,_that.isFavorited,_that.tradeMethodName,_that.hasTicket,_that.isConsecutive);case _:
   return null;
 
 }
@@ -236,15 +233,14 @@ return $default(_that.ticketId,_that.performanceTitle,_that.performanceImageUrl,
 
 
 class _TicketingTicketDetailUiModel implements TicketingTicketDetailUiModel {
-  const _TicketingTicketDetailUiModel({required this.ticketId, required this.performanceTitle, required this.performanceImageUrl, required this.performanceDate, required this.location, required this.ticketTitle, required this.gradeName, required this.seatInfo, required this.price, required this.originalPrice, required final  List<String> tags, required this.seller, required this.description, required final  List<String> images, required this.ticketCountInfo, required final  List<String> transactionFeatures, required this.isFavorited, this.listingImageUrl, this.eventTitle, this.eventDate, this.venueName, this.eventPosterImageUrl}): _tags = tags,_images = images,_transactionFeatures = transactionFeatures;
+  const _TicketingTicketDetailUiModel({required this.ticketId, this.performanceTitle, this.performanceImageUrl, this.performanceDate, this.location, required this.gradeName, required this.seatInfo, required this.price, required this.originalPrice, required final  List<String> tags, required this.seller, required this.description, required final  List<String> images, required this.ticketCountInfo, required final  List<String> transactionFeatures, required this.isFavorited, this.tradeMethodName, this.hasTicket, this.isConsecutive}): _tags = tags,_images = images,_transactionFeatures = transactionFeatures;
   
 
 @override final  int ticketId;
-@override final  String performanceTitle;
-@override final  String performanceImageUrl;
-@override final  DateTime performanceDate;
-@override final  String location;
-@override final  String ticketTitle;
+@override final  String? performanceTitle;
+@override final  String? performanceImageUrl;
+@override final  DateTime? performanceDate;
+@override final  String? location;
 @override final  String gradeName;
 @override final  String? seatInfo;
 @override final  int price;
@@ -274,11 +270,9 @@ class _TicketingTicketDetailUiModel implements TicketingTicketDetailUiModel {
 }
 
 @override final  bool isFavorited;
-@override final  String? listingImageUrl;
-@override final  String? eventTitle;
-@override final  DateTime? eventDate;
-@override final  String? venueName;
-@override final  String? eventPosterImageUrl;
+@override final  String? tradeMethodName;
+@override final  bool? hasTicket;
+@override final  bool? isConsecutive;
 
 /// Create a copy of TicketingTicketDetailUiModel
 /// with the given fields replaced by the non-null parameter values.
@@ -290,16 +284,16 @@ _$TicketingTicketDetailUiModelCopyWith<_TicketingTicketDetailUiModel> get copyWi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TicketingTicketDetailUiModel&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.performanceTitle, performanceTitle) || other.performanceTitle == performanceTitle)&&(identical(other.performanceImageUrl, performanceImageUrl) || other.performanceImageUrl == performanceImageUrl)&&(identical(other.performanceDate, performanceDate) || other.performanceDate == performanceDate)&&(identical(other.location, location) || other.location == location)&&(identical(other.ticketTitle, ticketTitle) || other.ticketTitle == ticketTitle)&&(identical(other.gradeName, gradeName) || other.gradeName == gradeName)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.price, price) || other.price == price)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._images, _images)&&(identical(other.ticketCountInfo, ticketCountInfo) || other.ticketCountInfo == ticketCountInfo)&&const DeepCollectionEquality().equals(other._transactionFeatures, _transactionFeatures)&&(identical(other.isFavorited, isFavorited) || other.isFavorited == isFavorited)&&(identical(other.listingImageUrl, listingImageUrl) || other.listingImageUrl == listingImageUrl)&&(identical(other.eventTitle, eventTitle) || other.eventTitle == eventTitle)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.venueName, venueName) || other.venueName == venueName)&&(identical(other.eventPosterImageUrl, eventPosterImageUrl) || other.eventPosterImageUrl == eventPosterImageUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TicketingTicketDetailUiModel&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.performanceTitle, performanceTitle) || other.performanceTitle == performanceTitle)&&(identical(other.performanceImageUrl, performanceImageUrl) || other.performanceImageUrl == performanceImageUrl)&&(identical(other.performanceDate, performanceDate) || other.performanceDate == performanceDate)&&(identical(other.location, location) || other.location == location)&&(identical(other.gradeName, gradeName) || other.gradeName == gradeName)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.price, price) || other.price == price)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._images, _images)&&(identical(other.ticketCountInfo, ticketCountInfo) || other.ticketCountInfo == ticketCountInfo)&&const DeepCollectionEquality().equals(other._transactionFeatures, _transactionFeatures)&&(identical(other.isFavorited, isFavorited) || other.isFavorited == isFavorited)&&(identical(other.tradeMethodName, tradeMethodName) || other.tradeMethodName == tradeMethodName)&&(identical(other.hasTicket, hasTicket) || other.hasTicket == hasTicket)&&(identical(other.isConsecutive, isConsecutive) || other.isConsecutive == isConsecutive));
 }
 
 
 @override
-int get hashCode => Object.hashAll([runtimeType,ticketId,performanceTitle,performanceImageUrl,performanceDate,location,ticketTitle,gradeName,seatInfo,price,originalPrice,const DeepCollectionEquality().hash(_tags),seller,description,const DeepCollectionEquality().hash(_images),ticketCountInfo,const DeepCollectionEquality().hash(_transactionFeatures),isFavorited,listingImageUrl,eventTitle,eventDate,venueName,eventPosterImageUrl]);
+int get hashCode => Object.hashAll([runtimeType,ticketId,performanceTitle,performanceImageUrl,performanceDate,location,gradeName,seatInfo,price,originalPrice,const DeepCollectionEquality().hash(_tags),seller,description,const DeepCollectionEquality().hash(_images),ticketCountInfo,const DeepCollectionEquality().hash(_transactionFeatures),isFavorited,tradeMethodName,hasTicket,isConsecutive]);
 
 @override
 String toString() {
-  return 'TicketingTicketDetailUiModel(ticketId: $ticketId, performanceTitle: $performanceTitle, performanceImageUrl: $performanceImageUrl, performanceDate: $performanceDate, location: $location, ticketTitle: $ticketTitle, gradeName: $gradeName, seatInfo: $seatInfo, price: $price, originalPrice: $originalPrice, tags: $tags, seller: $seller, description: $description, images: $images, ticketCountInfo: $ticketCountInfo, transactionFeatures: $transactionFeatures, isFavorited: $isFavorited, listingImageUrl: $listingImageUrl, eventTitle: $eventTitle, eventDate: $eventDate, venueName: $venueName, eventPosterImageUrl: $eventPosterImageUrl)';
+  return 'TicketingTicketDetailUiModel(ticketId: $ticketId, performanceTitle: $performanceTitle, performanceImageUrl: $performanceImageUrl, performanceDate: $performanceDate, location: $location, gradeName: $gradeName, seatInfo: $seatInfo, price: $price, originalPrice: $originalPrice, tags: $tags, seller: $seller, description: $description, images: $images, ticketCountInfo: $ticketCountInfo, transactionFeatures: $transactionFeatures, isFavorited: $isFavorited, tradeMethodName: $tradeMethodName, hasTicket: $hasTicket, isConsecutive: $isConsecutive)';
 }
 
 
@@ -310,7 +304,7 @@ abstract mixin class _$TicketingTicketDetailUiModelCopyWith<$Res> implements $Ti
   factory _$TicketingTicketDetailUiModelCopyWith(_TicketingTicketDetailUiModel value, $Res Function(_TicketingTicketDetailUiModel) _then) = __$TicketingTicketDetailUiModelCopyWithImpl;
 @override @useResult
 $Res call({
- int ticketId, String performanceTitle, String performanceImageUrl, DateTime performanceDate, String location, String ticketTitle, String gradeName, String? seatInfo, int price, int originalPrice, List<String> tags, TicketingSellerUiModel seller, String? description, List<String> images, String ticketCountInfo, List<String> transactionFeatures, bool isFavorited, String? listingImageUrl, String? eventTitle, DateTime? eventDate, String? venueName, String? eventPosterImageUrl
+ int ticketId, String? performanceTitle, String? performanceImageUrl, DateTime? performanceDate, String? location, String gradeName, String? seatInfo, int price, int originalPrice, List<String> tags, TicketingSellerUiModel seller, String? description, List<String> images, String ticketCountInfo, List<String> transactionFeatures, bool isFavorited, String? tradeMethodName, bool? hasTicket, bool? isConsecutive
 });
 
 
@@ -327,15 +321,14 @@ class __$TicketingTicketDetailUiModelCopyWithImpl<$Res>
 
 /// Create a copy of TicketingTicketDetailUiModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? ticketId = null,Object? performanceTitle = null,Object? performanceImageUrl = null,Object? performanceDate = null,Object? location = null,Object? ticketTitle = null,Object? gradeName = null,Object? seatInfo = freezed,Object? price = null,Object? originalPrice = null,Object? tags = null,Object? seller = null,Object? description = freezed,Object? images = null,Object? ticketCountInfo = null,Object? transactionFeatures = null,Object? isFavorited = null,Object? listingImageUrl = freezed,Object? eventTitle = freezed,Object? eventDate = freezed,Object? venueName = freezed,Object? eventPosterImageUrl = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? ticketId = null,Object? performanceTitle = freezed,Object? performanceImageUrl = freezed,Object? performanceDate = freezed,Object? location = freezed,Object? gradeName = null,Object? seatInfo = freezed,Object? price = null,Object? originalPrice = null,Object? tags = null,Object? seller = null,Object? description = freezed,Object? images = null,Object? ticketCountInfo = null,Object? transactionFeatures = null,Object? isFavorited = null,Object? tradeMethodName = freezed,Object? hasTicket = freezed,Object? isConsecutive = freezed,}) {
   return _then(_TicketingTicketDetailUiModel(
 ticketId: null == ticketId ? _self.ticketId : ticketId // ignore: cast_nullable_to_non_nullable
-as int,performanceTitle: null == performanceTitle ? _self.performanceTitle : performanceTitle // ignore: cast_nullable_to_non_nullable
-as String,performanceImageUrl: null == performanceImageUrl ? _self.performanceImageUrl : performanceImageUrl // ignore: cast_nullable_to_non_nullable
-as String,performanceDate: null == performanceDate ? _self.performanceDate : performanceDate // ignore: cast_nullable_to_non_nullable
-as DateTime,location: null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
-as String,ticketTitle: null == ticketTitle ? _self.ticketTitle : ticketTitle // ignore: cast_nullable_to_non_nullable
-as String,gradeName: null == gradeName ? _self.gradeName : gradeName // ignore: cast_nullable_to_non_nullable
+as int,performanceTitle: freezed == performanceTitle ? _self.performanceTitle : performanceTitle // ignore: cast_nullable_to_non_nullable
+as String?,performanceImageUrl: freezed == performanceImageUrl ? _self.performanceImageUrl : performanceImageUrl // ignore: cast_nullable_to_non_nullable
+as String?,performanceDate: freezed == performanceDate ? _self.performanceDate : performanceDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,location: freezed == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
+as String?,gradeName: null == gradeName ? _self.gradeName : gradeName // ignore: cast_nullable_to_non_nullable
 as String,seatInfo: freezed == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
 as String?,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
 as int,originalPrice: null == originalPrice ? _self.originalPrice : originalPrice // ignore: cast_nullable_to_non_nullable
@@ -346,12 +339,10 @@ as String?,images: null == images ? _self._images : images // ignore: cast_nulla
 as List<String>,ticketCountInfo: null == ticketCountInfo ? _self.ticketCountInfo : ticketCountInfo // ignore: cast_nullable_to_non_nullable
 as String,transactionFeatures: null == transactionFeatures ? _self._transactionFeatures : transactionFeatures // ignore: cast_nullable_to_non_nullable
 as List<String>,isFavorited: null == isFavorited ? _self.isFavorited : isFavorited // ignore: cast_nullable_to_non_nullable
-as bool,listingImageUrl: freezed == listingImageUrl ? _self.listingImageUrl : listingImageUrl // ignore: cast_nullable_to_non_nullable
-as String?,eventTitle: freezed == eventTitle ? _self.eventTitle : eventTitle // ignore: cast_nullable_to_non_nullable
-as String?,eventDate: freezed == eventDate ? _self.eventDate : eventDate // ignore: cast_nullable_to_non_nullable
-as DateTime?,venueName: freezed == venueName ? _self.venueName : venueName // ignore: cast_nullable_to_non_nullable
-as String?,eventPosterImageUrl: freezed == eventPosterImageUrl ? _self.eventPosterImageUrl : eventPosterImageUrl // ignore: cast_nullable_to_non_nullable
-as String?,
+as bool,tradeMethodName: freezed == tradeMethodName ? _self.tradeMethodName : tradeMethodName // ignore: cast_nullable_to_non_nullable
+as String?,hasTicket: freezed == hasTicket ? _self.hasTicket : hasTicket // ignore: cast_nullable_to_non_nullable
+as bool?,isConsecutive: freezed == isConsecutive ? _self.isConsecutive : isConsecutive // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 

@@ -9,16 +9,16 @@ abstract class TicketingRespDto with _$TicketingRespDto {
   const factory TicketingRespDto({
     required int eventId,
     required String eventTitle,
-    required String eventPosterImageUrl,
-    required String startAt,
-    required String endAt,
-    required String venueName,
-    required String venueAddress,
-    required int? artistId,
-    required String? artistName,
-    required bool isSoldOutImminent,
-    required List<TicketingSeatTypeFilterRespDto> seatTypeFilters,
-    required List<TicketingTicketRespDto> tickets,
+    String? eventPosterImageUrl,
+    String? startAt,
+    String? endAt,
+    String? venueName,
+    String? venueAddress,
+    int? artistId,
+    String? artistName,
+    @Default(false) bool isSoldOutImminent,
+    @Default([]) List<TicketingSeatTypeFilterRespDto> seatTypeFilters,
+    @Default([]) List<TicketingTicketRespDto> tickets,
   }) = _TicketingRespDto;
 
   factory TicketingRespDto.fromJson(Map<String, dynamic> json) =>
@@ -31,8 +31,8 @@ extension TicketingRespDtoX on TicketingRespDto {
       eventId: eventId,
       eventTitle: eventTitle,
       eventPosterImageUrl: eventPosterImageUrl,
-      startAt: DateTime.parse(startAt),
-      endAt: DateTime.parse(endAt),
+      startAt: startAt != null ? DateTime.parse(startAt!) : null,
+      endAt: endAt != null ? DateTime.parse(endAt!) : null,
       venueName: venueName,
       venueAddress: venueAddress,
       artistId: artistId,
@@ -48,8 +48,8 @@ extension TicketingRespDtoX on TicketingRespDto {
 abstract class TicketingSeatTypeFilterRespDto
     with _$TicketingSeatTypeFilterRespDto {
   const factory TicketingSeatTypeFilterRespDto({
-    required String seatTypeName,
-    required int ticketCount,
+    @Default('') String seatTypeName,
+    @Default(0) int ticketCount,
   }) = _TicketingSeatTypeFilterRespDto;
 
   factory TicketingSeatTypeFilterRespDto.fromJson(Map<String, dynamic> json) =>
@@ -65,28 +65,54 @@ extension TicketingSeatTypeFilterRespDtoX on TicketingSeatTypeFilterRespDto {
   }
 }
 
+/// 티켓 특이사항 DTO
+@freezed
+abstract class TicketFeatureDto with _$TicketFeatureDto {
+  const factory TicketFeatureDto({
+    required int featureId,
+    required String code,
+    required String nameKo,
+  }) = _TicketFeatureDto;
+
+  factory TicketFeatureDto.fromJson(Map<String, dynamic> json) =>
+      _$TicketFeatureDtoFromJson(json);
+}
+
+extension TicketFeatureDtoX on TicketFeatureDto {
+  TicketFeatureEntity toEntity() {
+    return TicketFeatureEntity(id: featureId, code: code, name: nameKo);
+  }
+}
+
+/// 티켓 목록 응답 DTO (API 스펙 기준)
 @freezed
 abstract class TicketingTicketRespDto with _$TicketingTicketRespDto {
   const factory TicketingTicketRespDto({
     required int ticketId,
-    required String ticketTitle,
-    String? eventTitle,
-    String? eventDate,
-    String? venueName,
-    String? eventPosterImageUrl,
-    required String? seatInfo,
-    required String? seatType,
-    required int price,
-    required int originalPrice,
-    required List<String> seatFeatures,
-    required String? description,
+    int? seatGradeId,
+    String? seatGradeCode,
+    String? seatGradeName,
+    String? seatGradeNameEn,
+    int? areaId,
+    String? area,
+    int? locationId,
+    String? locationName,
+    String? row,
+    @Default(0) int price,
+    @Default(0) int originalPrice,
+    bool? isConsecutive,
+    int? tradeMethodId,
+    String? tradeMethodName,
+    @Default([]) List<TicketFeatureDto> features,
+    bool? hasTicket,
+    String? description,
     required String createdAt,
-    required int? quantity,
-    required int? remainingQuantity,
+    @Default(0) int quantity,
+    @Default(0) int remainingQuantity,
     @Default(false) bool isSingleTicket,
     @Default([]) List<String> ticketImages,
-    required TicketingSellerRespDto seller,
     bool? isFavorited,
+    required TicketingSellerRespDto seller,
   }) = _TicketingTicketRespDto;
 
   factory TicketingTicketRespDto.fromJson(Map<String, dynamic> json) =>
@@ -97,39 +123,39 @@ extension TicketingTicketRespDtoX on TicketingTicketRespDto {
   TicketingTicketEntity toEntity() {
     return TicketingTicketEntity(
       ticketId: ticketId,
-      ticketTitle: ticketTitle,
-      eventTitle: eventTitle,
-      eventDate: eventDate != null
-          ? DateTime.tryParse(eventDate!.replaceAll('.', '-'))
-          : null,
-      venueName: venueName,
-      eventPosterImageUrl: eventPosterImageUrl,
-      seatInfo: seatInfo,
-      seatType: seatType,
+      seatGradeId: seatGradeId,
+      seatGradeName: seatGradeName,
+      area: area,
+      row: row,
       price: price,
       originalPrice: originalPrice,
-      seatFeatures: seatFeatures,
+      isConsecutive: isConsecutive,
+      tradeMethodId: tradeMethodId,
+      tradeMethodName: tradeMethodName,
+      features: features.map((e) => e.toEntity()).toList(),
+      hasTicket: hasTicket,
       description: description,
       createdAt: DateTime.parse(createdAt),
       quantity: quantity,
       remainingQuantity: remainingQuantity,
       isSingleTicket: isSingleTicket,
       ticketImages: ticketImages,
-      seller: seller.toEntity(),
       isFavorited: isFavorited,
+      seller: seller.toEntity(),
     );
   }
 }
 
+/// 판매자 정보 DTO
 @freezed
 abstract class TicketingSellerRespDto with _$TicketingSellerRespDto {
   const factory TicketingSellerRespDto({
     required int userId,
-    required String nickname,
-    required String profileImageUrl,
-    required double mannerTemperature,
-    required int totalTradeCount,
-    required int? responseRate,
+    String? nickname,
+    String? profileImageUrl,
+    double? mannerTemperature,
+    @Default(0) int totalTradeCount,
+    double? responseRate,
     @Default(false) bool isSecurePayment,
   }) = _TicketingSellerRespDto;
 

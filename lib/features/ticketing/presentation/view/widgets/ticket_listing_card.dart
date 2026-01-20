@@ -61,7 +61,7 @@ class TicketListingCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      ticket.title,
+                      ticket.gradeName,
                       style: AppTextStyles.body1,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

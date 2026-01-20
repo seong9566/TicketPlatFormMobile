@@ -9,11 +9,10 @@ abstract class TicketingTicketDetailUiModel
     with _$TicketingTicketDetailUiModel {
   const factory TicketingTicketDetailUiModel({
     required int ticketId,
-    required String performanceTitle,
-    required String performanceImageUrl,
-    required DateTime performanceDate,
-    required String location,
-    required String ticketTitle,
+    String? performanceTitle,
+    String? performanceImageUrl,
+    DateTime? performanceDate,
+    String? location,
     required String gradeName,
     required String? seatInfo,
     required int price,
@@ -25,41 +24,48 @@ abstract class TicketingTicketDetailUiModel
     required String ticketCountInfo,
     required List<String> transactionFeatures,
     required bool isFavorited,
-    String? listingImageUrl,
-    String? eventTitle,
-    DateTime? eventDate,
-    String? venueName,
-    String? eventPosterImageUrl,
+    String? tradeMethodName,
+    bool? hasTicket,
+    bool? isConsecutive,
   }) = _TicketingTicketDetailUiModel;
 
   factory TicketingTicketDetailUiModel.fromEntity(
-    TicketingTicketEntity entity,
-  ) {
+    TicketingTicketEntity entity, {
+    String? eventTitle,
+    String? eventPosterImageUrl,
+    DateTime? eventDate,
+    String? venueName,
+  }) {
+    // area와 row를 조합하여 seatInfo 생성
+    final seatInfo = [
+      if (entity.area != null) entity.area,
+      if (entity.row != null) entity.row,
+    ].where((e) => e != null && e.isNotEmpty).join(' ');
+
     return TicketingTicketDetailUiModel(
       ticketId: entity.ticketId,
-      performanceTitle: entity.eventTitle ?? '',
-      performanceImageUrl: entity.eventPosterImageUrl ?? '',
-      performanceDate: entity.eventDate ?? DateTime.now(),
-      location: entity.venueName ?? '',
-      ticketTitle: entity.ticketTitle,
-      gradeName: entity.seatType ?? '',
-      seatInfo: entity.seatInfo,
+      performanceTitle: eventTitle,
+      performanceImageUrl: eventPosterImageUrl,
+      performanceDate: eventDate,
+      location: venueName,
+      gradeName: entity.seatGradeName ?? '일반',
+      seatInfo: seatInfo.isNotEmpty ? seatInfo : null,
       price: entity.price,
       originalPrice: entity.originalPrice,
-      tags: entity.seatFeatures,
+      tags: entity.features?.map((f) => f.name).toList() ?? [],
       seller: TicketingSellerUiModel.fromEntity(entity.seller),
       description: entity.description,
       images: entity.ticketImages,
-      ticketCountInfo: '1인 1매',
-      transactionFeatures: entity.seatFeatures,
+      ticketCountInfo: entity.isSingleTicket ? '1인 1매' : '${entity.quantity}매',
+      transactionFeatures: [
+        if (entity.tradeMethodName != null) entity.tradeMethodName!,
+        if (entity.hasTicket == true) '티켓보유',
+        if (entity.isConsecutive == true) '연석',
+      ],
       isFavorited: entity.isFavorited ?? false,
-      listingImageUrl: entity.ticketImages.isNotEmpty
-          ? entity.ticketImages.first
-          : null,
-      eventTitle: entity.eventTitle,
-      eventDate: entity.eventDate,
-      venueName: entity.venueName,
-      eventPosterImageUrl: entity.eventPosterImageUrl,
+      tradeMethodName: entity.tradeMethodName,
+      hasTicket: entity.hasTicket,
+      isConsecutive: entity.isConsecutive,
     );
   }
 }

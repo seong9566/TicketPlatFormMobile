@@ -20,9 +20,9 @@ abstract class TicketingInfoUiModel with _$TicketingInfoUiModel {
   factory TicketingInfoUiModel.fromEntity(TicketingInfoEntity entity) {
     return TicketingInfoUiModel(
       title: entity.eventTitle,
-      imageUrl: entity.eventPosterImageUrl,
-      eventDate: entity.startAt,
-      location: entity.venueName,
+      imageUrl: entity.eventPosterImageUrl ?? '',
+      eventDate: entity.startAt ?? DateTime.now(),
+      location: entity.venueName ?? '',
       isHot: entity.isSoldOutImminent,
       ticketGrades: entity.seatTypeFilters
           .map((e) => TicketingGradeUiModel.fromEntity(e))

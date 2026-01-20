@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TicketingInfoEntity {
 
- int get eventId; String get eventTitle; String get eventPosterImageUrl; DateTime get startAt; DateTime get endAt; String get venueName; String get venueAddress; int? get artistId; String? get artistName; bool get isSoldOutImminent; List<TicketingSeatTypeFilterEntity> get seatTypeFilters; List<TicketingTicketEntity> get tickets;
+ int get eventId; String get eventTitle; String? get eventPosterImageUrl; DateTime? get startAt; DateTime? get endAt; String? get venueName; String? get venueAddress; int? get artistId; String? get artistName; bool get isSoldOutImminent; List<TicketingSeatTypeFilterEntity> get seatTypeFilters; List<TicketingTicketEntity> get tickets;
 /// Create a copy of TicketingInfoEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -45,7 +45,7 @@ abstract mixin class $TicketingInfoEntityCopyWith<$Res>  {
   factory $TicketingInfoEntityCopyWith(TicketingInfoEntity value, $Res Function(TicketingInfoEntity) _then) = _$TicketingInfoEntityCopyWithImpl;
 @useResult
 $Res call({
- int eventId, String eventTitle, String eventPosterImageUrl, DateTime startAt, DateTime endAt, String venueName, String venueAddress, int? artistId, String? artistName, bool isSoldOutImminent, List<TicketingSeatTypeFilterEntity> seatTypeFilters, List<TicketingTicketEntity> tickets
+ int eventId, String eventTitle, String? eventPosterImageUrl, DateTime? startAt, DateTime? endAt, String? venueName, String? venueAddress, int? artistId, String? artistName, bool isSoldOutImminent, List<TicketingSeatTypeFilterEntity> seatTypeFilters, List<TicketingTicketEntity> tickets
 });
 
 
@@ -62,16 +62,16 @@ class _$TicketingInfoEntityCopyWithImpl<$Res>
 
 /// Create a copy of TicketingInfoEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? eventId = null,Object? eventTitle = null,Object? eventPosterImageUrl = null,Object? startAt = null,Object? endAt = null,Object? venueName = null,Object? venueAddress = null,Object? artistId = freezed,Object? artistName = freezed,Object? isSoldOutImminent = null,Object? seatTypeFilters = null,Object? tickets = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? eventId = null,Object? eventTitle = null,Object? eventPosterImageUrl = freezed,Object? startAt = freezed,Object? endAt = freezed,Object? venueName = freezed,Object? venueAddress = freezed,Object? artistId = freezed,Object? artistName = freezed,Object? isSoldOutImminent = null,Object? seatTypeFilters = null,Object? tickets = null,}) {
   return _then(_self.copyWith(
 eventId: null == eventId ? _self.eventId : eventId // ignore: cast_nullable_to_non_nullable
 as int,eventTitle: null == eventTitle ? _self.eventTitle : eventTitle // ignore: cast_nullable_to_non_nullable
-as String,eventPosterImageUrl: null == eventPosterImageUrl ? _self.eventPosterImageUrl : eventPosterImageUrl // ignore: cast_nullable_to_non_nullable
-as String,startAt: null == startAt ? _self.startAt : startAt // ignore: cast_nullable_to_non_nullable
-as DateTime,endAt: null == endAt ? _self.endAt : endAt // ignore: cast_nullable_to_non_nullable
-as DateTime,venueName: null == venueName ? _self.venueName : venueName // ignore: cast_nullable_to_non_nullable
-as String,venueAddress: null == venueAddress ? _self.venueAddress : venueAddress // ignore: cast_nullable_to_non_nullable
-as String,artistId: freezed == artistId ? _self.artistId : artistId // ignore: cast_nullable_to_non_nullable
+as String,eventPosterImageUrl: freezed == eventPosterImageUrl ? _self.eventPosterImageUrl : eventPosterImageUrl // ignore: cast_nullable_to_non_nullable
+as String?,startAt: freezed == startAt ? _self.startAt : startAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,endAt: freezed == endAt ? _self.endAt : endAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,venueName: freezed == venueName ? _self.venueName : venueName // ignore: cast_nullable_to_non_nullable
+as String?,venueAddress: freezed == venueAddress ? _self.venueAddress : venueAddress // ignore: cast_nullable_to_non_nullable
+as String?,artistId: freezed == artistId ? _self.artistId : artistId // ignore: cast_nullable_to_non_nullable
 as int?,artistName: freezed == artistName ? _self.artistName : artistName // ignore: cast_nullable_to_non_nullable
 as String?,isSoldOutImminent: null == isSoldOutImminent ? _self.isSoldOutImminent : isSoldOutImminent // ignore: cast_nullable_to_non_nullable
 as bool,seatTypeFilters: null == seatTypeFilters ? _self.seatTypeFilters : seatTypeFilters // ignore: cast_nullable_to_non_nullable
@@ -161,7 +161,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int eventId,  String eventTitle,  String eventPosterImageUrl,  DateTime startAt,  DateTime endAt,  String venueName,  String venueAddress,  int? artistId,  String? artistName,  bool isSoldOutImminent,  List<TicketingSeatTypeFilterEntity> seatTypeFilters,  List<TicketingTicketEntity> tickets)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int eventId,  String eventTitle,  String? eventPosterImageUrl,  DateTime? startAt,  DateTime? endAt,  String? venueName,  String? venueAddress,  int? artistId,  String? artistName,  bool isSoldOutImminent,  List<TicketingSeatTypeFilterEntity> seatTypeFilters,  List<TicketingTicketEntity> tickets)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TicketingInfoEntity() when $default != null:
 return $default(_that.eventId,_that.eventTitle,_that.eventPosterImageUrl,_that.startAt,_that.endAt,_that.venueName,_that.venueAddress,_that.artistId,_that.artistName,_that.isSoldOutImminent,_that.seatTypeFilters,_that.tickets);case _:
@@ -182,7 +182,7 @@ return $default(_that.eventId,_that.eventTitle,_that.eventPosterImageUrl,_that.s
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int eventId,  String eventTitle,  String eventPosterImageUrl,  DateTime startAt,  DateTime endAt,  String venueName,  String venueAddress,  int? artistId,  String? artistName,  bool isSoldOutImminent,  List<TicketingSeatTypeFilterEntity> seatTypeFilters,  List<TicketingTicketEntity> tickets)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int eventId,  String eventTitle,  String? eventPosterImageUrl,  DateTime? startAt,  DateTime? endAt,  String? venueName,  String? venueAddress,  int? artistId,  String? artistName,  bool isSoldOutImminent,  List<TicketingSeatTypeFilterEntity> seatTypeFilters,  List<TicketingTicketEntity> tickets)  $default,) {final _that = this;
 switch (_that) {
 case _TicketingInfoEntity():
 return $default(_that.eventId,_that.eventTitle,_that.eventPosterImageUrl,_that.startAt,_that.endAt,_that.venueName,_that.venueAddress,_that.artistId,_that.artistName,_that.isSoldOutImminent,_that.seatTypeFilters,_that.tickets);case _:
@@ -202,7 +202,7 @@ return $default(_that.eventId,_that.eventTitle,_that.eventPosterImageUrl,_that.s
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int eventId,  String eventTitle,  String eventPosterImageUrl,  DateTime startAt,  DateTime endAt,  String venueName,  String venueAddress,  int? artistId,  String? artistName,  bool isSoldOutImminent,  List<TicketingSeatTypeFilterEntity> seatTypeFilters,  List<TicketingTicketEntity> tickets)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int eventId,  String eventTitle,  String? eventPosterImageUrl,  DateTime? startAt,  DateTime? endAt,  String? venueName,  String? venueAddress,  int? artistId,  String? artistName,  bool isSoldOutImminent,  List<TicketingSeatTypeFilterEntity> seatTypeFilters,  List<TicketingTicketEntity> tickets)?  $default,) {final _that = this;
 switch (_that) {
 case _TicketingInfoEntity() when $default != null:
 return $default(_that.eventId,_that.eventTitle,_that.eventPosterImageUrl,_that.startAt,_that.endAt,_that.venueName,_that.venueAddress,_that.artistId,_that.artistName,_that.isSoldOutImminent,_that.seatTypeFilters,_that.tickets);case _:
@@ -217,16 +217,16 @@ return $default(_that.eventId,_that.eventTitle,_that.eventPosterImageUrl,_that.s
 
 
 class _TicketingInfoEntity implements TicketingInfoEntity {
-  const _TicketingInfoEntity({required this.eventId, required this.eventTitle, required this.eventPosterImageUrl, required this.startAt, required this.endAt, required this.venueName, required this.venueAddress, required this.artistId, required this.artistName, required this.isSoldOutImminent, required final  List<TicketingSeatTypeFilterEntity> seatTypeFilters, required final  List<TicketingTicketEntity> tickets}): _seatTypeFilters = seatTypeFilters,_tickets = tickets;
+  const _TicketingInfoEntity({required this.eventId, required this.eventTitle, this.eventPosterImageUrl, this.startAt, this.endAt, this.venueName, this.venueAddress, this.artistId, this.artistName, required this.isSoldOutImminent, required final  List<TicketingSeatTypeFilterEntity> seatTypeFilters, required final  List<TicketingTicketEntity> tickets}): _seatTypeFilters = seatTypeFilters,_tickets = tickets;
   
 
 @override final  int eventId;
 @override final  String eventTitle;
-@override final  String eventPosterImageUrl;
-@override final  DateTime startAt;
-@override final  DateTime endAt;
-@override final  String venueName;
-@override final  String venueAddress;
+@override final  String? eventPosterImageUrl;
+@override final  DateTime? startAt;
+@override final  DateTime? endAt;
+@override final  String? venueName;
+@override final  String? venueAddress;
 @override final  int? artistId;
 @override final  String? artistName;
 @override final  bool isSoldOutImminent;
@@ -275,7 +275,7 @@ abstract mixin class _$TicketingInfoEntityCopyWith<$Res> implements $TicketingIn
   factory _$TicketingInfoEntityCopyWith(_TicketingInfoEntity value, $Res Function(_TicketingInfoEntity) _then) = __$TicketingInfoEntityCopyWithImpl;
 @override @useResult
 $Res call({
- int eventId, String eventTitle, String eventPosterImageUrl, DateTime startAt, DateTime endAt, String venueName, String venueAddress, int? artistId, String? artistName, bool isSoldOutImminent, List<TicketingSeatTypeFilterEntity> seatTypeFilters, List<TicketingTicketEntity> tickets
+ int eventId, String eventTitle, String? eventPosterImageUrl, DateTime? startAt, DateTime? endAt, String? venueName, String? venueAddress, int? artistId, String? artistName, bool isSoldOutImminent, List<TicketingSeatTypeFilterEntity> seatTypeFilters, List<TicketingTicketEntity> tickets
 });
 
 
@@ -292,16 +292,16 @@ class __$TicketingInfoEntityCopyWithImpl<$Res>
 
 /// Create a copy of TicketingInfoEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? eventId = null,Object? eventTitle = null,Object? eventPosterImageUrl = null,Object? startAt = null,Object? endAt = null,Object? venueName = null,Object? venueAddress = null,Object? artistId = freezed,Object? artistName = freezed,Object? isSoldOutImminent = null,Object? seatTypeFilters = null,Object? tickets = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? eventId = null,Object? eventTitle = null,Object? eventPosterImageUrl = freezed,Object? startAt = freezed,Object? endAt = freezed,Object? venueName = freezed,Object? venueAddress = freezed,Object? artistId = freezed,Object? artistName = freezed,Object? isSoldOutImminent = null,Object? seatTypeFilters = null,Object? tickets = null,}) {
   return _then(_TicketingInfoEntity(
 eventId: null == eventId ? _self.eventId : eventId // ignore: cast_nullable_to_non_nullable
 as int,eventTitle: null == eventTitle ? _self.eventTitle : eventTitle // ignore: cast_nullable_to_non_nullable
-as String,eventPosterImageUrl: null == eventPosterImageUrl ? _self.eventPosterImageUrl : eventPosterImageUrl // ignore: cast_nullable_to_non_nullable
-as String,startAt: null == startAt ? _self.startAt : startAt // ignore: cast_nullable_to_non_nullable
-as DateTime,endAt: null == endAt ? _self.endAt : endAt // ignore: cast_nullable_to_non_nullable
-as DateTime,venueName: null == venueName ? _self.venueName : venueName // ignore: cast_nullable_to_non_nullable
-as String,venueAddress: null == venueAddress ? _self.venueAddress : venueAddress // ignore: cast_nullable_to_non_nullable
-as String,artistId: freezed == artistId ? _self.artistId : artistId // ignore: cast_nullable_to_non_nullable
+as String,eventPosterImageUrl: freezed == eventPosterImageUrl ? _self.eventPosterImageUrl : eventPosterImageUrl // ignore: cast_nullable_to_non_nullable
+as String?,startAt: freezed == startAt ? _self.startAt : startAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,endAt: freezed == endAt ? _self.endAt : endAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,venueName: freezed == venueName ? _self.venueName : venueName // ignore: cast_nullable_to_non_nullable
+as String?,venueAddress: freezed == venueAddress ? _self.venueAddress : venueAddress // ignore: cast_nullable_to_non_nullable
+as String?,artistId: freezed == artistId ? _self.artistId : artistId // ignore: cast_nullable_to_non_nullable
 as int?,artistName: freezed == artistName ? _self.artistName : artistName // ignore: cast_nullable_to_non_nullable
 as String?,isSoldOutImminent: null == isSoldOutImminent ? _self.isSoldOutImminent : isSoldOutImminent // ignore: cast_nullable_to_non_nullable
 as bool,seatTypeFilters: null == seatTypeFilters ? _self._seatTypeFilters : seatTypeFilters // ignore: cast_nullable_to_non_nullable
@@ -574,9 +574,272 @@ as int,
 }
 
 /// @nodoc
+mixin _$TicketFeatureEntity {
+
+ int get id; String get code; String get name;
+/// Create a copy of TicketFeatureEntity
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TicketFeatureEntityCopyWith<TicketFeatureEntity> get copyWith => _$TicketFeatureEntityCopyWithImpl<TicketFeatureEntity>(this as TicketFeatureEntity, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketFeatureEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,id,code,name);
+
+@override
+String toString() {
+  return 'TicketFeatureEntity(id: $id, code: $code, name: $name)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $TicketFeatureEntityCopyWith<$Res>  {
+  factory $TicketFeatureEntityCopyWith(TicketFeatureEntity value, $Res Function(TicketFeatureEntity) _then) = _$TicketFeatureEntityCopyWithImpl;
+@useResult
+$Res call({
+ int id, String code, String name
+});
+
+
+
+
+}
+/// @nodoc
+class _$TicketFeatureEntityCopyWithImpl<$Res>
+    implements $TicketFeatureEntityCopyWith<$Res> {
+  _$TicketFeatureEntityCopyWithImpl(this._self, this._then);
+
+  final TicketFeatureEntity _self;
+  final $Res Function(TicketFeatureEntity) _then;
+
+/// Create a copy of TicketFeatureEntity
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? code = null,Object? name = null,}) {
+  return _then(_self.copyWith(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
+as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [TicketFeatureEntity].
+extension TicketFeatureEntityPatterns on TicketFeatureEntity {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TicketFeatureEntity value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _TicketFeatureEntity() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TicketFeatureEntity value)  $default,){
+final _that = this;
+switch (_that) {
+case _TicketFeatureEntity():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TicketFeatureEntity value)?  $default,){
+final _that = this;
+switch (_that) {
+case _TicketFeatureEntity() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String code,  String name)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _TicketFeatureEntity() when $default != null:
+return $default(_that.id,_that.code,_that.name);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String code,  String name)  $default,) {final _that = this;
+switch (_that) {
+case _TicketFeatureEntity():
+return $default(_that.id,_that.code,_that.name);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String code,  String name)?  $default,) {final _that = this;
+switch (_that) {
+case _TicketFeatureEntity() when $default != null:
+return $default(_that.id,_that.code,_that.name);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _TicketFeatureEntity implements TicketFeatureEntity {
+  const _TicketFeatureEntity({required this.id, required this.code, required this.name});
+  
+
+@override final  int id;
+@override final  String code;
+@override final  String name;
+
+/// Create a copy of TicketFeatureEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$TicketFeatureEntityCopyWith<_TicketFeatureEntity> get copyWith => __$TicketFeatureEntityCopyWithImpl<_TicketFeatureEntity>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TicketFeatureEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,id,code,name);
+
+@override
+String toString() {
+  return 'TicketFeatureEntity(id: $id, code: $code, name: $name)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$TicketFeatureEntityCopyWith<$Res> implements $TicketFeatureEntityCopyWith<$Res> {
+  factory _$TicketFeatureEntityCopyWith(_TicketFeatureEntity value, $Res Function(_TicketFeatureEntity) _then) = __$TicketFeatureEntityCopyWithImpl;
+@override @useResult
+$Res call({
+ int id, String code, String name
+});
+
+
+
+
+}
+/// @nodoc
+class __$TicketFeatureEntityCopyWithImpl<$Res>
+    implements _$TicketFeatureEntityCopyWith<$Res> {
+  __$TicketFeatureEntityCopyWithImpl(this._self, this._then);
+
+  final _TicketFeatureEntity _self;
+  final $Res Function(_TicketFeatureEntity) _then;
+
+/// Create a copy of TicketFeatureEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? code = null,Object? name = null,}) {
+  return _then(_TicketFeatureEntity(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
+as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
 mixin _$TicketingTicketEntity {
 
- int get ticketId; String get ticketTitle; String? get eventTitle; DateTime? get eventDate; String? get venueName; String? get eventPosterImageUrl; String? get seatInfo; String? get seatType; int get price; int get originalPrice; List<String> get seatFeatures; String? get description; DateTime get createdAt; int? get quantity; int? get remainingQuantity; bool get isSingleTicket; List<String> get ticketImages; TicketingSellerEntity get seller; bool? get isFavorited;
+ int get ticketId; int? get seatGradeId; String? get seatGradeName; String? get area; String? get row; int get price; int get originalPrice; bool? get isConsecutive; int? get tradeMethodId; String? get tradeMethodName; List<TicketFeatureEntity>? get features; bool? get hasTicket; String? get description; DateTime get createdAt; int get quantity; int get remainingQuantity; bool get isSingleTicket; List<String> get ticketImages; bool? get isFavorited; TicketingSellerEntity get seller;
 /// Create a copy of TicketingTicketEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -587,16 +850,16 @@ $TicketingTicketEntityCopyWith<TicketingTicketEntity> get copyWith => _$Ticketin
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketingTicketEntity&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.ticketTitle, ticketTitle) || other.ticketTitle == ticketTitle)&&(identical(other.eventTitle, eventTitle) || other.eventTitle == eventTitle)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.venueName, venueName) || other.venueName == venueName)&&(identical(other.eventPosterImageUrl, eventPosterImageUrl) || other.eventPosterImageUrl == eventPosterImageUrl)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.seatType, seatType) || other.seatType == seatType)&&(identical(other.price, price) || other.price == price)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&const DeepCollectionEquality().equals(other.seatFeatures, seatFeatures)&&(identical(other.description, description) || other.description == description)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.remainingQuantity, remainingQuantity) || other.remainingQuantity == remainingQuantity)&&(identical(other.isSingleTicket, isSingleTicket) || other.isSingleTicket == isSingleTicket)&&const DeepCollectionEquality().equals(other.ticketImages, ticketImages)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.isFavorited, isFavorited) || other.isFavorited == isFavorited));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketingTicketEntity&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.seatGradeId, seatGradeId) || other.seatGradeId == seatGradeId)&&(identical(other.seatGradeName, seatGradeName) || other.seatGradeName == seatGradeName)&&(identical(other.area, area) || other.area == area)&&(identical(other.row, row) || other.row == row)&&(identical(other.price, price) || other.price == price)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&(identical(other.isConsecutive, isConsecutive) || other.isConsecutive == isConsecutive)&&(identical(other.tradeMethodId, tradeMethodId) || other.tradeMethodId == tradeMethodId)&&(identical(other.tradeMethodName, tradeMethodName) || other.tradeMethodName == tradeMethodName)&&const DeepCollectionEquality().equals(other.features, features)&&(identical(other.hasTicket, hasTicket) || other.hasTicket == hasTicket)&&(identical(other.description, description) || other.description == description)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.remainingQuantity, remainingQuantity) || other.remainingQuantity == remainingQuantity)&&(identical(other.isSingleTicket, isSingleTicket) || other.isSingleTicket == isSingleTicket)&&const DeepCollectionEquality().equals(other.ticketImages, ticketImages)&&(identical(other.isFavorited, isFavorited) || other.isFavorited == isFavorited)&&(identical(other.seller, seller) || other.seller == seller));
 }
 
 
 @override
-int get hashCode => Object.hashAll([runtimeType,ticketId,ticketTitle,eventTitle,eventDate,venueName,eventPosterImageUrl,seatInfo,seatType,price,originalPrice,const DeepCollectionEquality().hash(seatFeatures),description,createdAt,quantity,remainingQuantity,isSingleTicket,const DeepCollectionEquality().hash(ticketImages),seller,isFavorited]);
+int get hashCode => Object.hashAll([runtimeType,ticketId,seatGradeId,seatGradeName,area,row,price,originalPrice,isConsecutive,tradeMethodId,tradeMethodName,const DeepCollectionEquality().hash(features),hasTicket,description,createdAt,quantity,remainingQuantity,isSingleTicket,const DeepCollectionEquality().hash(ticketImages),isFavorited,seller]);
 
 @override
 String toString() {
-  return 'TicketingTicketEntity(ticketId: $ticketId, ticketTitle: $ticketTitle, eventTitle: $eventTitle, eventDate: $eventDate, venueName: $venueName, eventPosterImageUrl: $eventPosterImageUrl, seatInfo: $seatInfo, seatType: $seatType, price: $price, originalPrice: $originalPrice, seatFeatures: $seatFeatures, description: $description, createdAt: $createdAt, quantity: $quantity, remainingQuantity: $remainingQuantity, isSingleTicket: $isSingleTicket, ticketImages: $ticketImages, seller: $seller, isFavorited: $isFavorited)';
+  return 'TicketingTicketEntity(ticketId: $ticketId, seatGradeId: $seatGradeId, seatGradeName: $seatGradeName, area: $area, row: $row, price: $price, originalPrice: $originalPrice, isConsecutive: $isConsecutive, tradeMethodId: $tradeMethodId, tradeMethodName: $tradeMethodName, features: $features, hasTicket: $hasTicket, description: $description, createdAt: $createdAt, quantity: $quantity, remainingQuantity: $remainingQuantity, isSingleTicket: $isSingleTicket, ticketImages: $ticketImages, isFavorited: $isFavorited, seller: $seller)';
 }
 
 
@@ -607,7 +870,7 @@ abstract mixin class $TicketingTicketEntityCopyWith<$Res>  {
   factory $TicketingTicketEntityCopyWith(TicketingTicketEntity value, $Res Function(TicketingTicketEntity) _then) = _$TicketingTicketEntityCopyWithImpl;
 @useResult
 $Res call({
- int ticketId, String ticketTitle, String? eventTitle, DateTime? eventDate, String? venueName, String? eventPosterImageUrl, String? seatInfo, String? seatType, int price, int originalPrice, List<String> seatFeatures, String? description, DateTime createdAt, int? quantity, int? remainingQuantity, bool isSingleTicket, List<String> ticketImages, TicketingSellerEntity seller, bool? isFavorited
+ int ticketId, int? seatGradeId, String? seatGradeName, String? area, String? row, int price, int originalPrice, bool? isConsecutive, int? tradeMethodId, String? tradeMethodName, List<TicketFeatureEntity>? features, bool? hasTicket, String? description, DateTime createdAt, int quantity, int remainingQuantity, bool isSingleTicket, List<String> ticketImages, bool? isFavorited, TicketingSellerEntity seller
 });
 
 
@@ -624,28 +887,29 @@ class _$TicketingTicketEntityCopyWithImpl<$Res>
 
 /// Create a copy of TicketingTicketEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? ticketId = null,Object? ticketTitle = null,Object? eventTitle = freezed,Object? eventDate = freezed,Object? venueName = freezed,Object? eventPosterImageUrl = freezed,Object? seatInfo = freezed,Object? seatType = freezed,Object? price = null,Object? originalPrice = null,Object? seatFeatures = null,Object? description = freezed,Object? createdAt = null,Object? quantity = freezed,Object? remainingQuantity = freezed,Object? isSingleTicket = null,Object? ticketImages = null,Object? seller = null,Object? isFavorited = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? ticketId = null,Object? seatGradeId = freezed,Object? seatGradeName = freezed,Object? area = freezed,Object? row = freezed,Object? price = null,Object? originalPrice = null,Object? isConsecutive = freezed,Object? tradeMethodId = freezed,Object? tradeMethodName = freezed,Object? features = freezed,Object? hasTicket = freezed,Object? description = freezed,Object? createdAt = null,Object? quantity = null,Object? remainingQuantity = null,Object? isSingleTicket = null,Object? ticketImages = null,Object? isFavorited = freezed,Object? seller = null,}) {
   return _then(_self.copyWith(
 ticketId: null == ticketId ? _self.ticketId : ticketId // ignore: cast_nullable_to_non_nullable
-as int,ticketTitle: null == ticketTitle ? _self.ticketTitle : ticketTitle // ignore: cast_nullable_to_non_nullable
-as String,eventTitle: freezed == eventTitle ? _self.eventTitle : eventTitle // ignore: cast_nullable_to_non_nullable
-as String?,eventDate: freezed == eventDate ? _self.eventDate : eventDate // ignore: cast_nullable_to_non_nullable
-as DateTime?,venueName: freezed == venueName ? _self.venueName : venueName // ignore: cast_nullable_to_non_nullable
-as String?,eventPosterImageUrl: freezed == eventPosterImageUrl ? _self.eventPosterImageUrl : eventPosterImageUrl // ignore: cast_nullable_to_non_nullable
-as String?,seatInfo: freezed == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
-as String?,seatType: freezed == seatType ? _self.seatType : seatType // ignore: cast_nullable_to_non_nullable
+as int,seatGradeId: freezed == seatGradeId ? _self.seatGradeId : seatGradeId // ignore: cast_nullable_to_non_nullable
+as int?,seatGradeName: freezed == seatGradeName ? _self.seatGradeName : seatGradeName // ignore: cast_nullable_to_non_nullable
+as String?,area: freezed == area ? _self.area : area // ignore: cast_nullable_to_non_nullable
+as String?,row: freezed == row ? _self.row : row // ignore: cast_nullable_to_non_nullable
 as String?,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
 as int,originalPrice: null == originalPrice ? _self.originalPrice : originalPrice // ignore: cast_nullable_to_non_nullable
-as int,seatFeatures: null == seatFeatures ? _self.seatFeatures : seatFeatures // ignore: cast_nullable_to_non_nullable
-as List<String>,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as int,isConsecutive: freezed == isConsecutive ? _self.isConsecutive : isConsecutive // ignore: cast_nullable_to_non_nullable
+as bool?,tradeMethodId: freezed == tradeMethodId ? _self.tradeMethodId : tradeMethodId // ignore: cast_nullable_to_non_nullable
+as int?,tradeMethodName: freezed == tradeMethodName ? _self.tradeMethodName : tradeMethodName // ignore: cast_nullable_to_non_nullable
+as String?,features: freezed == features ? _self.features : features // ignore: cast_nullable_to_non_nullable
+as List<TicketFeatureEntity>?,hasTicket: freezed == hasTicket ? _self.hasTicket : hasTicket // ignore: cast_nullable_to_non_nullable
+as bool?,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as DateTime,quantity: freezed == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
-as int?,remainingQuantity: freezed == remainingQuantity ? _self.remainingQuantity : remainingQuantity // ignore: cast_nullable_to_non_nullable
-as int?,isSingleTicket: null == isSingleTicket ? _self.isSingleTicket : isSingleTicket // ignore: cast_nullable_to_non_nullable
+as DateTime,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
+as int,remainingQuantity: null == remainingQuantity ? _self.remainingQuantity : remainingQuantity // ignore: cast_nullable_to_non_nullable
+as int,isSingleTicket: null == isSingleTicket ? _self.isSingleTicket : isSingleTicket // ignore: cast_nullable_to_non_nullable
 as bool,ticketImages: null == ticketImages ? _self.ticketImages : ticketImages // ignore: cast_nullable_to_non_nullable
-as List<String>,seller: null == seller ? _self.seller : seller // ignore: cast_nullable_to_non_nullable
-as TicketingSellerEntity,isFavorited: freezed == isFavorited ? _self.isFavorited : isFavorited // ignore: cast_nullable_to_non_nullable
-as bool?,
+as List<String>,isFavorited: freezed == isFavorited ? _self.isFavorited : isFavorited // ignore: cast_nullable_to_non_nullable
+as bool?,seller: null == seller ? _self.seller : seller // ignore: cast_nullable_to_non_nullable
+as TicketingSellerEntity,
   ));
 }
 /// Create a copy of TicketingTicketEntity
@@ -739,10 +1003,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int ticketId,  String ticketTitle,  String? eventTitle,  DateTime? eventDate,  String? venueName,  String? eventPosterImageUrl,  String? seatInfo,  String? seatType,  int price,  int originalPrice,  List<String> seatFeatures,  String? description,  DateTime createdAt,  int? quantity,  int? remainingQuantity,  bool isSingleTicket,  List<String> ticketImages,  TicketingSellerEntity seller,  bool? isFavorited)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int ticketId,  int? seatGradeId,  String? seatGradeName,  String? area,  String? row,  int price,  int originalPrice,  bool? isConsecutive,  int? tradeMethodId,  String? tradeMethodName,  List<TicketFeatureEntity>? features,  bool? hasTicket,  String? description,  DateTime createdAt,  int quantity,  int remainingQuantity,  bool isSingleTicket,  List<String> ticketImages,  bool? isFavorited,  TicketingSellerEntity seller)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TicketingTicketEntity() when $default != null:
-return $default(_that.ticketId,_that.ticketTitle,_that.eventTitle,_that.eventDate,_that.venueName,_that.eventPosterImageUrl,_that.seatInfo,_that.seatType,_that.price,_that.originalPrice,_that.seatFeatures,_that.description,_that.createdAt,_that.quantity,_that.remainingQuantity,_that.isSingleTicket,_that.ticketImages,_that.seller,_that.isFavorited);case _:
+return $default(_that.ticketId,_that.seatGradeId,_that.seatGradeName,_that.area,_that.row,_that.price,_that.originalPrice,_that.isConsecutive,_that.tradeMethodId,_that.tradeMethodName,_that.features,_that.hasTicket,_that.description,_that.createdAt,_that.quantity,_that.remainingQuantity,_that.isSingleTicket,_that.ticketImages,_that.isFavorited,_that.seller);case _:
   return orElse();
 
 }
@@ -760,10 +1024,10 @@ return $default(_that.ticketId,_that.ticketTitle,_that.eventTitle,_that.eventDat
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int ticketId,  String ticketTitle,  String? eventTitle,  DateTime? eventDate,  String? venueName,  String? eventPosterImageUrl,  String? seatInfo,  String? seatType,  int price,  int originalPrice,  List<String> seatFeatures,  String? description,  DateTime createdAt,  int? quantity,  int? remainingQuantity,  bool isSingleTicket,  List<String> ticketImages,  TicketingSellerEntity seller,  bool? isFavorited)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int ticketId,  int? seatGradeId,  String? seatGradeName,  String? area,  String? row,  int price,  int originalPrice,  bool? isConsecutive,  int? tradeMethodId,  String? tradeMethodName,  List<TicketFeatureEntity>? features,  bool? hasTicket,  String? description,  DateTime createdAt,  int quantity,  int remainingQuantity,  bool isSingleTicket,  List<String> ticketImages,  bool? isFavorited,  TicketingSellerEntity seller)  $default,) {final _that = this;
 switch (_that) {
 case _TicketingTicketEntity():
-return $default(_that.ticketId,_that.ticketTitle,_that.eventTitle,_that.eventDate,_that.venueName,_that.eventPosterImageUrl,_that.seatInfo,_that.seatType,_that.price,_that.originalPrice,_that.seatFeatures,_that.description,_that.createdAt,_that.quantity,_that.remainingQuantity,_that.isSingleTicket,_that.ticketImages,_that.seller,_that.isFavorited);case _:
+return $default(_that.ticketId,_that.seatGradeId,_that.seatGradeName,_that.area,_that.row,_that.price,_that.originalPrice,_that.isConsecutive,_that.tradeMethodId,_that.tradeMethodName,_that.features,_that.hasTicket,_that.description,_that.createdAt,_that.quantity,_that.remainingQuantity,_that.isSingleTicket,_that.ticketImages,_that.isFavorited,_that.seller);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -780,10 +1044,10 @@ return $default(_that.ticketId,_that.ticketTitle,_that.eventTitle,_that.eventDat
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int ticketId,  String ticketTitle,  String? eventTitle,  DateTime? eventDate,  String? venueName,  String? eventPosterImageUrl,  String? seatInfo,  String? seatType,  int price,  int originalPrice,  List<String> seatFeatures,  String? description,  DateTime createdAt,  int? quantity,  int? remainingQuantity,  bool isSingleTicket,  List<String> ticketImages,  TicketingSellerEntity seller,  bool? isFavorited)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int ticketId,  int? seatGradeId,  String? seatGradeName,  String? area,  String? row,  int price,  int originalPrice,  bool? isConsecutive,  int? tradeMethodId,  String? tradeMethodName,  List<TicketFeatureEntity>? features,  bool? hasTicket,  String? description,  DateTime createdAt,  int quantity,  int remainingQuantity,  bool isSingleTicket,  List<String> ticketImages,  bool? isFavorited,  TicketingSellerEntity seller)?  $default,) {final _that = this;
 switch (_that) {
 case _TicketingTicketEntity() when $default != null:
-return $default(_that.ticketId,_that.ticketTitle,_that.eventTitle,_that.eventDate,_that.venueName,_that.eventPosterImageUrl,_that.seatInfo,_that.seatType,_that.price,_that.originalPrice,_that.seatFeatures,_that.description,_that.createdAt,_that.quantity,_that.remainingQuantity,_that.isSingleTicket,_that.ticketImages,_that.seller,_that.isFavorited);case _:
+return $default(_that.ticketId,_that.seatGradeId,_that.seatGradeName,_that.area,_that.row,_that.price,_that.originalPrice,_that.isConsecutive,_that.tradeMethodId,_that.tradeMethodName,_that.features,_that.hasTicket,_that.description,_that.createdAt,_that.quantity,_that.remainingQuantity,_that.isSingleTicket,_that.ticketImages,_that.isFavorited,_that.seller);case _:
   return null;
 
 }
@@ -795,30 +1059,33 @@ return $default(_that.ticketId,_that.ticketTitle,_that.eventTitle,_that.eventDat
 
 
 class _TicketingTicketEntity implements TicketingTicketEntity {
-  const _TicketingTicketEntity({required this.ticketId, required this.ticketTitle, this.eventTitle, this.eventDate, this.venueName, this.eventPosterImageUrl, required this.seatInfo, required this.seatType, required this.price, required this.originalPrice, required final  List<String> seatFeatures, required this.description, required this.createdAt, required this.quantity, required this.remainingQuantity, required this.isSingleTicket, required final  List<String> ticketImages, required this.seller, this.isFavorited}): _seatFeatures = seatFeatures,_ticketImages = ticketImages;
+  const _TicketingTicketEntity({required this.ticketId, this.seatGradeId, this.seatGradeName, this.area, this.row, required this.price, required this.originalPrice, this.isConsecutive, this.tradeMethodId, this.tradeMethodName, final  List<TicketFeatureEntity>? features, this.hasTicket, this.description, required this.createdAt, required this.quantity, required this.remainingQuantity, required this.isSingleTicket, required final  List<String> ticketImages, this.isFavorited, required this.seller}): _features = features,_ticketImages = ticketImages;
   
 
 @override final  int ticketId;
-@override final  String ticketTitle;
-@override final  String? eventTitle;
-@override final  DateTime? eventDate;
-@override final  String? venueName;
-@override final  String? eventPosterImageUrl;
-@override final  String? seatInfo;
-@override final  String? seatType;
+@override final  int? seatGradeId;
+@override final  String? seatGradeName;
+@override final  String? area;
+@override final  String? row;
 @override final  int price;
 @override final  int originalPrice;
- final  List<String> _seatFeatures;
-@override List<String> get seatFeatures {
-  if (_seatFeatures is EqualUnmodifiableListView) return _seatFeatures;
+@override final  bool? isConsecutive;
+@override final  int? tradeMethodId;
+@override final  String? tradeMethodName;
+ final  List<TicketFeatureEntity>? _features;
+@override List<TicketFeatureEntity>? get features {
+  final value = _features;
+  if (value == null) return null;
+  if (_features is EqualUnmodifiableListView) return _features;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_seatFeatures);
+  return EqualUnmodifiableListView(value);
 }
 
+@override final  bool? hasTicket;
 @override final  String? description;
 @override final  DateTime createdAt;
-@override final  int? quantity;
-@override final  int? remainingQuantity;
+@override final  int quantity;
+@override final  int remainingQuantity;
 @override final  bool isSingleTicket;
  final  List<String> _ticketImages;
 @override List<String> get ticketImages {
@@ -827,8 +1094,8 @@ class _TicketingTicketEntity implements TicketingTicketEntity {
   return EqualUnmodifiableListView(_ticketImages);
 }
 
-@override final  TicketingSellerEntity seller;
 @override final  bool? isFavorited;
+@override final  TicketingSellerEntity seller;
 
 /// Create a copy of TicketingTicketEntity
 /// with the given fields replaced by the non-null parameter values.
@@ -840,16 +1107,16 @@ _$TicketingTicketEntityCopyWith<_TicketingTicketEntity> get copyWith => __$Ticke
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TicketingTicketEntity&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.ticketTitle, ticketTitle) || other.ticketTitle == ticketTitle)&&(identical(other.eventTitle, eventTitle) || other.eventTitle == eventTitle)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.venueName, venueName) || other.venueName == venueName)&&(identical(other.eventPosterImageUrl, eventPosterImageUrl) || other.eventPosterImageUrl == eventPosterImageUrl)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.seatType, seatType) || other.seatType == seatType)&&(identical(other.price, price) || other.price == price)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&const DeepCollectionEquality().equals(other._seatFeatures, _seatFeatures)&&(identical(other.description, description) || other.description == description)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.remainingQuantity, remainingQuantity) || other.remainingQuantity == remainingQuantity)&&(identical(other.isSingleTicket, isSingleTicket) || other.isSingleTicket == isSingleTicket)&&const DeepCollectionEquality().equals(other._ticketImages, _ticketImages)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.isFavorited, isFavorited) || other.isFavorited == isFavorited));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TicketingTicketEntity&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.seatGradeId, seatGradeId) || other.seatGradeId == seatGradeId)&&(identical(other.seatGradeName, seatGradeName) || other.seatGradeName == seatGradeName)&&(identical(other.area, area) || other.area == area)&&(identical(other.row, row) || other.row == row)&&(identical(other.price, price) || other.price == price)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&(identical(other.isConsecutive, isConsecutive) || other.isConsecutive == isConsecutive)&&(identical(other.tradeMethodId, tradeMethodId) || other.tradeMethodId == tradeMethodId)&&(identical(other.tradeMethodName, tradeMethodName) || other.tradeMethodName == tradeMethodName)&&const DeepCollectionEquality().equals(other._features, _features)&&(identical(other.hasTicket, hasTicket) || other.hasTicket == hasTicket)&&(identical(other.description, description) || other.description == description)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.remainingQuantity, remainingQuantity) || other.remainingQuantity == remainingQuantity)&&(identical(other.isSingleTicket, isSingleTicket) || other.isSingleTicket == isSingleTicket)&&const DeepCollectionEquality().equals(other._ticketImages, _ticketImages)&&(identical(other.isFavorited, isFavorited) || other.isFavorited == isFavorited)&&(identical(other.seller, seller) || other.seller == seller));
 }
 
 
 @override
-int get hashCode => Object.hashAll([runtimeType,ticketId,ticketTitle,eventTitle,eventDate,venueName,eventPosterImageUrl,seatInfo,seatType,price,originalPrice,const DeepCollectionEquality().hash(_seatFeatures),description,createdAt,quantity,remainingQuantity,isSingleTicket,const DeepCollectionEquality().hash(_ticketImages),seller,isFavorited]);
+int get hashCode => Object.hashAll([runtimeType,ticketId,seatGradeId,seatGradeName,area,row,price,originalPrice,isConsecutive,tradeMethodId,tradeMethodName,const DeepCollectionEquality().hash(_features),hasTicket,description,createdAt,quantity,remainingQuantity,isSingleTicket,const DeepCollectionEquality().hash(_ticketImages),isFavorited,seller]);
 
 @override
 String toString() {
-  return 'TicketingTicketEntity(ticketId: $ticketId, ticketTitle: $ticketTitle, eventTitle: $eventTitle, eventDate: $eventDate, venueName: $venueName, eventPosterImageUrl: $eventPosterImageUrl, seatInfo: $seatInfo, seatType: $seatType, price: $price, originalPrice: $originalPrice, seatFeatures: $seatFeatures, description: $description, createdAt: $createdAt, quantity: $quantity, remainingQuantity: $remainingQuantity, isSingleTicket: $isSingleTicket, ticketImages: $ticketImages, seller: $seller, isFavorited: $isFavorited)';
+  return 'TicketingTicketEntity(ticketId: $ticketId, seatGradeId: $seatGradeId, seatGradeName: $seatGradeName, area: $area, row: $row, price: $price, originalPrice: $originalPrice, isConsecutive: $isConsecutive, tradeMethodId: $tradeMethodId, tradeMethodName: $tradeMethodName, features: $features, hasTicket: $hasTicket, description: $description, createdAt: $createdAt, quantity: $quantity, remainingQuantity: $remainingQuantity, isSingleTicket: $isSingleTicket, ticketImages: $ticketImages, isFavorited: $isFavorited, seller: $seller)';
 }
 
 
@@ -860,7 +1127,7 @@ abstract mixin class _$TicketingTicketEntityCopyWith<$Res> implements $Ticketing
   factory _$TicketingTicketEntityCopyWith(_TicketingTicketEntity value, $Res Function(_TicketingTicketEntity) _then) = __$TicketingTicketEntityCopyWithImpl;
 @override @useResult
 $Res call({
- int ticketId, String ticketTitle, String? eventTitle, DateTime? eventDate, String? venueName, String? eventPosterImageUrl, String? seatInfo, String? seatType, int price, int originalPrice, List<String> seatFeatures, String? description, DateTime createdAt, int? quantity, int? remainingQuantity, bool isSingleTicket, List<String> ticketImages, TicketingSellerEntity seller, bool? isFavorited
+ int ticketId, int? seatGradeId, String? seatGradeName, String? area, String? row, int price, int originalPrice, bool? isConsecutive, int? tradeMethodId, String? tradeMethodName, List<TicketFeatureEntity>? features, bool? hasTicket, String? description, DateTime createdAt, int quantity, int remainingQuantity, bool isSingleTicket, List<String> ticketImages, bool? isFavorited, TicketingSellerEntity seller
 });
 
 
@@ -877,28 +1144,29 @@ class __$TicketingTicketEntityCopyWithImpl<$Res>
 
 /// Create a copy of TicketingTicketEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? ticketId = null,Object? ticketTitle = null,Object? eventTitle = freezed,Object? eventDate = freezed,Object? venueName = freezed,Object? eventPosterImageUrl = freezed,Object? seatInfo = freezed,Object? seatType = freezed,Object? price = null,Object? originalPrice = null,Object? seatFeatures = null,Object? description = freezed,Object? createdAt = null,Object? quantity = freezed,Object? remainingQuantity = freezed,Object? isSingleTicket = null,Object? ticketImages = null,Object? seller = null,Object? isFavorited = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? ticketId = null,Object? seatGradeId = freezed,Object? seatGradeName = freezed,Object? area = freezed,Object? row = freezed,Object? price = null,Object? originalPrice = null,Object? isConsecutive = freezed,Object? tradeMethodId = freezed,Object? tradeMethodName = freezed,Object? features = freezed,Object? hasTicket = freezed,Object? description = freezed,Object? createdAt = null,Object? quantity = null,Object? remainingQuantity = null,Object? isSingleTicket = null,Object? ticketImages = null,Object? isFavorited = freezed,Object? seller = null,}) {
   return _then(_TicketingTicketEntity(
 ticketId: null == ticketId ? _self.ticketId : ticketId // ignore: cast_nullable_to_non_nullable
-as int,ticketTitle: null == ticketTitle ? _self.ticketTitle : ticketTitle // ignore: cast_nullable_to_non_nullable
-as String,eventTitle: freezed == eventTitle ? _self.eventTitle : eventTitle // ignore: cast_nullable_to_non_nullable
-as String?,eventDate: freezed == eventDate ? _self.eventDate : eventDate // ignore: cast_nullable_to_non_nullable
-as DateTime?,venueName: freezed == venueName ? _self.venueName : venueName // ignore: cast_nullable_to_non_nullable
-as String?,eventPosterImageUrl: freezed == eventPosterImageUrl ? _self.eventPosterImageUrl : eventPosterImageUrl // ignore: cast_nullable_to_non_nullable
-as String?,seatInfo: freezed == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
-as String?,seatType: freezed == seatType ? _self.seatType : seatType // ignore: cast_nullable_to_non_nullable
+as int,seatGradeId: freezed == seatGradeId ? _self.seatGradeId : seatGradeId // ignore: cast_nullable_to_non_nullable
+as int?,seatGradeName: freezed == seatGradeName ? _self.seatGradeName : seatGradeName // ignore: cast_nullable_to_non_nullable
+as String?,area: freezed == area ? _self.area : area // ignore: cast_nullable_to_non_nullable
+as String?,row: freezed == row ? _self.row : row // ignore: cast_nullable_to_non_nullable
 as String?,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
 as int,originalPrice: null == originalPrice ? _self.originalPrice : originalPrice // ignore: cast_nullable_to_non_nullable
-as int,seatFeatures: null == seatFeatures ? _self._seatFeatures : seatFeatures // ignore: cast_nullable_to_non_nullable
-as List<String>,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as int,isConsecutive: freezed == isConsecutive ? _self.isConsecutive : isConsecutive // ignore: cast_nullable_to_non_nullable
+as bool?,tradeMethodId: freezed == tradeMethodId ? _self.tradeMethodId : tradeMethodId // ignore: cast_nullable_to_non_nullable
+as int?,tradeMethodName: freezed == tradeMethodName ? _self.tradeMethodName : tradeMethodName // ignore: cast_nullable_to_non_nullable
+as String?,features: freezed == features ? _self._features : features // ignore: cast_nullable_to_non_nullable
+as List<TicketFeatureEntity>?,hasTicket: freezed == hasTicket ? _self.hasTicket : hasTicket // ignore: cast_nullable_to_non_nullable
+as bool?,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as DateTime,quantity: freezed == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
-as int?,remainingQuantity: freezed == remainingQuantity ? _self.remainingQuantity : remainingQuantity // ignore: cast_nullable_to_non_nullable
-as int?,isSingleTicket: null == isSingleTicket ? _self.isSingleTicket : isSingleTicket // ignore: cast_nullable_to_non_nullable
+as DateTime,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
+as int,remainingQuantity: null == remainingQuantity ? _self.remainingQuantity : remainingQuantity // ignore: cast_nullable_to_non_nullable
+as int,isSingleTicket: null == isSingleTicket ? _self.isSingleTicket : isSingleTicket // ignore: cast_nullable_to_non_nullable
 as bool,ticketImages: null == ticketImages ? _self._ticketImages : ticketImages // ignore: cast_nullable_to_non_nullable
-as List<String>,seller: null == seller ? _self.seller : seller // ignore: cast_nullable_to_non_nullable
-as TicketingSellerEntity,isFavorited: freezed == isFavorited ? _self.isFavorited : isFavorited // ignore: cast_nullable_to_non_nullable
-as bool?,
+as List<String>,isFavorited: freezed == isFavorited ? _self.isFavorited : isFavorited // ignore: cast_nullable_to_non_nullable
+as bool?,seller: null == seller ? _self.seller : seller // ignore: cast_nullable_to_non_nullable
+as TicketingSellerEntity,
   ));
 }
 
@@ -917,7 +1185,7 @@ $TicketingSellerEntityCopyWith<$Res> get seller {
 /// @nodoc
 mixin _$TicketingSellerEntity {
 
- int get userId; String get nickname; String get profileImageUrl; double get mannerTemperature; int get totalTradeCount; int? get responseRate; bool get isSecurePayment;
+ int get userId; String? get nickname; String? get profileImageUrl; double? get mannerTemperature; int get totalTradeCount; double? get responseRate; bool get isSecurePayment;
 /// Create a copy of TicketingSellerEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -948,7 +1216,7 @@ abstract mixin class $TicketingSellerEntityCopyWith<$Res>  {
   factory $TicketingSellerEntityCopyWith(TicketingSellerEntity value, $Res Function(TicketingSellerEntity) _then) = _$TicketingSellerEntityCopyWithImpl;
 @useResult
 $Res call({
- int userId, String nickname, String profileImageUrl, double mannerTemperature, int totalTradeCount, int? responseRate, bool isSecurePayment
+ int userId, String? nickname, String? profileImageUrl, double? mannerTemperature, int totalTradeCount, double? responseRate, bool isSecurePayment
 });
 
 
@@ -965,15 +1233,15 @@ class _$TicketingSellerEntityCopyWithImpl<$Res>
 
 /// Create a copy of TicketingSellerEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,Object? nickname = null,Object? profileImageUrl = null,Object? mannerTemperature = null,Object? totalTradeCount = null,Object? responseRate = freezed,Object? isSecurePayment = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,Object? nickname = freezed,Object? profileImageUrl = freezed,Object? mannerTemperature = freezed,Object? totalTradeCount = null,Object? responseRate = freezed,Object? isSecurePayment = null,}) {
   return _then(_self.copyWith(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
-as int,nickname: null == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
-as String,profileImageUrl: null == profileImageUrl ? _self.profileImageUrl : profileImageUrl // ignore: cast_nullable_to_non_nullable
-as String,mannerTemperature: null == mannerTemperature ? _self.mannerTemperature : mannerTemperature // ignore: cast_nullable_to_non_nullable
-as double,totalTradeCount: null == totalTradeCount ? _self.totalTradeCount : totalTradeCount // ignore: cast_nullable_to_non_nullable
+as int,nickname: freezed == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
+as String?,profileImageUrl: freezed == profileImageUrl ? _self.profileImageUrl : profileImageUrl // ignore: cast_nullable_to_non_nullable
+as String?,mannerTemperature: freezed == mannerTemperature ? _self.mannerTemperature : mannerTemperature // ignore: cast_nullable_to_non_nullable
+as double?,totalTradeCount: null == totalTradeCount ? _self.totalTradeCount : totalTradeCount // ignore: cast_nullable_to_non_nullable
 as int,responseRate: freezed == responseRate ? _self.responseRate : responseRate // ignore: cast_nullable_to_non_nullable
-as int?,isSecurePayment: null == isSecurePayment ? _self.isSecurePayment : isSecurePayment // ignore: cast_nullable_to_non_nullable
+as double?,isSecurePayment: null == isSecurePayment ? _self.isSecurePayment : isSecurePayment // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
@@ -1059,7 +1327,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int userId,  String nickname,  String profileImageUrl,  double mannerTemperature,  int totalTradeCount,  int? responseRate,  bool isSecurePayment)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int userId,  String? nickname,  String? profileImageUrl,  double? mannerTemperature,  int totalTradeCount,  double? responseRate,  bool isSecurePayment)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TicketingSellerEntity() when $default != null:
 return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTemperature,_that.totalTradeCount,_that.responseRate,_that.isSecurePayment);case _:
@@ -1080,7 +1348,7 @@ return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTe
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int userId,  String nickname,  String profileImageUrl,  double mannerTemperature,  int totalTradeCount,  int? responseRate,  bool isSecurePayment)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int userId,  String? nickname,  String? profileImageUrl,  double? mannerTemperature,  int totalTradeCount,  double? responseRate,  bool isSecurePayment)  $default,) {final _that = this;
 switch (_that) {
 case _TicketingSellerEntity():
 return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTemperature,_that.totalTradeCount,_that.responseRate,_that.isSecurePayment);case _:
@@ -1100,7 +1368,7 @@ return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTe
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int userId,  String nickname,  String profileImageUrl,  double mannerTemperature,  int totalTradeCount,  int? responseRate,  bool isSecurePayment)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int userId,  String? nickname,  String? profileImageUrl,  double? mannerTemperature,  int totalTradeCount,  double? responseRate,  bool isSecurePayment)?  $default,) {final _that = this;
 switch (_that) {
 case _TicketingSellerEntity() when $default != null:
 return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTemperature,_that.totalTradeCount,_that.responseRate,_that.isSecurePayment);case _:
@@ -1115,15 +1383,15 @@ return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTe
 
 
 class _TicketingSellerEntity implements TicketingSellerEntity {
-  const _TicketingSellerEntity({required this.userId, required this.nickname, required this.profileImageUrl, required this.mannerTemperature, required this.totalTradeCount, required this.responseRate, required this.isSecurePayment});
+  const _TicketingSellerEntity({required this.userId, this.nickname, this.profileImageUrl, this.mannerTemperature, required this.totalTradeCount, this.responseRate, required this.isSecurePayment});
   
 
 @override final  int userId;
-@override final  String nickname;
-@override final  String profileImageUrl;
-@override final  double mannerTemperature;
+@override final  String? nickname;
+@override final  String? profileImageUrl;
+@override final  double? mannerTemperature;
 @override final  int totalTradeCount;
-@override final  int? responseRate;
+@override final  double? responseRate;
 @override final  bool isSecurePayment;
 
 /// Create a copy of TicketingSellerEntity
@@ -1156,7 +1424,7 @@ abstract mixin class _$TicketingSellerEntityCopyWith<$Res> implements $Ticketing
   factory _$TicketingSellerEntityCopyWith(_TicketingSellerEntity value, $Res Function(_TicketingSellerEntity) _then) = __$TicketingSellerEntityCopyWithImpl;
 @override @useResult
 $Res call({
- int userId, String nickname, String profileImageUrl, double mannerTemperature, int totalTradeCount, int? responseRate, bool isSecurePayment
+ int userId, String? nickname, String? profileImageUrl, double? mannerTemperature, int totalTradeCount, double? responseRate, bool isSecurePayment
 });
 
 
@@ -1173,15 +1441,15 @@ class __$TicketingSellerEntityCopyWithImpl<$Res>
 
 /// Create a copy of TicketingSellerEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? nickname = null,Object? profileImageUrl = null,Object? mannerTemperature = null,Object? totalTradeCount = null,Object? responseRate = freezed,Object? isSecurePayment = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? nickname = freezed,Object? profileImageUrl = freezed,Object? mannerTemperature = freezed,Object? totalTradeCount = null,Object? responseRate = freezed,Object? isSecurePayment = null,}) {
   return _then(_TicketingSellerEntity(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
-as int,nickname: null == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
-as String,profileImageUrl: null == profileImageUrl ? _self.profileImageUrl : profileImageUrl // ignore: cast_nullable_to_non_nullable
-as String,mannerTemperature: null == mannerTemperature ? _self.mannerTemperature : mannerTemperature // ignore: cast_nullable_to_non_nullable
-as double,totalTradeCount: null == totalTradeCount ? _self.totalTradeCount : totalTradeCount // ignore: cast_nullable_to_non_nullable
+as int,nickname: freezed == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
+as String?,profileImageUrl: freezed == profileImageUrl ? _self.profileImageUrl : profileImageUrl // ignore: cast_nullable_to_non_nullable
+as String?,mannerTemperature: freezed == mannerTemperature ? _self.mannerTemperature : mannerTemperature // ignore: cast_nullable_to_non_nullable
+as double?,totalTradeCount: null == totalTradeCount ? _self.totalTradeCount : totalTradeCount // ignore: cast_nullable_to_non_nullable
 as int,responseRate: freezed == responseRate ? _self.responseRate : responseRate // ignore: cast_nullable_to_non_nullable
-as int?,isSecurePayment: null == isSecurePayment ? _self.isSecurePayment : isSecurePayment // ignore: cast_nullable_to_non_nullable
+as double?,isSecurePayment: null == isSecurePayment ? _self.isSecurePayment : isSecurePayment // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }

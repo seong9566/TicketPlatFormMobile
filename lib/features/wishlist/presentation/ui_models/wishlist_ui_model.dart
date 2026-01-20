@@ -59,7 +59,7 @@ class WishlistUiModel {
       ),
       eventPosterImageUrl: entity.eventPosterImageUrl ?? '',
       favoritedAtDisplay: DateFormatUtil.formatCompactDate(entity.favoritedAt),
-      sellerNickname: entity.seller.nickname,
+      sellerNickname: entity.seller.nickname ?? '알 수 없음',
       hasTicket: entity.hasTicket,
       isConsecutive: entity.isConsecutive,
       tradeMethodName: entity.tradeMethodName,
@@ -80,10 +80,7 @@ class WishlistUiModel {
     return parts.join(' / ');
   }
 
-  static String _buildEventMeta({
-    String? venueName,
-    String? eventDate,
-  }) {
+  static String _buildEventMeta({String? venueName, String? eventDate}) {
     final parts = <String>[
       if (venueName != null && venueName.isNotEmpty) venueName,
       if (eventDate != null && eventDate.isNotEmpty) eventDate,

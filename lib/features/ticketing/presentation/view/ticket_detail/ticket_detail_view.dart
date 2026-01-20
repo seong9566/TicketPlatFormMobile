@@ -45,10 +45,10 @@ class TicketDetailView extends ConsumerWidget {
                 children: [
                   TicketingHeaderSection(
                     ticketingInfo: TicketingInfoUiModel(
-                      title: detail.performanceTitle,
-                      imageUrl: detail.performanceImageUrl,
-                      eventDate: detail.performanceDate,
-                      location: detail.location,
+                      title: detail.performanceTitle ?? '',
+                      imageUrl: detail.performanceImageUrl ?? '',
+                      eventDate: detail.performanceDate ?? DateTime.now(),
+                      location: detail.location ?? '',
                       isHot: false, // detailView에서 사용하지 않음
                       ticketGrades: [],
                       tickets: [],
@@ -62,16 +62,15 @@ class TicketDetailView extends ConsumerWidget {
                   _buildSectionHeader('상세 설명'),
                   _buildDescription(detail.description),
 
-                  if (detail.listingImageUrl != null &&
-                      detail.listingImageUrl!.isNotEmpty) ...[
-                    _buildProductImage(detail.listingImageUrl),
+                  if (detail.images.isNotEmpty) ...[
+                    _buildProductImage(detail.images.first),
                     const SizedBox(height: AppSpacing.md),
                     const Center(
                       child: Text(
-                        '* 상품 이미지는 판매자가 직접 등록한 이미지입니다.',
+                        '티켓 이미지',
                         style: TextStyle(
-                          color: Color(0xFF94A3B8),
-                          fontSize: 11,
+                          color: AppColors.textTertiary,
+                          fontSize: 12,
                         ),
                       ),
                     ),
