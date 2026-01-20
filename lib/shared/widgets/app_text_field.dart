@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 
@@ -14,6 +15,8 @@ class AppTextField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onFieldSubmitted;
   final FocusNode? focusNode;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextAlign textAlign;
 
   const AppTextField({
     super.key,
@@ -28,6 +31,8 @@ class AppTextField extends StatelessWidget {
     this.textInputAction,
     this.onFieldSubmitted,
     this.focusNode,
+    this.inputFormatters,
+    this.textAlign = TextAlign.start,
   });
 
   @override
@@ -39,16 +44,6 @@ class AppTextField extends StatelessWidget {
           Text(label, style: AppTextStyles.body2),
           const SizedBox(height: 8),
         ],
-
-        /**
- * 월 고정 지출 
- * 
- * 월세 : 60만원
- * 교통비 : 6만원
- * 컴퓨터 할부 : 12만원 
- * 저축 : 80만원
- * 
- */
         TextFormField(
           controller: controller,
           obscureText: obscureText,
@@ -57,6 +52,8 @@ class AppTextField extends StatelessWidget {
           textInputAction: textInputAction,
           onFieldSubmitted: onFieldSubmitted,
           focusNode: focusNode,
+          inputFormatters: inputFormatters,
+          textAlign: textAlign,
           style: AppTextStyles.body1,
           decoration: InputDecoration(
             hintText: hintText,
