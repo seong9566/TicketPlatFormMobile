@@ -31,8 +31,8 @@ extension TicketingRespDtoX on TicketingRespDto {
       eventId: eventId,
       eventTitle: eventTitle,
       eventPosterImageUrl: eventPosterImageUrl,
-      startAt: startAt != null ? DateTime.parse(startAt!) : null,
-      endAt: endAt != null ? DateTime.parse(endAt!) : null,
+      startAt: startAt != null ? DateTime.tryParse(startAt!) : null,
+      endAt: endAt != null ? DateTime.tryParse(endAt!) : null,
       venueName: venueName,
       venueAddress: venueAddress,
       artistId: artistId,
@@ -113,6 +113,7 @@ abstract class TicketingTicketRespDto with _$TicketingTicketRespDto {
     @Default([]) List<String> ticketImages,
     bool? isFavorited,
     required TicketingSellerRespDto seller,
+    TicketingEventRespDto? event,
   }) = _TicketingTicketRespDto;
 
   factory TicketingTicketRespDto.fromJson(Map<String, dynamic> json) =>
@@ -124,8 +125,13 @@ extension TicketingTicketRespDtoX on TicketingTicketRespDto {
     return TicketingTicketEntity(
       ticketId: ticketId,
       seatGradeId: seatGradeId,
+      seatGradeCode: seatGradeCode,
       seatGradeName: seatGradeName,
+      seatGradeNameEn: seatGradeNameEn,
+      areaId: areaId,
       area: area,
+      locationId: locationId,
+      locationName: locationName,
       row: row,
       price: price,
       originalPrice: originalPrice,
@@ -135,13 +141,14 @@ extension TicketingTicketRespDtoX on TicketingTicketRespDto {
       features: features.map((e) => e.toEntity()).toList(),
       hasTicket: hasTicket,
       description: description,
-      createdAt: DateTime.parse(createdAt),
+      createdAt: DateTime.tryParse(createdAt) ?? DateTime.now(),
       quantity: quantity,
       remainingQuantity: remainingQuantity,
       isSingleTicket: isSingleTicket,
       ticketImages: ticketImages,
       isFavorited: isFavorited,
       seller: seller.toEntity(),
+      event: event?.toEntity(),
     );
   }
 }
@@ -173,6 +180,35 @@ extension TicketingSellerRespDtoX on TicketingSellerRespDto {
       totalTradeCount: totalTradeCount,
       responseRate: responseRate,
       isSecurePayment: isSecurePayment,
+    );
+  }
+}
+
+/// 이벤트 정보 DTO (상세 조회용)
+@freezed
+abstract class TicketingEventRespDto with _$TicketingEventRespDto {
+  const factory TicketingEventRespDto({
+    required int eventId,
+    required String eventTitle,
+    String? posterImageUrl,
+    String? startAt,
+    String? endAt,
+    String? venueName,
+  }) = _TicketingEventRespDto;
+
+  factory TicketingEventRespDto.fromJson(Map<String, dynamic> json) =>
+      _$TicketingEventRespDtoFromJson(json);
+}
+
+extension TicketingEventRespDtoX on TicketingEventRespDto {
+  TicketingEventEntity toEntity() {
+    return TicketingEventEntity(
+      eventId: eventId,
+      eventTitle: eventTitle,
+      posterImageUrl: posterImageUrl,
+      startAt: startAt != null ? DateTime.tryParse(startAt!) : null,
+      endAt: endAt != null ? DateTime.tryParse(endAt!) : null,
+      venueName: venueName,
     );
   }
 }

@@ -42,9 +42,24 @@ class TicketingHeaderSection extends StatelessWidget {
         fit: BoxFit.cover,
         placeholder: (context, url) => Container(
           color: AppColors.muted,
-          child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+          child: const Center(
+            child: SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: AppColors.primary,
+              ),
+            ),
+          ),
         ),
-        errorWidget: (context, url, error) => const Icon(Icons.error),
+        errorWidget: (context, url, error) => Container(
+          color: AppColors.muted,
+          child: const Icon(
+            Icons.image_not_supported_outlined,
+            color: AppColors.textTertiary,
+          ),
+        ),
       ),
     );
   }

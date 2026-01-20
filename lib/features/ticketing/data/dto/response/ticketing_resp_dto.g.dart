@@ -119,6 +119,9 @@ _TicketingTicketRespDto _$TicketingTicketRespDtoFromJson(
   seller: TicketingSellerRespDto.fromJson(
     json['seller'] as Map<String, dynamic>,
   ),
+  event: json['event'] == null
+      ? null
+      : TicketingEventRespDto.fromJson(json['event'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$TicketingTicketRespDtoToJson(
@@ -149,6 +152,7 @@ Map<String, dynamic> _$TicketingTicketRespDtoToJson(
   'ticketImages': instance.ticketImages,
   'isFavorited': instance.isFavorited,
   'seller': instance.seller,
+  'event': instance.event,
 };
 
 _TicketingSellerRespDto _$TicketingSellerRespDtoFromJson(
@@ -173,4 +177,26 @@ Map<String, dynamic> _$TicketingSellerRespDtoToJson(
   'totalTradeCount': instance.totalTradeCount,
   'responseRate': instance.responseRate,
   'isSecurePayment': instance.isSecurePayment,
+};
+
+_TicketingEventRespDto _$TicketingEventRespDtoFromJson(
+  Map<String, dynamic> json,
+) => _TicketingEventRespDto(
+  eventId: (json['eventId'] as num).toInt(),
+  eventTitle: json['eventTitle'] as String,
+  posterImageUrl: json['posterImageUrl'] as String?,
+  startAt: json['startAt'] as String?,
+  endAt: json['endAt'] as String?,
+  venueName: json['venueName'] as String?,
+);
+
+Map<String, dynamic> _$TicketingEventRespDtoToJson(
+  _TicketingEventRespDto instance,
+) => <String, dynamic>{
+  'eventId': instance.eventId,
+  'eventTitle': instance.eventTitle,
+  'posterImageUrl': instance.posterImageUrl,
+  'startAt': instance.startAt,
+  'endAt': instance.endAt,
+  'venueName': instance.venueName,
 };

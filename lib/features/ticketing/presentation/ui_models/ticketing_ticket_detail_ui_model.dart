@@ -36,18 +36,26 @@ abstract class TicketingTicketDetailUiModel
     DateTime? eventDate,
     String? venueName,
   }) {
-    // area와 row를 조합하여 seatInfo 생성
+    // API에서 직접 받은 event 정보가 우선, 없으면 파라미터(목록에서 가져온 정보) 사용
+    final title = entity.event?.eventTitle ?? eventTitle;
+    final imageUrl = entity.event?.posterImageUrl ?? eventPosterImageUrl;
+    final date = entity.event?.startAt ?? eventDate;
+    final venue = entity.event?.venueName ?? venueName;
+
+    // locationName(층), area(구역), row(열)를 조합하여 seatInfo 생성
     final seatInfo = [
-      if (entity.area != null) entity.area,
-      if (entity.row != null) entity.row,
-    ].where((e) => e != null && e.isNotEmpty).join(' ');
+      if (entity.locationName != null && entity.locationName!.isNotEmpty)
+        entity.locationName,
+      if (entity.area != null && entity.area!.isNotEmpty) entity.area,
+      if (entity.row != null && entity.row!.isNotEmpty) entity.row,
+    ].where((e) => e != null).join(' ');
 
     return TicketingTicketDetailUiModel(
       ticketId: entity.ticketId,
-      performanceTitle: eventTitle,
-      performanceImageUrl: eventPosterImageUrl,
-      performanceDate: eventDate,
-      location: venueName,
+      performanceTitle: title,
+      performanceImageUrl: imageUrl,
+      performanceDate: date,
+      location: venue,
       gradeName: entity.seatGradeName ?? '일반',
       seatInfo: seatInfo.isNotEmpty ? seatInfo : null,
       price: entity.price,

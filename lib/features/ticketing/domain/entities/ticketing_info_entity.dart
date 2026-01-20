@@ -45,8 +45,13 @@ abstract class TicketingTicketEntity with _$TicketingTicketEntity {
   const factory TicketingTicketEntity({
     required int ticketId,
     int? seatGradeId,
+    String? seatGradeCode,
     String? seatGradeName,
+    String? seatGradeNameEn,
+    int? areaId,
     String? area,
+    int? locationId,
+    String? locationName,
     String? row,
     required int price,
     required int originalPrice,
@@ -63,7 +68,21 @@ abstract class TicketingTicketEntity with _$TicketingTicketEntity {
     required List<String> ticketImages,
     bool? isFavorited,
     required TicketingSellerEntity seller,
+    TicketingEventEntity? event,
   }) = _TicketingTicketEntity;
+}
+
+/// 이벤트 정보 Entity (상세 조회용)
+@freezed
+abstract class TicketingEventEntity with _$TicketingEventEntity {
+  const factory TicketingEventEntity({
+    required int eventId,
+    required String eventTitle,
+    String? posterImageUrl,
+    DateTime? startAt,
+    DateTime? endAt,
+    String? venueName,
+  }) = _TicketingEventEntity;
 }
 
 /// 판매자 정보 Entity

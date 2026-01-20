@@ -5,11 +5,14 @@ import 'package:go_router/go_router.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_ticket_detail_ui_model.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_bottom_action.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticketing_header_section.dart';
+import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_seller_info.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_seat_info.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_price_info.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_summary_section.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_feature_section.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_trade_section.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/viewmodels/ticket_detail_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_info_ui_model.dart';
 
@@ -26,7 +29,7 @@ class TicketDetailView extends ConsumerWidget {
     );
 
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
+      backgroundColor: Colors.white,
       appBar: _buildAppBar(context),
       body: SafeArea(
         top: true,
@@ -39,7 +42,7 @@ class TicketDetailView extends ConsumerWidget {
             }
 
             return SingleChildScrollView(
-              padding: const EdgeInsets.only(bottom: 120),
+              padding: const EdgeInsets.only(bottom: AppSpacing.lg),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -54,17 +57,29 @@ class TicketDetailView extends ConsumerWidget {
                       tickets: [],
                     ),
                   ),
-                  const SizedBox(height: AppSpacing.md),
-                  TicketDetailSeatInfo(detail: detail),
-                  const SizedBox(height: AppSpacing.lg),
-                  TicketDetailPriceInfo(detail: detail),
-                  const SizedBox(height: AppSpacing.lg),
+                  _buildDivider8(),
+
+                  // 1. 티켓 요약 카드 (중요 정보 우선 노출)
+                  _buildSummaryHeader(detail),
+                  TicketSummarySection(detail: detail),
+                  _buildDivider1(),
+
+                  // 2. 거래 방식 (거래 안정성 관련)
+                  TicketDetailTradeSection(
+                    tradeMethodName: detail.tradeMethodName,
+                  ),
+                  _buildDivider1(),
+
+                  // 3. 특이사항
+                  TicketDetailFeatureSection(tags: detail.tags),
+                  _buildDivider1(),
+
+                  // 4. 상세 설명
                   _buildSectionHeader('상세 설명'),
                   _buildDescription(detail.description),
-
+                  // 5. 티켓 이미지
                   if (detail.images.isNotEmpty) ...[
                     _buildProductImage(detail.images.first),
-                    const SizedBox(height: AppSpacing.md),
                     const Center(
                       child: Text(
                         '티켓 이미지',
@@ -74,10 +89,11 @@ class TicketDetailView extends ConsumerWidget {
                         ),
                       ),
                     ),
+                    const SizedBox(height: AppSpacing.lg),
                   ],
-                  const SizedBox(height: AppSpacing.lg),
+
+                  // 6. 판매자 정보
                   TicketDetailSellerInfo(seller: detail.seller),
-                  const SizedBox(height: 120), // Bottom padding for scroll
                 ],
               ),
             );
@@ -144,17 +160,27 @@ class TicketDetailView extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.lg,
-        AppSpacing.md,
+        0,
         AppSpacing.lg,
         AppSpacing.sm,
       ),
       child: Text(
         title,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 16,
-          color: AppColors.textSecondary,
+        style: AppTextStyles.body1.copyWith(
+          fontWeight: FontWeight.w800,
+          color: AppColors.textPrimary,
         ),
+      ),
+    );
+  }
+
+  Widget _buildSummaryHeader(TicketingTicketDetailUiModel detail) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 0, AppSpacing.lg, 0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [_buildSectionHeader('티켓 요약'), _buildStatusBadges(detail)],
       ),
     );
   }
@@ -203,6 +229,67 @@ class TicketDetailView extends ConsumerWidget {
               const Center(child: CircularProgressIndicator(strokeWidth: 2)),
           errorWidget: (context, url, error) => const Icon(Icons.error),
         ),
+      ),
+    );
+  }
+
+  Widget _buildStatusBadges(TicketingTicketDetailUiModel detail) {
+    return Row(
+      children: [
+        if (detail.isConsecutive == true)
+          _buildBadge(
+            '연석',
+            AppColors.textSecondary,
+            AppColors.textSecondary.withValues(alpha: 0.1),
+          ),
+        if (detail.hasTicket == true) ...[
+          const SizedBox(width: 4),
+          _buildBadge(
+            '티켓보유',
+            AppColors.primary,
+            AppColors.primary.withValues(alpha: 0.08),
+          ),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildBadge(String label, Color color, Color bgColor) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w700,
+          color: color,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDivider8() {
+    return Container(
+      height: 8,
+      width: double.infinity,
+      color: const Color(0xFFF1F5F9),
+      margin: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+    );
+  }
+
+  Widget _buildDivider1() {
+    return Container(
+      height: 1,
+      width: double.infinity,
+      color: const Color(0xFFF1F5F9),
+      margin: const EdgeInsets.symmetric(
+        vertical: AppSpacing.md,
+        horizontal: AppRadius.md,
       ),
     );
   }
