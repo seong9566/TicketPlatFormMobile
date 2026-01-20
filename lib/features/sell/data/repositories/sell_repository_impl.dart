@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ticket_platform_mobile/core/network/base_response.dart';
+import 'package:ticket_platform_mobile/core/utils/logger.dart';
 import 'package:ticket_platform_mobile/features/sell/data/datasources/sell_remote_data_source.dart';
 import 'package:ticket_platform_mobile/features/sell/data/dto/request/sell_req_dto.dart';
 import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_category_resp_dto.dart';
@@ -10,12 +11,14 @@ import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_feat
 import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_schedule_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_seat_option_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_ticket_resp_dto.dart';
+import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_trade_method_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/entities/sell_category_entity.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/entities/sell_event_entity.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/entities/sell_feature_entity.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/entities/sell_schedule_entity.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/entities/sell_seat_option_entity.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/entities/sell_ticket_entity.dart';
+import 'package:ticket_platform_mobile/features/sell/domain/entities/sell_trade_method_entity.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/repositories/sell_repository.dart';
 
 part 'sell_repository_impl.g.dart';
@@ -80,8 +83,24 @@ class SellRepositoryImpl implements SellRepository {
 
   @override
   Future<List<SellFeatureEntity>> getFeatures() async {
-    final response = await _remoteDataSource.getFeatures();
-    return response.mapListOrEmpty((dto) => dto.toEntity());
+    try {
+      final response = await _remoteDataSource.getFeatures();
+      return response.mapListOrEmpty((dto) => dto.toEntity());
+    } catch (e) {
+      AppLogger.e('특이사항 목록 조회 실패', e);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<SellTradeMethodEntity>> getTradeMethods() async {
+    try {
+      final response = await _remoteDataSource.getTradeMethods();
+      return response.mapListOrEmpty((dto) => dto.toEntity());
+    } catch (e) {
+      AppLogger.e('거래 방식 목록 조회 실패', e);
+      rethrow;
+    }
   }
 
   @override

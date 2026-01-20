@@ -11,6 +11,7 @@ import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_feat
 import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_schedule_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_seat_option_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_ticket_resp_dto.dart';
+import 'package:ticket_platform_mobile/features/sell/data/dto/response/sell_trade_method_resp_dto.dart';
 
 part 'sell_remote_data_source.g.dart';
 
@@ -29,6 +30,9 @@ abstract class SellRemoteDataSource {
 
   /// 특이사항 목록 조회
   Future<BaseResponse<List<SellFeatureRespDto>>> getFeatures();
+
+  /// 거래 방식 목록 조회
+  Future<BaseResponse<List<SellTradeMethodRespDto>>> getTradeMethods();
 
   /// 좌석 정가 조회
   Future<BaseResponse<int?>> getOriginalPrice(SellOriginalPriceReqDto req);
@@ -123,6 +127,21 @@ class SellRemoteDataSourceImpl implements SellRemoteDataSource {
       apiName: 'getFeatures',
       dataParser: (json) => (json as List)
           .map((e) => SellFeatureRespDto.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  @override
+  Future<BaseResponse<List<SellTradeMethodRespDto>>> getTradeMethods() async {
+    return safeApiCall<List<SellTradeMethodRespDto>>(
+      apiCall: (options) =>
+          _dio.get(ApiEndpoint.tradeMethods, options: options),
+      apiName: 'getTradeMethods',
+      dataParser: (json) => (json as List)
+          .map(
+            (item) =>
+                SellTradeMethodRespDto.fromJson(item as Map<String, dynamic>),
+          )
           .toList(),
     );
   }

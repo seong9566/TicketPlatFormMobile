@@ -6,6 +6,7 @@ import 'package:ticket_platform_mobile/features/sell/domain/entities/sell_featur
 import 'package:ticket_platform_mobile/features/sell/domain/entities/sell_schedule_entity.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/entities/sell_seat_option_entity.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/entities/sell_ticket_entity.dart';
+import 'package:ticket_platform_mobile/features/sell/domain/entities/sell_trade_method_entity.dart';
 
 abstract class SellRepository {
   /// 카테고리 목록 조회
@@ -27,6 +28,9 @@ abstract class SellRepository {
 
   /// 특이사항 목록 조회
   Future<List<SellFeatureEntity>> getFeatures();
+
+  /// 거래 방식 목록 조회
+  Future<List<SellTradeMethodEntity>> getTradeMethods();
 
   /// 좌석 정가 조회
   Future<int?> getOriginalPrice({

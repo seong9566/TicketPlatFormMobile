@@ -346,6 +346,55 @@ final class GetSellOriginalPriceUsecaseProvider
 String _$getSellOriginalPriceUsecaseHash() =>
     r'e011248aceadbd7a103364b2d5d652f635050011';
 
+@ProviderFor(getSellTradeMethodsUsecase)
+const getSellTradeMethodsUsecaseProvider =
+    GetSellTradeMethodsUsecaseProvider._();
+
+final class GetSellTradeMethodsUsecaseProvider
+    extends
+        $FunctionalProvider<
+          GetSellTradeMethodsUsecase,
+          GetSellTradeMethodsUsecase,
+          GetSellTradeMethodsUsecase
+        >
+    with $Provider<GetSellTradeMethodsUsecase> {
+  const GetSellTradeMethodsUsecaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getSellTradeMethodsUsecaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getSellTradeMethodsUsecaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetSellTradeMethodsUsecase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetSellTradeMethodsUsecase create(Ref ref) {
+    return getSellTradeMethodsUsecase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetSellTradeMethodsUsecase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetSellTradeMethodsUsecase>(value),
+    );
+  }
+}
+
+String _$getSellTradeMethodsUsecaseHash() =>
+    r'5f587526bdb4f0fbaa37915142ad347209cbcc9c';
+
 @ProviderFor(getMySellTicketsUsecase)
 const getMySellTicketsUsecaseProvider = GetMySellTicketsUsecaseProvider._();
 

@@ -47,6 +47,7 @@ class ApiEndpoint {
   static const String sellEventSchedules = '/api/sell/events/schedules';
   static const String sellSeatOptions = '/api/sell/events/seat-options';
   static const String sellOriginalPrice = '/api/sell/events/original-price';
+  static const String tradeMethods = '/api/sell/trade-methods';
   static const String sellFeatures = '/api/sell/features';
   static const String sellTickets = '/api/sell/tickets';
   static const String sellMyTickets = '/api/sell/my-tickets';

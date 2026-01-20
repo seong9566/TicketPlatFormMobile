@@ -11,6 +11,7 @@ import 'package:ticket_platform_mobile/features/sell/domain/usecases/get_sell_fe
 import 'package:ticket_platform_mobile/features/sell/domain/usecases/get_sell_original_price_usecase.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/usecases/get_sell_schedules_usecase.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/usecases/get_sell_seat_options_usecase.dart';
+import 'package:ticket_platform_mobile/features/sell/domain/usecases/get_sell_trade_methods_usecase.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/usecases/refresh_ticket_image_urls_usecase.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/usecases/register_sell_ticket_usecase.dart';
 
@@ -57,6 +58,11 @@ GetSellFeaturesUsecase getSellFeaturesUsecase(Ref ref) {
 @riverpod
 GetSellOriginalPriceUsecase getSellOriginalPriceUsecase(Ref ref) {
   return GetSellOriginalPriceUsecase(ref.watch(sellRepositoryProvider));
+}
+
+@riverpod
+GetSellTradeMethodsUsecase getSellTradeMethodsUsecase(Ref ref) {
+  return GetSellTradeMethodsUsecase(ref.watch(sellRepositoryProvider));
 }
 
 @riverpod

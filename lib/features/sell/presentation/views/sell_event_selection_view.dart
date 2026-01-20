@@ -26,7 +26,6 @@ class SellEventSelectionView extends ConsumerStatefulWidget {
 class _SellEventSelectionViewState
     extends ConsumerState<SellEventSelectionView> {
   final _searchController = TextEditingController();
-  String _selectedRegion = '지역';
 
   @override
   void initState() {
