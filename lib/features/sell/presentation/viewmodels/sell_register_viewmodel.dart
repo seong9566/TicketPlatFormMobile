@@ -7,8 +7,11 @@ import 'package:ticket_platform_mobile/features/sell/presentation/ui_models/sell
 import 'package:ticket_platform_mobile/features/sell/presentation/ui_models/sell_feature_ui_model.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/ui_models/sell_schedule_ui_model.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/ui_models/sell_seat_option_ui_model.dart';
+import 'package:ticket_platform_mobile/features/sell/presentation/ui_models/sell_trade_method_ui_model.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/viewmodels/sell_register_state.dart';
+import 'package:ticket_platform_mobile/features/sell/domain/entities/sell_trade_method_entity.dart';
 import 'package:ticket_platform_mobile/features/sell/domain/entities/sell_ticket_entity.dart';
+import 'package:ticket_platform_mobile/core/utils/number_format_util.dart';
 
 part 'sell_register_viewmodel.g.dart';
 
@@ -25,7 +28,7 @@ class SellRegisterViewModel extends _$SellRegisterViewModel
 
   /// 공연 목록 로드 (PaginationMixin 활용)
   Future<void> loadEvents(int categoryId) async {
-    _categoryId = categoryId;
+    // _categoryId = categoryId; // Removed as per instruction
 
     await loadFirstPage(
       fetchPage: (page, pageSize) =>
@@ -170,6 +173,27 @@ class SellRegisterViewModel extends _$SellRegisterViewModel
     }
   }
 
+  /// 거래 방식 목록 로드
+  Future<void> loadTradeMethods() async {
+    state = state.copyWith(isLoading: true, errorMessage: null);
+    try {
+      final usecase = ref.read(getSellTradeMethodsUsecaseProvider);
+      final List<SellTradeMethodEntity> entities = await usecase.call();
+      final uiModels = entities
+          .map((e) => SellTradeMethodUiModel.fromEntity(e))
+          .toList();
+
+      state = state.copyWith(isLoading: false, tradeMethods: uiModels);
+    } catch (e) {
+      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+    }
+  }
+
+  /// 거래 방식 선택
+  void setTradeMethodId(int id) {
+    state = state.copyWith(selectedTradeMethodId: id);
+  }
+
   /// 위치 선택 (구역/상세 위치)
   void selectLocation(int locationId) {
     state = state.copyWith(selectedLocationId: locationId);
@@ -194,7 +218,8 @@ class SellRegisterViewModel extends _$SellRegisterViewModel
         areaId: state.selectedAreaId,
       );
 
-      state = state.copyWith(originalPrice: price);
+      final updatedPrice = _calculateAutoPrice(price, state.quantity);
+      state = state.copyWith(originalPrice: price, price: updatedPrice);
     } catch (e) {
       // 정가 조회 실패 시 특별한 에러 처리는 하지 않음 (null 상태 유지)
       state = state.copyWith(originalPrice: null);
@@ -246,18 +271,26 @@ class SellRegisterViewModel extends _$SellRegisterViewModel
 
   /// 수량 업데이트
   void updateQuantity(int count) {
-    state = state.copyWith(quantity: count);
+    final updatedPrice = _calculateAutoPrice(state.originalPrice, count);
+    state = state.copyWith(quantity: count, price: updatedPrice);
   }
 
   /// 수량 증가
   void incrementQuantity() {
-    state = state.copyWith(quantity: state.quantity + 1);
+    final newQuantity = state.quantity + 1;
+    final updatedPrice = _calculateAutoPrice(state.originalPrice, newQuantity);
+    state = state.copyWith(quantity: newQuantity, price: updatedPrice);
   }
 
   /// 수량 감소
   void decrementQuantity() {
     if (state.quantity > 1) {
-      state = state.copyWith(quantity: state.quantity - 1);
+      final newQuantity = state.quantity - 1;
+      final updatedPrice = _calculateAutoPrice(
+        state.originalPrice,
+        newQuantity,
+      );
+      state = state.copyWith(quantity: newQuantity, price: updatedPrice);
     }
   }
 
@@ -330,7 +363,7 @@ class SellRegisterViewModel extends _$SellRegisterViewModel
         originalPrice:
             state.originalPrice ??
             priceValue, // 정가 정보가 없으면 판매가와 동일하진 않겠지만 일단 fallback
-        tradeMethodId: state.selectedTradeMethodId ?? 1,
+        tradeMethodId: state.selectedTradeMethodId!,
         hasTicket: state.hasTicket,
         description: state.description.isNotEmpty ? state.description : null,
         images: state.images,
@@ -349,6 +382,13 @@ class SellRegisterViewModel extends _$SellRegisterViewModel
   }
 
   // ========== 초기화 ==========
+
+  // ========== Private Helpers ==========
+
+  String _calculateAutoPrice(int? unitPrice, int quantity) {
+    if (unitPrice == null) return state.price;
+    return NumberFormatUtil.formatNumber(unitPrice * quantity);
+  }
 
   /// 플로우 완료 후 초기화
   void reset() {

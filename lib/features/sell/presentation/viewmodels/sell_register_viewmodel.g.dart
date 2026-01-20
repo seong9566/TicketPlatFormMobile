@@ -42,7 +42,7 @@ final class SellRegisterViewModelProvider
 }
 
 String _$sellRegisterViewModelHash() =>
-    r'ef45603e74d9273e4ce65fddec234a5ab0fef570';
+    r'a2b4455b95e50f86bc5308d59ff8a1a3719f4d11';
 
 abstract class _$SellRegisterViewModel extends $Notifier<SellRegisterState> {
   SellRegisterState build();

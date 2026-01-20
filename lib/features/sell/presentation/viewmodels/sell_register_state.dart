@@ -6,6 +6,7 @@ import 'package:ticket_platform_mobile/features/sell/presentation/ui_models/sell
 import 'package:ticket_platform_mobile/features/sell/presentation/ui_models/sell_feature_ui_model.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/ui_models/sell_schedule_ui_model.dart';
 import 'package:ticket_platform_mobile/features/sell/presentation/ui_models/sell_seat_option_ui_model.dart';
+import 'package:ticket_platform_mobile/features/sell/presentation/ui_models/sell_trade_method_ui_model.dart';
 
 part 'sell_register_state.freezed.dart';
 
@@ -46,6 +47,7 @@ abstract class SellRegisterState
 
     // Step 6: 추가 정보
     @Default([]) List<SellFeatureUiModel> features, // 특이사항 목록 (Full List)
+    @Default([]) List<SellTradeMethodUiModel> tradeMethods, // 거래 방식 목록
     @Default([]) List<int> selectedFeatureIds, // 선택된 특이사항 ID
     int? selectedTradeMethodId, // 거래 방식 ID
     @Default(true) bool hasTicket, // 티켓 보유 여부
@@ -170,7 +172,21 @@ extension SellRegisterStateX on SellRegisterState {
   }
 
   /// 등록 정보 유효성
-  bool get isRegisterValid => price.isNotEmpty;
+  bool get isRegisterValid => price.isNotEmpty && selectedTradeMethodId != null;
+
+  /// 가격 설정 단계 유효성 (거래 방식 제외)
+  bool get isPriceStepValid {
+    if (price.isEmpty) return false;
+
+    // 정가보다 높은지 체크 (단가 * 수량 기준)
+    if (originalPrice != null) {
+      final inputPrice = int.tryParse(price.replaceAll(',', '')) ?? 0;
+      final totalOriginalPrice = originalPrice! * quantity;
+      if (inputPrice > totalOriginalPrice) return false;
+    }
+
+    return true;
+  }
 
   /// 좌석 정보 문자열 (UI 표시용)
   String get seatInfo {
