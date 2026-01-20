@@ -12,4 +12,5 @@ class AppAssets {
   // Categories
 
   static const placeholder = 'assets/images/placeholder.png';
+  static const String lottieSuccess = 'assets/icons/lottie/lottie_success.json';
 }

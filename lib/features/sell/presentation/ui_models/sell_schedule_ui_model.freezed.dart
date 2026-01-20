@@ -208,8 +208,8 @@ return $default(_that.scheduleId,_that.date,_that.time,_that.dayOfWeek);case _:
 /// @nodoc
 
 
-class _SellScheduleUiModel implements SellScheduleUiModel {
-  const _SellScheduleUiModel({required this.scheduleId, required this.date, required this.time, required this.dayOfWeek});
+class _SellScheduleUiModel extends SellScheduleUiModel {
+  const _SellScheduleUiModel({required this.scheduleId, required this.date, required this.time, required this.dayOfWeek}): super._();
   
 
 @override final  String scheduleId;

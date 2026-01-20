@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
+import 'package:ticket_platform_mobile/core/constants/app_assets.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
@@ -36,6 +38,7 @@ class _SellAdditionalInfoViewState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(sellRegisterViewModelProvider.notifier).loadFeatures();
+      ref.read(sellRegisterViewModelProvider.notifier).loadTradeMethods();
     });
   }
 
@@ -172,23 +175,35 @@ class _SellAdditionalInfoViewState
       barrierDismissible: false,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Row(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.check_circle, color: AppColors.primary, size: 28),
-            SizedBox(width: AppSpacing.sm),
-            Text('등록 완료'),
+            const SizedBox(height: AppSpacing.md),
+            Lottie.asset(
+              AppAssets.lottieSuccess,
+              width: 120,
+              height: 120,
+              repeat: false,
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            Text(
+              '티켓 판매 등록이 완료되었습니다.',
+              style: AppTextStyles.body1.copyWith(fontWeight: FontWeight.w600),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: AppSpacing.xl),
+            SizedBox(
+              width: double.infinity,
+              child: AppButton(
+                text: '확인',
+                onPressed: () {
+                  context.pop();
+                  context.go(AppRouterPath.home.path);
+                },
+              ),
+            ),
           ],
         ),
-        content: const Text('티켓 판매 등록이 완료되었습니다.\n검수 후 판매가 시작됩니다.'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              context.pop();
-              context.go(AppRouterPath.home.path);
-            },
-            child: const Text('확인'),
-          ),
-        ],
       ),
     );
   }
@@ -395,25 +410,28 @@ class _SellAdditionalInfoViewState
   }
 
   Widget _buildDealMethodSection(SellRegisterState state) {
-    final methods = {1: 'PIN거래', 2: '배송거래', 3: '현장거래', 4: '기타거래'};
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildLabel('거래 방식'),
+        if (state.tradeMethods.isEmpty && !state.isLoading)
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
+            child: Text('사용 가능한 거래 방식이 없습니다.', style: AppTextStyles.caption),
+          ),
         Wrap(
           spacing: 8,
           runSpacing: 8,
-          children: methods.entries.map((entry) {
-            final isSelected = state.selectedTradeMethodId == entry.key;
+          children: state.tradeMethods.map((method) {
+            final isSelected = state.selectedTradeMethodId == method.id;
             return ChoiceChip(
-              label: Text(entry.value),
+              label: Text(method.nameKo),
               selected: isSelected,
               onSelected: (selected) {
                 if (selected) {
                   ref
                       .read(sellRegisterViewModelProvider.notifier)
-                      .updateTradeMethod(entry.key);
+                      .setTradeMethodId(method.id);
                 }
               },
               selectedColor: AppColors.primary.withValues(alpha: 0.2),
@@ -431,6 +449,27 @@ class _SellAdditionalInfoViewState
             );
           }).toList(),
         ),
+        if (state.selectedTradeMethodId == null)
+          Padding(
+            padding: const EdgeInsets.only(top: AppSpacing.xs),
+            child: Text(
+              '거래 방식을 선택해주세요.',
+              style: AppTextStyles.caption.copyWith(color: Colors.red),
+            ),
+          ),
+        if (state.selectedTradeMethodId != null)
+          Padding(
+            padding: const EdgeInsets.only(top: AppSpacing.xs),
+            child: Text(
+              state.tradeMethods
+                      .firstWhere((m) => m.id == state.selectedTradeMethodId)
+                      .description ??
+                  '',
+              style: AppTextStyles.caption.copyWith(
+                color: AppColors.textSecondary,
+              ),
+            ),
+          ),
       ],
     );
   }
@@ -512,8 +551,10 @@ class _SellAdditionalInfoViewState
 
   Widget _buildSummarySection(SellRegisterState state) {
     final eventTitle = state.selectedEvent?.title ?? '';
-    final date = state.selectedSchedule?.date;
-    final dateStr = date != null ? DateFormatUtil.formatWithDay(date) : '';
+    final dateTime = state.selectedSchedule?.dateTime;
+    final dateStr = dateTime != null
+        ? DateFormatUtil.formatWithDay(dateTime)
+        : '';
     final seatInfo = state.seatInfo;
 
     return Container(
