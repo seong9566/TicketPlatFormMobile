@@ -9,6 +9,7 @@ import 'package:ticket_platform_mobile/features/chat/domain/entities/message_ent
 import 'package:ticket_platform_mobile/features/chat/domain/events/chat_message_event.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/usecases/get_chat_rooms_usecase.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/ui_models/chat_room_ui_model.dart';
+import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/profile_viewmodel.dart';
 
 part 'chat_list_viewmodel.g.dart';
 
@@ -104,8 +105,12 @@ class ChatListViewModel extends _$ChatListViewModel {
       state = AsyncValue.data(_allChatRooms);
     } else {
       final filtered = _allChatRooms.where((room) {
-        final titleMatch = room.ticketTitle.toLowerCase().contains(_searchQuery);
-        final nicknameMatch = room.otherUserNickname.toLowerCase().contains(_searchQuery);
+        final titleMatch = room.ticketTitle.toLowerCase().contains(
+          _searchQuery,
+        );
+        final nicknameMatch = room.otherUserNickname.toLowerCase().contains(
+          _searchQuery,
+        );
         return titleMatch || nicknameMatch;
       }).toList();
       state = AsyncValue.data(filtered);
@@ -150,6 +155,16 @@ class ChatListViewModel extends _$ChatListViewModel {
 
     final existingRoom = _allChatRooms[index];
 
+    // 본인 메시지 여부 재판정 (SignalR에서 온 메시지는 기본적으로 false이므로 senderId로 한 번 더 체크)
+    final currentUserId = ref
+        .read(profileViewModelProvider)
+        .value
+        ?.profile
+        ?.userId;
+    final isMyMessage =
+        message.isMyMessage ||
+        (currentUserId != null && message.senderId == currentUserId);
+
     // 해당 채팅방의 마지막 메시지와 시간 업데이트
     final updatedRoom = ChatRoomListUiModel(
       roomId: existingRoom.roomId,
@@ -159,8 +174,10 @@ class ChatListViewModel extends _$ChatListViewModel {
       otherUserProfileImageUrl: existingRoom.otherUserProfileImageUrl,
       lastMessage: message.message ?? (message.imageUrl != null ? '[이미지]' : ''),
       timeDisplay: _formatTime(message.createdAt),
-      // 다른 사용자가 보낸 메시지면 읽지 않은 메시지 카운트 증가
-      unreadCount: message.isMyMessage ? existingRoom.unreadCount : existingRoom.unreadCount + 1,
+      // 본인이 보낸 메시지가 아니면 읽지 않은 메시지 카운트 증가
+      unreadCount: isMyMessage
+          ? existingRoom.unreadCount
+          : existingRoom.unreadCount + 1,
       roomStatusCode: existingRoom.roomStatusCode,
       roomStatusName: existingRoom.roomStatusName,
       transactionId: existingRoom.transactionId,
@@ -217,7 +234,9 @@ class ChatListViewModel extends _$ChatListViewModel {
         .read(chatEventBusProvider)
         .onMessageSent
         .listen((event) {
-          AppLogger.i('Message sent event received in list: ${event.message.messageId}');
+          AppLogger.i(
+            'Message sent event received in list: ${event.message.messageId}',
+          );
           // 기존 _handleNewMessage 로직 재사용
           _handleNewMessage(event.message);
         });
