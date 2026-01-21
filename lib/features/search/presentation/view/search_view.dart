@@ -36,7 +36,7 @@ class SearchView extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: AppSearchBar(
-                showBackIcon: false,
+                showBackIcon: true,
                 hintText: '아티스트, 공연, 장소 검색',
               ),
             ),

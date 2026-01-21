@@ -4,7 +4,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/view/chat_view.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/views/home_view.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/widgets/home_bottom_nav.dart';
-import 'package:ticket_platform_mobile/features/search/presentation/view/search_view.dart';
 import 'package:ticket_platform_mobile/features/wishlist/presentation/view/wishlist_view.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/views/profile_view.dart';
 
@@ -14,7 +13,7 @@ part 'main_tab_view.g.dart';
 class CurrentTabIndex extends _$CurrentTabIndex {
   @override
   int build() => 0;
-  
+
   void setIndex(int index) {
     state = index;
   }
@@ -30,13 +29,7 @@ class MainTabView extends ConsumerWidget {
     return Scaffold(
       body: IndexedStack(
         index: currentIndex,
-        children: const [
-          HomeView(),
-          SearchView(),
-          ChatView(),
-          WishlistView(),
-          ProfileView(),
-        ],
+        children: const [HomeView(), ChatView(), WishlistView(), ProfileView()],
       ),
       bottomNavigationBar: HomeBottomNav(
         currentIndex: currentIndex,

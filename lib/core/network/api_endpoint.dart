@@ -1,12 +1,18 @@
+import 'dart:io';
+
 class ApiEndpoint {
   const ApiEndpoint._();
 
   static String get baseUrl {
-    // 회사 개발
-    return 'http://192.168.10.16:5224';
+    const int port = 5224;
 
-    // 내 맥북 개발
-    // return 'http://127.0.0.1:5224';
+    if (Platform.isIOS) {
+      // iOS USB 인터넷 공유: Mac의 bridge100 IP 사용
+      return 'http://192.168.2.1:$port';
+    }
+
+    // Android Wi-Fi: Mac의 유선 네트워크 IP 사용
+    return 'http://123.2.156.230:$port';
   }
 
   // Home

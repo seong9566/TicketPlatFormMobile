@@ -25,7 +25,6 @@ class HomeBottomNav extends StatelessWidget {
           activeIcon: Icon(Icons.home_filled),
           label: '홈',
         ),
-        BottomNavigationBarItem(icon: Icon(Icons.search), label: '검색'),
         BottomNavigationBarItem(
           icon: Badge(
             label: Text('3'),

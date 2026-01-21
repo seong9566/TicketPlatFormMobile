@@ -4,6 +4,7 @@ import 'package:ticket_platform_mobile/core/enums/category.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/view/chat_room_view.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/views/main_tab_view.dart';
 import 'package:ticket_platform_mobile/features/events/presentation/view/events_view.dart';
+import 'package:ticket_platform_mobile/features/search/presentation/view/search_view.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticketing_view.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/ticket_detail_view.dart';
 import 'package:ticket_platform_mobile/features/auth/presentation/view/login_view.dart';
@@ -40,6 +41,13 @@ GoRouter goRouter(Ref ref) {
         path: AppRouterPath.home.path,
         name: AppRouterPath.home.name,
         builder: (context, state) => const MainTabView(),
+      ),
+
+      /// 검색 화면
+      GoRoute(
+        path: AppRouterPath.search.path,
+        name: AppRouterPath.search.name,
+        builder: (context, state) => const SearchView(),
       ),
 
       /// 공연 목록 화면

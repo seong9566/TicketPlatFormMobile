@@ -64,6 +64,9 @@ class AppColors {
   static const chatAvatarDefault = Color(0xFFE6C39C);
   static const chatEmptyIconBackground = Color(0xFF9E9E9E);
 
+  // Ticket
+  static const ticketThumbnailBackground = Color(0xFF111827);
+
   // Disabled
   static const disabled = Color(0xFFD1D5DB);
 }
