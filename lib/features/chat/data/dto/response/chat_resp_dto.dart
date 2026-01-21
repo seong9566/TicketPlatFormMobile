@@ -3,7 +3,6 @@ import 'package:ticket_platform_mobile/features/chat/domain/entities/chat_room_e
 import 'package:ticket_platform_mobile/features/chat/domain/entities/message_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/transaction_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/user_profile_entity.dart';
-import 'package:ticket_platform_mobile/features/chat/domain/repositories/chat_repository.dart';
 
 part 'chat_resp_dto.freezed.dart';
 part 'chat_resp_dto.g.dart';
@@ -214,6 +213,9 @@ abstract class SendMessageRespDto with _$SendMessageRespDto {
   const factory SendMessageRespDto({
     required int messageId,
     required int roomId,
+    required int senderId,
+    required String senderNickname,
+    String? senderProfileImage,
     String? message,
     String? imageUrl,
     required String createdAt,
@@ -222,6 +224,20 @@ abstract class SendMessageRespDto with _$SendMessageRespDto {
 
   factory SendMessageRespDto.fromJson(Map<String, dynamic> json) =>
       _$SendMessageRespDtoFromJson(json);
+}
+
+extension SendMessageRespDtoX on SendMessageRespDto {
+  MessageEntity toEntity() => MessageEntity(
+        messageId: messageId,
+        roomId: roomId,
+        senderId: senderId,
+        senderNickname: senderNickname,
+        senderProfileImage: senderProfileImage,
+        message: message,
+        imageUrl: imageUrl,
+        createdAt: DateTime.parse(createdAt),
+        isMyMessage: true,
+      );
 }
 
 @freezed
@@ -237,7 +253,7 @@ abstract class PaymentRequestRespDto with _$PaymentRequestRespDto {
 }
 
 extension PaymentRequestRespDtoX on PaymentRequestRespDto {
-  PaymentRequestResult toResult() => PaymentRequestResult(
+  PaymentRequestEntity toEntity() => PaymentRequestEntity(
         paymentUrl: paymentUrl,
         transactionId: transactionId,
         amount: amount,
@@ -257,9 +273,27 @@ abstract class PurchaseConfirmRespDto with _$PurchaseConfirmRespDto {
 }
 
 extension PurchaseConfirmRespDtoX on PurchaseConfirmRespDto {
-  PurchaseConfirmResult toResult() => PurchaseConfirmResult(
+  PurchaseConfirmEntity toEntity() => PurchaseConfirmEntity(
         transactionId: transactionId,
         confirmedAt: DateTime.parse(confirmedAt),
         success: success,
+      );
+}
+
+@freezed
+abstract class ImageUrlRefreshRespDto with _$ImageUrlRefreshRespDto {
+  const factory ImageUrlRefreshRespDto({
+    required String imageUrl,
+    required String expiresAt,
+  }) = _ImageUrlRefreshRespDto;
+
+  factory ImageUrlRefreshRespDto.fromJson(Map<String, dynamic> json) =>
+      _$ImageUrlRefreshRespDtoFromJson(json);
+}
+
+extension ImageUrlRefreshRespDtoX on ImageUrlRefreshRespDto {
+  ImageUrlRefreshEntity toEntity() => ImageUrlRefreshEntity(
+        imageUrl: imageUrl,
+        expiresAt: DateTime.parse(expiresAt),
       );
 }

@@ -55,6 +55,9 @@ abstract class ChatRemoteDataSource {
 
   /// 거래 취소
   Future<BaseResponse<void>> cancelTransaction(CancelTransactionReqDto req);
+
+  /// 이미지 URL 재발급
+  Future<BaseResponse<ImageUrlRefreshRespDto>> refreshImageUrl(int messageId);
 }
 
 class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
@@ -191,7 +194,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
     return safeApiCall<PaymentRequestRespDto>(
       apiCall: (options) => _dio.post(
         ApiEndpoint.requestPayment,
-        data: req.toJson(),
+        data: req.toMap(),
         options: options,
       ),
       apiName: 'requestPayment',
@@ -207,7 +210,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
     return safeApiCall<PurchaseConfirmRespDto>(
       apiCall: (options) => _dio.post(
         ApiEndpoint.confirmPurchase,
-        data: req.toJson(),
+        data: req.toMap(),
         options: options,
       ),
       apiName: 'confirmPurchase',
@@ -223,11 +226,27 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
     return safeApiCall<void>(
       apiCall: (options) => _dio.post(
         ApiEndpoint.cancelTransaction,
-        data: req.toJson(),
+        data: req.toMap(),
         options: options,
       ),
       apiName: 'cancelTransaction',
       dataParser: (_) {},
+    );
+  }
+
+  @override
+  Future<BaseResponse<ImageUrlRefreshRespDto>> refreshImageUrl(
+    int messageId,
+  ) async {
+    return safeApiCall<ImageUrlRefreshRespDto>(
+      apiCall: (options) => _dio.get(
+        ApiEndpoint.chatMessageImageUrl,
+        queryParameters: {'messageId': messageId},
+        options: options,
+      ),
+      apiName: 'refreshImageUrl',
+      dataParser: (json) =>
+          ImageUrlRefreshRespDto.fromJson(json as Map<String, dynamic>),
     );
   }
 }

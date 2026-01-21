@@ -7,6 +7,7 @@ import 'package:ticket_platform_mobile/features/chat/data/dto/request/chat_req_d
 import 'package:ticket_platform_mobile/features/chat/data/dto/response/chat_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/chat_room_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/message_entity.dart';
+import 'package:ticket_platform_mobile/features/chat/domain/entities/transaction_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/repositories/chat_repository.dart';
 
 part 'chat_repository_impl.g.dart';
@@ -53,17 +54,7 @@ class ChatRepositoryImpl implements ChatRepository {
       message: message,
       imageFile: imageFile,
     );
-    final data = response.dataOrThrow;
-    return MessageEntity(
-      messageId: data.messageId,
-      roomId: data.roomId,
-      senderId: 0, // 서버에서 반환하지 않음, 본인이 보낸 메시지
-      senderNickname: '',
-      message: data.message,
-      imageUrl: data.imageUrl,
-      createdAt: DateTime.parse(data.createdAt),
-      isMyMessage: true,
-    );
+    return response.dataOrThrow.toEntity();
   }
 
   @override
@@ -86,25 +77,25 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<PaymentRequestResult> requestPayment({
+  Future<PaymentRequestEntity> requestPayment({
     required int roomId,
     required int transactionId,
   }) async {
     final response = await _remoteDataSource.requestPayment(
       RequestPaymentReqDto(roomId: roomId, transactionId: transactionId),
     );
-    return response.dataOrThrow.toResult();
+    return response.dataOrThrow.toEntity();
   }
 
   @override
-  Future<PurchaseConfirmResult> confirmPurchase({
+  Future<PurchaseConfirmEntity> confirmPurchase({
     required int roomId,
     required int transactionId,
   }) async {
     final response = await _remoteDataSource.confirmPurchase(
       ConfirmPurchaseReqDto(roomId: roomId, transactionId: transactionId),
     );
-    return response.dataOrThrow.toResult();
+    return response.dataOrThrow.toEntity();
   }
 
   @override
@@ -120,6 +111,12 @@ class ChatRepositoryImpl implements ChatRepository {
         cancelReason: cancelReason,
       ),
     );
+  }
+
+  @override
+  Future<ImageUrlRefreshEntity> refreshImageUrl(int messageId) async {
+    final response = await _remoteDataSource.refreshImageUrl(messageId);
+    return response.dataOrThrow.toEntity();
   }
 }
 

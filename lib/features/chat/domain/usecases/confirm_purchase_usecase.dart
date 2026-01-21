@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ticket_platform_mobile/features/chat/data/repositories/chat_repository_impl.dart';
+import 'package:ticket_platform_mobile/features/chat/domain/entities/transaction_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/repositories/chat_repository.dart';
 
 part 'confirm_purchase_usecase.g.dart';
@@ -19,7 +20,7 @@ class ConfirmPurchaseUsecase {
 
   ConfirmPurchaseUsecase(this._repository);
 
-  Future<PurchaseConfirmResult> call(ConfirmPurchaseParams params) async {
+  Future<PurchaseConfirmEntity> call(ConfirmPurchaseParams params) async {
     return _repository.confirmPurchase(
       roomId: params.roomId,
       transactionId: params.transactionId,

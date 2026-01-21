@@ -16,3 +16,11 @@ abstract class MessageEntity with _$MessageEntity {
     required bool isMyMessage,
   }) = _MessageEntity;
 }
+
+@freezed
+abstract class ImageUrlRefreshEntity with _$ImageUrlRefreshEntity {
+  const factory ImageUrlRefreshEntity({
+    required String imageUrl,
+    required DateTime expiresAt,
+  }) = _ImageUrlRefreshEntity;
+}

@@ -2090,7 +2090,7 @@ as String?,
 /// @nodoc
 mixin _$SendMessageRespDto {
 
- int get messageId; int get roomId; String? get message; String? get imageUrl; String get createdAt; bool get success;
+ int get messageId; int get roomId; int get senderId; String get senderNickname; String? get senderProfileImage; String? get message; String? get imageUrl; String get createdAt; bool get success;
 /// Create a copy of SendMessageRespDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2103,16 +2103,16 @@ $SendMessageRespDtoCopyWith<SendMessageRespDto> get copyWith => _$SendMessageRes
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SendMessageRespDto&&(identical(other.messageId, messageId) || other.messageId == messageId)&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.message, message) || other.message == message)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.success, success) || other.success == success));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SendMessageRespDto&&(identical(other.messageId, messageId) || other.messageId == messageId)&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.senderId, senderId) || other.senderId == senderId)&&(identical(other.senderNickname, senderNickname) || other.senderNickname == senderNickname)&&(identical(other.senderProfileImage, senderProfileImage) || other.senderProfileImage == senderProfileImage)&&(identical(other.message, message) || other.message == message)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.success, success) || other.success == success));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,messageId,roomId,message,imageUrl,createdAt,success);
+int get hashCode => Object.hash(runtimeType,messageId,roomId,senderId,senderNickname,senderProfileImage,message,imageUrl,createdAt,success);
 
 @override
 String toString() {
-  return 'SendMessageRespDto(messageId: $messageId, roomId: $roomId, message: $message, imageUrl: $imageUrl, createdAt: $createdAt, success: $success)';
+  return 'SendMessageRespDto(messageId: $messageId, roomId: $roomId, senderId: $senderId, senderNickname: $senderNickname, senderProfileImage: $senderProfileImage, message: $message, imageUrl: $imageUrl, createdAt: $createdAt, success: $success)';
 }
 
 
@@ -2123,7 +2123,7 @@ abstract mixin class $SendMessageRespDtoCopyWith<$Res>  {
   factory $SendMessageRespDtoCopyWith(SendMessageRespDto value, $Res Function(SendMessageRespDto) _then) = _$SendMessageRespDtoCopyWithImpl;
 @useResult
 $Res call({
- int messageId, int roomId, String? message, String? imageUrl, String createdAt, bool success
+ int messageId, int roomId, int senderId, String senderNickname, String? senderProfileImage, String? message, String? imageUrl, String createdAt, bool success
 });
 
 
@@ -2140,11 +2140,14 @@ class _$SendMessageRespDtoCopyWithImpl<$Res>
 
 /// Create a copy of SendMessageRespDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? messageId = null,Object? roomId = null,Object? message = freezed,Object? imageUrl = freezed,Object? createdAt = null,Object? success = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? messageId = null,Object? roomId = null,Object? senderId = null,Object? senderNickname = null,Object? senderProfileImage = freezed,Object? message = freezed,Object? imageUrl = freezed,Object? createdAt = null,Object? success = null,}) {
   return _then(_self.copyWith(
 messageId: null == messageId ? _self.messageId : messageId // ignore: cast_nullable_to_non_nullable
 as int,roomId: null == roomId ? _self.roomId : roomId // ignore: cast_nullable_to_non_nullable
-as int,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as int,senderId: null == senderId ? _self.senderId : senderId // ignore: cast_nullable_to_non_nullable
+as int,senderNickname: null == senderNickname ? _self.senderNickname : senderNickname // ignore: cast_nullable_to_non_nullable
+as String,senderProfileImage: freezed == senderProfileImage ? _self.senderProfileImage : senderProfileImage // ignore: cast_nullable_to_non_nullable
+as String?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,imageUrl: freezed == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as String,success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
@@ -2233,10 +2236,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int messageId,  int roomId,  String? message,  String? imageUrl,  String createdAt,  bool success)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int messageId,  int roomId,  int senderId,  String senderNickname,  String? senderProfileImage,  String? message,  String? imageUrl,  String createdAt,  bool success)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SendMessageRespDto() when $default != null:
-return $default(_that.messageId,_that.roomId,_that.message,_that.imageUrl,_that.createdAt,_that.success);case _:
+return $default(_that.messageId,_that.roomId,_that.senderId,_that.senderNickname,_that.senderProfileImage,_that.message,_that.imageUrl,_that.createdAt,_that.success);case _:
   return orElse();
 
 }
@@ -2254,10 +2257,10 @@ return $default(_that.messageId,_that.roomId,_that.message,_that.imageUrl,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int messageId,  int roomId,  String? message,  String? imageUrl,  String createdAt,  bool success)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int messageId,  int roomId,  int senderId,  String senderNickname,  String? senderProfileImage,  String? message,  String? imageUrl,  String createdAt,  bool success)  $default,) {final _that = this;
 switch (_that) {
 case _SendMessageRespDto():
-return $default(_that.messageId,_that.roomId,_that.message,_that.imageUrl,_that.createdAt,_that.success);case _:
+return $default(_that.messageId,_that.roomId,_that.senderId,_that.senderNickname,_that.senderProfileImage,_that.message,_that.imageUrl,_that.createdAt,_that.success);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -2274,10 +2277,10 @@ return $default(_that.messageId,_that.roomId,_that.message,_that.imageUrl,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int messageId,  int roomId,  String? message,  String? imageUrl,  String createdAt,  bool success)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int messageId,  int roomId,  int senderId,  String senderNickname,  String? senderProfileImage,  String? message,  String? imageUrl,  String createdAt,  bool success)?  $default,) {final _that = this;
 switch (_that) {
 case _SendMessageRespDto() when $default != null:
-return $default(_that.messageId,_that.roomId,_that.message,_that.imageUrl,_that.createdAt,_that.success);case _:
+return $default(_that.messageId,_that.roomId,_that.senderId,_that.senderNickname,_that.senderProfileImage,_that.message,_that.imageUrl,_that.createdAt,_that.success);case _:
   return null;
 
 }
@@ -2289,11 +2292,14 @@ return $default(_that.messageId,_that.roomId,_that.message,_that.imageUrl,_that.
 @JsonSerializable()
 
 class _SendMessageRespDto implements SendMessageRespDto {
-  const _SendMessageRespDto({required this.messageId, required this.roomId, this.message, this.imageUrl, required this.createdAt, required this.success});
+  const _SendMessageRespDto({required this.messageId, required this.roomId, required this.senderId, required this.senderNickname, this.senderProfileImage, this.message, this.imageUrl, required this.createdAt, required this.success});
   factory _SendMessageRespDto.fromJson(Map<String, dynamic> json) => _$SendMessageRespDtoFromJson(json);
 
 @override final  int messageId;
 @override final  int roomId;
+@override final  int senderId;
+@override final  String senderNickname;
+@override final  String? senderProfileImage;
 @override final  String? message;
 @override final  String? imageUrl;
 @override final  String createdAt;
@@ -2312,16 +2318,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SendMessageRespDto&&(identical(other.messageId, messageId) || other.messageId == messageId)&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.message, message) || other.message == message)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.success, success) || other.success == success));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SendMessageRespDto&&(identical(other.messageId, messageId) || other.messageId == messageId)&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.senderId, senderId) || other.senderId == senderId)&&(identical(other.senderNickname, senderNickname) || other.senderNickname == senderNickname)&&(identical(other.senderProfileImage, senderProfileImage) || other.senderProfileImage == senderProfileImage)&&(identical(other.message, message) || other.message == message)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.success, success) || other.success == success));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,messageId,roomId,message,imageUrl,createdAt,success);
+int get hashCode => Object.hash(runtimeType,messageId,roomId,senderId,senderNickname,senderProfileImage,message,imageUrl,createdAt,success);
 
 @override
 String toString() {
-  return 'SendMessageRespDto(messageId: $messageId, roomId: $roomId, message: $message, imageUrl: $imageUrl, createdAt: $createdAt, success: $success)';
+  return 'SendMessageRespDto(messageId: $messageId, roomId: $roomId, senderId: $senderId, senderNickname: $senderNickname, senderProfileImage: $senderProfileImage, message: $message, imageUrl: $imageUrl, createdAt: $createdAt, success: $success)';
 }
 
 
@@ -2332,7 +2338,7 @@ abstract mixin class _$SendMessageRespDtoCopyWith<$Res> implements $SendMessageR
   factory _$SendMessageRespDtoCopyWith(_SendMessageRespDto value, $Res Function(_SendMessageRespDto) _then) = __$SendMessageRespDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int messageId, int roomId, String? message, String? imageUrl, String createdAt, bool success
+ int messageId, int roomId, int senderId, String senderNickname, String? senderProfileImage, String? message, String? imageUrl, String createdAt, bool success
 });
 
 
@@ -2349,11 +2355,14 @@ class __$SendMessageRespDtoCopyWithImpl<$Res>
 
 /// Create a copy of SendMessageRespDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? messageId = null,Object? roomId = null,Object? message = freezed,Object? imageUrl = freezed,Object? createdAt = null,Object? success = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? messageId = null,Object? roomId = null,Object? senderId = null,Object? senderNickname = null,Object? senderProfileImage = freezed,Object? message = freezed,Object? imageUrl = freezed,Object? createdAt = null,Object? success = null,}) {
   return _then(_SendMessageRespDto(
 messageId: null == messageId ? _self.messageId : messageId // ignore: cast_nullable_to_non_nullable
 as int,roomId: null == roomId ? _self.roomId : roomId // ignore: cast_nullable_to_non_nullable
-as int,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as int,senderId: null == senderId ? _self.senderId : senderId // ignore: cast_nullable_to_non_nullable
+as int,senderNickname: null == senderNickname ? _self.senderNickname : senderNickname // ignore: cast_nullable_to_non_nullable
+as String,senderProfileImage: freezed == senderProfileImage ? _self.senderProfileImage : senderProfileImage // ignore: cast_nullable_to_non_nullable
+as String?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,imageUrl: freezed == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as String,success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
@@ -2896,6 +2905,272 @@ transactionId: null == transactionId ? _self.transactionId : transactionId // ig
 as int,confirmedAt: null == confirmedAt ? _self.confirmedAt : confirmedAt // ignore: cast_nullable_to_non_nullable
 as String,success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
 as bool,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$ImageUrlRefreshRespDto {
+
+ String get imageUrl; String get expiresAt;
+/// Create a copy of ImageUrlRefreshRespDto
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ImageUrlRefreshRespDtoCopyWith<ImageUrlRefreshRespDto> get copyWith => _$ImageUrlRefreshRespDtoCopyWithImpl<ImageUrlRefreshRespDto>(this as ImageUrlRefreshRespDto, _$identity);
+
+  /// Serializes this ImageUrlRefreshRespDto to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ImageUrlRefreshRespDto&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,imageUrl,expiresAt);
+
+@override
+String toString() {
+  return 'ImageUrlRefreshRespDto(imageUrl: $imageUrl, expiresAt: $expiresAt)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ImageUrlRefreshRespDtoCopyWith<$Res>  {
+  factory $ImageUrlRefreshRespDtoCopyWith(ImageUrlRefreshRespDto value, $Res Function(ImageUrlRefreshRespDto) _then) = _$ImageUrlRefreshRespDtoCopyWithImpl;
+@useResult
+$Res call({
+ String imageUrl, String expiresAt
+});
+
+
+
+
+}
+/// @nodoc
+class _$ImageUrlRefreshRespDtoCopyWithImpl<$Res>
+    implements $ImageUrlRefreshRespDtoCopyWith<$Res> {
+  _$ImageUrlRefreshRespDtoCopyWithImpl(this._self, this._then);
+
+  final ImageUrlRefreshRespDto _self;
+  final $Res Function(ImageUrlRefreshRespDto) _then;
+
+/// Create a copy of ImageUrlRefreshRespDto
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? imageUrl = null,Object? expiresAt = null,}) {
+  return _then(_self.copyWith(
+imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
+as String,expiresAt: null == expiresAt ? _self.expiresAt : expiresAt // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [ImageUrlRefreshRespDto].
+extension ImageUrlRefreshRespDtoPatterns on ImageUrlRefreshRespDto {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ImageUrlRefreshRespDto value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ImageUrlRefreshRespDto() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ImageUrlRefreshRespDto value)  $default,){
+final _that = this;
+switch (_that) {
+case _ImageUrlRefreshRespDto():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ImageUrlRefreshRespDto value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ImageUrlRefreshRespDto() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String imageUrl,  String expiresAt)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ImageUrlRefreshRespDto() when $default != null:
+return $default(_that.imageUrl,_that.expiresAt);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String imageUrl,  String expiresAt)  $default,) {final _that = this;
+switch (_that) {
+case _ImageUrlRefreshRespDto():
+return $default(_that.imageUrl,_that.expiresAt);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String imageUrl,  String expiresAt)?  $default,) {final _that = this;
+switch (_that) {
+case _ImageUrlRefreshRespDto() when $default != null:
+return $default(_that.imageUrl,_that.expiresAt);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ImageUrlRefreshRespDto implements ImageUrlRefreshRespDto {
+  const _ImageUrlRefreshRespDto({required this.imageUrl, required this.expiresAt});
+  factory _ImageUrlRefreshRespDto.fromJson(Map<String, dynamic> json) => _$ImageUrlRefreshRespDtoFromJson(json);
+
+@override final  String imageUrl;
+@override final  String expiresAt;
+
+/// Create a copy of ImageUrlRefreshRespDto
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ImageUrlRefreshRespDtoCopyWith<_ImageUrlRefreshRespDto> get copyWith => __$ImageUrlRefreshRespDtoCopyWithImpl<_ImageUrlRefreshRespDto>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ImageUrlRefreshRespDtoToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ImageUrlRefreshRespDto&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,imageUrl,expiresAt);
+
+@override
+String toString() {
+  return 'ImageUrlRefreshRespDto(imageUrl: $imageUrl, expiresAt: $expiresAt)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ImageUrlRefreshRespDtoCopyWith<$Res> implements $ImageUrlRefreshRespDtoCopyWith<$Res> {
+  factory _$ImageUrlRefreshRespDtoCopyWith(_ImageUrlRefreshRespDto value, $Res Function(_ImageUrlRefreshRespDto) _then) = __$ImageUrlRefreshRespDtoCopyWithImpl;
+@override @useResult
+$Res call({
+ String imageUrl, String expiresAt
+});
+
+
+
+
+}
+/// @nodoc
+class __$ImageUrlRefreshRespDtoCopyWithImpl<$Res>
+    implements _$ImageUrlRefreshRespDtoCopyWith<$Res> {
+  __$ImageUrlRefreshRespDtoCopyWithImpl(this._self, this._then);
+
+  final _ImageUrlRefreshRespDto _self;
+  final $Res Function(_ImageUrlRefreshRespDto) _then;
+
+/// Create a copy of ImageUrlRefreshRespDto
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? imageUrl = null,Object? expiresAt = null,}) {
+  return _then(_ImageUrlRefreshRespDto(
+imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
+as String,expiresAt: null == expiresAt ? _self.expiresAt : expiresAt // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

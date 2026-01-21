@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ticket_platform_mobile/features/chat/domain/entities/chat_room_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/message_entity.dart';
+import 'package:ticket_platform_mobile/features/chat/domain/entities/transaction_entity.dart';
 
 abstract class ChatRepository {
   /// 채팅방 목록 조회
@@ -34,13 +35,13 @@ abstract class ChatRepository {
   Future<void> markAsRead(int roomId);
 
   /// 결제 요청 (판매자)
-  Future<PaymentRequestResult> requestPayment({
+  Future<PaymentRequestEntity> requestPayment({
     required int roomId,
     required int transactionId,
   });
 
   /// 구매 확정 (구매자)
-  Future<PurchaseConfirmResult> confirmPurchase({
+  Future<PurchaseConfirmEntity> confirmPurchase({
     required int roomId,
     required int transactionId,
   });
@@ -51,28 +52,7 @@ abstract class ChatRepository {
     required int transactionId,
     required String cancelReason,
   });
-}
 
-class PaymentRequestResult {
-  final String paymentUrl;
-  final int transactionId;
-  final int amount;
-
-  PaymentRequestResult({
-    required this.paymentUrl,
-    required this.transactionId,
-    required this.amount,
-  });
-}
-
-class PurchaseConfirmResult {
-  final int transactionId;
-  final DateTime confirmedAt;
-  final bool success;
-
-  PurchaseConfirmResult({
-    required this.transactionId,
-    required this.confirmedAt,
-    required this.success,
-  });
+  /// 이미지 URL 재발급
+  Future<ImageUrlRefreshEntity> refreshImageUrl(int messageId);
 }

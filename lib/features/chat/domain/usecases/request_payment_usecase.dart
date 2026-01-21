@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ticket_platform_mobile/features/chat/data/repositories/chat_repository_impl.dart';
+import 'package:ticket_platform_mobile/features/chat/domain/entities/transaction_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/repositories/chat_repository.dart';
 
 part 'request_payment_usecase.g.dart';
@@ -19,7 +20,7 @@ class RequestPaymentUsecase {
 
   RequestPaymentUsecase(this._repository);
 
-  Future<PaymentRequestResult> call(RequestPaymentParams params) async {
+  Future<PaymentRequestEntity> call(RequestPaymentParams params) async {
     return _repository.requestPayment(
       roomId: params.roomId,
       transactionId: params.transactionId,

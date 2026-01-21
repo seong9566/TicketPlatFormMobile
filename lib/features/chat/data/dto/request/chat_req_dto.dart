@@ -25,7 +25,7 @@ class MarkAsReadReqDto {
 
   MarkAsReadReqDto({required this.roomId});
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return {'roomId': roomId};
   }
 }
@@ -36,7 +36,7 @@ class RequestPaymentReqDto {
 
   RequestPaymentReqDto({required this.roomId, required this.transactionId});
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return {'roomId': roomId, 'transactionId': transactionId};
   }
 }
@@ -47,7 +47,7 @@ class ConfirmPurchaseReqDto {
 
   ConfirmPurchaseReqDto({required this.roomId, required this.transactionId});
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return {'roomId': roomId, 'transactionId': transactionId};
   }
 }
@@ -63,7 +63,7 @@ class CancelTransactionReqDto {
     required this.cancelReason,
   });
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return {
       'roomId': roomId,
       'transactionId': transactionId,

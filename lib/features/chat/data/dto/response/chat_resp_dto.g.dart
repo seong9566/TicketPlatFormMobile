@@ -176,6 +176,9 @@ _SendMessageRespDto _$SendMessageRespDtoFromJson(Map<String, dynamic> json) =>
     _SendMessageRespDto(
       messageId: (json['messageId'] as num).toInt(),
       roomId: (json['roomId'] as num).toInt(),
+      senderId: (json['senderId'] as num).toInt(),
+      senderNickname: json['senderNickname'] as String,
+      senderProfileImage: json['senderProfileImage'] as String?,
       message: json['message'] as String?,
       imageUrl: json['imageUrl'] as String?,
       createdAt: json['createdAt'] as String,
@@ -186,6 +189,9 @@ Map<String, dynamic> _$SendMessageRespDtoToJson(_SendMessageRespDto instance) =>
     <String, dynamic>{
       'messageId': instance.messageId,
       'roomId': instance.roomId,
+      'senderId': instance.senderId,
+      'senderNickname': instance.senderNickname,
+      'senderProfileImage': instance.senderProfileImage,
       'message': instance.message,
       'imageUrl': instance.imageUrl,
       'createdAt': instance.createdAt,
@@ -222,4 +228,18 @@ Map<String, dynamic> _$PurchaseConfirmRespDtoToJson(
   'transactionId': instance.transactionId,
   'confirmedAt': instance.confirmedAt,
   'success': instance.success,
+};
+
+_ImageUrlRefreshRespDto _$ImageUrlRefreshRespDtoFromJson(
+  Map<String, dynamic> json,
+) => _ImageUrlRefreshRespDto(
+  imageUrl: json['imageUrl'] as String,
+  expiresAt: json['expiresAt'] as String,
+);
+
+Map<String, dynamic> _$ImageUrlRefreshRespDtoToJson(
+  _ImageUrlRefreshRespDto instance,
+) => <String, dynamic>{
+  'imageUrl': instance.imageUrl,
+  'expiresAt': instance.expiresAt,
 };
