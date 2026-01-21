@@ -61,16 +61,6 @@ class ChatRoomCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    chatRoom.ticketTitle,
-                    style: AppTextStyles.caption.copyWith(
-                      color: AppColors.textSecondary,
-                      fontSize: 12,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
                   const SizedBox(height: 4),
                   Row(
                     children: [
@@ -87,7 +77,7 @@ class ChatRoomCard extends StatelessWidget {
                                 ? FontWeight.w600
                                 : FontWeight.normal,
                           ),
-                          maxLines: 1,
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
