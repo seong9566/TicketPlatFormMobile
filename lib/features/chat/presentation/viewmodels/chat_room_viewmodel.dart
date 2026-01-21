@@ -55,10 +55,13 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
   /// - 채팅방 상세 정보 fetch
   @override
   FutureOr<ChatRoomDetailUiModel> build(int roomId) async {
+    // Disposal 시 ref/state 접근을 피하기 위해 필요한 인스턴스 캡처
+    final signalR = ref.read(chatSignalRDataSourceProvider);
+
     ref.onDispose(() {
       _messageSubscription?.cancel();
       _roomUpdatedSubscription?.cancel();
-      _leaveRoom();
+      _leaveRoom(signalR, roomId);
     });
 
     // SignalR 연결 확인 (채팅방 직접 진입 케이스 대비)
@@ -121,17 +124,15 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
 
   /// SignalR 채팅방 퇴장
   /// - 화면 종료 시 자동 호출 (ref.onDispose)
-  void _leaveRoom() {
+  void _leaveRoom(ChatSignalRDataSource signalR, int roomId) {
     try {
-      final currentRoom = state.value;
-      if (currentRoom == null) return;
-
-      final signalR = ref.read(chatSignalRDataSourceProvider);
       if (signalR.isConnected) {
-        signalR.leaveRoom(currentRoom.roomId);
+        signalR.leaveRoom(roomId);
+        AppLogger.i('🚪 Left chat room $roomId');
       }
     } catch (e) {
-      AppLogger.e('Error leaving room', e);
+      // Note: Disposal 중 발생하는 에러는 사용자 경험에 영향을 주지 않으므로 에러가 아닌 디버그용으로만 기록
+      AppLogger.d('Info: Silent failure during leaveRoom: $e');
     }
   }
 
