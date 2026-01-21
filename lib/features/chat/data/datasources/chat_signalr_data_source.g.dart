@@ -8,9 +8,16 @@ part of 'chat_signalr_data_source.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// SignalR DataSource Provider (싱글톤)
+/// - 앱 전체에서 하나의 인스턴스 공유
+/// - 연결 상태가 여러 ViewModel에서 동일하게 유지됨
 
 @ProviderFor(chatSignalRDataSource)
 const chatSignalRDataSourceProvider = ChatSignalRDataSourceProvider._();
+
+/// SignalR DataSource Provider (싱글톤)
+/// - 앱 전체에서 하나의 인스턴스 공유
+/// - 연결 상태가 여러 ViewModel에서 동일하게 유지됨
 
 final class ChatSignalRDataSourceProvider
     extends
@@ -20,13 +27,16 @@ final class ChatSignalRDataSourceProvider
           ChatSignalRDataSource
         >
     with $Provider<ChatSignalRDataSource> {
+  /// SignalR DataSource Provider (싱글톤)
+  /// - 앱 전체에서 하나의 인스턴스 공유
+  /// - 연결 상태가 여러 ViewModel에서 동일하게 유지됨
   const ChatSignalRDataSourceProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
         name: r'chatSignalRDataSourceProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -55,4 +65,4 @@ final class ChatSignalRDataSourceProvider
 }
 
 String _$chatSignalRDataSourceHash() =>
-    r'625f68a4e6d004dee9649947b91e38fa24f16a58';
+    r'b898666f0071d3c5699ac0629329774c2ab99b6a';

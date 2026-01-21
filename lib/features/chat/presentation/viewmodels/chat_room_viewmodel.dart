@@ -17,17 +17,22 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:ticket_platform_mobile/core/storage/token_storage.dart';
 import 'package:ticket_platform_mobile/core/utils/logger.dart';
+import 'package:ticket_platform_mobile/features/chat/data/datasources/chat_event_bus.dart';
 import 'package:ticket_platform_mobile/features/chat/data/datasources/chat_signalr_data_source.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/message_entity.dart';
+import 'package:ticket_platform_mobile/features/chat/domain/events/chat_message_event.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/usecases/cancel_transaction_usecase.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/usecases/confirm_purchase_usecase.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/usecases/get_chat_room_detail_usecase.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/usecases/get_messages_usecase.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/usecases/mark_as_read_usecase.dart';
+import 'package:ticket_platform_mobile/features/chat/domain/usecases/refresh_image_url_usecase.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/usecases/request_payment_usecase.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/usecases/send_message_usecase.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/ui_models/chat_room_ui_model.dart';
+import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/profile_viewmodel.dart';
 
 part 'chat_room_viewmodel.g.dart';
 
@@ -41,9 +46,12 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
   StreamSubscription<RoomUpdatedEvent>? _roomUpdatedSubscription;
   int? _lastMessageId;
   bool _hasMoreMessages = true;
+  bool _isLoadingMoreMessages = false;
 
   /// AsyncNotifier 초기화 및 데이터 로드
   /// - dispose 시 리스너 정리 및 채팅방 퇴장
+  /// - SignalR 연결 확인 및 연결
+  /// - 리스너를 가장 먼저 설정하여 메시지 손실 방지
   /// - 채팅방 상세 정보 fetch
   @override
   FutureOr<ChatRoomDetailUiModel> build(int roomId) async {
@@ -53,22 +61,27 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
       _leaveRoom();
     });
 
+    // SignalR 연결 확인 (채팅방 직접 진입 케이스 대비)
+    await _connectSignalRIfNeeded();
+
+    // 리스너를 가장 먼저 설정 (메시지 손실 방지)
+    _setupSignalRListeners(roomId);
+
+    // 채팅방 입장 (재시도 로직 포함)
+    await _joinRoomWithRetry(roomId);
+
     return _fetchChatRoomDetail(roomId);
   }
 
   /// 채팅방 상세 정보 조회
   /// - UseCase를 통해 채팅방 정보 및 메시지 로드
   /// - 읽음 처리 (markAsRead)
-  /// - SignalR 채팅방 입장 및 이벤트 리스너 설정
   Future<ChatRoomDetailUiModel> _fetchChatRoomDetail(int roomId) async {
     final entity = await ref
         .read(getChatRoomDetailUsecaseProvider)
         .call(roomId);
 
     await ref.read(markAsReadUsecaseProvider).call(roomId);
-
-    _joinRoom(roomId);
-    _setupSignalRListeners(roomId);
 
     if (entity.messages.isNotEmpty) {
       _lastMessageId = entity.messages.last.messageId;
@@ -77,17 +90,33 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
     return ChatRoomDetailUiModel.fromEntity(entity);
   }
 
-  /// SignalR 채팅방 입장
-  /// - 연결되어 있을 때만 입장 시도
-  void _joinRoom(int roomId) {
-    try {
-      final signalR = ref.read(chatSignalRDataSourceProvider);
-      if (signalR.isConnected) {
-        signalR.joinRoom(roomId);
+  /// SignalR 채팅방 입장 (재시도 로직 포함)
+  /// - 연결 상태가 Connected가 아니면 최대 3회 재시도
+  /// - 500ms 간격으로 재시도
+  Future<void> _joinRoomWithRetry(int roomId, {int maxRetries = 3}) async {
+    for (int i = 0; i < maxRetries; i++) {
+      try {
+        final signalR = ref.read(chatSignalRDataSourceProvider);
+        AppLogger.i(
+          '🔌 SignalR connection status: ${signalR.isConnected} (attempt ${i + 1}/$maxRetries)',
+        );
+
+        if (signalR.isConnected) {
+          await signalR.joinRoom(roomId);
+          AppLogger.i('✅ Successfully joined room $roomId on attempt ${i + 1}');
+          return;
+        }
+
+        AppLogger.w(
+          '⏳ Waiting for SignalR connection (attempt ${i + 1}/$maxRetries)',
+        );
+        await Future.delayed(const Duration(milliseconds: 500));
+      } catch (e) {
+        AppLogger.e('Error joining room on attempt ${i + 1}', e);
+        if (i == maxRetries - 1) rethrow;
       }
-    } catch (e) {
-      AppLogger.e('Error joining room', e);
     }
+    AppLogger.e('❌ Failed to join room $roomId after $maxRetries attempts');
   }
 
   /// SignalR 채팅방 퇴장
@@ -109,9 +138,22 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
   void _setupSignalRListeners(int roomId) {
     final signalR = ref.read(chatSignalRDataSourceProvider);
 
+    AppLogger.i('🎧 Setting up SignalR listeners for room $roomId');
+
+    // Cancel existing subscriptions to prevent memory leaks and duplicate event handling
+    _messageSubscription?.cancel();
+    _roomUpdatedSubscription?.cancel();
+
     _messageSubscription = signalR.onReceiveMessage
-        .where((msg) => msg.roomId == roomId)
+        .where((msg) {
+          final matches = msg.roomId == roomId;
+          AppLogger.i(
+            '📩 Message received: messageId=${msg.messageId}, roomId=${msg.roomId}, matches=$matches (expecting roomId=$roomId)',
+          );
+          return matches;
+        })
         .listen((message) {
+          AppLogger.i('✅ Adding message to UI: ${message.messageId}');
           _addNewMessage(message);
         });
 
@@ -120,13 +162,30 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
         .listen((event) {
           _handleRoomUpdate(event);
         });
+
+    AppLogger.i('✅ SignalR listeners set up completed for room $roomId');
   }
 
   void _addNewMessage(MessageEntity message) {
     final current = state.value;
     if (current == null) return;
 
-    final newMessageUi = MessageUiModel.fromEntity(message);
+    // 중복 메시지 방지 (이미 존재하는 messageId는 추가하지 않음)
+    final isDuplicate = current.messages.any(
+      (msg) => msg.messageId == message.messageId,
+    );
+    if (isDuplicate) return;
+
+    // 현재 사용자 ID 가져오기
+    final myProfile = ref.read(profileViewModelProvider).value?.profile;
+    final isMyMessage = myProfile?.userId == message.senderId;
+
+    // isMyMessage 플래그 강제 설정 (SignalR 메시지는 false로 오므로 보정 필요)
+    final messageToUse = message.copyWith(
+      isMyMessage: isMyMessage || message.isMyMessage,
+    );
+    final newMessageUi = MessageUiModel.fromEntity(messageToUse);
+
     var updatedMessages = [newMessageUi, ...current.messages];
 
     // 메시지가 너무 많으면 오래된 메시지 삭제
@@ -153,10 +212,13 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
 
   Future<void> loadMoreMessages() async {
     if (!_hasMoreMessages) return;
+    // Prevent concurrent loading requests
+    if (_isLoadingMoreMessages) return;
 
     final current = state.value;
     if (current == null) return;
 
+    _isLoadingMoreMessages = true;
     try {
       final moreMessages = await ref
           .read(getMessagesUsecaseProvider)
@@ -184,6 +246,8 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
       state = AsyncValue.data(current.copyWith(messages: updatedMessages));
     } catch (e, stack) {
       AppLogger.e('Error loading more messages', e, stack);
+    } finally {
+      _isLoadingMoreMessages = false;
     }
   }
 
@@ -192,7 +256,7 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
     if (current == null) return false;
 
     try {
-      await ref
+      final sentMessage = await ref
           .read(sendMessageUsecaseProvider)
           .call(
             SendMessageParams(
@@ -201,6 +265,15 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
               imageFile: imageFile,
             ),
           );
+
+      // 즉시 UI에 표시 (SignalR 브로드캐스트를 기다리지 않음)
+      _addNewMessage(sentMessage);
+
+      // Event Bus로 ChatListViewModel에 알림
+      ref
+          .read(chatEventBusProvider)
+          .publishMessageSent(ChatMessageEvent(sentMessage));
+
       return true;
     } catch (e, stack) {
       AppLogger.e('Error sending message', e, stack);
@@ -272,6 +345,18 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
     }
   }
 
+  Future<String?> refreshImageUrl(int messageId) async {
+    try {
+      final result = await ref
+          .read(refreshImageUrlUsecaseProvider)
+          .call(messageId);
+      return result.imageUrl;
+    } catch (e, stack) {
+      AppLogger.e('Error refreshing image URL', e, stack);
+      return null;
+    }
+  }
+
   void sendTypingIndicator() {
     final current = state.value;
     if (current == null) return;
@@ -297,6 +382,39 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
       }
     } catch (e) {
       AppLogger.e('Error sending stopped typing indicator', e);
+    }
+  }
+
+  /// SignalR 연결 확인 및 연결
+  /// - 채팅방에 직접 진입하는 경우를 대비
+  /// - 이미 연결되어 있으면 재연결하지 않음
+  Future<void> _connectSignalRIfNeeded() async {
+    try {
+      final signalR = ref.read(chatSignalRDataSourceProvider);
+
+      // 이미 연결되어 있으면 스킵
+      if (signalR.isConnected) {
+        AppLogger.i('✅ SignalR already connected');
+        return;
+      }
+
+      AppLogger.i('🔌 Attempting to connect SignalR from chat room...');
+
+      // 토큰 가져오기
+      final tokenStorage = ref.read(tokenStorageProvider);
+      final accessToken = await tokenStorage.getAccessToken();
+
+      if (accessToken == null || accessToken.isEmpty) {
+        AppLogger.w('⚠️ No access token found, cannot connect SignalR');
+        return;
+      }
+
+      // SignalR 연결
+      await signalR.connect(accessToken);
+      AppLogger.i('✅ SignalR connected successfully from chat room');
+    } catch (e, stack) {
+      AppLogger.e('❌ Failed to connect SignalR from chat room', e, stack);
+      // 연결 실패해도 채팅방 UI는 볼 수 있어야 하므로 에러를 던지지 않음
     }
   }
 

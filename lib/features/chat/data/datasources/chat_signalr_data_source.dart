@@ -168,11 +168,32 @@ class ChatSignalRDataSourceImpl implements ChatSignalRDataSource {
       _setupListeners();
 
       await _hubConnection!.start();
-      AppLogger.i('SignalR connected successfully');
+
+      // ✅ 연결 상태가 Connected가 될 때까지 대기 (최대 2초)
+      await _waitForConnected();
+
+      AppLogger.i(
+        'SignalR connected successfully (state: ${_hubConnection?.state})',
+      );
     } catch (e, stack) {
       AppLogger.e('SignalR connection error', e, stack);
       rethrow;
     }
+  }
+
+  /// 연결 상태가 Connected가 될 때까지 대기
+  Future<void> _waitForConnected({int maxWaitMs = 2000}) async {
+    final stopwatch = Stopwatch()..start();
+    while (_hubConnection?.state != HubConnectionState.Connected) {
+      if (stopwatch.elapsedMilliseconds > maxWaitMs) {
+        throw Exception('SignalR connection timeout after ${maxWaitMs}ms');
+      }
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+    stopwatch.stop();
+    AppLogger.i(
+      'SignalR state confirmed Connected after ${stopwatch.elapsedMilliseconds}ms',
+    );
   }
 
   // 리스너 설정
@@ -180,10 +201,19 @@ class ChatSignalRDataSourceImpl implements ChatSignalRDataSource {
     // 메세지 수신
     _hubConnection!.on('ReceiveMessage', (arguments) {
       try {
-        if (arguments == null || arguments.isEmpty) return;
+        AppLogger.i('🔔 SignalR ReceiveMessage event fired!');
+        if (arguments == null || arguments.isEmpty) {
+          AppLogger.w('ReceiveMessage: arguments is null or empty');
+          return;
+        }
         final data = arguments[0] as Map<String, dynamic>;
+        AppLogger.i('ReceiveMessage data: $data');
         final message = _parseMessage(data);
+        AppLogger.i(
+          '📨 Message parsed successfully: messageId=${message.messageId}, roomId=${message.roomId}, sender=${message.senderNickname}',
+        );
         _messageController!.add(message);
+        AppLogger.i('✅ Message added to stream');
       } catch (e, stack) {
         AppLogger.e('Error parsing ReceiveMessage', e, stack);
       }
@@ -295,33 +325,19 @@ class ChatSignalRDataSourceImpl implements ChatSignalRDataSource {
   }
 
   /// SignalR 연결 종료
-  /// - StreamController를 닫고 null로 설정 (재사용 가능하도록)
+  /// - StreamController는 닫지 않고 재사용 (broadcast()로 생성되어 여러 구독자 지원)
   /// - HubConnection 정리
   /// - 입장한 방 목록 초기화
+  /// - Provider autoDispose로 메모리 자동 관리
   @override
   Future<void> disconnect() async {
     try {
       await _hubConnection?.stop();
       _hubConnection = null;
 
-      // 컨트롤러를 닫지 말고 null로 재설정
-      await _messageController?.close();
-      _messageController = null;
-
-      await _roomUpdatedController?.close();
-      _roomUpdatedController = null;
-
-      await _typingController?.close();
-      _typingController = null;
-
-      await _stoppedTypingController?.close();
-      _stoppedTypingController = null;
-
-      await _userJoinedController?.close();
-      _userJoinedController = null;
-
-      await _userLeftController?.close();
-      _userLeftController = null;
+      // ✅ StreamController는 닫지 않고 재사용
+      // - broadcast()로 생성되어 여러 구독자 지원
+      // - provider autoDispose로 메모리 관리됨
 
       _joinedRooms.clear();
 
@@ -337,11 +353,14 @@ class ChatSignalRDataSourceImpl implements ChatSignalRDataSource {
   @override
   Future<void> joinRoom(int roomId) async {
     try {
+      AppLogger.i(
+        '🚪 Attempting to join room: $roomId (connected: $isConnected)',
+      );
       await _hubConnection?.invoke('JoinRoom', args: [roomId]);
       _joinedRooms.add(roomId);
-      AppLogger.i('Joined room: $roomId');
+      AppLogger.i('✅ Successfully joined room: $roomId');
     } catch (e, stack) {
-      AppLogger.e('Error joining room', e, stack);
+      AppLogger.e('❌ Error joining room $roomId', e, stack);
       rethrow;
     }
   }
@@ -427,7 +446,17 @@ class ChatSignalRDataSourceImpl implements ChatSignalRDataSource {
   }
 }
 
-@riverpod
+/// SignalR DataSource Provider (싱글톤)
+/// - 앱 전체에서 하나의 인스턴스 공유
+/// - 연결 상태가 여러 ViewModel에서 동일하게 유지됨
+@Riverpod(keepAlive: true)
 ChatSignalRDataSource chatSignalRDataSource(Ref ref) {
-  return ChatSignalRDataSourceImpl();
+  final dataSource = ChatSignalRDataSourceImpl();
+
+  // Provider가 dispose될 때 SignalR 연결 해제
+  ref.onDispose(() {
+    dataSource.disconnect();
+  });
+
+  return dataSource;
 }
