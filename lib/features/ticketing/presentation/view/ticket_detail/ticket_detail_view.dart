@@ -15,6 +15,7 @@ import 'package:ticket_platform_mobile/features/ticketing/presentation/view/tick
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/widgets/ticket_detail_trade_section.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/viewmodels/ticket_detail_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_info_ui_model.dart';
+import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/profile_viewmodel.dart';
 
 class TicketDetailView extends ConsumerWidget {
   final String listingId;
@@ -126,7 +127,23 @@ class TicketDetailView extends ConsumerWidget {
       ),
       bottomNavigationBar: SafeArea(
         top: false,
-        child: TicketDetailBottomAction(ticketId: int.tryParse(listingId) ?? 0),
+        child: ticketDetailStateAsync.maybeWhen(
+          data: (state) {
+            final detail = state.detail;
+            if (detail == null) return const SizedBox.shrink();
+
+            final profileState = ref.watch(profileViewModelProvider);
+            final myUserId = profileState.value?.profile?.userId;
+            final isMine = myUserId == detail.seller.userId;
+
+            return TicketDetailBottomAction(
+              ticketId: ticketId,
+              isMine: isMine,
+              isFavorited: detail.isFavorited,
+            );
+          },
+          orElse: () => const SizedBox.shrink(),
+        ),
       ),
     );
   }

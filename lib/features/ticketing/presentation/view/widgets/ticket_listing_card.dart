@@ -41,7 +41,7 @@ class TicketListingCard extends StatelessWidget {
               ),
             ),
           ],
-          _buildBottomSection(context),
+          _buildPriceSection(),
         ],
       ),
     );
@@ -110,33 +110,6 @@ class TicketListingCard extends StatelessWidget {
                 ],
               ),
             ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildBottomSection(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _buildPriceSection(),
-        InkWell(
-          onTap: onTap,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            decoration: BoxDecoration(
-              color: AppColors.success,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Text(
-              '구매하기',
-              style: AppTextStyles.body2.copyWith(
-                color: AppColors.primaryForeground,
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
-              ),
-            ),
           ),
         ),
       ],

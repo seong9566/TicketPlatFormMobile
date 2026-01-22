@@ -6,20 +6,26 @@ import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/usecases/create_or_get_chat_room_usecase.dart';
+import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/viewmodels/ticket_detail_viewmodel.dart';
 
 class TicketDetailBottomAction extends ConsumerWidget {
   final int ticketId;
+  final bool isMine;
+  final bool isFavorited;
 
-  const TicketDetailBottomAction({super.key, required this.ticketId});
+  const TicketDetailBottomAction({
+    super.key,
+    required this.ticketId,
+    required this.isMine,
+    required this.isFavorited,
+  });
 
   Future<void> _onChatPressed(BuildContext context, WidgetRef ref) async {
     // 로딩 다이얼로그 표시
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => const Center(
-        child: CircularProgressIndicator(),
-      ),
+      builder: (context) => const Center(child: CircularProgressIndicator()),
     );
 
     try {
@@ -30,7 +36,7 @@ class TicketDetailBottomAction extends ConsumerWidget {
 
       // 로딩 다이얼로그 닫기
       if (context.mounted) {
-        Navigator.of(context).pop();
+        context.pop();
 
         // 채팅방으로 이동
         context.pushNamed(
@@ -41,7 +47,7 @@ class TicketDetailBottomAction extends ConsumerWidget {
     } catch (e) {
       // 로딩 다이얼로그 닫기
       if (context.mounted) {
-        Navigator.of(context).pop();
+        context.pop();
 
         // 에러 메시지 표시
         ScaffoldMessenger.of(context).showSnackBar(
@@ -73,52 +79,59 @@ class TicketDetailBottomAction extends ConsumerWidget {
       ),
       child: Row(
         children: [
-          Expanded(
-            child: SizedBox(
-              height: 52,
-              child: OutlinedButton(
-                onPressed: () => _onChatPressed(context, ref),
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Color(0xFFE2E8F0)),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppRadius.lg),
-                  ),
-                  foregroundColor: AppColors.textPrimary,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.chat_bubble_outline, size: 20),
-                    const SizedBox(width: 4),
-                    const Text(
-                      '채팅하기',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
+          if (!isMine) ...[
+            IconButton(
+              onPressed: () => ref
+                  .read(ticketDetailViewModelProvider(ticketId).notifier)
+                  .toggleLike(),
+              icon: Icon(
+                isFavorited ? Icons.favorite : Icons.favorite_border,
+                color: isFavorited
+                    ? AppColors.destructive
+                    : AppColors.textPrimary,
+                size: 28,
               ),
             ),
-          ),
-          const SizedBox(width: AppSpacing.md),
+            const SizedBox(width: AppSpacing.sm),
+          ],
           Expanded(
             child: SizedBox(
               height: 52,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: isMine
+                    ? () => context.pushNamed(
+                        AppRouterPath.transactionHistory.name,
+                        pathParameters: {'initialIndex': '1'},
+                      )
+                    : () => _onChatPressed(context, ref),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.success,
-                  foregroundColor: Colors.white,
+                  backgroundColor: isMine ? AppColors.primary : Colors.white,
+                  foregroundColor: isMine
+                      ? Colors.white
+                      : AppColors.textPrimary,
+                  side: isMine
+                      ? BorderSide.none
+                      : const BorderSide(color: Color(0xFFE2E8F0)),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppRadius.lg),
                   ),
                 ),
-                child: const Text(
-                  '구매하기',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (!isMine) ...[
+                      const Icon(Icons.chat_bubble_outline, size: 20),
+                      const SizedBox(width: 8),
+                    ],
+                    Text(
+                      isMine ? '채팅 내역' : '채팅하기',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
