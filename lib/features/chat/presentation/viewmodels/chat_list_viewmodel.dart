@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ticket_platform_mobile/core/storage/token_storage.dart';
+import 'package:ticket_platform_mobile/core/utils/date_format_util.dart';
 import 'package:ticket_platform_mobile/core/utils/logger.dart';
 import 'package:ticket_platform_mobile/features/chat/data/datasources/chat_event_bus.dart';
 import 'package:ticket_platform_mobile/features/chat/data/datasources/chat_signalr_data_source.dart';
@@ -166,14 +167,27 @@ class ChatListViewModel extends _$ChatListViewModel {
         (currentUserId != null && message.senderId == currentUserId);
 
     // 해당 채팅방의 마지막 메시지와 시간 업데이트
+    // 마지막 메시지 텍스트 결정
+    String lastMessageText = message.message ?? '';
+    if (lastMessageText.isEmpty) {
+      // 텍스트가 없으면 이미지 개수 표시
+      if (message.images != null && message.images!.isNotEmpty) {
+        lastMessageText = message.images!.length > 1
+            ? '[이미지 ${message.images!.length}장]'
+            : '[이미지]';
+      } else if (message.imageUrl != null) {
+        lastMessageText = '[이미지]';
+      }
+    }
+
     final updatedRoom = ChatRoomListUiModel(
       roomId: existingRoom.roomId,
       ticketId: existingRoom.ticketId,
       ticketTitle: existingRoom.ticketTitle,
       otherUserNickname: existingRoom.otherUserNickname,
       otherUserProfileImageUrl: existingRoom.otherUserProfileImageUrl,
-      lastMessage: message.message ?? (message.imageUrl != null ? '[이미지]' : ''),
-      timeDisplay: _formatTime(message.createdAt),
+      lastMessage: lastMessageText,
+      timeDisplay: DateFormatUtil.formatChatTime(message.createdAt),
       // 본인이 보낸 메시지가 아니면 읽지 않은 메시지 카운트 증가
       unreadCount: isMyMessage
           ? existingRoom.unreadCount
@@ -196,27 +210,6 @@ class ChatListViewModel extends _$ChatListViewModel {
   }
 
   /// 시간 포맷팅 (ChatRoomListUiModel._formatTime과 동일)
-  String _formatTime(DateTime dateTime) {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final yesterday = today.subtract(const Duration(days: 1));
-    final messageDate = DateTime(dateTime.year, dateTime.month, dateTime.day);
-
-    if (messageDate == today) {
-      final hour = dateTime.hour;
-      final minute = dateTime.minute.toString().padLeft(2, '0');
-      final period = hour < 12 ? '오전' : '오후';
-      final displayHour = hour == 0 ? 12 : (hour > 12 ? hour - 12 : hour);
-      return '$period $displayHour:$minute';
-    } else if (messageDate == yesterday) {
-      return '어제';
-    } else if (now.difference(dateTime).inDays < 7) {
-      const weekdays = ['월', '화', '수', '목', '금', '토', '일'];
-      return '${weekdays[dateTime.weekday - 1]}요일';
-    } else {
-      return '${dateTime.month}월${dateTime.day}일';
-    }
-  }
 
   /// 채팅방 업데이트 이벤트 처리 (거래 상태 변경 등)
   void _handleRoomUpdate(RoomUpdatedEvent event) {

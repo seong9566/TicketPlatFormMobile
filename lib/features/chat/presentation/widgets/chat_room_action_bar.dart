@@ -6,14 +6,12 @@ import 'package:ticket_platform_mobile/features/chat/presentation/ui_models/chat
 
 class ChatRoomActionBar extends StatelessWidget {
   final ChatRoomDetailUiModel chatRoom;
-  final VoidCallback onRequestPayment;
   final VoidCallback onConfirmPurchase;
   final VoidCallback onCancelTransaction;
 
   const ChatRoomActionBar({
     super.key,
     required this.chatRoom,
-    required this.onRequestPayment,
     required this.onConfirmPurchase,
     required this.onCancelTransaction,
   });
@@ -30,26 +28,6 @@ class ChatRoomActionBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          if (chatRoom.canRequestPayment)
-            Expanded(
-              child: OutlinedButton(
-                onPressed: onRequestPayment,
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  side: const BorderSide(color: AppColors.border),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                ),
-                child: Text(
-                  '결제 요청',
-                  style: AppTextStyles.body2.copyWith(fontSize: 13),
-                ),
-              ),
-            ),
-          if (chatRoom.canRequestPayment &&
-              (chatRoom.canConfirmPurchase || chatRoom.canCancelTransaction))
-            const SizedBox(width: AppSpacing.sm),
           if (chatRoom.canConfirmPurchase)
             Expanded(
               child: OutlinedButton(

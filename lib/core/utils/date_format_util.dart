@@ -21,4 +21,23 @@ class DateFormatUtil {
   static String formatWithDay(DateTime date) {
     return DateFormat('yyyy.MM.dd (E) HH:mm', 'ko').format(date);
   }
+
+  /// 채팅 메시지용 시간 포맷팅
+  /// - 무조건: 오전/오후 h:mm
+  static String formatChatTime(DateTime? dateTime) {
+    if (dateTime == null) return '';
+
+    final localDateTime = dateTime.toLocal();
+    final hour = localDateTime.hour;
+    final minute = localDateTime.minute.toString().padLeft(2, '0');
+    final period = hour < 12 ? '오전' : '오후';
+    final displayHour = hour == 0 ? 12 : (hour > 12 ? hour - 12 : hour);
+    return '$period $displayHour:$minute';
+  }
+
+  /// 채팅 날짜 구분선용 포맷팅
+  /// - 형식: M월 d일 (E)
+  static String formatSeparatorDate(DateTime date) {
+    return DateFormat('M월 d일 (E)', 'ko').format(date.toLocal());
+  }
 }

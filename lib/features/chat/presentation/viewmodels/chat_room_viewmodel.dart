@@ -252,9 +252,15 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
     }
   }
 
-  Future<bool> sendMessage(String message, {File? imageFile}) async {
+  Future<bool> sendMessage(String message, {List<File>? imageFiles}) async {
     final current = state.value;
     if (current == null) return false;
+
+    // Validate maximum 5 images
+    if (imageFiles != null && imageFiles.length > 5) {
+      AppLogger.w('Maximum 5 images allowed, got ${imageFiles.length}');
+      return false;
+    }
 
     try {
       final sentMessage = await ref
@@ -263,7 +269,7 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
             SendMessageParams(
               roomId: current.roomId,
               message: message.isNotEmpty ? message : null,
-              imageFile: imageFile,
+              imageFiles: imageFiles,
             ),
           );
 

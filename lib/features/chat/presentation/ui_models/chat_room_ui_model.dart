@@ -1,10 +1,29 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:ticket_platform_mobile/core/utils/date_format_util.dart';
+import 'package:ticket_platform_mobile/core/utils/number_format_util.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/chat_room_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/message_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/transaction_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/user_profile_entity.dart';
 
 part 'chat_room_ui_model.freezed.dart';
+
+class ImageInfoUiModel {
+  final String url;
+  final DateTime? expiresAt;
+
+  ImageInfoUiModel({
+    required this.url,
+    this.expiresAt,
+  });
+
+  factory ImageInfoUiModel.fromEntity(ImageInfoEntity entity) {
+    return ImageInfoUiModel(
+      url: entity.url,
+      expiresAt: entity.expiresAt,
+    );
+  }
+}
 
 class ChatRoomListUiModel {
   final int roomId;
@@ -45,7 +64,7 @@ class ChatRoomListUiModel {
       otherUserNickname: entity.otherUser.nickname,
       otherUserProfileImageUrl: entity.otherUser.profileImageUrl,
       lastMessage: entity.lastMessage ?? '',
-      timeDisplay: _formatTime(entity.lastMessageAt),
+      timeDisplay: DateFormatUtil.formatChatTime(entity.lastMessageAt),
       unreadCount: entity.unreadCount,
       roomStatusCode: entity.roomStatusCode,
       roomStatusName: entity.roomStatusName,
@@ -53,30 +72,6 @@ class ChatRoomListUiModel {
       transactionStatusCode: entity.transactionStatusCode,
       transactionStatusName: entity.transactionStatusName,
     );
-  }
-
-  static String _formatTime(DateTime? dateTime) {
-    if (dateTime == null) return '';
-
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final yesterday = today.subtract(const Duration(days: 1));
-    final messageDate = DateTime(dateTime.year, dateTime.month, dateTime.day);
-
-    if (messageDate == today) {
-      final hour = dateTime.hour;
-      final minute = dateTime.minute.toString().padLeft(2, '0');
-      final period = hour < 12 ? '오전' : '오후';
-      final displayHour = hour == 0 ? 12 : (hour > 12 ? hour - 12 : hour);
-      return '$period $displayHour:$minute';
-    } else if (messageDate == yesterday) {
-      return '어제';
-    } else if (now.difference(dateTime).inDays < 7) {
-      const weekdays = ['월', '화', '수', '목', '금', '토', '일'];
-      return '${weekdays[dateTime.weekday - 1]}요일';
-    } else {
-      return '${dateTime.month}월${dateTime.day}일';
-    }
   }
 }
 
@@ -123,6 +118,9 @@ class TicketInfoUiModel {
   final String price;
   final int priceValue;
   final String? thumbnailUrl;
+  final String? seatInfo;
+  final String? dateTime;
+  final String? location;
 
   TicketInfoUiModel({
     required this.ticketId,
@@ -130,22 +128,22 @@ class TicketInfoUiModel {
     required this.price,
     required this.priceValue,
     this.thumbnailUrl,
+    this.seatInfo,
+    this.dateTime,
+    this.location,
   });
 
   factory TicketInfoUiModel.fromEntity(TicketInfoEntity entity) {
     return TicketInfoUiModel(
       ticketId: entity.ticketId,
       title: entity.title,
-      price: '${_formatNumber(entity.price)}원',
+      price: NumberFormatUtil.formatPrice(entity.price),
       priceValue: entity.price,
       thumbnailUrl: entity.thumbnailUrl,
-    );
-  }
-
-  static String _formatNumber(int number) {
-    return number.toString().replaceAllMapped(
-      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-      (Match m) => '${m[1]},',
+      // TODO: API에서 상세 정보를 내려주면 연동 필요. 현재는 더미 데이터로 UI 구현.
+      seatInfo: '1층 VIP A구역 3열 15번',
+      dateTime: '2025.02.14 (금) 19:30',
+      location: '블루스퀘어 신한카드홀',
     );
   }
 }
@@ -202,18 +200,11 @@ class TransactionUiModel {
       transactionId: entity.transactionId,
       statusCode: entity.statusCode,
       statusName: entity.statusName,
-      amount: '${_formatNumber(entity.amount)}원',
+      amount: NumberFormatUtil.formatPrice(entity.amount),
       amountValue: entity.amount,
       paymentUrl: entity.paymentUrl,
       confirmedAt: entity.confirmedAt?.toIso8601String(),
       cancelReason: entity.cancelReason,
-    );
-  }
-
-  static String _formatNumber(int number) {
-    return number.toString().replaceAllMapped(
-      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-      (Match m) => '${m[1]},',
     );
   }
 }
@@ -225,7 +216,9 @@ class MessageUiModel {
   final String senderNickname;
   final String? senderProfileImage;
   final String? message;
+  @Deprecated('Use images instead')
   final String? imageUrl;
+  final List<ImageInfoUiModel>? images;
   final DateTime createdAt;
   final String timeDisplay;
   final bool isMyMessage;
@@ -238,6 +231,7 @@ class MessageUiModel {
     this.senderProfileImage,
     this.message,
     this.imageUrl,
+    this.images,
     required this.createdAt,
     required this.timeDisplay,
     required this.isMyMessage,
@@ -252,17 +246,10 @@ class MessageUiModel {
       senderProfileImage: entity.senderProfileImage,
       message: entity.message,
       imageUrl: entity.imageUrl,
+      images: entity.images?.map(ImageInfoUiModel.fromEntity).toList(),
       createdAt: entity.createdAt,
-      timeDisplay: _formatTime(entity.createdAt),
+      timeDisplay: DateFormatUtil.formatChatTime(entity.createdAt),
       isMyMessage: entity.isMyMessage,
     );
-  }
-
-  static String _formatTime(DateTime dateTime) {
-    final hour = dateTime.hour;
-    final minute = dateTime.minute.toString().padLeft(2, '0');
-    final period = hour < 12 ? '오전' : '오후';
-    final displayHour = hour == 0 ? 12 : (hour > 12 ? hour - 12 : hour);
-    return '$period $displayHour:$minute';
   }
 }

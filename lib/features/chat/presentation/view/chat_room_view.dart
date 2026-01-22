@@ -14,7 +14,8 @@ import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_r
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_room_ticket_header.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_input_bar.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_room_menu_bottom_sheet.dart';
-
+import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_room_dialog_helper.dart';
+import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:go_router/go_router.dart';
 
 class ChatRoomView extends ConsumerStatefulWidget {
@@ -30,6 +31,7 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
   final ScrollController _scrollController = ScrollController();
   Timer? _typingDebounceTimer;
   bool _isTyping = false;
+  final List<File> _selectedImages = [];
 
   int get roomId => int.parse(widget.chatRoomId);
 
@@ -78,138 +80,78 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
 
   Future<void> _sendMessage() async {
     final message = _messageController.text.trim();
-    if (message.isEmpty) return;
+    final images = List<File>.from(_selectedImages);
+
+    if (message.isEmpty && images.isEmpty) return;
 
     _messageController.clear();
+    setState(() => _selectedImages.clear());
     _isTyping = false;
 
-    final success = await ref
+    // 모든 이미지를 한 번에 전송 (API v2.1 지원)
+    await ref
         .read(chatRoomViewModelProvider(roomId).notifier)
-        .sendMessage(message);
-
-    if (!success && mounted) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('메시지 전송에 실패했습니다')));
-    }
+        .sendMessage(message, imageFiles: images.isNotEmpty ? images : null);
   }
 
-  Future<void> _pickAndSendImage() async {
+  Future<void> _pickImage() async {
+    final remainingSlots = 3 - _selectedImages.length;
+    if (remainingSlots <= 0) {
+      _showErrorSnackBar('사진은 최대 3장까지 첨부할 수 있습니다');
+      return;
+    }
+
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(
-      source: ImageSource.gallery,
+    final pickedFiles = await picker.pickMultiImage(
       maxWidth: 1080,
       maxHeight: 1920,
       imageQuality: 80,
     );
 
-    if (pickedFile != null) {
-      final imageFile = File(pickedFile.path);
-      final success = await ref
-          .read(chatRoomViewModelProvider(roomId).notifier)
-          .sendMessage('', imageFile: imageFile);
+    if (pickedFiles.isNotEmpty) {
+      final newImages = pickedFiles.take(remainingSlots).map((xFile) => File(xFile.path)).toList();
 
-      if (!success && mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('이미지 전송에 실패했습니다')));
+      if (pickedFiles.length > remainingSlots) {
+        _showErrorSnackBar('최대 3장까지만 선택됩니다 (${pickedFiles.length - remainingSlots}장 제외됨)');
       }
+
+      setState(() => _selectedImages.addAll(newImages));
     }
   }
 
-  void _showRequestPaymentDialog(ChatRoomDetailUiModel chatRoom) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('결제 요청'),
-        content: Text('${chatRoom.ticket.price}의 결제를 요청하시겠습니까?'),
-        actions: [
-          TextButton(onPressed: () => context.pop(), child: const Text('취소')),
-          ElevatedButton(
-            onPressed: () async {
-              context.pop();
-              if (chatRoom.transaction != null) {
-                await ref
-                    .read(chatRoomViewModelProvider(roomId).notifier)
-                    .requestPayment(chatRoom.transaction!.transactionId);
-              }
-            },
-            child: const Text('요청'),
-          ),
-        ],
-      ),
-    );
+  Future<void> _takePhoto() async {
+    if (_selectedImages.length >= 3) {
+      _showErrorSnackBar('사진은 최대 3장까지 첨부할 수 있습니다');
+      return;
+    }
+
+    try {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(
+        source: ImageSource.camera,
+        maxWidth: 1080,
+        maxHeight: 1920,
+        imageQuality: 80,
+      );
+
+      if (pickedFile != null) {
+        setState(() => _selectedImages.add(File(pickedFile.path)));
+      }
+    } catch (e) {
+      _showErrorSnackBar('카메라를 실행할 수 없습니다. 권한을 확인해주세요.');
+    }
   }
 
-  void _showConfirmPurchaseDialog(ChatRoomDetailUiModel chatRoom) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('구매 확정'),
-        content: const Text('구매를 확정하시겠습니까? 확정 후에는 취소할 수 없습니다.'),
-        actions: [
-          TextButton(onPressed: () => context.pop(), child: const Text('취소')),
-          ElevatedButton(
-            onPressed: () async {
-              context.pop();
-              if (chatRoom.transaction != null) {
-                await ref
-                    .read(chatRoomViewModelProvider(roomId).notifier)
-                    .confirmPurchase(chatRoom.transaction!.transactionId);
-              }
-            },
-            child: const Text('확정'),
-          ),
-        ],
-      ),
-    );
+  void _removeImage(int index) {
+    setState(() => _selectedImages.removeAt(index));
   }
 
-  void _showCancelTransactionDialog(ChatRoomDetailUiModel chatRoom) {
-    final reasonController = TextEditingController();
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('거래 취소'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('거래를 취소하시겠습니까?'),
-            const SizedBox(height: 16),
-            TextField(
-              controller: reasonController,
-              decoration: const InputDecoration(
-                labelText: '취소 사유',
-                hintText: '취소 사유를 입력해주세요',
-                border: OutlineInputBorder(),
-              ),
-              maxLines: 2,
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(onPressed: () => context.pop(), child: const Text('닫기')),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.destructive,
-            ),
-            onPressed: () async {
-              context.pop();
-              if (chatRoom.transaction != null) {
-                await ref
-                    .read(chatRoomViewModelProvider(roomId).notifier)
-                    .cancelTransaction(
-                      chatRoom.transaction!.transactionId,
-                      reasonController.text.trim(),
-                    );
-              }
-            },
-            child: const Text('취소'),
-          ),
-        ],
-      ),
-    );
+  void _showErrorSnackBar(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(message)));
+    }
   }
 
   @override
@@ -222,55 +164,67 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
       body: chatRoomAsync.when(
         data: (chatRoom) => Column(
           children: [
-            ChatRoomTicketHeader(ticket: chatRoom.ticket),
-            const SizedBox(height: AppSpacing.sm),
+            // 이벤트 + 티켓 정보
+            ChatRoomTicketHeader(
+              ticket: chatRoom.ticket,
+              canRequestPayment: chatRoom.canRequestPayment,
+              onRequestPayment: () =>
+                  ChatRoomDialogHelper.showRequestPaymentDialog(
+                    context: context,
+                    chatRoom: chatRoom,
+                    viewModel: ref.read(
+                      chatRoomViewModelProvider(roomId).notifier,
+                    ),
+                  ),
+              onViewTicketDetail: () => context.push(
+                '${AppRouterPath.ticketDetail.path}/${chatRoom.ticket.ticketId}',
+              ),
+            ),
+            const SizedBox(height: AppSpacing.xs),
             const Divider(height: 1, color: AppColors.muted),
-            const SizedBox(height: AppSpacing.sm),
+
+            // 채팅 메세지
             Expanded(
               child: ChatMessageList(
                 messages: chatRoom.messages,
                 scrollController: _scrollController,
               ),
             ),
-            if (chatRoom.canRequestPayment ||
-                chatRoom.canConfirmPurchase ||
-                chatRoom.canCancelTransaction)
+
+            // 하단 입력 필드
+            if (chatRoom.canConfirmPurchase || chatRoom.canCancelTransaction)
               ChatRoomActionBar(
                 chatRoom: chatRoom,
-                onRequestPayment: () => _showRequestPaymentDialog(chatRoom),
-                onConfirmPurchase: () => _showConfirmPurchaseDialog(chatRoom),
+                onConfirmPurchase: () =>
+                    ChatRoomDialogHelper.showConfirmPurchaseDialog(
+                      context: context,
+                      chatRoom: chatRoom,
+                      viewModel: ref.read(
+                        chatRoomViewModelProvider(roomId).notifier,
+                      ),
+                    ),
                 onCancelTransaction: () =>
-                    _showCancelTransactionDialog(chatRoom),
+                    ChatRoomDialogHelper.showCancelTransactionDialog(
+                      context: context,
+                      chatRoom: chatRoom,
+                      viewModel: ref.read(
+                        chatRoomViewModelProvider(roomId).notifier,
+                      ),
+                    ),
               ),
             ChatInputBar(
               controller: _messageController,
               canSendMessage: chatRoom.canSendMessage,
               onSend: _sendMessage,
-              onPickImage: _pickAndSendImage,
+              onPickImage: _pickImage,
+              onTakePhoto: _takePhoto,
+              selectedImages: _selectedImages,
+              onRemoveImage: _removeImage,
             ),
           ],
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '오류가 발생했습니다',
-                style: AppTextStyles.body1.copyWith(
-                  color: AppColors.textSecondary,
-                ),
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () => ref
-                    .read(chatRoomViewModelProvider(roomId).notifier)
-                    .refresh(),
-                child: const Text('다시 시도'),
-              ),
-            ],
-          ),
-        ),
+        error: (error, stack) => _buildErrorState(),
       ),
     );
   }
@@ -286,7 +240,7 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
       elevation: 0,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
-        onPressed: () => Navigator.of(context).pop(),
+        onPressed: () => context.pop(),
       ),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -310,25 +264,46 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
       actions: [
         IconButton(
           icon: const Icon(Icons.more_vert, color: AppColors.textPrimary),
-          onPressed: () {
-            showModalBottomSheet(
-              context: context,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-              ),
-              builder: (context) => ChatRoomMenuBottomSheet(
-                onLeaveRoom: () {
-                  // TODO: Implement leave room functionality
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('채팅방 나가기 기능은 준비 중입니다')),
-                  );
-                },
-              ),
-            );
-          },
+          onPressed: () => _showMenuBottomSheet(),
         ),
       ],
       centerTitle: true,
+    );
+  }
+
+  Widget _buildErrorState() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            '오류가 발생했습니다',
+            style: AppTextStyles.body1.copyWith(color: AppColors.textSecondary),
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () =>
+                ref.read(chatRoomViewModelProvider(roomId).notifier).refresh(),
+            child: const Text('다시 시도'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showMenuBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => ChatRoomMenuBottomSheet(
+        onLeaveRoom: () {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('채팅방 나가기 기능은 준비 중입니다')));
+        },
+      ),
     );
   }
 }

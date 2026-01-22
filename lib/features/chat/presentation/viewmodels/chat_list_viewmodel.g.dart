@@ -34,7 +34,7 @@ final class ChatListViewModelProvider
   ChatListViewModel create() => ChatListViewModel();
 }
 
-String _$chatListViewModelHash() => r'684a1e8a0be7d90b1c295e08f5af6a59f8693776';
+String _$chatListViewModelHash() => r'9ed2f508cd190d321e070a8a16f742d3015c3428';
 
 abstract class _$ChatListViewModel
     extends $AsyncNotifier<List<ChatRoomListUiModel>> {
