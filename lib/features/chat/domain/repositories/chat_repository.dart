@@ -21,7 +21,7 @@ abstract class ChatRepository {
   Future<MessageEntity> sendMessage({
     required int roomId,
     String? message,
-    File? imageFile,
+    List<File>? imageFiles,
   });
 
   /// 메시지 목록 조회 (페이지네이션)

@@ -50,5 +50,9 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>채팅 시 사진 촬영 전송을 위해 카메라 권한이 필요합니다.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>채팅 시 앨범 사진 전송을 위해 앨범 접근 권한이 필요합니다.</string>
 </dict>
 </plist>

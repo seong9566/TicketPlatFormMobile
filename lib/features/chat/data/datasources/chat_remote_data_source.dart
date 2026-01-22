@@ -30,7 +30,7 @@ abstract class ChatRemoteDataSource {
   Future<BaseResponse<SendMessageRespDto>> sendMessage({
     required int roomId,
     String? message,
-    File? imageFile,
+    List<File>? imageFiles,
   });
 
   /// 메시지 목록 조회
@@ -114,7 +114,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   Future<BaseResponse<SendMessageRespDto>> sendMessage({
     required int roomId,
     String? message,
-    File? imageFile,
+    List<File>? imageFiles,
   }) async {
     final formData = FormData();
     formData.fields.add(MapEntry('roomId', roomId.toString()));
@@ -123,16 +123,23 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
       formData.fields.add(MapEntry('message', message));
     }
 
-    if (imageFile != null) {
-      formData.files.add(
-        MapEntry(
-          'image',
-          await MultipartFile.fromFile(
-            imageFile.path,
-            filename: 'chat_image_${DateTime.now().millisecondsSinceEpoch}.jpg',
+    if (imageFiles != null && imageFiles.isNotEmpty) {
+      if (imageFiles.length > 5) {
+        throw Exception('Maximum 5 images allowed');
+      }
+
+      for (int i = 0; i < imageFiles.length; i++) {
+        formData.files.add(
+          MapEntry(
+            'images',
+            await MultipartFile.fromFile(
+              imageFiles[i].path,
+              filename:
+                  'chat_image_${DateTime.now().millisecondsSinceEpoch}_$i.jpg',
+            ),
           ),
-        ),
-      );
+        );
+      }
     }
 
     return safeApiCall<SendMessageRespDto>(

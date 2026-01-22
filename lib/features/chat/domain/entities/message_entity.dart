@@ -3,6 +3,14 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'message_entity.freezed.dart';
 
 @freezed
+abstract class ImageInfoEntity with _$ImageInfoEntity {
+  const factory ImageInfoEntity({
+    required String url,
+    DateTime? expiresAt,
+  }) = _ImageInfoEntity;
+}
+
+@freezed
 abstract class MessageEntity with _$MessageEntity {
   const factory MessageEntity({
     required int messageId,
@@ -11,7 +19,8 @@ abstract class MessageEntity with _$MessageEntity {
     required String senderNickname,
     String? senderProfileImage,
     String? message,
-    String? imageUrl,
+    @Deprecated('Use images instead') String? imageUrl,
+    List<ImageInfoEntity>? images,
     required DateTime createdAt,
     required bool isMyMessage,
   }) = _MessageEntity;

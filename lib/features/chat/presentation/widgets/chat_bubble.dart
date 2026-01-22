@@ -20,6 +20,9 @@ class ChatBubble extends ConsumerWidget {
         ? AppColors.primaryForeground
         : AppColors.textPrimary;
 
+    final hasImages = message.images != null && message.images!.isNotEmpty;
+    final hasText = message.message != null && message.message!.isNotEmpty;
+
     return Row(
       mainAxisAlignment: isMine
           ? MainAxisAlignment.end
@@ -45,109 +48,145 @@ class ChatBubble extends ConsumerWidget {
                 ? CrossAxisAlignment.end
                 : CrossAxisAlignment.start,
             children: [
-              if (message.imageUrl != null)
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: CachedNetworkImage(
-                    imageUrl: message.imageUrl!,
-                    width: 200,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => Container(
-                      width: 200,
-                      height: 150,
-                      color: Colors.grey[300],
-                      child: const Center(child: CircularProgressIndicator()),
-                    ),
-                    errorWidget: (context, url, error) => GestureDetector(
-                      onTap: () async {
-                        // Refresh image URL when user taps the error widget
-                        final newUrl = await ref
-                            .read(
-                              chatRoomViewModelProvider(
-                                message.roomId,
-                              ).notifier,
-                            )
-                            .refreshImageUrl(message.messageId);
-                        if (newUrl != null) {
-                          // Force CachedNetworkImage to reload with new URL
-                          await CachedNetworkImage.evictFromCache(url);
-                        }
-                      },
-                      child: Container(
-                        width: 200,
-                        height: 150,
-                        color: Colors.grey[300],
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.broken_image,
-                              size: 32,
-                              color: AppColors.textSecondary,
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              '이미지를 불러올 수 없습니다',
-                              style: AppTextStyles.caption.copyWith(
-                                color: AppColors.textSecondary,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              '탭하여 다시 시도',
-                              style: AppTextStyles.caption.copyWith(
-                                color: AppColors.primary,
-                                fontSize: 11,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+              if (hasImages && hasText) _buildImageGrid(ref),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: isMine
+                    ? MainAxisAlignment.end
+                    : MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  if (isMine) _buildTimeText(),
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: isMine
+                          ? CrossAxisAlignment.end
+                          : CrossAxisAlignment.start,
+                      children: [
+                        if (hasImages && !hasText) _buildImageGrid(ref),
+                        if (hasText) _buildTextBubble(bubbleColor, textColor),
+                      ],
                     ),
                   ),
-                ),
-              if (message.message != null && message.message!.isNotEmpty)
-                Container(
-                  margin: message.imageUrl != null
-                      ? const EdgeInsets.only(top: 4)
-                      : EdgeInsets.zero,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.md,
-                    vertical: AppSpacing.sm,
-                  ),
-                  decoration: BoxDecoration(
-                    color: bubbleColor,
-                    borderRadius: BorderRadius.only(
-                      topLeft: const Radius.circular(16),
-                      topRight: const Radius.circular(16),
-                      bottomLeft: isMine
-                          ? const Radius.circular(16)
-                          : const Radius.circular(4),
-                      bottomRight: isMine
-                          ? const Radius.circular(4)
-                          : const Radius.circular(16),
-                    ),
-                  ),
-                  child: Text(
-                    message.message!,
-                    style: AppTextStyles.body2.copyWith(
-                      color: textColor,
-                      height: 1.4,
-                    ),
-                  ),
-                ),
+                  if (!isMine) _buildTimeText(),
+                ],
+              ),
             ],
           ),
         ),
-        const SizedBox(width: 6),
-        Text(
-          message.timeDisplay,
-          style: AppTextStyles.caption.copyWith(
-            fontSize: 11,
-            color: AppColors.textTertiary,
+      ],
+    );
+  }
+
+  Widget _buildTextBubble(Color bubbleColor, Color textColor) {
+    return Container(
+      margin: (message.images != null && message.images!.isNotEmpty)
+          ? const EdgeInsets.only(top: 4)
+          : EdgeInsets.zero,
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.sm,
+      ),
+      decoration: BoxDecoration(
+        color: bubbleColor,
+        borderRadius: BorderRadius.only(
+          topLeft: const Radius.circular(16),
+          topRight: const Radius.circular(16),
+          bottomLeft: message.isMyMessage
+              ? const Radius.circular(16)
+              : const Radius.circular(4),
+          bottomRight: message.isMyMessage
+              ? const Radius.circular(4)
+              : const Radius.circular(16),
+        ),
+      ),
+      child: Text(
+        message.message!,
+        style: AppTextStyles.body2.copyWith(color: textColor, height: 1.4),
+      ),
+    );
+  }
+
+  Widget _buildTimeText() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 6),
+      child: Text(
+        message.timeDisplay,
+        style: AppTextStyles.caption.copyWith(
+          fontSize: 11,
+          color: AppColors.textTertiary,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImageGrid(WidgetRef ref) {
+    final images = message.images!;
+    return Wrap(
+      spacing: 4,
+      runSpacing: 4,
+      alignment: message.isMyMessage ? WrapAlignment.end : WrapAlignment.start,
+      children: images.map((img) => _buildSingleImage(ref, img.url)).toList(),
+    );
+  }
+
+  Widget _buildSingleImage(WidgetRef ref, String imageUrl) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
+        width: 120,
+        height: 120,
+        fit: BoxFit.cover,
+        placeholder: (context, url) => Container(
+          width: 120,
+          height: 120,
+          color: Colors.grey[300],
+          child: const Center(child: CircularProgressIndicator()),
+        ),
+        errorWidget: (context, url, error) => GestureDetector(
+          onTap: () async {
+            // Refresh image URL when user taps the error widget
+            final newUrl = await ref
+                .read(chatRoomViewModelProvider(message.roomId).notifier)
+                .refreshImageUrl(message.messageId);
+            if (newUrl != null) {
+              // Force CachedNetworkImage to reload with new URL
+              await CachedNetworkImage.evictFromCache(url);
+            }
+          },
+          child: Container(
+            width: 120,
+            height: 120,
+            color: Colors.grey[300],
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.broken_image,
+                  size: 32,
+                  color: AppColors.textSecondary,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '이미지를 불러올 수 없습니다',
+                  style: AppTextStyles.caption.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '탭하여 다시 시도',
+                  style: AppTextStyles.caption.copyWith(
+                    color: AppColors.primary,
+                    fontSize: 11,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      ],
+      ),
     );
   }
 }

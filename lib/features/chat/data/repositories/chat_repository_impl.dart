@@ -47,12 +47,12 @@ class ChatRepositoryImpl implements ChatRepository {
   Future<MessageEntity> sendMessage({
     required int roomId,
     String? message,
-    File? imageFile,
+    List<File>? imageFiles,
   }) async {
     final response = await _remoteDataSource.sendMessage(
       roomId: roomId,
       message: message,
-      imageFile: imageFile,
+      imageFiles: imageFiles,
     );
     return response.dataOrThrow.toEntity();
   }

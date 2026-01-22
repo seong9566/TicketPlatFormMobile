@@ -10,13 +10,16 @@ part 'send_message_usecase.g.dart';
 class SendMessageParams {
   final int roomId;
   final String? message;
-  final File? imageFile;
+  final List<File>? imageFiles;
 
   SendMessageParams({
     required this.roomId,
     this.message,
-    this.imageFile,
-  });
+    this.imageFiles,
+  }) : assert(
+          imageFiles == null || imageFiles.length <= 5,
+          'Maximum 5 images allowed',
+        );
 }
 
 class SendMessageUsecase {
@@ -28,7 +31,7 @@ class SendMessageUsecase {
     return _repository.sendMessage(
       roomId: params.roomId,
       message: params.message,
-      imageFile: params.imageFile,
+      imageFiles: params.imageFiles,
     );
   }
 }

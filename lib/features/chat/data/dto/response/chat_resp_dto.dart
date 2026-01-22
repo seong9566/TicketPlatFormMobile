@@ -8,6 +8,24 @@ part 'chat_resp_dto.freezed.dart';
 part 'chat_resp_dto.g.dart';
 
 @freezed
+abstract class ImageInfoDto with _$ImageInfoDto {
+  const factory ImageInfoDto({
+    required String url,
+    String? expiresAt,
+  }) = _ImageInfoDto;
+
+  factory ImageInfoDto.fromJson(Map<String, dynamic> json) =>
+      _$ImageInfoDtoFromJson(json);
+}
+
+extension ImageInfoDtoX on ImageInfoDto {
+  ImageInfoEntity toEntity() => ImageInfoEntity(
+        url: url,
+        expiresAt: expiresAt != null ? DateTime.parse(expiresAt!) : null,
+      );
+}
+
+@freezed
 abstract class ChatRoomRespDto with _$ChatRoomRespDto {
   const factory ChatRoomRespDto({
     required int roomId,
@@ -126,7 +144,8 @@ abstract class MessageDto with _$MessageDto {
     required String senderNickname,
     String? senderProfileImage,
     String? message,
-    String? imageUrl,
+    @Deprecated('Use images instead') String? imageUrl,
+    List<ImageInfoDto>? images,
     required String createdAt,
     required bool isMyMessage,
   }) = _MessageDto;
@@ -136,17 +155,29 @@ abstract class MessageDto with _$MessageDto {
 }
 
 extension MessageDtoX on MessageDto {
-  MessageEntity toEntity() => MessageEntity(
-        messageId: messageId,
-        roomId: roomId,
-        senderId: senderId,
-        senderNickname: senderNickname,
-        senderProfileImage: senderProfileImage,
-        message: message,
-        imageUrl: imageUrl,
-        createdAt: DateTime.parse(createdAt),
-        isMyMessage: isMyMessage,
-      );
+  MessageEntity toEntity() {
+    List<ImageInfoEntity>? imageEntities;
+    if (images != null && images!.isNotEmpty) {
+      imageEntities = images!.map((dto) => dto.toEntity()).toList();
+    } else if (imageUrl != null) {
+      imageEntities = [
+        ImageInfoEntity(url: imageUrl!, expiresAt: null),
+      ];
+    }
+
+    return MessageEntity(
+      messageId: messageId,
+      roomId: roomId,
+      senderId: senderId,
+      senderNickname: senderNickname,
+      senderProfileImage: senderProfileImage,
+      message: message,
+      imageUrl: imageUrl,
+      images: imageEntities,
+      createdAt: DateTime.parse(createdAt),
+      isMyMessage: isMyMessage,
+    );
+  }
 }
 
 @freezed
@@ -217,7 +248,8 @@ abstract class SendMessageRespDto with _$SendMessageRespDto {
     required String senderNickname,
     String? senderProfileImage,
     String? message,
-    String? imageUrl,
+    @Deprecated('Use images instead') String? imageUrl,
+    List<ImageInfoDto>? images,
     required String createdAt,
     required bool success,
   }) = _SendMessageRespDto;
@@ -227,17 +259,29 @@ abstract class SendMessageRespDto with _$SendMessageRespDto {
 }
 
 extension SendMessageRespDtoX on SendMessageRespDto {
-  MessageEntity toEntity() => MessageEntity(
-        messageId: messageId,
-        roomId: roomId,
-        senderId: senderId,
-        senderNickname: senderNickname,
-        senderProfileImage: senderProfileImage,
-        message: message,
-        imageUrl: imageUrl,
-        createdAt: DateTime.parse(createdAt),
-        isMyMessage: true,
-      );
+  MessageEntity toEntity() {
+    List<ImageInfoEntity>? imageEntities;
+    if (images != null && images!.isNotEmpty) {
+      imageEntities = images!.map((dto) => dto.toEntity()).toList();
+    } else if (imageUrl != null) {
+      imageEntities = [
+        ImageInfoEntity(url: imageUrl!, expiresAt: null),
+      ];
+    }
+
+    return MessageEntity(
+      messageId: messageId,
+      roomId: roomId,
+      senderId: senderId,
+      senderNickname: senderNickname,
+      senderProfileImage: senderProfileImage,
+      message: message,
+      imageUrl: imageUrl,
+      images: imageEntities,
+      createdAt: DateTime.parse(createdAt),
+      isMyMessage: true,
+    );
+  }
 }
 
 @freezed

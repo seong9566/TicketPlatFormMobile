@@ -311,6 +311,29 @@ class ChatSignalRDataSourceImpl implements ChatSignalRDataSource {
   /// - 서버에서 전송된 JSON 데이터 파싱
   /// - isMyMessage는 SignalR에서 수신한 메시지이므로 항상 false
   MessageEntity _parseMessage(Map<String, dynamic> data) {
+    List<ImageInfoEntity>? imageEntities;
+
+    // 신규 API: images 배열 파싱
+    if (data['images'] != null && (data['images'] as List).isNotEmpty) {
+      imageEntities = (data['images'] as List)
+          .map((img) => ImageInfoEntity(
+                url: img['url'] as String,
+                expiresAt: img['expiresAt'] != null
+                    ? DateTime.parse(img['expiresAt'] as String)
+                    : null,
+              ))
+          .toList();
+    }
+    // 구 API: imageUrl을 images 배열로 변환 (하위 호환성)
+    else if (data['imageUrl'] != null) {
+      imageEntities = [
+        ImageInfoEntity(
+          url: data['imageUrl'] as String,
+          expiresAt: null,
+        ),
+      ];
+    }
+
     return MessageEntity(
       messageId: data['messageId'] as int,
       roomId: data['roomId'] as int,
@@ -319,6 +342,7 @@ class ChatSignalRDataSourceImpl implements ChatSignalRDataSource {
       senderProfileImage: data['senderProfileImage'] as String?,
       message: data['message'] as String?,
       imageUrl: data['imageUrl'] as String?,
+      images: imageEntities,
       createdAt: DateTime.parse(data['createdAt'] as String),
       isMyMessage: false,
     );

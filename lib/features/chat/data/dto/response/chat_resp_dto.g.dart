@@ -6,6 +6,15 @@ part of 'chat_resp_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+_ImageInfoDto _$ImageInfoDtoFromJson(Map<String, dynamic> json) =>
+    _ImageInfoDto(
+      url: json['url'] as String,
+      expiresAt: json['expiresAt'] as String?,
+    );
+
+Map<String, dynamic> _$ImageInfoDtoToJson(_ImageInfoDto instance) =>
+    <String, dynamic>{'url': instance.url, 'expiresAt': instance.expiresAt};
+
 _ChatRoomRespDto _$ChatRoomRespDtoFromJson(Map<String, dynamic> json) =>
     _ChatRoomRespDto(
       roomId: (json['roomId'] as num).toInt(),
@@ -106,6 +115,9 @@ _MessageDto _$MessageDtoFromJson(Map<String, dynamic> json) => _MessageDto(
   senderProfileImage: json['senderProfileImage'] as String?,
   message: json['message'] as String?,
   imageUrl: json['imageUrl'] as String?,
+  images: (json['images'] as List<dynamic>?)
+      ?.map((e) => ImageInfoDto.fromJson(e as Map<String, dynamic>))
+      .toList(),
   createdAt: json['createdAt'] as String,
   isMyMessage: json['isMyMessage'] as bool,
 );
@@ -119,6 +131,7 @@ Map<String, dynamic> _$MessageDtoToJson(_MessageDto instance) =>
       'senderProfileImage': instance.senderProfileImage,
       'message': instance.message,
       'imageUrl': instance.imageUrl,
+      'images': instance.images,
       'createdAt': instance.createdAt,
       'isMyMessage': instance.isMyMessage,
     };
@@ -181,6 +194,9 @@ _SendMessageRespDto _$SendMessageRespDtoFromJson(Map<String, dynamic> json) =>
       senderProfileImage: json['senderProfileImage'] as String?,
       message: json['message'] as String?,
       imageUrl: json['imageUrl'] as String?,
+      images: (json['images'] as List<dynamic>?)
+          ?.map((e) => ImageInfoDto.fromJson(e as Map<String, dynamic>))
+          .toList(),
       createdAt: json['createdAt'] as String,
       success: json['success'] as bool,
     );
@@ -194,6 +210,7 @@ Map<String, dynamic> _$SendMessageRespDtoToJson(_SendMessageRespDto instance) =>
       'senderProfileImage': instance.senderProfileImage,
       'message': instance.message,
       'imageUrl': instance.imageUrl,
+      'images': instance.images,
       'createdAt': instance.createdAt,
       'success': instance.success,
     };
