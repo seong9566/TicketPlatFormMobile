@@ -50,7 +50,7 @@ final class ChatRoomViewModelProvider
   }
 }
 
-String _$chatRoomViewModelHash() => r'461621186b982a51491b8af9291650db4075e007';
+String _$chatRoomViewModelHash() => r'88b257fc12eb7c641f2da9acc6f11cc133a9d684';
 
 final class ChatRoomViewModelFamily extends $Family
     with

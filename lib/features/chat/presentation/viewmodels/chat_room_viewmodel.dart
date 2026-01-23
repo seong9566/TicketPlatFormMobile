@@ -47,6 +47,7 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
   int? _lastMessageId;
   bool _hasMoreMessages = true;
   bool _isLoadingMoreMessages = false;
+  final Set<int> _receivedMessageIds = {}; // 중복 메시지 방지용 (SignalR 이벤트 중복 수신)
 
   /// AsyncNotifier 초기화 및 데이터 로드
   /// - dispose 시 리스너 정리 및 채팅방 퇴장
@@ -171,11 +172,23 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
     final current = state.value;
     if (current == null) return;
 
-    // 중복 메시지 방지 (이미 존재하는 messageId는 추가하지 않음)
+    // 1차 중복 체크: SignalR 이벤트 중복 수신 방지 (room_{roomId} + user_{userId})
+    if (_receivedMessageIds.contains(message.messageId)) {
+      AppLogger.i('📌 Duplicate SignalR message ignored: ${message.messageId}');
+      return;
+    }
+    _receivedMessageIds.add(message.messageId);
+
+    // 2차 중복 체크: 메모리에 이미 존재하는 메시지 방지
     final isDuplicate = current.messages.any(
       (msg) => msg.messageId == message.messageId,
     );
-    if (isDuplicate) return;
+    if (isDuplicate) {
+      AppLogger.i(
+        '📌 Duplicate message in memory ignored: ${message.messageId}',
+      );
+      return;
+    }
 
     // 현재 사용자 ID 가져오기
     final myProfile = ref.read(profileViewModelProvider).value?.profile;

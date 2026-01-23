@@ -11,6 +11,7 @@ import 'package:ticket_platform_mobile/features/home/presentation/widgets/home_e
 import 'package:ticket_platform_mobile/features/home/presentation/widgets/home_common_widgets.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/widgets/popular_event_list.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/widgets/recommended_ticket_list.dart';
+import 'package:ticket_platform_mobile/features/chat/presentation/viewmodels/chat_list_viewmodel.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
@@ -54,6 +55,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
   @override
   Widget build(BuildContext context) {
     final homeState = ref.watch(homeViewModelProvider);
+
+    // ChatListViewModel 초기화 → SignalR 연결 보장
+    final chatListState = ref.watch(chatListViewModelProvider);
 
     return Scaffold(
       body: SafeArea(

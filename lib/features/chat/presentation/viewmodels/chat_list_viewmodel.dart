@@ -14,13 +14,16 @@ import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/
 
 part 'chat_list_viewmodel.g.dart';
 
-@riverpod
+// 실시간 새로운 메시지 확인 위해 keepAlive
+@Riverpod(keepAlive: true)
 class ChatListViewModel extends _$ChatListViewModel {
   int _currentPage = 1;
   static const int _pageSize = 20;
   bool _hasMore = true;
   String _searchQuery = '';
-  List<ChatRoomListUiModel> _allChatRooms = [];
+  List<ChatRoomListUiModel> _allChatRooms = []; // 전체 채팅방 목록 (필터링 전)
+  final Set<int> _receivedMessageIds = {}; // 중복 메시지 방지용
+  int? _currentlyViewingRoomId; // 현재 보고 있는 채팅방 ID (해당 방은 unread 증가 안함)
   Timer? _debounceTimer;
   StreamSubscription<MessageEntity>? _messageSubscription;
   StreamSubscription<RoomUpdatedEvent>? _roomUpdatedSubscription;
@@ -120,8 +123,65 @@ class ChatListViewModel extends _$ChatListViewModel {
 
   bool get hasMore => _hasMore;
 
+  /// 전체 읽지 않은 메시지 수
+  int get totalUnreadCount {
+    final rooms = state.value;
+    if (rooms == null) return 0;
+
+    return rooms.fold<int>(0, (sum, room) => sum + room.unreadCount);
+  }
+
+  /// 현재 보고 있는 채팅방 ID 설정
+  /// - 채팅방 입장 시 roomId 설정, 퇴장 시 null 설정
+  /// - 해당 방의 메시지는 unreadCount 증가 안함
+  /// - state 수정 없이 내부 필드만 변경하므로 dispose에서도 안전
+  void setCurrentRoomId(int? roomId) {
+    _currentlyViewingRoomId = roomId;
+    AppLogger.i('👁️ Currently viewing room: $roomId');
+  }
+
+  /// 특정 채팅방의 읽지 않은 메시지 수를 0으로 초기화
+  /// - 채팅방 퇴장 시 호출되어 읽음 처리를 UI에 반영
+  void resetUnreadCount(int roomId) {
+    final index = _allChatRooms.indexWhere((room) => room.roomId == roomId);
+    if (index == -1) {
+      AppLogger.d('Room $roomId not found in list, skipping resetUnreadCount');
+      return;
+    }
+
+    final room = _allChatRooms[index];
+    if (room.unreadCount == 0) {
+      AppLogger.d('Room $roomId already has unreadCount = 0');
+      return; // 이미 0이면 불필요한 업데이트 방지
+    }
+
+    final updatedRoom = ChatRoomListUiModel(
+      roomId: room.roomId,
+      ticketId: room.ticketId,
+      ticketTitle: room.ticketTitle,
+      otherUserNickname: room.otherUserNickname,
+      otherUserProfileImageUrl: room.otherUserProfileImageUrl,
+      lastMessage: room.lastMessage,
+      timeDisplay: room.timeDisplay,
+      unreadCount: 0, // 읽음 처리
+      roomStatusCode: room.roomStatusCode,
+      roomStatusName: room.roomStatusName,
+      transactionId: room.transactionId,
+      transactionStatusCode: room.transactionStatusCode,
+      transactionStatusName: room.transactionStatusName,
+    );
+    _allChatRooms[index] = updatedRoom;
+
+    _filterChatRooms(); // 검색 필터 재적용 및 state 업데이트
+    AppLogger.i(
+      '✅ Reset unreadCount for room $roomId (was ${room.unreadCount})',
+    );
+  }
+
   /// SignalR 실시간 이벤트 리스너 설정
   void _setupSignalRListeners() {
+    AppLogger.i('🎧 Setting up SignalR listeners in ChatListViewModel...');
+
     try {
       final signalR = ref.read(chatSignalRDataSourceProvider);
 
@@ -129,15 +189,23 @@ class ChatListViewModel extends _$ChatListViewModel {
       _messageSubscription?.cancel();
       _roomUpdatedSubscription?.cancel();
 
+      AppLogger.i('🎧 Subscribing to onReceiveMessage stream...');
+
       // 새 메시지 수신 시 채팅방 목록 새로고침
       _messageSubscription = signalR.onReceiveMessage.listen((message) {
+        AppLogger.i('🎧 onReceiveMessage listener triggered!');
         _handleNewMessage(message);
       });
 
+      AppLogger.i('🎧 Subscribing to onRoomUpdated stream...');
+
       // 채팅방 업데이트 이벤트 (거래 상태 변경 등)
       _roomUpdatedSubscription = signalR.onRoomUpdated.listen((event) {
+        AppLogger.i('🎧 onRoomUpdated listener triggered!');
         _handleRoomUpdate(event);
       });
+
+      AppLogger.i('🎧 ✅ SignalR listeners setup complete!');
     } catch (e) {
       AppLogger.e('Error setting up SignalR listeners in ChatListViewModel', e);
     }
@@ -145,11 +213,27 @@ class ChatListViewModel extends _$ChatListViewModel {
 
   /// 새 메시지 수신 시 해당 채팅방의 마지막 메시지 업데이트
   void _handleNewMessage(MessageEntity message) {
+    AppLogger.i(
+      '📨 ChatListViewModel: New message received! roomId=${message.roomId}, messageId=${message.messageId}',
+    );
+
+    // 중복 메시지 체크: room_{roomId} + user_{userId} 두 그룹에서 수신할 수 있음
+    if (_receivedMessageIds.contains(message.messageId)) {
+      AppLogger.i('📌 Duplicate message ignored: ${message.messageId}');
+      return;
+    }
+    _receivedMessageIds.add(message.messageId);
+
     final roomId = message.roomId;
     final index = _allChatRooms.indexWhere((room) => room.roomId == roomId);
 
+    AppLogger.i(
+      '📨 Current rooms count: ${_allChatRooms.length}, Found index: $index',
+    );
+
     if (index == -1) {
       // 새로운 채팅방이면 목록 전체 새로고침
+      AppLogger.i('📨 New room detected, refreshing entire list');
       refresh();
       return;
     }
@@ -188,8 +272,8 @@ class ChatListViewModel extends _$ChatListViewModel {
       otherUserProfileImageUrl: existingRoom.otherUserProfileImageUrl,
       lastMessage: lastMessageText,
       timeDisplay: DateFormatUtil.formatChatTime(message.createdAt),
-      // 본인이 보낸 메시지가 아니면 읽지 않은 메시지 카운트 증가
-      unreadCount: isMyMessage
+      // 본인이 보낸 메시지가 아니고, 현재 보고 있는 채팅방이 아니면 unreadCount 증가
+      unreadCount: isMyMessage || roomId == _currentlyViewingRoomId
           ? existingRoom.unreadCount
           : existingRoom.unreadCount + 1,
       roomStatusCode: existingRoom.roomStatusCode,
@@ -205,8 +289,14 @@ class ChatListViewModel extends _$ChatListViewModel {
       ..._allChatRooms.where((room) => room.roomId != roomId),
     ];
 
+    AppLogger.i(
+      '📨 Room updated: roomId=$roomId, unreadCount=${updatedRoom.unreadCount}, lastMessage="${updatedRoom.lastMessage}"',
+    );
+
     // 검색 필터 재적용
     _filterChatRooms();
+
+    AppLogger.i('📨 State updated! Total rooms: ${_allChatRooms.length}');
   }
 
   /// 시간 포맷팅 (ChatRoomListUiModel._formatTime과 동일)

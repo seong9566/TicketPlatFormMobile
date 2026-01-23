@@ -21,7 +21,7 @@ final class ChatListViewModelProvider
         argument: null,
         retry: null,
         name: r'chatListViewModelProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -34,7 +34,7 @@ final class ChatListViewModelProvider
   ChatListViewModel create() => ChatListViewModel();
 }
 
-String _$chatListViewModelHash() => r'9ed2f508cd190d321e070a8a16f742d3015c3428';
+String _$chatListViewModelHash() => r'84e59ddfc845c81973d6a5829cea40afe0236f18';
 
 abstract class _$ChatListViewModel
     extends $AsyncNotifier<List<ChatRoomListUiModel>> {
