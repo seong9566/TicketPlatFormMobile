@@ -40,6 +40,7 @@ class ApiEndpoint {
   static const String chatRooms = '/api/chat/rooms';
   static const String chatMessages = '/api/chat/messages';
   static const String chatRoomDetail = '/api/chat/rooms/detail';
+  static const String chatRoomByTicket = '/api/chat/rooms/by-ticket';
   static const String chatRoomRead = '/api/chat/rooms/read';
   static const String requestPayment = '/api/chat/rooms/request-payment';
   static const String confirmPurchase = '/api/chat/rooms/confirm-purchase';

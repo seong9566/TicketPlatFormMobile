@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:ticket_platform_mobile/core/error/failures.dart';
 import 'package:ticket_platform_mobile/core/network/base_response.dart';
 import 'package:ticket_platform_mobile/features/chat/data/datasources/chat_remote_data_source.dart';
 import 'package:ticket_platform_mobile/features/chat/data/dto/request/chat_req_dto.dart';
@@ -33,6 +34,21 @@ class ChatRepositoryImpl implements ChatRepository {
   Future<ChatRoomEntity> getChatRoomDetail(int roomId) async {
     final response = await _remoteDataSource.getChatRoomDetail(roomId);
     return response.dataOrThrow.toEntity();
+  }
+
+  @override
+  Future<ChatRoomEntity?> getChatRoomByTicket(int ticketId) async {
+    try {
+      final response = await _remoteDataSource.getChatRoomByTicket(ticketId);
+      return response.dataOrThrow.toEntity();
+    } on Failure catch (e) {
+      // 404 (Failure.notFound)는 정상 케이스 (채팅방이 없는 경우)
+      if (e is NotFoundFailure) {
+        return null;
+      }
+      // 다른 Failure는 재throw
+      rethrow;
+    }
   }
 
   @override

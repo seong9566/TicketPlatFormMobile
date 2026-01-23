@@ -91,15 +91,23 @@ class ApiLogInterceptor extends Interceptor {
     final baseUrl = err.requestOptions.baseUrl;
     final apiPath = err.requestOptions.path;
     final statusCode = err.response?.statusCode;
-    final message = err.message;
-    final data = err.response?.data != null
-        ? jsonEncode(err.response?.data)
-        : 'null';
     final apiName = err.requestOptions.extra['apiName'] ?? 'Unknown';
 
-    AppLogger.e(
-      '❌ [ERROR] function: [$apiName()], url: $baseUrl, api: $apiPath, statusCode: $statusCode, message: $message\nError Data: $data',
-    );
+    // /api/chat/rooms/by-ticket의 404는 정상 케이스이므로 로그 제외
+    final isGetChatRoomByTicket404 =
+        apiPath == '/api/chat/rooms/by-ticket' && statusCode == 404;
+
+    if (!isGetChatRoomByTicket404) {
+      final message = err.message;
+      final data = err.response?.data != null
+          ? jsonEncode(err.response?.data)
+          : 'null';
+
+      AppLogger.e(
+        '❌ [ERROR] function: [$apiName()], url: $baseUrl, api: $apiPath, statusCode: $statusCode, message: $message\nError Data: $data',
+      );
+    }
+
     super.onError(err, handler);
   }
 }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:ticket_platform_mobile/core/error/failures.dart';
 import 'package:ticket_platform_mobile/core/network/api_endpoint.dart';
 import 'package:ticket_platform_mobile/core/network/base_response.dart';
 import 'package:ticket_platform_mobile/core/network/dio_provider.dart';
@@ -20,6 +21,9 @@ abstract class ChatRemoteDataSource {
 
   /// 채팅방 상세 조회
   Future<BaseResponse<ChatRoomRespDto>> getChatRoomDetail(int roomId);
+
+  /// 티켓 ID로 기존 채팅방 조회 (생성하지 않음)
+  Future<BaseResponse<ChatRoomRespDto>> getChatRoomByTicket(int ticketId);
 
   /// 채팅방 생성 또는 조회
   Future<BaseResponse<ChatRoomRespDto>> createOrGetChatRoom(
@@ -95,6 +99,44 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
       dataParser: (json) =>
           ChatRoomRespDto.fromJson(json as Map<String, dynamic>),
     );
+  }
+
+  @override
+  Future<BaseResponse<ChatRoomRespDto>> getChatRoomByTicket(
+    int ticketId,
+  ) async {
+    try {
+      // 404를 조용히 처리하기 위해 safeApiCall을 사용하지 않음
+      final response = await _dio.get(
+        ApiEndpoint.chatRoomByTicket,
+        queryParameters: {'ticketId': ticketId},
+      );
+
+      final responseData = response.data;
+      if (responseData is Map<String, dynamic>) {
+        return BaseResponse<ChatRoomRespDto>.fromJson(
+          responseData,
+          (json) => ChatRoomRespDto.fromJson(json as Map<String, dynamic>),
+        );
+      }
+
+      throw Exception('Invalid response format');
+    } on DioException catch (e) {
+      // 404는 정상 케이스이므로 에러 로그 없이 Failure.notFound만 throw
+      if (e.response?.statusCode == 404) {
+        throw const Failure.notFound();
+      }
+      // 다른 에러는 적절한 Failure로 변환
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.sendTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        throw const Failure.network();
+      }
+      if (e.response?.statusCode == 401) {
+        throw const Failure.unauthorized();
+      }
+      throw Failure.server(e.message ?? '네트워크 오류가 발생했습니다.');
+    }
   }
 
   @override

@@ -5,6 +5,7 @@ import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
+import 'package:ticket_platform_mobile/features/chat/data/repositories/chat_repository_impl.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/usecases/create_or_get_chat_room_usecase.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/viewmodels/ticket_detail_viewmodel.dart';
 
@@ -29,19 +30,31 @@ class TicketDetailBottomAction extends ConsumerWidget {
     );
 
     try {
-      // 채팅방 생성 또는 조회
-      final chatRoom = await ref
-          .read(createOrGetChatRoomUsecaseProvider)
-          .call(ticketId);
+      // 1. 먼저 기존 채팅방이 있는지 확인 (생성하지 않음)
+      final chatRepository = ref.read(chatRepositoryProvider);
+      final existingRoom = await chatRepository.getChatRoomByTicket(ticketId);
+
+      int roomIdToNavigate;
+
+      if (existingRoom != null) {
+        // 2-1. 기존 방 있음 → 해당 방으로
+        roomIdToNavigate = existingRoom.roomId;
+      } else {
+        // 2-2. 기존 방 없음 → 즉시 생성
+        final newRoom = await ref
+            .read(createOrGetChatRoomUsecaseProvider)
+            .call(ticketId);
+        roomIdToNavigate = newRoom.roomId;
+      }
 
       // 로딩 다이얼로그 닫기
       if (context.mounted) {
         context.pop();
 
-        // 채팅방으로 이동
+        // 3. 채팅방으로 이동
         context.pushNamed(
           AppRouterPath.chatRoom.name,
-          pathParameters: {'id': chatRoom.roomId.toString()},
+          pathParameters: {'id': roomIdToNavigate.toString()},
         );
       }
     } catch (e) {

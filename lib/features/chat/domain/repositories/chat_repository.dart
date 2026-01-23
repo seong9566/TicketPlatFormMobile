@@ -14,6 +14,10 @@ abstract class ChatRepository {
   /// 채팅방 상세 조회
   Future<ChatRoomEntity> getChatRoomDetail(int roomId);
 
+  /// 티켓 ID로 기존 채팅방 조회 (생성하지 않음)
+  /// 채팅방이 없으면 null 반환
+  Future<ChatRoomEntity?> getChatRoomByTicket(int ticketId);
+
   /// 채팅방 생성 또는 조회
   Future<ChatRoomEntity> createOrGetChatRoom(int ticketId);
 
