@@ -48,7 +48,7 @@ public async Task<MessageResponse> SendMessage(...)
     // 1. DB에 메시지 저장
     var message = await _messageRepository.CreateAsync(...);
     
-    // 2. SignalR로 그룹에 브로드캐스트 ← 이 부분이 중요!
+    // 2. SignalR로 그룹에 브로드캐스트 
     await _hubContext.Clients.Group($"room_{roomId}").SendAsync("ReceiveMessage", new {
         messageId = message.Id,
         roomId = message.RoomId,

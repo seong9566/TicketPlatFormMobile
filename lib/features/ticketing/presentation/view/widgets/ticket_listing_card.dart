@@ -20,29 +20,33 @@ class TicketListingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: AppSpacing.md),
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildHeaderSection(),
-          const SizedBox(height: AppSpacing.md),
-          if (ticket.description != null && ticket.description!.isNotEmpty) ...[
-            Text(
-              ticket.description!,
-              style: AppTextStyles.body2.copyWith(
-                color: AppColors.textSecondary,
-                fontSize: 12,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: AppSpacing.md),
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        decoration: BoxDecoration(
+          color: AppColors.card,
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildHeaderSection(),
+            const SizedBox(height: AppSpacing.md),
+            if (ticket.description != null &&
+                ticket.description!.isNotEmpty) ...[
+              Text(
+                ticket.description!,
+                style: AppTextStyles.body2.copyWith(
+                  color: AppColors.textSecondary,
+                  fontSize: 12,
+                ),
               ),
-            ),
+            ],
+            _buildPriceSection(),
           ],
-          _buildPriceSection(),
-        ],
+        ),
       ),
     );
   }
