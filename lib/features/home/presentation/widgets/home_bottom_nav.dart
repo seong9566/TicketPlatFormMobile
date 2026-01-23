@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
+import 'package:ticket_platform_mobile/features/chat/presentation/viewmodels/chat_list_viewmodel.dart';
 
-class HomeBottomNav extends StatelessWidget {
+class HomeBottomNav extends ConsumerWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
 
@@ -12,29 +14,73 @@ class HomeBottomNav extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // 읽지 않은 메시지 확인
+    final hasUnreadMessages = ref.watch(
+      chatListViewModelProvider.select((asyncValue) {
+        return asyncValue.when(
+          data: (rooms) => rooms.any((room) => room.unreadCount > 0),
+          loading: () => false,
+          error: (_, __) => false,
+        );
+      }),
+    );
+
     return BottomNavigationBar(
       currentIndex: currentIndex,
       onTap: onTap,
       type: BottomNavigationBarType.fixed,
       selectedItemColor: AppColors.primary,
       unselectedItemColor: AppColors.textTertiary,
-      items: const [
-        BottomNavigationBarItem(
+      items: [
+        const BottomNavigationBarItem(
           icon: Icon(Icons.home_outlined),
           activeIcon: Icon(Icons.home_filled),
           label: '홈',
         ),
         BottomNavigationBarItem(
-          icon: Badge(
-            label: Text('3'),
-            backgroundColor: Color(0xFFEF4444),
-            child: Icon(Icons.chat_bubble_outline),
-          ),
+          icon: _buildChatIcon(hasUnreadMessages: hasUnreadMessages),
           label: '채팅',
         ),
-        BottomNavigationBarItem(icon: Icon(Icons.favorite_border), label: '찜'),
-        BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: '내정보'),
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.favorite_border),
+          label: '찜',
+        ),
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.person_outline),
+          label: '내정보',
+        ),
+      ],
+    );
+  }
+
+  /// 채팅 아이콘 + NEW 배지
+  Widget _buildChatIcon({required bool hasUnreadMessages}) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        const Icon(Icons.chat_bubble_outline),
+        if (hasUnreadMessages)
+          Positioned(
+            right: -6,
+            top: -4,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+              decoration: BoxDecoration(
+                color: AppColors.destructive,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Text(
+                'NEW',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 8,
+                  fontWeight: FontWeight.bold,
+                  height: 1.0,
+                ),
+              ),
+            ),
+          ),
       ],
     );
   }
