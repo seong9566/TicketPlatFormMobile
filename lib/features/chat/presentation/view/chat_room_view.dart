@@ -8,6 +8,7 @@ import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/ui_models/chat_room_ui_model.dart';
+import 'package:ticket_platform_mobile/features/chat/presentation/viewmodels/chat_list_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/viewmodels/chat_room_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_message_list.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_room_action_bar.dart';
@@ -38,12 +39,23 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
   @override
   void initState() {
     super.initState();
+
+    // 채팅방 입장: 현재 보고 있는 방 설정 + 읽음 처리
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final notifier = ref.read(chatListViewModelProvider.notifier);
+      notifier.setCurrentRoomId(roomId); // 해당 방 메시지는 unread 증가 안함
+      notifier.resetUnreadCount(roomId); // 기존 unread 초기화
+    });
+
     _messageController.addListener(_onTextChanged);
     _scrollController.addListener(_onScroll);
   }
 
   @override
   void dispose() {
+    // 채팅방 퇴장: 현재 보고 있는 방 해제 (state 수정 없으므로 안전)
+    ref.read(chatListViewModelProvider.notifier).setCurrentRoomId(null);
+
     _messageController.dispose();
     _scrollController.dispose();
     _typingDebounceTimer?.cancel();
@@ -109,10 +121,15 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
     );
 
     if (pickedFiles.isNotEmpty) {
-      final newImages = pickedFiles.take(remainingSlots).map((xFile) => File(xFile.path)).toList();
+      final newImages = pickedFiles
+          .take(remainingSlots)
+          .map((xFile) => File(xFile.path))
+          .toList();
 
       if (pickedFiles.length > remainingSlots) {
-        _showErrorSnackBar('최대 3장까지만 선택됩니다 (${pickedFiles.length - remainingSlots}장 제외됨)');
+        _showErrorSnackBar(
+          '최대 3장까지만 선택됩니다 (${pickedFiles.length - remainingSlots}장 제외됨)',
+        );
       }
 
       setState(() => _selectedImages.addAll(newImages));
