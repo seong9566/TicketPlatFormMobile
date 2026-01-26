@@ -1,15 +1,14 @@
-import 'package:ticket_platform_mobile/features/payment/data/dto/request/payment_confirm_req_dto.dart';
-import 'package:ticket_platform_mobile/features/payment/data/dto/request/payment_request_req_dto.dart';
 import 'package:ticket_platform_mobile/features/payment/domain/entities/payment_entities.dart';
 import 'package:ticket_platform_mobile/features/payment/domain/repositories/payment_repository.dart';
+import 'package:ticket_platform_mobile/features/payment/domain/usecases/payment_params.dart';
 
 class RequestPaymentUseCase {
   final PaymentRepository _repository;
 
   RequestPaymentUseCase(this._repository);
 
-  Future<PaymentRequestEntity> call(PaymentRequestReqDto req) {
-    return _repository.requestPayment(req);
+  Future<PaymentRequestEntity> call(RequestPaymentParams params) {
+    return _repository.requestPayment(params);
   }
 }
 
@@ -18,8 +17,8 @@ class ConfirmPaymentUseCase {
 
   ConfirmPaymentUseCase(this._repository);
 
-  Future<PaymentConfirmEntity> call(PaymentConfirmReqDto req) {
-    return _repository.confirmPayment(req);
+  Future<PaymentConfirmEntity> call(ConfirmPaymentParams params) {
+    return _repository.confirmPayment(params);
   }
 }
 

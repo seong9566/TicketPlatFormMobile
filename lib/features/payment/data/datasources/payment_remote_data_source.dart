@@ -12,6 +12,8 @@ abstract class PaymentRemoteDataSource {
   Future<BaseResponse<PaymentRequestRespDto>> requestPayment(
     PaymentRequestReqDto req,
   );
+
+  // 서버 로직 -> 토스 API 요청
   Future<BaseResponse<PaymentConfirmRespDto>> confirmPayment(
     PaymentConfirmReqDto req,
   );

@@ -20,7 +20,7 @@ final class PaymentViewModelProvider
         argument: null,
         retry: null,
         name: r'paymentViewModelProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -41,7 +41,7 @@ final class PaymentViewModelProvider
   }
 }
 
-String _$paymentViewModelHash() => r'7311e88898004fb93d8d08dca2dff40e7219a296';
+String _$paymentViewModelHash() => r'2ea38a4930a72e9427892b48973117fc29c7981e';
 
 abstract class _$PaymentViewModel extends $Notifier<PaymentState> {
   PaymentState build();

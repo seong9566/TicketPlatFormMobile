@@ -212,6 +212,7 @@ GoRouter goRouter(Ref ref) {
           return ProfileEditView(profile: profile);
         },
       ),
+      // 이미지 뷰어 화면
       GoRoute(
         path: AppRouterPath.imageViewer.path,
         name: AppRouterPath.imageViewer.name,
@@ -233,12 +234,21 @@ GoRouter goRouter(Ref ref) {
           );
         },
       ),
+      // 결제 화면
       GoRoute(
         path: AppRouterPath.payment.path,
         name: AppRouterPath.payment.name,
         builder: (context, state) {
           final paymentRequest = state.extra as PaymentRequestEntity;
-          return PaymentWebView(paymentRequest: paymentRequest);
+          return PaymentWebView(
+            amount: paymentRequest.amount.toDouble(),
+            orderId: paymentRequest.orderId,
+            orderName: paymentRequest.orderName,
+            customerName: paymentRequest.customerName,
+            customerEmail: paymentRequest.customerEmail,
+            successUrl: paymentRequest.successUrl,
+            failUrl: paymentRequest.failUrl,
+          );
         },
       ),
     ],
