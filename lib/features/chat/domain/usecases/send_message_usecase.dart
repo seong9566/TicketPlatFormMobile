@@ -12,14 +12,11 @@ class SendMessageParams {
   final String? message;
   final List<File>? imageFiles;
 
-  SendMessageParams({
-    required this.roomId,
-    this.message,
-    this.imageFiles,
-  }) : assert(
-          imageFiles == null || imageFiles.length <= 5,
-          'Maximum 5 images allowed',
-        );
+  SendMessageParams({required this.roomId, this.message, this.imageFiles})
+    : assert(
+        imageFiles == null || imageFiles.length <= 5,
+        'Maximum 5 images allowed',
+      );
 }
 
 class SendMessageUsecase {

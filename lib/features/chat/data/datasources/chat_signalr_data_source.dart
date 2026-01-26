@@ -316,22 +316,32 @@ class ChatSignalRDataSourceImpl implements ChatSignalRDataSource {
     // 신규 API: images 배열 파싱
     if (data['images'] != null && (data['images'] as List).isNotEmpty) {
       imageEntities = (data['images'] as List)
-          .map((img) => ImageInfoEntity(
-                url: img['url'] as String,
-                expiresAt: img['expiresAt'] != null
-                    ? DateTime.parse(img['expiresAt'] as String)
-                    : null,
-              ))
+          .map(
+            (img) => ImageInfoEntity(
+              url: img['url'] as String,
+              expiresAt: img['expiresAt'] != null
+                  ? DateTime.parse(img['expiresAt'] as String)
+                  : null,
+            ),
+          )
           .toList();
     }
-    // 구 API: imageUrl을 images 배열로 변환 (하위 호환성)
-    else if (data['imageUrl'] != null) {
-      imageEntities = [
-        ImageInfoEntity(
-          url: data['imageUrl'] as String,
-          expiresAt: null,
-        ),
-      ];
+
+    // 서버 응답의 type 필드를 기반으로 MessageType 결정
+    final typeStr = data['type'] as String?;
+    MessageType messageType = MessageType.text;
+    if (typeStr != null) {
+      if (typeStr == 'TEXT') {
+        messageType = MessageType.text;
+      }
+      if (typeStr == 'IMAGE') {
+        messageType = MessageType.image;
+      }
+      if (typeStr == 'PAYMENT_REQUEST') {
+        messageType = MessageType.paymentRequest;
+      }
+    } else if (data['message'] == '결제가 요청되었습니다.') {
+      messageType = MessageType.paymentRequest;
     }
 
     return MessageEntity(
@@ -340,8 +350,8 @@ class ChatSignalRDataSourceImpl implements ChatSignalRDataSource {
       senderId: data['senderId'] as int,
       senderNickname: data['senderNickname'] as String? ?? '',
       senderProfileImage: data['senderProfileImage'] as String?,
+      type: messageType,
       message: data['message'] as String?,
-      imageUrl: data['imageUrl'] as String?,
       images: imageEntities,
       createdAt: DateTime.parse(data['createdAt'] as String),
       isMyMessage: false,

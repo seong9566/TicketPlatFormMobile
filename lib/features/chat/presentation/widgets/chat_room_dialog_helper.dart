@@ -5,7 +5,6 @@ import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/ui_models/chat_room_ui_model.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/viewmodels/chat_room_viewmodel.dart';
-import 'package:ticket_platform_mobile/features/payment/data/dto/request/payment_request_req_dto.dart';
 import 'package:ticket_platform_mobile/features/payment/presentation/viewmodels/payment_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/profile_viewmodel.dart';
 
@@ -18,74 +17,101 @@ class ChatRoomDialogHelper {
     required ChatRoomViewModel viewModel,
     required bool isBuyer,
   }) {
-    final title = isBuyer ? '결제하기' : '결제 요청';
-    final content = isBuyer
-        ? '${chatRoom.ticket.price}를 결제하시겠습니까?'
-        : '${chatRoom.ticket.price}의 결제를 요청하시겠습니까?';
-    final buttonText = isBuyer ? '결제' : '요청';
+    if (!isBuyer) return;
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(title),
-        content: Text(content),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('취소'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              // 다이얼로그 닫기
-              Navigator.of(context).pop();
+      barrierDismissible: false,
+      builder: (context) {
+        return Consumer(
+          builder: (context, ref, child) {
+            final isLoading = ref.watch(
+              paymentViewModelProvider.select((s) => s.isLoading),
+            );
 
-              if (chatRoom.transaction == null) return;
-
-              if (isBuyer) {
-                // 구매자: 실제 결제 프로세스 시작
-                final profile = ref
-                    .read(profileViewModelProvider)
-                    .value
-                    ?.profile;
-                final paymentViewModel = ref.read(
-                  paymentViewModelProvider.notifier,
-                );
-
-                await paymentViewModel.requestPayment(
-                  PaymentRequestReqDto(
-                    transactionId: chatRoom.transaction!.transactionId,
-                    amount: chatRoom.transaction!.amountValue,
-                    orderName: chatRoom.ticket.title,
-                    customerName: profile?.nickname ?? '구매자',
-                    customerEmail: 'customer@example.com', // TODO: 실제 이메일 연동
+            return AlertDialog(
+              title: const Text('결제하기'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '티켓 금액: ${chatRoom.ticket.price}',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                );
+                  const SizedBox(height: 8),
+                  const Text('위 금액으로 결제를 진행하시겠습니까?'),
+                  if (isLoading) ...[
+                    const SizedBox(height: 16),
+                    const Center(child: CircularProgressIndicator()),
+                  ],
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: isLoading
+                      ? null
+                      : () => Navigator.of(context).pop(),
+                  child: const Text('취소'),
+                ),
+                ElevatedButton(
+                  onPressed: isLoading
+                      ? null
+                      : () async {
+                          final transaction = chatRoom.transaction;
+                          if (transaction == null) return;
 
-                final paymentState = ref.read(paymentViewModelProvider);
-                if (paymentState.paymentRequest != null) {
-                  // context.mounted 체크 (다이얼로그가 닫힌 후이므로 context가 여전히 유효한지 확인)
-                  if (!context.mounted) return;
+                          final profile = ref
+                              .read(profileViewModelProvider)
+                              .value
+                              ?.profile;
+                          final paymentViewModel = ref.read(
+                            paymentViewModelProvider.notifier,
+                          );
 
-                  final success = await context.push<bool>(
-                    AppRouterPath.payment.path,
-                    extra: paymentState.paymentRequest,
-                  );
+                          await paymentViewModel.requestPayment(
+                            transactionId: transaction.transactionId,
+                            amount: chatRoom.ticket.priceValue,
+                            orderName: chatRoom.ticket.title,
+                            customerName: profile?.nickname ?? '구매자',
+                            customerEmail: 'customer@example.com',
+                          );
 
-                  if (success == true) {
-                    await viewModel.refresh();
-                  }
-                }
-              } else {
-                // 판매자: 채팅방에 결제 요청 시스템 메시지 전송
-                await viewModel.requestPayment(
-                  chatRoom.transaction!.transactionId,
-                );
-              }
-            },
-            child: Text(buttonText),
-          ),
-        ],
-      ),
+                          final paymentState = ref.read(
+                            paymentViewModelProvider,
+                          );
+                          if (paymentState.errorMessage != null) {
+                            if (!context.mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(paymentState.errorMessage!),
+                                backgroundColor: AppColors.destructive,
+                              ),
+                            );
+                            return;
+                          }
+
+                          if (paymentState.paymentRequest != null) {
+                            if (!context.mounted) return;
+                            Navigator.of(context).pop(); // 다이얼로그 닫기
+
+                            final success = await context.push<bool>(
+                              AppRouterPath.payment.path,
+                              extra: paymentState.paymentRequest,
+                            );
+
+                            if (success == true) {
+                              await viewModel.refresh();
+                            }
+                          }
+                        },
+                  child: const Text('결제'),
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 

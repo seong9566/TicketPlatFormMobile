@@ -9,10 +9,7 @@ class ConfirmPurchaseParams {
   final int roomId;
   final int transactionId;
 
-  ConfirmPurchaseParams({
-    required this.roomId,
-    required this.transactionId,
-  });
+  ConfirmPurchaseParams({required this.roomId, required this.transactionId});
 }
 
 class ConfirmPurchaseUsecase {

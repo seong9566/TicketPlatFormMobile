@@ -2,16 +2,36 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'transaction_entity.freezed.dart';
 
+enum TransactionStatus {
+  @JsonValue('reserved')
+  reserved,
+  @JsonValue('pending_payment')
+  pendingPayment,
+  @JsonValue('paid')
+  paid,
+  @JsonValue('confirmed')
+  confirmed,
+  @JsonValue('completed')
+  completed,
+  @JsonValue('cancelled')
+  cancelled,
+  @JsonValue('refunded')
+  refunded;
+
+  bool get isPaymentPending => this == TransactionStatus.pendingPayment;
+  bool get isPaid => this == TransactionStatus.paid;
+  bool get isConfirmed => this == TransactionStatus.confirmed;
+  bool get isCancelled => this == TransactionStatus.cancelled;
+}
+
 @freezed
 abstract class TransactionEntity with _$TransactionEntity {
   const factory TransactionEntity({
     required int transactionId,
-    required String statusCode,
+    required TransactionStatus status,
     required String statusName,
-    required int amount,
-    String? paymentUrl,
     DateTime? confirmedAt,
-    String? cancelReason,
+    DateTime? cancelledAt,
   }) = _TransactionEntity;
 }
 

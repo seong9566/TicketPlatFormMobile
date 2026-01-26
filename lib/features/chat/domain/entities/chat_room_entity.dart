@@ -31,6 +31,9 @@ abstract class TicketInfoEntity with _$TicketInfoEntity {
     required String title,
     required int price,
     String? thumbnailUrl,
+    String? seatInfo,
+    DateTime? eventDateTime,
+    String? venueName,
   }) = _TicketInfoEntity;
 }
 

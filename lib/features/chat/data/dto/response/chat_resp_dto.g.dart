@@ -59,6 +59,9 @@ _TicketInfoDto _$TicketInfoDtoFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
       price: (json['price'] as num).toInt(),
       thumbnailUrl: json['thumbnailUrl'] as String?,
+      seatInfo: json['seatInfo'] as String?,
+      eventDateTime: json['eventDateTime'] as String?,
+      venueName: json['venueName'] as String?,
     );
 
 Map<String, dynamic> _$TicketInfoDtoToJson(_TicketInfoDto instance) =>
@@ -67,6 +70,9 @@ Map<String, dynamic> _$TicketInfoDtoToJson(_TicketInfoDto instance) =>
       'title': instance.title,
       'price': instance.price,
       'thumbnailUrl': instance.thumbnailUrl,
+      'seatInfo': instance.seatInfo,
+      'eventDateTime': instance.eventDateTime,
+      'venueName': instance.venueName,
     };
 
 _UserProfileDto _$UserProfileDtoFromJson(Map<String, dynamic> json) =>
@@ -87,13 +93,11 @@ Map<String, dynamic> _$UserProfileDtoToJson(_UserProfileDto instance) =>
 
 _TransactionDto _$TransactionDtoFromJson(Map<String, dynamic> json) =>
     _TransactionDto(
-      transactionId: (json['transactionId'] as num).toInt(),
-      statusCode: json['statusCode'] as String,
-      statusName: json['statusName'] as String,
-      amount: (json['amount'] as num).toInt(),
-      paymentUrl: json['paymentUrl'] as String?,
+      transactionId: (json['transactionId'] as num?)?.toInt(),
+      statusCode: json['statusCode'] as String?,
+      statusName: json['statusName'] as String?,
       confirmedAt: json['confirmedAt'] as String?,
-      cancelReason: json['cancelReason'] as String?,
+      cancelledAt: json['cancelledAt'] as String?,
     );
 
 Map<String, dynamic> _$TransactionDtoToJson(_TransactionDto instance) =>
@@ -101,10 +105,8 @@ Map<String, dynamic> _$TransactionDtoToJson(_TransactionDto instance) =>
       'transactionId': instance.transactionId,
       'statusCode': instance.statusCode,
       'statusName': instance.statusName,
-      'amount': instance.amount,
-      'paymentUrl': instance.paymentUrl,
       'confirmedAt': instance.confirmedAt,
-      'cancelReason': instance.cancelReason,
+      'cancelledAt': instance.cancelledAt,
     };
 
 _MessageDto _$MessageDtoFromJson(Map<String, dynamic> json) => _MessageDto(
@@ -114,7 +116,7 @@ _MessageDto _$MessageDtoFromJson(Map<String, dynamic> json) => _MessageDto(
   senderNickname: json['senderNickname'] as String,
   senderProfileImage: json['senderProfileImage'] as String?,
   message: json['message'] as String?,
-  imageUrl: json['imageUrl'] as String?,
+  type: json['type'] as String?,
   images: (json['images'] as List<dynamic>?)
       ?.map((e) => ImageInfoDto.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -130,7 +132,7 @@ Map<String, dynamic> _$MessageDtoToJson(_MessageDto instance) =>
       'senderNickname': instance.senderNickname,
       'senderProfileImage': instance.senderProfileImage,
       'message': instance.message,
-      'imageUrl': instance.imageUrl,
+      'type': instance.type,
       'images': instance.images,
       'createdAt': instance.createdAt,
       'isMyMessage': instance.isMyMessage,
@@ -193,7 +195,6 @@ _SendMessageRespDto _$SendMessageRespDtoFromJson(Map<String, dynamic> json) =>
       senderNickname: json['senderNickname'] as String,
       senderProfileImage: json['senderProfileImage'] as String?,
       message: json['message'] as String?,
-      imageUrl: json['imageUrl'] as String?,
       images: (json['images'] as List<dynamic>?)
           ?.map((e) => ImageInfoDto.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -209,7 +210,6 @@ Map<String, dynamic> _$SendMessageRespDtoToJson(_SendMessageRespDto instance) =>
       'senderNickname': instance.senderNickname,
       'senderProfileImage': instance.senderProfileImage,
       'message': instance.message,
-      'imageUrl': instance.imageUrl,
       'images': instance.images,
       'createdAt': instance.createdAt,
       'success': instance.success,

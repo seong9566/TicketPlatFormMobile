@@ -259,8 +259,6 @@ class ChatListViewModel extends _$ChatListViewModel {
         lastMessageText = message.images!.length > 1
             ? '[이미지 ${message.images!.length}장]'
             : '[이미지]';
-      } else if (message.imageUrl != null) {
-        lastMessageText = '[이미지]';
       }
     }
 

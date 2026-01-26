@@ -40,4 +40,9 @@ class DateFormatUtil {
   static String formatSeparatorDate(DateTime date) {
     return DateFormat('M월 d일 (E)', 'ko').format(date.toLocal());
   }
+
+  /// 날짜 포맷팅 (YYYY.MM.DD (E) HH:mm)
+  static String formatDateTime(DateTime date) {
+    return DateFormat('yyyy.MM.dd (E) HH:mm', 'ko').format(date);
+  }
 }
