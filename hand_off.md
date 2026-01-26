@@ -179,5 +179,49 @@ public async Task<IActionResult> TestBroadcast([FromBody] int roomId)
     return Ok("Broadcast sent");
 }
 ```
+---
 
-이 엔드포인트 호출 후 클라이언트에서 메시지가 수신되면 **브로드캐스트 자체는 정상**입니다.
+# 토스페이먼츠 결제 연동 - 현황 및 인계 사항
+
+## 📌 현재 상황
+- `tosspayments_widget_sdk_flutter` (결제위젯 SDK) 기반 연동 완료.
+- `PaymentWebView`를 통해 결제 수단 선택 및 이용 약관 동의 영역 활성화.
+- 안드로이드 플랫폼 뷰 등록 오류 및 린트 이슈 해결 완료.
+
+---
+
+## 🔍 결제 연동 핵심 확인 사항
+
+### 1. 인증되지 않은 키 에러 (4000) 해결
+- **현상**: `PaymentWidget` 로드 시 `errorCode: 4000` 발생.
+- **원인**: **'API 개별 연동 키'**와 **'결제위젯 연동 키'**의 혼용.
+- **해결책**:
+  1. 토스페이먼츠 개발자 센터 접속.
+  2. 상단 **[결제위젯 연동 키]** 섹션에서 '이용 신청하기' 완료 (테스트 환경은 사업자 번호 불필요).
+  3. 여기서 발급된 전용 클라이언트 키를 `PaymentWebView`의 `clientKey` 변수에 적용.
+
+### 2. UI 커스텀 방식 결정
+- **현재 방식 (결제위젯)**: 토스가 제공하는 UI 위젯을 사용. 관리자 페이지에서 결제 수단을 실시간 제어 가능.
+- **개별 UI 구현 시**: 사용자가 직접 디자인한 버튼을 사용하려면 일반 결제용 SDK(`tosspayments_flutter`)로 교체하거나 직접 API 연동 필요.
+
+---
+
+## 🛠️ 안드로이드 플랫폼 설정 변경 내역
+
+결제창(InAppWebView)의 정상 작동을 위해 다음 설정이 변경되었습니다:
+
+1. **Manifest 보강** (`android/app/src/main/AndroidManifest.xml`):
+   - `android:hardwareAccelerated="true"`: 플랫폼 뷰 렌더링 필수.
+   - `android:usesCleartextTraffic="true"`: 일부 결제 완료/실패 페이지 리다이렉트 대응.
+   - `android:enableOnBackInvokedCallback="true"`: 안드로이드 13 이상 시스템 백 제스처 대응.
+
+2. **빌드 사양 변경** (`android/app/build.gradle.kts`):
+   - `minSdkVersion = 21`: 최신 웹뷰 플러그인 요구 사항 충족.
+
+---
+
+## 📋 결제 연동 체크리스트
+
+- [ ] `PaymentWebView` 내 `clientKey`가 **결제위젯 전용** 테스트 키인가?
+- [ ] 서버에서 실제 결제 승인을 담당하는 API(`payment/confirm`)가 토스 시크릿 키로 정상 연동되어 있는가?
+- [ ] 안드로이드 에뮬레이터 또는 기기에서 `flutter clean` 후 재빌드 시 웹뷰가 정상 로드되는가?

@@ -4,10 +4,17 @@ part 'message_entity.freezed.dart';
 
 @freezed
 abstract class ImageInfoEntity with _$ImageInfoEntity {
-  const factory ImageInfoEntity({
-    required String url,
-    DateTime? expiresAt,
-  }) = _ImageInfoEntity;
+  const factory ImageInfoEntity({required String url, DateTime? expiresAt}) =
+      _ImageInfoEntity;
+}
+
+enum MessageType {
+  @JsonValue('TEXT')
+  text,
+  @JsonValue('IMAGE')
+  image,
+  @JsonValue('PAYMENT_REQUEST')
+  paymentRequest,
 }
 
 @freezed
@@ -18,8 +25,8 @@ abstract class MessageEntity with _$MessageEntity {
     required int senderId,
     required String senderNickname,
     String? senderProfileImage,
+    @Default(MessageType.text) MessageType type,
     String? message,
-    @Deprecated('Use images instead') String? imageUrl,
     List<ImageInfoEntity>? images,
     required DateTime createdAt,
     required bool isMyMessage,

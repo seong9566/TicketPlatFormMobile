@@ -39,10 +39,7 @@ abstract class ChatRepository {
   Future<void> markAsRead(int roomId);
 
   /// 결제 요청 (판매자)
-  Future<PaymentRequestEntity> requestPayment({
-    required int roomId,
-    required int transactionId,
-  });
+  Future<PaymentRequestEntity> requestPayment({required int roomId});
 
   /// 구매 확정 (구매자)
   Future<PurchaseConfirmEntity> confirmPurchase({

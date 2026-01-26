@@ -9,10 +9,8 @@ part 'chat_resp_dto.g.dart';
 
 @freezed
 abstract class ImageInfoDto with _$ImageInfoDto {
-  const factory ImageInfoDto({
-    required String url,
-    String? expiresAt,
-  }) = _ImageInfoDto;
+  const factory ImageInfoDto({required String url, String? expiresAt}) =
+      _ImageInfoDto;
 
   factory ImageInfoDto.fromJson(Map<String, dynamic> json) =>
       _$ImageInfoDtoFromJson(json);
@@ -20,9 +18,9 @@ abstract class ImageInfoDto with _$ImageInfoDto {
 
 extension ImageInfoDtoX on ImageInfoDto {
   ImageInfoEntity toEntity() => ImageInfoEntity(
-        url: url,
-        expiresAt: expiresAt != null ? DateTime.parse(expiresAt!) : null,
-      );
+    url: url,
+    expiresAt: expiresAt != null ? DateTime.parse(expiresAt!) : null,
+  );
 }
 
 @freezed
@@ -47,20 +45,22 @@ abstract class ChatRoomRespDto with _$ChatRoomRespDto {
 }
 
 extension ChatRoomRespDtoX on ChatRoomRespDto {
-  ChatRoomEntity toEntity() => ChatRoomEntity(
-        roomId: roomId,
-        ticket: ticket.toEntity(),
-        buyer: buyer.toEntity(),
-        seller: seller.toEntity(),
-        statusCode: statusCode,
-        statusName: statusName,
-        transaction: transaction?.toEntity(),
-        canSendMessage: canSendMessage,
-        canRequestPayment: canRequestPayment,
-        canConfirmPurchase: canConfirmPurchase,
-        canCancelTransaction: canCancelTransaction,
-        messages: messages.map((m) => m.toEntity()).toList(),
-      );
+  ChatRoomEntity toEntity() {
+    return ChatRoomEntity(
+      roomId: roomId,
+      ticket: ticket.toEntity(),
+      buyer: buyer.toEntity(),
+      seller: seller.toEntity(),
+      statusCode: statusCode,
+      statusName: statusName,
+      transaction: transaction?.toEntity(),
+      canSendMessage: canSendMessage,
+      canRequestPayment: canRequestPayment,
+      canConfirmPurchase: canConfirmPurchase,
+      canCancelTransaction: canCancelTransaction,
+      messages: messages.map((m) => m.toEntity()).toList(),
+    );
+  }
 }
 
 @freezed
@@ -70,6 +70,9 @@ abstract class TicketInfoDto with _$TicketInfoDto {
     required String title,
     required int price,
     String? thumbnailUrl,
+    String? seatInfo,
+    String? eventDateTime,
+    String? venueName,
   }) = _TicketInfoDto;
 
   factory TicketInfoDto.fromJson(Map<String, dynamic> json) =>
@@ -78,11 +81,16 @@ abstract class TicketInfoDto with _$TicketInfoDto {
 
 extension TicketInfoDtoX on TicketInfoDto {
   TicketInfoEntity toEntity() => TicketInfoEntity(
-        ticketId: ticketId,
-        title: title,
-        price: price,
-        thumbnailUrl: thumbnailUrl,
-      );
+    ticketId: ticketId,
+    title: title,
+    price: price,
+    thumbnailUrl: thumbnailUrl,
+    seatInfo: seatInfo,
+    eventDateTime: eventDateTime != null
+        ? DateTime.parse(eventDateTime!)
+        : null,
+    venueName: venueName,
+  );
 }
 
 @freezed
@@ -100,39 +108,50 @@ abstract class UserProfileDto with _$UserProfileDto {
 
 extension UserProfileDtoX on UserProfileDto {
   UserProfileEntity toEntity() => UserProfileEntity(
-        userId: userId,
-        nickname: nickname,
-        profileImageUrl: profileImageUrl,
-        mannerTemperature: mannerTemperature,
-      );
+    userId: userId,
+    nickname: nickname,
+    profileImageUrl: profileImageUrl,
+    mannerTemperature: mannerTemperature,
+  );
 }
 
 @freezed
 abstract class TransactionDto with _$TransactionDto {
   const factory TransactionDto({
-    required int transactionId,
-    required String statusCode,
-    required String statusName,
-    required int amount,
-    String? paymentUrl,
+    int? transactionId,
+    String? statusCode,
+    String? statusName,
     String? confirmedAt,
-    String? cancelReason,
+    String? cancelledAt,
   }) = _TransactionDto;
 
   factory TransactionDto.fromJson(Map<String, dynamic> json) =>
       _$TransactionDtoFromJson(json);
 }
 
+TransactionStatus statusFromCode(String code) {
+  return switch (code) {
+    'reserved' => TransactionStatus.reserved,
+    'pending_payment' => TransactionStatus.pendingPayment,
+    'paid' => TransactionStatus.paid,
+    'confirmed' => TransactionStatus.confirmed,
+    'completed' => TransactionStatus.completed,
+    'cancelled' => TransactionStatus.cancelled,
+    'refunded' => TransactionStatus.refunded,
+    _ => TransactionStatus.reserved,
+  };
+}
+
 extension TransactionDtoX on TransactionDto {
-  TransactionEntity toEntity() => TransactionEntity(
-        transactionId: transactionId,
-        statusCode: statusCode,
-        statusName: statusName,
-        amount: amount,
-        paymentUrl: paymentUrl,
-        confirmedAt: confirmedAt != null ? DateTime.parse(confirmedAt!) : null,
-        cancelReason: cancelReason,
-      );
+  TransactionEntity toEntity() {
+    return TransactionEntity(
+      transactionId: transactionId ?? 0,
+      status: statusFromCode(statusCode ?? ''),
+      statusName: statusName ?? '',
+      confirmedAt: confirmedAt != null ? DateTime.parse(confirmedAt!) : null,
+      cancelledAt: cancelledAt != null ? DateTime.parse(cancelledAt!) : null,
+    );
+  }
 }
 
 @freezed
@@ -144,7 +163,7 @@ abstract class MessageDto with _$MessageDto {
     required String senderNickname,
     String? senderProfileImage,
     String? message,
-    @Deprecated('Use images instead') String? imageUrl,
+    String? type,
     List<ImageInfoDto>? images,
     required String createdAt,
     required bool isMyMessage,
@@ -159,10 +178,17 @@ extension MessageDtoX on MessageDto {
     List<ImageInfoEntity>? imageEntities;
     if (images != null && images!.isNotEmpty) {
       imageEntities = images!.map((dto) => dto.toEntity()).toList();
-    } else if (imageUrl != null) {
-      imageEntities = [
-        ImageInfoEntity(url: imageUrl!, expiresAt: null),
-      ];
+    }
+
+    // 서버 응답의 type 필드를 기반으로 MessageType 결정
+    // type 필드가 없거나 null인 경우, 메시지 텍스트를 기반으로 추론 (하위 호환 및 결제 요청 버블 보장)
+    MessageType messageType = MessageType.text;
+    if (type != null) {
+      if (type == 'TEXT') messageType = MessageType.text;
+      if (type == 'IMAGE') messageType = MessageType.image;
+      if (type == 'PAYMENT_REQUEST') messageType = MessageType.paymentRequest;
+    } else if (message == '결제가 요청되었습니다.') {
+      messageType = MessageType.paymentRequest;
     }
 
     return MessageEntity(
@@ -171,8 +197,8 @@ extension MessageDtoX on MessageDto {
       senderId: senderId,
       senderNickname: senderNickname,
       senderProfileImage: senderProfileImage,
+      type: messageType,
       message: message,
-      imageUrl: imageUrl,
       images: imageEntities,
       createdAt: DateTime.parse(createdAt),
       isMyMessage: isMyMessage,
@@ -203,20 +229,21 @@ abstract class ChatRoomListItemDto with _$ChatRoomListItemDto {
 
 extension ChatRoomListItemDtoX on ChatRoomListItemDto {
   ChatRoomListItemEntity toEntity() => ChatRoomListItemEntity(
-        roomId: roomId,
-        ticketId: ticketId,
-        ticketTitle: ticketTitle,
-        otherUser: otherUser.toEntity(),
-        lastMessage: lastMessage,
-        lastMessageAt:
-            lastMessageAt != null ? DateTime.parse(lastMessageAt!) : null,
-        unreadCount: unreadCount,
-        roomStatusCode: roomStatusCode,
-        roomStatusName: roomStatusName,
-        transactionId: transactionId,
-        transactionStatusCode: transactionStatusCode,
-        transactionStatusName: transactionStatusName,
-      );
+    roomId: roomId,
+    ticketId: ticketId,
+    ticketTitle: ticketTitle,
+    otherUser: otherUser.toEntity(),
+    lastMessage: lastMessage,
+    lastMessageAt: lastMessageAt != null
+        ? DateTime.parse(lastMessageAt!)
+        : null,
+    unreadCount: unreadCount,
+    roomStatusCode: roomStatusCode,
+    roomStatusName: roomStatusName,
+    transactionId: transactionId,
+    transactionStatusCode: transactionStatusCode,
+    transactionStatusName: transactionStatusName,
+  );
 }
 
 @freezed
@@ -233,10 +260,10 @@ abstract class OtherUserDto with _$OtherUserDto {
 
 extension OtherUserDtoX on OtherUserDto {
   OtherUserEntity toEntity() => OtherUserEntity(
-        userId: userId,
-        nickname: nickname,
-        profileImageUrl: profileImageUrl,
-      );
+    userId: userId,
+    nickname: nickname,
+    profileImageUrl: profileImageUrl,
+  );
 }
 
 @freezed
@@ -248,7 +275,6 @@ abstract class SendMessageRespDto with _$SendMessageRespDto {
     required String senderNickname,
     String? senderProfileImage,
     String? message,
-    @Deprecated('Use images instead') String? imageUrl,
     List<ImageInfoDto>? images,
     required String createdAt,
     required bool success,
@@ -263,10 +289,6 @@ extension SendMessageRespDtoX on SendMessageRespDto {
     List<ImageInfoEntity>? imageEntities;
     if (images != null && images!.isNotEmpty) {
       imageEntities = images!.map((dto) => dto.toEntity()).toList();
-    } else if (imageUrl != null) {
-      imageEntities = [
-        ImageInfoEntity(url: imageUrl!, expiresAt: null),
-      ];
     }
 
     return MessageEntity(
@@ -276,7 +298,6 @@ extension SendMessageRespDtoX on SendMessageRespDto {
       senderNickname: senderNickname,
       senderProfileImage: senderProfileImage,
       message: message,
-      imageUrl: imageUrl,
       images: imageEntities,
       createdAt: DateTime.parse(createdAt),
       isMyMessage: true,
@@ -298,10 +319,10 @@ abstract class PaymentRequestRespDto with _$PaymentRequestRespDto {
 
 extension PaymentRequestRespDtoX on PaymentRequestRespDto {
   PaymentRequestEntity toEntity() => PaymentRequestEntity(
-        paymentUrl: paymentUrl,
-        transactionId: transactionId,
-        amount: amount,
-      );
+    paymentUrl: paymentUrl,
+    transactionId: transactionId,
+    amount: amount,
+  );
 }
 
 @freezed
@@ -318,10 +339,10 @@ abstract class PurchaseConfirmRespDto with _$PurchaseConfirmRespDto {
 
 extension PurchaseConfirmRespDtoX on PurchaseConfirmRespDto {
   PurchaseConfirmEntity toEntity() => PurchaseConfirmEntity(
-        transactionId: transactionId,
-        confirmedAt: DateTime.parse(confirmedAt),
-        success: success,
-      );
+    transactionId: transactionId,
+    confirmedAt: DateTime.parse(confirmedAt),
+    success: success,
+  );
 }
 
 @freezed
@@ -337,7 +358,7 @@ abstract class ImageUrlRefreshRespDto with _$ImageUrlRefreshRespDto {
 
 extension ImageUrlRefreshRespDtoX on ImageUrlRefreshRespDto {
   ImageUrlRefreshEntity toEntity() => ImageUrlRefreshEntity(
-        imageUrl: imageUrl,
-        expiresAt: DateTime.parse(expiresAt),
-      );
+    imageUrl: imageUrl,
+    expiresAt: DateTime.parse(expiresAt),
+  );
 }

@@ -21,9 +21,7 @@ class ChatRoomMenuBottomSheet extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
       decoration: const BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(20),
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: SafeArea(
         child: Column(
@@ -109,9 +107,7 @@ class ChatRoomMenuBottomSheet extends StatelessWidget {
             },
             child: Text(
               '나가기',
-              style: AppTextStyles.body2.copyWith(
-                color: AppColors.destructive,
-              ),
+              style: AppTextStyles.body2.copyWith(color: AppColors.destructive),
             ),
           ),
         ],
@@ -136,10 +132,7 @@ class _MenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(
-        icon,
-        color: titleColor ?? AppColors.textPrimary,
-      ),
+      leading: Icon(icon, color: titleColor ?? AppColors.textPrimary),
       title: Text(
         title,
         style: AppTextStyles.body1.copyWith(

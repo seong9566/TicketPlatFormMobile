@@ -34,28 +34,62 @@ headers: {
 
 ## 결제 플로우 개요
 
+### 기본 플로우 (채팅 기반)
+
 ```
 [1] 판매자: 채팅방에서 "결제 요청" 버튼 클릭
+    → POST /api/chat/rooms/request-payment
+    → Transaction 생성 (pending_payment) + TransactionItem 생성
+    → OrderId 생성, paymentUrl/transactionId/amount 반환
     ↓
-[2] 백엔드: POST /api/payment/request
-    - OrderId 생성 (TXN_123_abc...)
-    - ClientKey, SuccessUrl, FailUrl 반환
+[2] Flutter: paymentUrl로 결제 화면 오픈 (WebView/외부 브라우저)
     ↓
-[3] Flutter: 토스페이먼츠 위젯 열기
-    - TossPayments SDK 사용
-    - 사용자가 카드/가상계좌 등 선택하여 결제
-    ↓
-[4] 토스: 결제 성공 시 SuccessUrl로 리다이렉트
+[3] 토스: 결제 성공 시 SuccessUrl로 리다이렉트
     - paymentKey, orderId, amount 파라미터 포함
     ↓
-[5] Flutter: POST /api/payment/confirm
+[4] Flutter: POST /api/payment/confirm
     - 백엔드에서 토스 API 승인 호출
     - Payment + Escrow 생성
+    - Transaction 상태: paid
     ↓
-[6] 구매자: "구매 확정" 버튼 클릭
+[5] 구매자: "구매 확정" 버튼 클릭
     - POST /api/chat/rooms/confirm-purchase
-    - 에스크로 해제 (판매자에게 정산)
+    - 에스크로 해제
+    - Transaction 상태: confirmed
+    ↓
+[6] 정산 완료 처리 (백오피스/배치)
+    - Transaction 상태: completed
 ```
+
+**참고**
+- 채팅 기반 플로우에서는 `/api/chat/rooms/request-payment`를 사용합니다. 결제 위젯을 직접 붙이는 경우에만 `/api/payment/request`를 사용합니다.
+- 결제 요청 전에는 채팅방 상세의 `transaction`이 `null`입니다.
+
+### 트랜잭션 상태
+
+`transaction_statuses` 테이블 기준입니다.
+
+| ID | Code | Name (KR) | 설명 |
+|----|------|-----------|------|
+| 1 | reserved | 예약중 | 결제 요청 전 예약 단계 |
+| 2 | pending_payment | 결제대기 | 결제 요청 후 결제 대기 |
+| 3 | paid | 결제완료 | 결제 승인 완료 |
+| 4 | confirmed | 구매확정 | 구매 확정(에스크로 해제) |
+| 5 | completed | 거래완료 | 정산 완료 |
+| 6 | cancelled | 취소됨 | 거래 취소 |
+| 7 | refunded | 환불됨 | 환불 완료 |
+
+### 상태별 화면 가이드 (Flutter)
+
+| Status Code | 상태명 | 구매자 화면/액션 | 판매자 화면/액션 |
+|-------------|--------|------------------|------------------|
+| reserved | 예약중 | 채팅 가능, 결제 요청 대기 | 결제 요청 버튼 활성 |
+| pending_payment | 결제대기 | "결제하기" CTA, 취소 가능 | "결제 요청됨" 안내, 취소 가능 |
+| paid | 결제완료 | "구매 확정" CTA | "결제 완료" 안내, 확정 대기 |
+| confirmed | 구매확정 | 확정 완료, 거래 완료 대기 | 확정 완료, 정산 진행 안내 |
+| completed | 거래완료 | 거래 완료, 후기/평가 노출 | 거래 완료, 후기/평가 노출 |
+| cancelled | 취소됨 | 취소 사유 표시, 재요청 가능 | 취소 사유 표시 |
+| refunded | 환불됨 | 환불 완료, 환불 금액/일시 표시 | 환불 완료 안내 |
 
 ---
 

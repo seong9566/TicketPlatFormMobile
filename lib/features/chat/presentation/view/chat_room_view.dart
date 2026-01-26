@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
+import 'package:ticket_platform_mobile/features/chat/domain/entities/transaction_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/ui_models/chat_room_ui_model.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/viewmodels/chat_list_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/viewmodels/chat_room_viewmodel.dart';
@@ -198,7 +199,7 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
                         chatRoom.buyer.userId)
                     ? '결제하기'
                     : '결제 요청',
-                onRequestPayment: () {
+                onRequestPayment: () async {
                   final myUserId = ref
                       .read(profileViewModelProvider)
                       .value
@@ -206,15 +207,22 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
                       ?.userId;
                   final isBuyer = myUserId == chatRoom.buyer.userId;
 
-                  ChatRoomDialogHelper.showRequestPaymentDialog(
-                    context: context,
-                    ref: ref,
-                    chatRoom: chatRoom,
-                    isBuyer: isBuyer,
-                    viewModel: ref.read(
-                      chatRoomViewModelProvider(roomId).notifier,
-                    ),
-                  );
+                  if (isBuyer) {
+                    ChatRoomDialogHelper.showRequestPaymentDialog(
+                      context: context,
+                      ref: ref,
+                      chatRoom: chatRoom,
+                      isBuyer: true,
+                      viewModel: ref.read(
+                        chatRoomViewModelProvider(roomId).notifier,
+                      ),
+                    );
+                  } else {
+                    // 판매자: 다이얼로그 없이 즉시 결제 요청 (채팅 카드로 전송됨)
+                    await ref
+                        .read(chatRoomViewModelProvider(roomId).notifier)
+                        .requestPayment();
+                  }
                 },
                 onViewTicketDetail: () => context.push(
                   '${AppRouterPath.ticketDetail.path}/${chatRoom.ticket.ticketId}',
@@ -232,7 +240,11 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
               ),
 
               // 하단 입력 필드
-              if (chatRoom.canConfirmPurchase || chatRoom.canCancelTransaction)
+              // 결제 대기(pending_payment) 상태에서는 구매 확정 버튼이 의미가 없으므로 노출하지 않음
+              if ((chatRoom.canConfirmPurchase ||
+                      chatRoom.canCancelTransaction) &&
+                  chatRoom.transaction?.status !=
+                      TransactionStatus.pendingPayment)
                 ChatRoomActionBar(
                   chatRoom: chatRoom,
                   onConfirmPurchase: () =>

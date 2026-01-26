@@ -301,23 +301,42 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
     }
   }
 
-  Future<bool> requestPayment(int transactionId) async {
+  Future<bool> requestPayment() async {
     final current = state.value;
     if (current == null) return false;
 
     try {
+      // 1. 낙관적 업데이트: UI에 결제 요청 카드 즉시 추가
+      final myProfile = ref.read(profileViewModelProvider).value?.profile;
+      final optimisticMessage = MessageUiModel(
+        messageId:
+            -(DateTime.now().millisecondsSinceEpoch % 1000000), // 임시 음수 ID
+        roomId: current.roomId,
+        senderId: myProfile?.userId ?? 0,
+        senderNickname: myProfile?.nickname ?? '판매자',
+        senderProfileImage: myProfile?.profileImageUrl,
+        message: '결제를 요청합니다.',
+        type: MessageType.paymentRequest,
+        createdAt: DateTime.now(),
+        timeDisplay: '방금 전',
+        isMyMessage: true,
+      );
+
+      final updatedMessages = [optimisticMessage, ...current.messages];
+      state = AsyncValue.data(current.copyWith(messages: updatedMessages));
+
+      // 2. 실제 서버 요청 실행
       await ref
           .read(requestPaymentUsecaseProvider)
-          .call(
-            RequestPaymentParams(
-              roomId: current.roomId,
-              transactionId: transactionId,
-            ),
-          );
+          .call(RequestPaymentParams(roomId: current.roomId));
+
+      // 3. 서버로부터 최신 데이터를 가져와 상태 동기화
       await refresh();
       return true;
     } catch (e, stack) {
       AppLogger.e('Error requesting payment', e, stack);
+      // 에러 발생 시 원래 상태로 복구하기 위해 refresh 호출
+      await refresh();
       return false;
     }
   }

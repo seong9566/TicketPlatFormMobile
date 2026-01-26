@@ -274,7 +274,7 @@ as DateTime?,
 /// @nodoc
 mixin _$MessageEntity {
 
- int get messageId; int get roomId; int get senderId; String get senderNickname; String? get senderProfileImage; String? get message;@Deprecated('Use images instead') String? get imageUrl; List<ImageInfoEntity>? get images; DateTime get createdAt; bool get isMyMessage;
+ int get messageId; int get roomId; int get senderId; String get senderNickname; String? get senderProfileImage; MessageType get type; String? get message; List<ImageInfoEntity>? get images; DateTime get createdAt; bool get isMyMessage;
 /// Create a copy of MessageEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -285,16 +285,16 @@ $MessageEntityCopyWith<MessageEntity> get copyWith => _$MessageEntityCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MessageEntity&&(identical(other.messageId, messageId) || other.messageId == messageId)&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.senderId, senderId) || other.senderId == senderId)&&(identical(other.senderNickname, senderNickname) || other.senderNickname == senderNickname)&&(identical(other.senderProfileImage, senderProfileImage) || other.senderProfileImage == senderProfileImage)&&(identical(other.message, message) || other.message == message)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&const DeepCollectionEquality().equals(other.images, images)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.isMyMessage, isMyMessage) || other.isMyMessage == isMyMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MessageEntity&&(identical(other.messageId, messageId) || other.messageId == messageId)&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.senderId, senderId) || other.senderId == senderId)&&(identical(other.senderNickname, senderNickname) || other.senderNickname == senderNickname)&&(identical(other.senderProfileImage, senderProfileImage) || other.senderProfileImage == senderProfileImage)&&(identical(other.type, type) || other.type == type)&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other.images, images)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.isMyMessage, isMyMessage) || other.isMyMessage == isMyMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,messageId,roomId,senderId,senderNickname,senderProfileImage,message,imageUrl,const DeepCollectionEquality().hash(images),createdAt,isMyMessage);
+int get hashCode => Object.hash(runtimeType,messageId,roomId,senderId,senderNickname,senderProfileImage,type,message,const DeepCollectionEquality().hash(images),createdAt,isMyMessage);
 
 @override
 String toString() {
-  return 'MessageEntity(messageId: $messageId, roomId: $roomId, senderId: $senderId, senderNickname: $senderNickname, senderProfileImage: $senderProfileImage, message: $message, imageUrl: $imageUrl, images: $images, createdAt: $createdAt, isMyMessage: $isMyMessage)';
+  return 'MessageEntity(messageId: $messageId, roomId: $roomId, senderId: $senderId, senderNickname: $senderNickname, senderProfileImage: $senderProfileImage, type: $type, message: $message, images: $images, createdAt: $createdAt, isMyMessage: $isMyMessage)';
 }
 
 
@@ -305,7 +305,7 @@ abstract mixin class $MessageEntityCopyWith<$Res>  {
   factory $MessageEntityCopyWith(MessageEntity value, $Res Function(MessageEntity) _then) = _$MessageEntityCopyWithImpl;
 @useResult
 $Res call({
- int messageId, int roomId, int senderId, String senderNickname, String? senderProfileImage, String? message,@Deprecated('Use images instead') String? imageUrl, List<ImageInfoEntity>? images, DateTime createdAt, bool isMyMessage
+ int messageId, int roomId, int senderId, String senderNickname, String? senderProfileImage, MessageType type, String? message, List<ImageInfoEntity>? images, DateTime createdAt, bool isMyMessage
 });
 
 
@@ -322,15 +322,15 @@ class _$MessageEntityCopyWithImpl<$Res>
 
 /// Create a copy of MessageEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? messageId = null,Object? roomId = null,Object? senderId = null,Object? senderNickname = null,Object? senderProfileImage = freezed,Object? message = freezed,Object? imageUrl = freezed,Object? images = freezed,Object? createdAt = null,Object? isMyMessage = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? messageId = null,Object? roomId = null,Object? senderId = null,Object? senderNickname = null,Object? senderProfileImage = freezed,Object? type = null,Object? message = freezed,Object? images = freezed,Object? createdAt = null,Object? isMyMessage = null,}) {
   return _then(_self.copyWith(
 messageId: null == messageId ? _self.messageId : messageId // ignore: cast_nullable_to_non_nullable
 as int,roomId: null == roomId ? _self.roomId : roomId // ignore: cast_nullable_to_non_nullable
 as int,senderId: null == senderId ? _self.senderId : senderId // ignore: cast_nullable_to_non_nullable
 as int,senderNickname: null == senderNickname ? _self.senderNickname : senderNickname // ignore: cast_nullable_to_non_nullable
 as String,senderProfileImage: freezed == senderProfileImage ? _self.senderProfileImage : senderProfileImage // ignore: cast_nullable_to_non_nullable
-as String?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String?,imageUrl: freezed == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
+as String?,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as MessageType,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,images: freezed == images ? _self.images : images // ignore: cast_nullable_to_non_nullable
 as List<ImageInfoEntity>?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,isMyMessage: null == isMyMessage ? _self.isMyMessage : isMyMessage // ignore: cast_nullable_to_non_nullable
@@ -419,10 +419,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int messageId,  int roomId,  int senderId,  String senderNickname,  String? senderProfileImage,  String? message, @Deprecated('Use images instead')  String? imageUrl,  List<ImageInfoEntity>? images,  DateTime createdAt,  bool isMyMessage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int messageId,  int roomId,  int senderId,  String senderNickname,  String? senderProfileImage,  MessageType type,  String? message,  List<ImageInfoEntity>? images,  DateTime createdAt,  bool isMyMessage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MessageEntity() when $default != null:
-return $default(_that.messageId,_that.roomId,_that.senderId,_that.senderNickname,_that.senderProfileImage,_that.message,_that.imageUrl,_that.images,_that.createdAt,_that.isMyMessage);case _:
+return $default(_that.messageId,_that.roomId,_that.senderId,_that.senderNickname,_that.senderProfileImage,_that.type,_that.message,_that.images,_that.createdAt,_that.isMyMessage);case _:
   return orElse();
 
 }
@@ -440,10 +440,10 @@ return $default(_that.messageId,_that.roomId,_that.senderId,_that.senderNickname
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int messageId,  int roomId,  int senderId,  String senderNickname,  String? senderProfileImage,  String? message, @Deprecated('Use images instead')  String? imageUrl,  List<ImageInfoEntity>? images,  DateTime createdAt,  bool isMyMessage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int messageId,  int roomId,  int senderId,  String senderNickname,  String? senderProfileImage,  MessageType type,  String? message,  List<ImageInfoEntity>? images,  DateTime createdAt,  bool isMyMessage)  $default,) {final _that = this;
 switch (_that) {
 case _MessageEntity():
-return $default(_that.messageId,_that.roomId,_that.senderId,_that.senderNickname,_that.senderProfileImage,_that.message,_that.imageUrl,_that.images,_that.createdAt,_that.isMyMessage);case _:
+return $default(_that.messageId,_that.roomId,_that.senderId,_that.senderNickname,_that.senderProfileImage,_that.type,_that.message,_that.images,_that.createdAt,_that.isMyMessage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -460,10 +460,10 @@ return $default(_that.messageId,_that.roomId,_that.senderId,_that.senderNickname
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int messageId,  int roomId,  int senderId,  String senderNickname,  String? senderProfileImage,  String? message, @Deprecated('Use images instead')  String? imageUrl,  List<ImageInfoEntity>? images,  DateTime createdAt,  bool isMyMessage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int messageId,  int roomId,  int senderId,  String senderNickname,  String? senderProfileImage,  MessageType type,  String? message,  List<ImageInfoEntity>? images,  DateTime createdAt,  bool isMyMessage)?  $default,) {final _that = this;
 switch (_that) {
 case _MessageEntity() when $default != null:
-return $default(_that.messageId,_that.roomId,_that.senderId,_that.senderNickname,_that.senderProfileImage,_that.message,_that.imageUrl,_that.images,_that.createdAt,_that.isMyMessage);case _:
+return $default(_that.messageId,_that.roomId,_that.senderId,_that.senderNickname,_that.senderProfileImage,_that.type,_that.message,_that.images,_that.createdAt,_that.isMyMessage);case _:
   return null;
 
 }
@@ -475,7 +475,7 @@ return $default(_that.messageId,_that.roomId,_that.senderId,_that.senderNickname
 
 
 class _MessageEntity implements MessageEntity {
-  const _MessageEntity({required this.messageId, required this.roomId, required this.senderId, required this.senderNickname, this.senderProfileImage, this.message, @Deprecated('Use images instead') this.imageUrl, final  List<ImageInfoEntity>? images, required this.createdAt, required this.isMyMessage}): _images = images;
+  const _MessageEntity({required this.messageId, required this.roomId, required this.senderId, required this.senderNickname, this.senderProfileImage, this.type = MessageType.text, this.message, final  List<ImageInfoEntity>? images, required this.createdAt, required this.isMyMessage}): _images = images;
   
 
 @override final  int messageId;
@@ -483,8 +483,8 @@ class _MessageEntity implements MessageEntity {
 @override final  int senderId;
 @override final  String senderNickname;
 @override final  String? senderProfileImage;
+@override@JsonKey() final  MessageType type;
 @override final  String? message;
-@override@Deprecated('Use images instead') final  String? imageUrl;
  final  List<ImageInfoEntity>? _images;
 @override List<ImageInfoEntity>? get images {
   final value = _images;
@@ -507,16 +507,16 @@ _$MessageEntityCopyWith<_MessageEntity> get copyWith => __$MessageEntityCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MessageEntity&&(identical(other.messageId, messageId) || other.messageId == messageId)&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.senderId, senderId) || other.senderId == senderId)&&(identical(other.senderNickname, senderNickname) || other.senderNickname == senderNickname)&&(identical(other.senderProfileImage, senderProfileImage) || other.senderProfileImage == senderProfileImage)&&(identical(other.message, message) || other.message == message)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&const DeepCollectionEquality().equals(other._images, _images)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.isMyMessage, isMyMessage) || other.isMyMessage == isMyMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MessageEntity&&(identical(other.messageId, messageId) || other.messageId == messageId)&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.senderId, senderId) || other.senderId == senderId)&&(identical(other.senderNickname, senderNickname) || other.senderNickname == senderNickname)&&(identical(other.senderProfileImage, senderProfileImage) || other.senderProfileImage == senderProfileImage)&&(identical(other.type, type) || other.type == type)&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other._images, _images)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.isMyMessage, isMyMessage) || other.isMyMessage == isMyMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,messageId,roomId,senderId,senderNickname,senderProfileImage,message,imageUrl,const DeepCollectionEquality().hash(_images),createdAt,isMyMessage);
+int get hashCode => Object.hash(runtimeType,messageId,roomId,senderId,senderNickname,senderProfileImage,type,message,const DeepCollectionEquality().hash(_images),createdAt,isMyMessage);
 
 @override
 String toString() {
-  return 'MessageEntity(messageId: $messageId, roomId: $roomId, senderId: $senderId, senderNickname: $senderNickname, senderProfileImage: $senderProfileImage, message: $message, imageUrl: $imageUrl, images: $images, createdAt: $createdAt, isMyMessage: $isMyMessage)';
+  return 'MessageEntity(messageId: $messageId, roomId: $roomId, senderId: $senderId, senderNickname: $senderNickname, senderProfileImage: $senderProfileImage, type: $type, message: $message, images: $images, createdAt: $createdAt, isMyMessage: $isMyMessage)';
 }
 
 
@@ -527,7 +527,7 @@ abstract mixin class _$MessageEntityCopyWith<$Res> implements $MessageEntityCopy
   factory _$MessageEntityCopyWith(_MessageEntity value, $Res Function(_MessageEntity) _then) = __$MessageEntityCopyWithImpl;
 @override @useResult
 $Res call({
- int messageId, int roomId, int senderId, String senderNickname, String? senderProfileImage, String? message,@Deprecated('Use images instead') String? imageUrl, List<ImageInfoEntity>? images, DateTime createdAt, bool isMyMessage
+ int messageId, int roomId, int senderId, String senderNickname, String? senderProfileImage, MessageType type, String? message, List<ImageInfoEntity>? images, DateTime createdAt, bool isMyMessage
 });
 
 
@@ -544,15 +544,15 @@ class __$MessageEntityCopyWithImpl<$Res>
 
 /// Create a copy of MessageEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? messageId = null,Object? roomId = null,Object? senderId = null,Object? senderNickname = null,Object? senderProfileImage = freezed,Object? message = freezed,Object? imageUrl = freezed,Object? images = freezed,Object? createdAt = null,Object? isMyMessage = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? messageId = null,Object? roomId = null,Object? senderId = null,Object? senderNickname = null,Object? senderProfileImage = freezed,Object? type = null,Object? message = freezed,Object? images = freezed,Object? createdAt = null,Object? isMyMessage = null,}) {
   return _then(_MessageEntity(
 messageId: null == messageId ? _self.messageId : messageId // ignore: cast_nullable_to_non_nullable
 as int,roomId: null == roomId ? _self.roomId : roomId // ignore: cast_nullable_to_non_nullable
 as int,senderId: null == senderId ? _self.senderId : senderId // ignore: cast_nullable_to_non_nullable
 as int,senderNickname: null == senderNickname ? _self.senderNickname : senderNickname // ignore: cast_nullable_to_non_nullable
 as String,senderProfileImage: freezed == senderProfileImage ? _self.senderProfileImage : senderProfileImage // ignore: cast_nullable_to_non_nullable
-as String?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String?,imageUrl: freezed == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
+as String?,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as MessageType,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,images: freezed == images ? _self._images : images // ignore: cast_nullable_to_non_nullable
 as List<ImageInfoEntity>?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,isMyMessage: null == isMyMessage ? _self.isMyMessage : isMyMessage // ignore: cast_nullable_to_non_nullable

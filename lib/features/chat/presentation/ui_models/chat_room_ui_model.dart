@@ -1,4 +1,3 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ticket_platform_mobile/core/utils/date_format_util.dart';
 import 'package:ticket_platform_mobile/core/utils/number_format_util.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/chat_room_entity.dart';
@@ -6,22 +5,14 @@ import 'package:ticket_platform_mobile/features/chat/domain/entities/message_ent
 import 'package:ticket_platform_mobile/features/chat/domain/entities/transaction_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/user_profile_entity.dart';
 
-part 'chat_room_ui_model.freezed.dart';
-
 class ImageInfoUiModel {
   final String url;
   final DateTime? expiresAt;
 
-  ImageInfoUiModel({
-    required this.url,
-    this.expiresAt,
-  });
+  ImageInfoUiModel({required this.url, this.expiresAt});
 
   factory ImageInfoUiModel.fromEntity(ImageInfoEntity entity) {
-    return ImageInfoUiModel(
-      url: entity.url,
-      expiresAt: entity.expiresAt,
-    );
+    return ImageInfoUiModel(url: entity.url, expiresAt: entity.expiresAt);
   }
 }
 
@@ -75,22 +66,34 @@ class ChatRoomListUiModel {
   }
 }
 
-@freezed
-abstract class ChatRoomDetailUiModel with _$ChatRoomDetailUiModel {
-  const factory ChatRoomDetailUiModel({
-    required int roomId,
-    required TicketInfoUiModel ticket,
-    required UserProfileUiModel buyer,
-    required UserProfileUiModel seller,
-    required String statusCode,
-    required String statusName,
-    TransactionUiModel? transaction,
-    required bool canSendMessage,
-    required bool canRequestPayment,
-    required bool canConfirmPurchase,
-    required bool canCancelTransaction,
-    required List<MessageUiModel> messages,
-  }) = _ChatRoomDetailUiModel;
+class ChatRoomDetailUiModel {
+  final int roomId;
+  final TicketInfoUiModel ticket;
+  final UserProfileUiModel buyer;
+  final UserProfileUiModel seller;
+  final String statusCode;
+  final String statusName;
+  final TransactionUiModel? transaction;
+  final bool canSendMessage;
+  final bool canRequestPayment;
+  final bool canConfirmPurchase;
+  final bool canCancelTransaction;
+  final List<MessageUiModel> messages;
+
+  ChatRoomDetailUiModel({
+    required this.roomId,
+    required this.ticket,
+    required this.buyer,
+    required this.seller,
+    required this.statusCode,
+    required this.statusName,
+    this.transaction,
+    required this.canSendMessage,
+    required this.canRequestPayment,
+    required this.canConfirmPurchase,
+    required this.canCancelTransaction,
+    required this.messages,
+  });
 
   factory ChatRoomDetailUiModel.fromEntity(ChatRoomEntity entity) {
     return ChatRoomDetailUiModel(
@@ -108,6 +111,36 @@ abstract class ChatRoomDetailUiModel with _$ChatRoomDetailUiModel {
       canConfirmPurchase: entity.canConfirmPurchase,
       canCancelTransaction: entity.canCancelTransaction,
       messages: entity.messages.map(MessageUiModel.fromEntity).toList(),
+    );
+  }
+
+  ChatRoomDetailUiModel copyWith({
+    int? roomId,
+    TicketInfoUiModel? ticket,
+    UserProfileUiModel? buyer,
+    UserProfileUiModel? seller,
+    String? statusCode,
+    String? statusName,
+    TransactionUiModel? transaction,
+    bool? canSendMessage,
+    bool? canRequestPayment,
+    bool? canConfirmPurchase,
+    bool? canCancelTransaction,
+    List<MessageUiModel>? messages,
+  }) {
+    return ChatRoomDetailUiModel(
+      roomId: roomId ?? this.roomId,
+      ticket: ticket ?? this.ticket,
+      buyer: buyer ?? this.buyer,
+      seller: seller ?? this.seller,
+      statusCode: statusCode ?? this.statusCode,
+      statusName: statusName ?? this.statusName,
+      transaction: transaction ?? this.transaction,
+      canSendMessage: canSendMessage ?? this.canSendMessage,
+      canRequestPayment: canRequestPayment ?? this.canRequestPayment,
+      canConfirmPurchase: canConfirmPurchase ?? this.canConfirmPurchase,
+      canCancelTransaction: canCancelTransaction ?? this.canCancelTransaction,
+      messages: messages ?? this.messages,
     );
   }
 }
@@ -140,10 +173,11 @@ class TicketInfoUiModel {
       price: NumberFormatUtil.formatPrice(entity.price),
       priceValue: entity.price,
       thumbnailUrl: entity.thumbnailUrl,
-      // TODO: API에서 상세 정보를 내려주면 연동 필요. 현재는 더미 데이터로 UI 구현.
-      seatInfo: '1층 VIP A구역 3열 15번',
-      dateTime: '2025.02.14 (금) 19:30',
-      location: '블루스퀘어 신한카드홀',
+      seatInfo: entity.seatInfo,
+      dateTime: entity.eventDateTime != null
+          ? DateFormatUtil.formatDateTime(entity.eventDateTime!)
+          : null,
+      location: entity.venueName,
     );
   }
 }
@@ -176,35 +210,25 @@ class UserProfileUiModel {
 
 class TransactionUiModel {
   final int transactionId;
-  final String statusCode;
+  final TransactionStatus status;
   final String statusName;
-  final String amount;
-  final int amountValue;
-  final String? paymentUrl;
   final String? confirmedAt;
-  final String? cancelReason;
-
+  final String? cancelledAt;
   TransactionUiModel({
     required this.transactionId,
-    required this.statusCode,
+    required this.status,
     required this.statusName,
-    required this.amount,
-    required this.amountValue,
-    this.paymentUrl,
     this.confirmedAt,
-    this.cancelReason,
+    this.cancelledAt,
   });
 
   factory TransactionUiModel.fromEntity(TransactionEntity entity) {
     return TransactionUiModel(
       transactionId: entity.transactionId,
-      statusCode: entity.statusCode,
+      status: entity.status,
       statusName: entity.statusName,
-      amount: NumberFormatUtil.formatPrice(entity.amount),
-      amountValue: entity.amount,
-      paymentUrl: entity.paymentUrl,
       confirmedAt: entity.confirmedAt?.toIso8601String(),
-      cancelReason: entity.cancelReason,
+      cancelledAt: entity.cancelledAt?.toIso8601String(),
     );
   }
 }
@@ -216,9 +240,8 @@ class MessageUiModel {
   final String senderNickname;
   final String? senderProfileImage;
   final String? message;
-  @Deprecated('Use images instead')
-  final String? imageUrl;
   final List<ImageInfoUiModel>? images;
+  final MessageType type;
   final DateTime createdAt;
   final String timeDisplay;
   final bool isMyMessage;
@@ -230,8 +253,8 @@ class MessageUiModel {
     required this.senderNickname,
     this.senderProfileImage,
     this.message,
-    this.imageUrl,
     this.images,
+    required this.type,
     required this.createdAt,
     required this.timeDisplay,
     required this.isMyMessage,
@@ -245,11 +268,39 @@ class MessageUiModel {
       senderNickname: entity.senderNickname,
       senderProfileImage: entity.senderProfileImage,
       message: entity.message,
-      imageUrl: entity.imageUrl,
       images: entity.images?.map(ImageInfoUiModel.fromEntity).toList(),
+      type: entity.type,
       createdAt: entity.createdAt,
       timeDisplay: DateFormatUtil.formatChatTime(entity.createdAt),
       isMyMessage: entity.isMyMessage,
+    );
+  }
+
+  MessageUiModel copyWith({
+    int? messageId,
+    int? roomId,
+    int? senderId,
+    String? senderNickname,
+    String? senderProfileImage,
+    String? message,
+    List<ImageInfoUiModel>? images,
+    MessageType? type,
+    DateTime? createdAt,
+    String? timeDisplay,
+    bool? isMyMessage,
+  }) {
+    return MessageUiModel(
+      messageId: messageId ?? this.messageId,
+      roomId: roomId ?? this.roomId,
+      senderId: senderId ?? this.senderId,
+      senderNickname: senderNickname ?? this.senderNickname,
+      senderProfileImage: senderProfileImage ?? this.senderProfileImage,
+      message: message ?? this.message,
+      images: images ?? this.images,
+      type: type ?? this.type,
+      createdAt: createdAt ?? this.createdAt,
+      timeDisplay: timeDisplay ?? this.timeDisplay,
+      isMyMessage: isMyMessage ?? this.isMyMessage,
     );
   }
 }

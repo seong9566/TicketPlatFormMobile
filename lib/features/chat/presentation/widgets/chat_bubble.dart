@@ -6,8 +6,12 @@ import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
+import 'package:ticket_platform_mobile/features/chat/domain/entities/message_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/ui_models/chat_room_ui_model.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/viewmodels/chat_room_viewmodel.dart';
+import 'package:ticket_platform_mobile/features/chat/presentation/widgets/payment_request_bubble.dart';
+import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/profile_viewmodel.dart';
+import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_room_dialog_helper.dart';
 
 class ChatBubble extends ConsumerWidget {
   final MessageUiModel message;
@@ -24,6 +28,56 @@ class ChatBubble extends ConsumerWidget {
 
     final hasImages = message.images != null && message.images!.isNotEmpty;
     final hasText = message.message != null && message.message!.isNotEmpty;
+
+    // 결제 요청 메시지인 경우
+    if (message.type == MessageType.paymentRequest) {
+      final chatRoom = ref
+          .watch(chatRoomViewModelProvider(message.roomId))
+          .value;
+      if (chatRoom != null) {
+        final myUserId = ref
+            .read(profileViewModelProvider)
+            .value
+            ?.profile
+            ?.userId;
+        final isBuyer = myUserId == chatRoom.buyer.userId;
+
+        return Row(
+          mainAxisAlignment: isMine
+              ? MainAxisAlignment.end
+              : MainAxisAlignment.start,
+          children: [
+            PaymentRequestBubble(
+              message: message,
+              ticket: chatRoom.ticket,
+              isBuyer: isBuyer,
+              onPayment: () {
+                // 구매자 전용 결제 확인 다이얼로그 (실제 결제 웹뷰 진입 전 단계)
+                ChatRoomDialogHelper.showRequestPaymentDialog(
+                  context: context,
+                  ref: ref,
+                  chatRoom: chatRoom,
+                  isBuyer: true,
+                  viewModel: ref.read(
+                    chatRoomViewModelProvider(message.roomId).notifier,
+                  ),
+                );
+              },
+              onCancel: () {
+                // 트랜잭션 취소 사유 입력 다이얼로그 (기존 유지)
+                ChatRoomDialogHelper.showCancelTransactionDialog(
+                  context: context,
+                  chatRoom: chatRoom,
+                  viewModel: ref.read(
+                    chatRoomViewModelProvider(message.roomId).notifier,
+                  ),
+                );
+              },
+            ),
+          ],
+        );
+      }
+    }
 
     return Row(
       mainAxisAlignment: isMine
