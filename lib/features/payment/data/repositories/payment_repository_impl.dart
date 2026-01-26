@@ -7,6 +7,7 @@ import 'package:ticket_platform_mobile/features/payment/data/dto/response/paymen
 import 'package:ticket_platform_mobile/features/payment/data/dto/response/payment_request_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/payment/domain/entities/payment_entities.dart';
 import 'package:ticket_platform_mobile/features/payment/domain/repositories/payment_repository.dart';
+import 'package:ticket_platform_mobile/features/payment/domain/usecases/payment_params.dart';
 
 class PaymentRepositoryImpl implements PaymentRepository {
   final PaymentRemoteDataSource _remoteDataSource;
@@ -14,8 +15,17 @@ class PaymentRepositoryImpl implements PaymentRepository {
   PaymentRepositoryImpl(this._remoteDataSource);
 
   @override
-  Future<PaymentRequestEntity> requestPayment(PaymentRequestReqDto req) async {
+  Future<PaymentRequestEntity> requestPayment(
+    RequestPaymentParams params,
+  ) async {
     try {
+      final req = PaymentRequestReqDto(
+        transactionId: params.transactionId,
+        amount: params.amount,
+        orderName: params.orderName,
+        customerName: params.customerName,
+        customerEmail: params.customerEmail,
+      );
       final response = await _remoteDataSource.requestPayment(req);
       return response.mapOrThrow(
         (dto) => dto.toEntity(),
@@ -28,8 +38,15 @@ class PaymentRepositoryImpl implements PaymentRepository {
   }
 
   @override
-  Future<PaymentConfirmEntity> confirmPayment(PaymentConfirmReqDto req) async {
+  Future<PaymentConfirmEntity> confirmPayment(
+    ConfirmPaymentParams params,
+  ) async {
     try {
+      final req = PaymentConfirmReqDto(
+        paymentKey: params.paymentKey,
+        orderId: params.orderId,
+        amount: params.amount,
+      );
       final response = await _remoteDataSource.confirmPayment(req);
       return response.mapOrThrow(
         (dto) => dto.toEntity(),

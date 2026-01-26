@@ -1,160 +1,223 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:intl/intl.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
-import 'package:ticket_platform_mobile/features/payment/data/dto/request/payment_confirm_req_dto.dart';
-import 'package:ticket_platform_mobile/features/payment/domain/entities/payment_entities.dart';
+import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/payment/presentation/viewmodels/payment_viewmodel.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:tosspayments_widget_sdk_flutter/payment_widget.dart';
+import 'package:tosspayments_widget_sdk_flutter/widgets/payment_method.dart';
+import 'package:tosspayments_widget_sdk_flutter/widgets/agreement.dart';
+import 'package:tosspayments_widget_sdk_flutter/model/payment_widget_options.dart';
+import 'package:tosspayments_widget_sdk_flutter/model/payment_info.dart';
 
 class PaymentWebView extends ConsumerStatefulWidget {
-  final PaymentRequestEntity paymentRequest;
+  final double amount;
+  final String orderId;
+  final String orderName;
+  final String? customerName;
+  final String? customerEmail;
+  final String successUrl;
+  final String failUrl;
 
-  const PaymentWebView({super.key, required this.paymentRequest});
+  const PaymentWebView({
+    super.key,
+    required this.amount,
+    required this.orderId,
+    required this.orderName,
+    this.customerName,
+    this.customerEmail,
+    required this.successUrl,
+    required this.failUrl,
+  });
 
   @override
   ConsumerState<PaymentWebView> createState() => _PaymentWebViewState();
 }
 
 class _PaymentWebViewState extends ConsumerState<PaymentWebView> {
-  late final WebViewController _controller;
-  bool _isLoading = true;
-
+  late PaymentWidget _paymentWidget;
+  bool _isWidgetInitialized = false;
+  PaymentMethodWidgetControl? _paymentMethodWidgetControl;
+  AgreementWidgetControl? _agreementWidgetControl;
+  final _currencyFormat = NumberFormat.currency(locale: 'ko_KR', symbol: '₩');
+  // 추후 env파일로 뺄 것.
+  final clientKey = "test_ck_O6BYq7GWPVvglqzGdNwrNE5vbo1d";
   @override
   void initState() {
     super.initState();
-    _initWebView();
+    _initPaymentWidget();
   }
 
-  void _initWebView() {
-    final html = _generateTossPaymentHTML();
-
-    _controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onPageStarted: (String url) {
-            if (url.contains('payment/success')) {
-              _handlePaymentSuccess(url);
-            } else if (url.contains('payment/fail')) {
-              _handlePaymentFail(url);
-            }
-          },
-          onPageFinished: (url) {
-            setState(() {
-              _isLoading = false;
-            });
-          },
-        ),
-      )
-      ..loadHtmlString(html);
-  }
-
-  String _generateTossPaymentHTML() {
-    final pr = widget.paymentRequest;
-    return '''
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <script src="https://js.tosspayments.com/v1"></script>
-      <style>
-        body { margin: 0; padding: 16px; font-family: -apple-system, sans-serif; }
-        #payment-button {
-          width: 100%;
-          padding: 16px;
-          background-color: #3182f6;
-          color: white;
-          border: none;
-          border-radius: 12px;
-          font-size: 16px;
-          font-weight: bold;
-          cursor: pointer;
-          margin-top: 24px;
-        }
-      </style>
-    </head>
-    <body>
-      <div id="payment-method"></div>
-      <button id="payment-button">결제하기</button>
-
-      <script>
-        const tossPayments = TossPayments('${pr.clientKey}');
-        const paymentWidget = tossPayments.widgets({ customerKey: 'CUSTOMER_${DateTime.now().millisecondsSinceEpoch}' });
-
-        paymentWidget.renderPaymentMethods('#payment-method', { value: ${pr.amount} });
-
-        document.getElementById('payment-button').addEventListener('click', function() {
-          paymentWidget.requestPayment({
-            orderId: '${pr.orderId}',
-            orderName: '${pr.orderName}',
-            customerName: '${pr.customerName ?? ""}',
-            customerEmail: '${pr.customerEmail ?? ""}',
-            successUrl: '${pr.successUrl}',
-            failUrl: '${pr.failUrl}',
-          });
-        });
-      </script>
-    </body>
-    </html>
-    ''';
-  }
-
-  Future<void> _handlePaymentSuccess(String url) async {
-    final uri = Uri.parse(url);
-    final paymentKey = uri.queryParameters['paymentKey'];
-    final orderId = uri.queryParameters['orderId'];
-    final amountStr = uri.queryParameters['amount'];
-
-    if (paymentKey != null && orderId != null && amountStr != null) {
-      final amount = int.parse(amountStr);
-      final success = await ref
-          .read(paymentViewModelProvider.notifier)
-          .confirmPayment(
-            PaymentConfirmReqDto(
-              paymentKey: paymentKey,
-              orderId: orderId,
-              amount: amount,
-            ),
-          );
-
-      if (success && mounted) {
-        context.pop(true); // 결과 전달하며 팝
+  Future<void> _initPaymentWidget() async {
+    // 1. InAppWebView 플랫폼 인스턴스 확인
+    if (!kIsWeb && InAppWebViewPlatform.instance == null) {
+      if (mounted) {
+        _handlePaymentFail('이 기기에서는 결제 기능을 사용할 수 없습니다.');
       }
+      return;
+    }
+
+    // 2. PaymentWidget 초기화
+    _paymentWidget = PaymentWidget(
+      clientKey: clientKey,
+      customerKey: 'CUSTOMER_@_${DateTime.now().millisecondsSinceEpoch}',
+    );
+
+    _paymentWidget
+        .renderPaymentMethods(
+          selector: 'payment-methods',
+          amount: Amount(
+            value: widget.amount.toInt(),
+            currency: Currency.KRW,
+            country: "KR",
+          ),
+          options: RenderPaymentMethodsOptions(variantKey: "DEFAULT"),
+        )
+        .then((control) {
+          _paymentMethodWidgetControl = control;
+        });
+    _paymentWidget.renderAgreement(selector: 'agreement').then((control) {
+      _agreementWidgetControl = control;
+    });
+
+    setState(() {
+      _isWidgetInitialized = true;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_isWidgetInitialized) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                children: [
+                  PaymentMethodWidget(
+                    paymentWidget: _paymentWidget,
+                    selector: 'methods',
+                  ),
+                  AgreementWidget(
+                    paymentWidget: _paymentWidget,
+                    selector: 'agreement',
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      final paymentResult = await _paymentWidget.requestPayment(
+                        paymentInfo: const PaymentInfo(
+                          orderId: 'qbG6J_CqR-bKzGcDiQr_L',
+                          orderName: '토스 티셔츠 외 2건',
+                        ),
+                      );
+                      if (paymentResult.success != null) {
+                        // 결제 성공 처리
+                      } else if (paymentResult.fail != null) {
+                        // 결제 실패 처리
+                      }
+                    },
+                    child: const Text('결제하기'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      final selectedPaymentMethod =
+                          await _paymentMethodWidgetControl
+                              ?.getSelectedPaymentMethod();
+                      print(
+                        '${selectedPaymentMethod?.method} ${selectedPaymentMethod?.easyPay?.provider ?? ''}',
+                      );
+                    },
+                    child: const Text('선택한 결제수단 출력'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      final agreementStatus = await _agreementWidgetControl
+                          ?.getAgreementStatus();
+                      print('${agreementStatus?.agreedRequiredTerms}');
+                    },
+                    child: const Text('약관 동의 상태 출력'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      await _paymentMethodWidgetControl?.updateAmount(
+                        amount: 300,
+                      );
+                      print('결제 금액이 300원으로 변경되었습니다.');
+                    },
+                    child: const Text('결제 금액 변경'),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _requestPayment() async {
+    try {
+      final result = await _paymentWidget.requestPayment(
+        paymentInfo: PaymentInfo(
+          orderId: widget.orderId,
+          orderName: widget.orderName,
+          customerName: widget.customerName,
+          customerEmail: widget.customerEmail,
+        ),
+      );
+
+      if (result.success != null) {
+        _handlePaymentSuccess(
+          result.success!.paymentKey,
+          result.success!.orderId,
+          result.success!.amount.toInt(),
+        );
+      } else if (result.fail != null) {
+        _handlePaymentFail(result.fail!.errorMessage);
+      }
+    } catch (e) {
+      _handlePaymentFail(e.toString());
     }
   }
 
-  void _handlePaymentFail(String url) {
-    final uri = Uri.parse(url);
-    final message = uri.queryParameters['message'] ?? '결제 실패';
+  Future<void> _handlePaymentSuccess(
+    String paymentKey,
+    String orderId,
+    int amount,
+  ) async {
+    final success = await ref
+        .read(paymentViewModelProvider.notifier)
+        .confirmPayment(
+          paymentKey: paymentKey,
+          orderId: orderId,
+          amount: amount,
+        );
+
+    if (success && mounted) {
+      context.pop(true);
+    }
+  }
+
+  void _handlePaymentFail(String message) {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(message),
           backgroundColor: AppColors.destructive,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
       );
       context.pop(false);
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('결제하기'),
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () => context.pop(),
-        ),
-      ),
-      body: Stack(
-        children: [
-          WebViewWidget(controller: _controller),
-          if (_isLoading) const Center(child: CircularProgressIndicator()),
-        ],
-      ),
-    );
   }
 }

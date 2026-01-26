@@ -1,8 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:ticket_platform_mobile/features/payment/data/dto/request/payment_confirm_req_dto.dart';
-import 'package:ticket_platform_mobile/features/payment/data/dto/request/payment_request_req_dto.dart';
 import 'package:ticket_platform_mobile/features/payment/domain/entities/payment_entities.dart';
+import 'package:ticket_platform_mobile/features/payment/domain/usecases/payment_params.dart';
 import 'package:ticket_platform_mobile/features/payment/presentation/providers/payment_providers_di.dart';
 
 part 'payment_viewmodel.freezed.dart';
@@ -18,30 +17,58 @@ abstract class PaymentState with _$PaymentState {
   }) = _PaymentState;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class PaymentViewModel extends _$PaymentViewModel {
   @override
   PaymentState build() {
     return const PaymentState();
   }
 
-  Future<void> requestPayment(PaymentRequestReqDto req) async {
+  Future<void> requestPayment({
+    required int transactionId,
+    required int amount,
+    required String orderName,
+    required String customerName,
+    required String customerEmail,
+  }) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
-      final result = await ref.read(requestPaymentUseCaseProvider).call(req);
+      final params = RequestPaymentParams(
+        transactionId: transactionId,
+        amount: amount,
+        orderName: orderName,
+        customerName: customerName,
+        customerEmail: customerEmail,
+      );
+      final result = await ref.read(requestPaymentUseCaseProvider).call(params);
+
+      if (!ref.mounted) return;
       state = state.copyWith(isLoading: false, paymentRequest: result);
     } catch (e) {
+      if (!ref.mounted) return;
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
   }
 
-  Future<bool> confirmPayment(PaymentConfirmReqDto req) async {
+  Future<bool> confirmPayment({
+    required String paymentKey,
+    required String orderId,
+    required int amount,
+  }) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
-      final result = await ref.read(confirmPaymentUseCaseProvider).call(req);
+      final params = ConfirmPaymentParams(
+        paymentKey: paymentKey,
+        orderId: orderId,
+        amount: amount,
+      );
+      final result = await ref.read(confirmPaymentUseCaseProvider).call(params);
+
+      if (!ref.mounted) return false;
       state = state.copyWith(isLoading: false, paymentConfirm: result);
       return true;
     } catch (e) {
+      if (!ref.mounted) return false;
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
       return false;
     }
