@@ -57,7 +57,7 @@ dependencies:
   table_calendar: ^3.2.0
 
   # WebView
-  webview_flutter: ^4.10.0
+  webview_flutter: ^4.13.1
 
 dev_dependencies:
   flutter_test:

@@ -8,6 +8,7 @@ import 'package:ticket_platform_mobile/features/chat/presentation/ui_models/chat
 class ChatRoomTicketHeader extends StatefulWidget {
   final TicketInfoUiModel ticket;
   final bool canRequestPayment;
+  final String? buttonText;
   final VoidCallback onRequestPayment;
   final VoidCallback? onViewTicketDetail;
 
@@ -15,6 +16,7 @@ class ChatRoomTicketHeader extends StatefulWidget {
     super.key,
     required this.ticket,
     required this.canRequestPayment,
+    this.buttonText,
     required this.onRequestPayment,
     this.onViewTicketDetail,
   });
@@ -109,9 +111,9 @@ class _ChatRoomTicketHeaderState extends State<ChatRoomTicketHeader> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       ),
-      child: const Text(
-        '결제 요청',
-        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+      child: Text(
+        widget.buttonText ?? '결제 요청',
+        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
       ),
     );
   }

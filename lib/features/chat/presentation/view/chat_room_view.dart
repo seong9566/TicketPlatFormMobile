@@ -12,6 +12,7 @@ import 'package:ticket_platform_mobile/features/chat/presentation/viewmodels/cha
 import 'package:ticket_platform_mobile/features/chat/presentation/viewmodels/chat_room_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_message_list.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_room_action_bar.dart';
+import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/profile_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_room_ticket_header.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_input_bar.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_room_menu_bottom_sheet.dart';
@@ -188,14 +189,33 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
               ChatRoomTicketHeader(
                 ticket: chatRoom.ticket,
                 canRequestPayment: chatRoom.canRequestPayment,
-                onRequestPayment: () =>
-                    ChatRoomDialogHelper.showRequestPaymentDialog(
-                      context: context,
-                      chatRoom: chatRoom,
-                      viewModel: ref.read(
-                        chatRoomViewModelProvider(roomId).notifier,
-                      ),
+                buttonText:
+                    (ref
+                            .watch(profileViewModelProvider)
+                            .value
+                            ?.profile
+                            ?.userId ==
+                        chatRoom.buyer.userId)
+                    ? '결제하기'
+                    : '결제 요청',
+                onRequestPayment: () {
+                  final myUserId = ref
+                      .read(profileViewModelProvider)
+                      .value
+                      ?.profile
+                      ?.userId;
+                  final isBuyer = myUserId == chatRoom.buyer.userId;
+
+                  ChatRoomDialogHelper.showRequestPaymentDialog(
+                    context: context,
+                    ref: ref,
+                    chatRoom: chatRoom,
+                    isBuyer: isBuyer,
+                    viewModel: ref.read(
+                      chatRoomViewModelProvider(roomId).notifier,
                     ),
+                  );
+                },
                 onViewTicketDetail: () => context.push(
                   '${AppRouterPath.ticketDetail.path}/${chatRoom.ticket.ticketId}',
                 ),
