@@ -57,7 +57,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
     final homeState = ref.watch(homeViewModelProvider);
 
     // ChatListViewModel 초기화 → SignalR 연결 보장
-    final chatListState = ref.watch(chatListViewModelProvider);
+    ref.watch(chatListViewModelProvider);
 
     return Scaffold(
       body: SafeArea(

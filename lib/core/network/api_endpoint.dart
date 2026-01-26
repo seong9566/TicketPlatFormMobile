@@ -66,6 +66,11 @@ class ApiEndpoint {
   static String userProfile(int userId) => '/api/users/profile/user';
   static const String profileImageRefresh = '/api/users/profile/image-refresh';
 
+  // Payment
+  static const String paymentReq = '/api/payment/request';
+  static const String paymentConfirm = '/api/payment/confirm';
+  static const String paymentCancel = '/api/payment/cancel';
+
   // SignalR Hub
   static String get chatHub => '$baseUrl/hubs/chat';
 }

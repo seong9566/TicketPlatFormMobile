@@ -22,6 +22,8 @@ import 'package:ticket_platform_mobile/features/sell/presentation/views/sell_she
 import 'package:ticket_platform_mobile/features/splash/presentation/view/splash_view.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/views/transaction_history_view.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/views/profile_edit_view.dart';
+import 'package:ticket_platform_mobile/features/payment/presentation/views/payment_webview.dart';
+import 'package:ticket_platform_mobile/features/payment/domain/entities/payment_entities.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/ui_models/my_profile_ui_model.dart';
 import 'package:ticket_platform_mobile/shared/widgets/full_screen_image_viewer.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
@@ -229,6 +231,14 @@ GoRouter goRouter(Ref ref) {
                   return FadeTransition(opacity: animation, child: child);
                 },
           );
+        },
+      ),
+      GoRoute(
+        path: AppRouterPath.payment.path,
+        name: AppRouterPath.payment.name,
+        builder: (context, state) {
+          final paymentRequest = state.extra as PaymentRequestEntity;
+          return PaymentWebView(paymentRequest: paymentRequest);
         },
       ),
     ],

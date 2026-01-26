@@ -51,4 +51,5 @@ class AppRouterPath {
   static const findId = _Route('/find-id', 'findId');
   static const findPassword = _Route('/find-password', 'findPassword');
   static const imageViewer = _Route('/image_viewer', 'imageViewer');
+  static const payment = _Route('/payment', 'payment');
 }
