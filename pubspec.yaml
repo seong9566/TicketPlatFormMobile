@@ -58,6 +58,8 @@ dependencies:
 
   # WebView
   webview_flutter: ^4.13.1
+  tosspayments_widget_sdk_flutter: ^2.1.2
+  flutter_inappwebview: ^6.1.5
 
 dev_dependencies:
   flutter_test:

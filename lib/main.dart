@@ -9,6 +9,7 @@ import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   initializeDateFormatting().then((_) {
     runApp(
       ProviderScope(
