@@ -68,8 +68,12 @@ class _ChatInputBarState extends State<ChatInputBar>
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      bottom: Platform.isIOS ? false : true,
       top: false,
       child: Container(
+        padding: Platform.isIOS
+            ? const EdgeInsets.only(bottom: AppSpacing.md)
+            : EdgeInsets.zero,
         decoration: const BoxDecoration(
           color: Colors.white,
           border: Border(top: BorderSide(color: AppColors.muted, width: 0.5)),
@@ -88,18 +92,24 @@ class _ChatInputBarState extends State<ChatInputBar>
               child: Row(
                 children: [
                   // + 버튼
-                  RotationTransition(
-                    turns: Tween(
-                      begin: 0.0,
-                      end: 0.125, // 45도 회전
-                    ).animate(_menuAnimation),
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.add,
-                        color: AppColors.textSecondary,
-                        size: 24,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.inputBackground,
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    child: RotationTransition(
+                      turns: Tween(
+                        begin: 0.0,
+                        end: 0.125, // 45도 회전
+                      ).animate(_menuAnimation),
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.add,
+                          color: AppColors.textSecondary,
+                          size: 24,
+                        ),
+                        onPressed: widget.canSendMessage ? _toggleMenu : null,
                       ),
-                      onPressed: widget.canSendMessage ? _toggleMenu : null,
                     ),
                   ),
                   const SizedBox(width: AppSpacing.xs),
@@ -226,7 +236,7 @@ class _ChatInputBarState extends State<ChatInputBar>
 
   Widget _buildImagePreviews() {
     return Container(
-      height: 90,
+      height: 84,
       padding: const EdgeInsets.only(top: AppSpacing.sm),
       child: ListView.separated(
         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),

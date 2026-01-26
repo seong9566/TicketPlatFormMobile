@@ -53,9 +53,6 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
 
   @override
   void dispose() {
-    // 채팅방 퇴장: 현재 보고 있는 방 해제 (state 수정 없으므로 안전)
-    ref.read(chatListViewModelProvider.notifier).setCurrentRoomId(null);
-
     _messageController.dispose();
     _scrollController.dispose();
     _typingDebounceTimer?.cancel();
@@ -100,7 +97,6 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
     setState(() => _selectedImages.clear());
     _isTyping = false;
 
-    // 모든 이미지를 한 번에 전송 (API v2.1 지원)
     await ref
         .read(chatRoomViewModelProvider(roomId).notifier)
         .sendMessage(message, imageFiles: images.isNotEmpty ? images : null);
@@ -175,73 +171,81 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
   Widget build(BuildContext context) {
     final chatRoomAsync = ref.watch(chatRoomViewModelProvider(roomId));
 
-    return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
-      appBar: _buildAppBar(context, chatRoomAsync),
-      body: chatRoomAsync.when(
-        data: (chatRoom) => Column(
-          children: [
-            // 이벤트 + 티켓 정보
-            ChatRoomTicketHeader(
-              ticket: chatRoom.ticket,
-              canRequestPayment: chatRoom.canRequestPayment,
-              onRequestPayment: () =>
-                  ChatRoomDialogHelper.showRequestPaymentDialog(
-                    context: context,
-                    chatRoom: chatRoom,
-                    viewModel: ref.read(
-                      chatRoomViewModelProvider(roomId).notifier,
-                    ),
-                  ),
-              onViewTicketDetail: () => context.push(
-                '${AppRouterPath.ticketDetail.path}/${chatRoom.ticket.ticketId}',
-              ),
-            ),
-            const SizedBox(height: AppSpacing.xs),
-            const Divider(height: 1, color: AppColors.muted),
-
-            // 채팅 메세지
-            Expanded(
-              child: ChatMessageList(
-                messages: chatRoom.messages,
-                scrollController: _scrollController,
-              ),
-            ),
-
-            // 하단 입력 필드
-            if (chatRoom.canConfirmPurchase || chatRoom.canCancelTransaction)
-              ChatRoomActionBar(
-                chatRoom: chatRoom,
-                onConfirmPurchase: () =>
-                    ChatRoomDialogHelper.showConfirmPurchaseDialog(
+    return PopScope(
+      onPopInvokedWithResult: (result, didPop) {
+        if (result) {
+          // 채팅방 퇴장: 현재 보고 있는 방 해제 (state 수정 없으므로 안전)
+          ref.read(chatListViewModelProvider.notifier).setCurrentRoomId(null);
+        }
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.scaffoldBackground,
+        appBar: _buildAppBar(context, chatRoomAsync),
+        body: chatRoomAsync.when(
+          data: (chatRoom) => Column(
+            children: [
+              // 이벤트 + 티켓 정보
+              ChatRoomTicketHeader(
+                ticket: chatRoom.ticket,
+                canRequestPayment: chatRoom.canRequestPayment,
+                onRequestPayment: () =>
+                    ChatRoomDialogHelper.showRequestPaymentDialog(
                       context: context,
                       chatRoom: chatRoom,
                       viewModel: ref.read(
                         chatRoomViewModelProvider(roomId).notifier,
                       ),
                     ),
-                onCancelTransaction: () =>
-                    ChatRoomDialogHelper.showCancelTransactionDialog(
-                      context: context,
-                      chatRoom: chatRoom,
-                      viewModel: ref.read(
-                        chatRoomViewModelProvider(roomId).notifier,
-                      ),
-                    ),
+                onViewTicketDetail: () => context.push(
+                  '${AppRouterPath.ticketDetail.path}/${chatRoom.ticket.ticketId}',
+                ),
               ),
-            ChatInputBar(
-              controller: _messageController,
-              canSendMessage: chatRoom.canSendMessage,
-              onSend: _sendMessage,
-              onPickImage: _pickImage,
-              onTakePhoto: _takePhoto,
-              selectedImages: _selectedImages,
-              onRemoveImage: _removeImage,
-            ),
-          ],
+              const SizedBox(height: AppSpacing.xs),
+              const Divider(height: 1, color: AppColors.muted),
+
+              // 채팅 메세지
+              Expanded(
+                child: ChatMessageList(
+                  messages: chatRoom.messages,
+                  scrollController: _scrollController,
+                ),
+              ),
+
+              // 하단 입력 필드
+              if (chatRoom.canConfirmPurchase || chatRoom.canCancelTransaction)
+                ChatRoomActionBar(
+                  chatRoom: chatRoom,
+                  onConfirmPurchase: () =>
+                      ChatRoomDialogHelper.showConfirmPurchaseDialog(
+                        context: context,
+                        chatRoom: chatRoom,
+                        viewModel: ref.read(
+                          chatRoomViewModelProvider(roomId).notifier,
+                        ),
+                      ),
+                  onCancelTransaction: () =>
+                      ChatRoomDialogHelper.showCancelTransactionDialog(
+                        context: context,
+                        chatRoom: chatRoom,
+                        viewModel: ref.read(
+                          chatRoomViewModelProvider(roomId).notifier,
+                        ),
+                      ),
+                ),
+              ChatInputBar(
+                controller: _messageController,
+                canSendMessage: chatRoom.canSendMessage,
+                onSend: _sendMessage,
+                onPickImage: _pickImage,
+                onTakePhoto: _takePhoto,
+                selectedImages: _selectedImages,
+                onRemoveImage: _removeImage,
+              ),
+            ],
+          ),
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stack) => _buildErrorState(),
         ),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => _buildErrorState(),
       ),
     );
   }

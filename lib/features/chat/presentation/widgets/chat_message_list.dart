@@ -27,26 +27,29 @@ class ChatMessageList extends StatelessWidget {
       );
     }
 
-    return ListView.builder(
-      controller: scrollController,
-      reverse: true,
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.md,
-        vertical: AppSpacing.md,
-      ),
-      itemBuilder: (context, index) {
-        final message = messages[index];
-        final showSeparator = _shouldShowSeparator(index);
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: ListView.builder(
+        controller: scrollController,
+        reverse: true,
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.md,
+        ),
+        itemBuilder: (context, index) {
+          final message = messages[index];
+          final showSeparator = _shouldShowSeparator(index);
 
-        return Column(
-          children: [
-            if (showSeparator) _buildDateSeparator(message.createdAt),
-            const SizedBox(height: AppSpacing.sm),
-            ChatBubble(message: message),
-          ],
-        );
-      },
-      itemCount: messages.length,
+          return Column(
+            children: [
+              if (showSeparator) _buildDateSeparator(message.createdAt),
+              const SizedBox(height: AppSpacing.sm),
+              ChatBubble(message: message),
+            ],
+          );
+        },
+        itemCount: messages.length,
+      ),
     );
   }
 

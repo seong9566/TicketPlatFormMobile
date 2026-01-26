@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ticket_platform_mobile/core/enums/category.dart';
@@ -22,6 +23,7 @@ import 'package:ticket_platform_mobile/features/splash/presentation/view/splash_
 import 'package:ticket_platform_mobile/features/profile/presentation/views/transaction_history_view.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/views/profile_edit_view.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/ui_models/my_profile_ui_model.dart';
+import 'package:ticket_platform_mobile/shared/widgets/full_screen_image_viewer.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 
 part 'app_router.g.dart';
@@ -206,6 +208,27 @@ GoRouter goRouter(Ref ref) {
         builder: (context, state) {
           final profile = state.extra as MyProfileUiModel?;
           return ProfileEditView(profile: profile);
+        },
+      ),
+      GoRoute(
+        path: AppRouterPath.imageViewer.path,
+        name: AppRouterPath.imageViewer.name,
+        pageBuilder: (context, state) {
+          final params = state.extra as Map<String, dynamic>;
+          final imageUrls = params['imageUrls'] as List<String>;
+          final initialIndex = params['initialIndex'] as int;
+
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: FullScreenImageViewer(
+              imageUrls: imageUrls,
+              initialIndex: initialIndex,
+            ),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+          );
         },
       ),
     ],

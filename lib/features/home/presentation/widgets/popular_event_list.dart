@@ -33,7 +33,7 @@ class PopularEventList extends StatelessWidget {
             margin: EdgeInsets.only(right: isLast ? 0 : AppSpacing.md),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(12),
               border: Border.all(color: const Color(0xFFF1F5F9)),
               boxShadow: [
                 BoxShadow(
