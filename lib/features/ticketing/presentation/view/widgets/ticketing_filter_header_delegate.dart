@@ -6,7 +6,11 @@ class TicketingFilterHeaderDelegate extends SliverPersistentHeaderDelegate {
   final Widget child;
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     return child;
   }
 
@@ -21,4 +25,3 @@ class TicketingFilterHeaderDelegate extends SliverPersistentHeaderDelegate {
     return oldDelegate.child != child;
   }
 }
-

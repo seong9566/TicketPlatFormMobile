@@ -5,10 +5,7 @@ import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 
 class RecentSearchSection extends StatelessWidget {
-  const RecentSearchSection({
-    super.key,
-    required this.keywords,
-  });
+  const RecentSearchSection({super.key, required this.keywords});
 
   final List<String> keywords;
 
@@ -20,10 +17,7 @@ class RecentSearchSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              '최근 검색어',
-              style: AppTextStyles.body1.copyWith(fontSize: 16),
-            ),
+            Text('최근 검색어', style: AppTextStyles.body1.copyWith(fontSize: 16)),
             Text(
               '전체 삭제',
               style: AppTextStyles.body2.copyWith(
@@ -72,4 +66,3 @@ class RecentSearchSection extends StatelessWidget {
     );
   }
 }
-

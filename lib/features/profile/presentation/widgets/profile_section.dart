@@ -42,4 +42,3 @@ class ProfileSection extends StatelessWidget {
     );
   }
 }
-

@@ -34,8 +34,9 @@ class SearchCategoryChips extends StatelessWidget {
               color: isSelected ? AppColors.primary : Colors.white,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color:
-                    isSelected ? Colors.transparent : const Color(0xFFE2E8F0),
+                color: isSelected
+                    ? Colors.transparent
+                    : const Color(0xFFE2E8F0),
               ),
             ),
             child: Text(
@@ -52,4 +53,3 @@ class SearchCategoryChips extends StatelessWidget {
     );
   }
 }
-
