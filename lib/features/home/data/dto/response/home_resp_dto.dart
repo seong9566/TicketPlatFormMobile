@@ -44,18 +44,18 @@ abstract class PopularEventDto with _$PopularEventDto {
 
 extension PopularEventDtoX on PopularEventDto {
   PopularEventEntity toEntity() => PopularEventEntity(
-        eventId: eventId,
-        eventTitle: eventTitle,
-        eventDescription: eventDescription,
-        eventDate: eventDate,
-        venue: venue,
-        minTicketPrice: minTicketPrice,
-        originalMinTicketPrice: originalMinTicketPrice,
-        ticketDiscountRate: ticketDiscountRate,
-        posterImageUrl: posterImageUrl,
-        availableTicketCount: availableTicketCount,
-        categoryId: categoryId,
-      );
+    eventId: eventId,
+    eventTitle: eventTitle,
+    eventDescription: eventDescription,
+    eventDate: eventDate,
+    venue: venue,
+    minTicketPrice: minTicketPrice,
+    originalMinTicketPrice: originalMinTicketPrice,
+    ticketDiscountRate: ticketDiscountRate,
+    posterImageUrl: posterImageUrl,
+    availableTicketCount: availableTicketCount,
+    categoryId: categoryId,
+  );
 }
 
 @freezed
@@ -81,17 +81,17 @@ abstract class RecommendedEventDto with _$RecommendedEventDto {
 
 extension RecommendedEventDtoX on RecommendedEventDto {
   RecommendedEventEntity toEntity() => RecommendedEventEntity(
-        eventId: eventId,
-        eventTitle: eventTitle,
-        eventDescription: eventDescription,
-        eventDate: eventDate,
-        venue: venue,
-        minTicketPrice: minTicketPrice,
-        originalMinTicketPrice: originalMinTicketPrice,
-        ticketDiscountRate: ticketDiscountRate,
-        posterImageUrl: posterImageUrl,
-        availableTicketCount: availableTicketCount,
-        categoryId: categoryId,
-        isWishedByMe: isWishedByMe,
-      );
+    eventId: eventId,
+    eventTitle: eventTitle,
+    eventDescription: eventDescription,
+    eventDate: eventDate,
+    venue: venue,
+    minTicketPrice: minTicketPrice,
+    originalMinTicketPrice: originalMinTicketPrice,
+    ticketDiscountRate: ticketDiscountRate,
+    posterImageUrl: posterImageUrl,
+    availableTicketCount: availableTicketCount,
+    categoryId: categoryId,
+    isWishedByMe: isWishedByMe,
+  );
 }

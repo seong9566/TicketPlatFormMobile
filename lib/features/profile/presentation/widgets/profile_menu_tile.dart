@@ -45,11 +45,7 @@ class ProfileMenuTile extends StatelessWidget {
                   color: AppColors.muted,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
-                  icon,
-                  size: 20,
-                  color: AppColors.textSecondary,
-                ),
+                child: Icon(icon, size: 20, color: AppColors.textSecondary),
               ),
               const SizedBox(width: AppSpacing.md),
             ],
@@ -99,4 +95,3 @@ class ProfileMenuTile extends StatelessWidget {
     );
   }
 }
-

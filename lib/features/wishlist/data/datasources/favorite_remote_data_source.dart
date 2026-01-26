@@ -21,17 +21,13 @@ class FavoriteRemoteDataSourceImpl implements FavoriteRemoteDataSource {
   @override
   Future<BaseResponse<List<FavoriteRespDto>>> getFavorites() async {
     return safeApiCall<List<FavoriteRespDto>>(
-      apiCall: (options) => _dio.get(
-        ApiEndpoint.favoriteTickets,
-        options: options,
-      ),
+      apiCall: (options) =>
+          _dio.get(ApiEndpoint.favoriteTickets, options: options),
       apiName: 'getFavoriteTickets',
       dataParser: (json) {
         if (json is List) {
           return json
-              .map(
-                (e) => FavoriteRespDto.fromJson(e as Map<String, dynamic>),
-              )
+              .map((e) => FavoriteRespDto.fromJson(e as Map<String, dynamic>))
               .toList();
         }
         return [];

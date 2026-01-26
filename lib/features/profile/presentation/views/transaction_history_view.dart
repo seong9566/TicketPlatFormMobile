@@ -6,10 +6,7 @@ import 'package:ticket_platform_mobile/features/profile/presentation/widgets/tra
 class TransactionHistoryView extends StatefulWidget {
   final int initialIndex;
 
-  const TransactionHistoryView({
-    super.key,
-    this.initialIndex = 0,
-  });
+  const TransactionHistoryView({super.key, this.initialIndex = 0});
 
   @override
   State<TransactionHistoryView> createState() => _TransactionHistoryViewState();
@@ -46,10 +43,7 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView>
           icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: const Text(
-          '거래 내역',
-          style: AppTextStyles.body1,
-        ),
+        title: const Text('거래 내역', style: AppTextStyles.body1),
         centerTitle: true,
         actions: [
           IconButton(
@@ -78,10 +72,7 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: [
-                _buildPurchaseList(),
-                _buildSalesList(),
-              ],
+              children: [_buildPurchaseList(), _buildSalesList()],
             ),
           ),
         ],
@@ -125,8 +116,8 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView>
           location: 'KSPO돔',
           seat: 'S구역 12열 8번',
           state: '입금 대기',
-            stateColor: AppColors.badgeWaitingBackground,
-            stateTextColor: AppColors.badgeWaitingText,
+          stateColor: AppColors.badgeWaitingBackground,
+          stateTextColor: AppColors.badgeWaitingText,
         );
       },
     );
