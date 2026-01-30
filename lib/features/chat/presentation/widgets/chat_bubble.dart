@@ -11,12 +11,18 @@ import 'package:ticket_platform_mobile/features/chat/presentation/ui_models/chat
 import 'package:ticket_platform_mobile/features/chat/presentation/viewmodels/chat_room_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/payment_request_bubble.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/profile_viewmodel.dart';
-import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_room_dialog_helper.dart';
 
 class ChatBubble extends ConsumerWidget {
   final MessageUiModel message;
+  final VoidCallback onBuyerPayment;
+  final VoidCallback onCancelTransaction;
 
-  const ChatBubble({super.key, required this.message});
+  const ChatBubble({
+    super.key,
+    required this.message,
+    required this.onBuyerPayment,
+    required this.onCancelTransaction,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -51,28 +57,8 @@ class ChatBubble extends ConsumerWidget {
               message: message,
               ticket: chatRoom.ticket,
               isBuyer: isBuyer,
-              onPayment: () {
-                // 구매자 전용 결제 확인 다이얼로그 (실제 결제 웹뷰 진입 전 단계)
-                ChatRoomDialogHelper.showRequestPaymentDialog(
-                  context: context,
-                  ref: ref,
-                  chatRoom: chatRoom,
-                  isBuyer: true,
-                  viewModel: ref.read(
-                    chatRoomViewModelProvider(message.roomId).notifier,
-                  ),
-                );
-              },
-              onCancel: () {
-                // 트랜잭션 취소 사유 입력 다이얼로그 (기존 유지)
-                ChatRoomDialogHelper.showCancelTransactionDialog(
-                  context: context,
-                  chatRoom: chatRoom,
-                  viewModel: ref.read(
-                    chatRoomViewModelProvider(message.roomId).notifier,
-                  ),
-                );
-              },
+              onPayment: onBuyerPayment,
+              onCancel: onCancelTransaction,
             ),
           ],
         );

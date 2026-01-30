@@ -9,11 +9,17 @@ import 'chat_bubble.dart';
 class ChatMessageList extends StatelessWidget {
   final List<MessageUiModel> messages;
   final ScrollController scrollController;
+  final ChatRoomDetailUiModel chatRoom;
+  final VoidCallback onBuyerPayment;
+  final VoidCallback onCancelTransaction;
 
   const ChatMessageList({
     super.key,
     required this.messages,
     required this.scrollController,
+    required this.chatRoom,
+    required this.onBuyerPayment,
+    required this.onCancelTransaction,
   });
 
   @override
@@ -44,7 +50,11 @@ class ChatMessageList extends StatelessWidget {
             children: [
               if (showSeparator) _buildDateSeparator(message.createdAt),
               const SizedBox(height: AppSpacing.sm),
-              ChatBubble(message: message),
+              ChatBubble(
+                message: message,
+                onBuyerPayment: onBuyerPayment,
+                onCancelTransaction: onCancelTransaction,
+              ),
             ],
           );
         },

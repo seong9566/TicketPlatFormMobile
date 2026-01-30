@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PaymentRequestEntity {
 
- String get orderId; int get amount; String get orderName; String? get customerName; String? get customerEmail; String get clientKey; String get successUrl; String get failUrl;
+ String get orderId; int get amount; String get orderName; String? get customerName; String? get customerEmail; String get successUrl; String get failUrl; String? get eventTitle; String? get eventDate; String? get seatInfo; String? get ticketImageUrl; String? get venueName;
 /// Create a copy of PaymentRequestEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $PaymentRequestEntityCopyWith<PaymentRequestEntity> get copyWith => _$PaymentReq
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaymentRequestEntity&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.orderName, orderName) || other.orderName == orderName)&&(identical(other.customerName, customerName) || other.customerName == customerName)&&(identical(other.customerEmail, customerEmail) || other.customerEmail == customerEmail)&&(identical(other.clientKey, clientKey) || other.clientKey == clientKey)&&(identical(other.successUrl, successUrl) || other.successUrl == successUrl)&&(identical(other.failUrl, failUrl) || other.failUrl == failUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaymentRequestEntity&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.orderName, orderName) || other.orderName == orderName)&&(identical(other.customerName, customerName) || other.customerName == customerName)&&(identical(other.customerEmail, customerEmail) || other.customerEmail == customerEmail)&&(identical(other.successUrl, successUrl) || other.successUrl == successUrl)&&(identical(other.failUrl, failUrl) || other.failUrl == failUrl)&&(identical(other.eventTitle, eventTitle) || other.eventTitle == eventTitle)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.ticketImageUrl, ticketImageUrl) || other.ticketImageUrl == ticketImageUrl)&&(identical(other.venueName, venueName) || other.venueName == venueName));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,orderId,amount,orderName,customerName,customerEmail,clientKey,successUrl,failUrl);
+int get hashCode => Object.hash(runtimeType,orderId,amount,orderName,customerName,customerEmail,successUrl,failUrl,eventTitle,eventDate,seatInfo,ticketImageUrl,venueName);
 
 @override
 String toString() {
-  return 'PaymentRequestEntity(orderId: $orderId, amount: $amount, orderName: $orderName, customerName: $customerName, customerEmail: $customerEmail, clientKey: $clientKey, successUrl: $successUrl, failUrl: $failUrl)';
+  return 'PaymentRequestEntity(orderId: $orderId, amount: $amount, orderName: $orderName, customerName: $customerName, customerEmail: $customerEmail, successUrl: $successUrl, failUrl: $failUrl, eventTitle: $eventTitle, eventDate: $eventDate, seatInfo: $seatInfo, ticketImageUrl: $ticketImageUrl, venueName: $venueName)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $PaymentRequestEntityCopyWith<$Res>  {
   factory $PaymentRequestEntityCopyWith(PaymentRequestEntity value, $Res Function(PaymentRequestEntity) _then) = _$PaymentRequestEntityCopyWithImpl;
 @useResult
 $Res call({
- String orderId, int amount, String orderName, String? customerName, String? customerEmail, String clientKey, String successUrl, String failUrl
+ String orderId, int amount, String orderName, String? customerName, String? customerEmail, String successUrl, String failUrl, String? eventTitle, String? eventDate, String? seatInfo, String? ticketImageUrl, String? venueName
 });
 
 
@@ -62,17 +62,21 @@ class _$PaymentRequestEntityCopyWithImpl<$Res>
 
 /// Create a copy of PaymentRequestEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? orderId = null,Object? amount = null,Object? orderName = null,Object? customerName = freezed,Object? customerEmail = freezed,Object? clientKey = null,Object? successUrl = null,Object? failUrl = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? orderId = null,Object? amount = null,Object? orderName = null,Object? customerName = freezed,Object? customerEmail = freezed,Object? successUrl = null,Object? failUrl = null,Object? eventTitle = freezed,Object? eventDate = freezed,Object? seatInfo = freezed,Object? ticketImageUrl = freezed,Object? venueName = freezed,}) {
   return _then(_self.copyWith(
 orderId: null == orderId ? _self.orderId : orderId // ignore: cast_nullable_to_non_nullable
 as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
 as int,orderName: null == orderName ? _self.orderName : orderName // ignore: cast_nullable_to_non_nullable
 as String,customerName: freezed == customerName ? _self.customerName : customerName // ignore: cast_nullable_to_non_nullable
 as String?,customerEmail: freezed == customerEmail ? _self.customerEmail : customerEmail // ignore: cast_nullable_to_non_nullable
-as String?,clientKey: null == clientKey ? _self.clientKey : clientKey // ignore: cast_nullable_to_non_nullable
-as String,successUrl: null == successUrl ? _self.successUrl : successUrl // ignore: cast_nullable_to_non_nullable
+as String?,successUrl: null == successUrl ? _self.successUrl : successUrl // ignore: cast_nullable_to_non_nullable
 as String,failUrl: null == failUrl ? _self.failUrl : failUrl // ignore: cast_nullable_to_non_nullable
-as String,
+as String,eventTitle: freezed == eventTitle ? _self.eventTitle : eventTitle // ignore: cast_nullable_to_non_nullable
+as String?,eventDate: freezed == eventDate ? _self.eventDate : eventDate // ignore: cast_nullable_to_non_nullable
+as String?,seatInfo: freezed == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
+as String?,ticketImageUrl: freezed == ticketImageUrl ? _self.ticketImageUrl : ticketImageUrl // ignore: cast_nullable_to_non_nullable
+as String?,venueName: freezed == venueName ? _self.venueName : venueName // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -157,10 +161,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String orderId,  int amount,  String orderName,  String? customerName,  String? customerEmail,  String clientKey,  String successUrl,  String failUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String orderId,  int amount,  String orderName,  String? customerName,  String? customerEmail,  String successUrl,  String failUrl,  String? eventTitle,  String? eventDate,  String? seatInfo,  String? ticketImageUrl,  String? venueName)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PaymentRequestEntity() when $default != null:
-return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_that.customerEmail,_that.clientKey,_that.successUrl,_that.failUrl);case _:
+return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_that.customerEmail,_that.successUrl,_that.failUrl,_that.eventTitle,_that.eventDate,_that.seatInfo,_that.ticketImageUrl,_that.venueName);case _:
   return orElse();
 
 }
@@ -178,10 +182,10 @@ return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String orderId,  int amount,  String orderName,  String? customerName,  String? customerEmail,  String clientKey,  String successUrl,  String failUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String orderId,  int amount,  String orderName,  String? customerName,  String? customerEmail,  String successUrl,  String failUrl,  String? eventTitle,  String? eventDate,  String? seatInfo,  String? ticketImageUrl,  String? venueName)  $default,) {final _that = this;
 switch (_that) {
 case _PaymentRequestEntity():
-return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_that.customerEmail,_that.clientKey,_that.successUrl,_that.failUrl);case _:
+return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_that.customerEmail,_that.successUrl,_that.failUrl,_that.eventTitle,_that.eventDate,_that.seatInfo,_that.ticketImageUrl,_that.venueName);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +202,10 @@ return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String orderId,  int amount,  String orderName,  String? customerName,  String? customerEmail,  String clientKey,  String successUrl,  String failUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String orderId,  int amount,  String orderName,  String? customerName,  String? customerEmail,  String successUrl,  String failUrl,  String? eventTitle,  String? eventDate,  String? seatInfo,  String? ticketImageUrl,  String? venueName)?  $default,) {final _that = this;
 switch (_that) {
 case _PaymentRequestEntity() when $default != null:
-return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_that.customerEmail,_that.clientKey,_that.successUrl,_that.failUrl);case _:
+return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_that.customerEmail,_that.successUrl,_that.failUrl,_that.eventTitle,_that.eventDate,_that.seatInfo,_that.ticketImageUrl,_that.venueName);case _:
   return null;
 
 }
@@ -213,7 +217,7 @@ return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_t
 
 
 class _PaymentRequestEntity implements PaymentRequestEntity {
-  const _PaymentRequestEntity({required this.orderId, required this.amount, required this.orderName, this.customerName, this.customerEmail, required this.clientKey, required this.successUrl, required this.failUrl});
+  const _PaymentRequestEntity({required this.orderId, required this.amount, required this.orderName, this.customerName, this.customerEmail, required this.successUrl, required this.failUrl, this.eventTitle, this.eventDate, this.seatInfo, this.ticketImageUrl, this.venueName});
   
 
 @override final  String orderId;
@@ -221,9 +225,13 @@ class _PaymentRequestEntity implements PaymentRequestEntity {
 @override final  String orderName;
 @override final  String? customerName;
 @override final  String? customerEmail;
-@override final  String clientKey;
 @override final  String successUrl;
 @override final  String failUrl;
+@override final  String? eventTitle;
+@override final  String? eventDate;
+@override final  String? seatInfo;
+@override final  String? ticketImageUrl;
+@override final  String? venueName;
 
 /// Create a copy of PaymentRequestEntity
 /// with the given fields replaced by the non-null parameter values.
@@ -235,16 +243,16 @@ _$PaymentRequestEntityCopyWith<_PaymentRequestEntity> get copyWith => __$Payment
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaymentRequestEntity&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.orderName, orderName) || other.orderName == orderName)&&(identical(other.customerName, customerName) || other.customerName == customerName)&&(identical(other.customerEmail, customerEmail) || other.customerEmail == customerEmail)&&(identical(other.clientKey, clientKey) || other.clientKey == clientKey)&&(identical(other.successUrl, successUrl) || other.successUrl == successUrl)&&(identical(other.failUrl, failUrl) || other.failUrl == failUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaymentRequestEntity&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.orderName, orderName) || other.orderName == orderName)&&(identical(other.customerName, customerName) || other.customerName == customerName)&&(identical(other.customerEmail, customerEmail) || other.customerEmail == customerEmail)&&(identical(other.successUrl, successUrl) || other.successUrl == successUrl)&&(identical(other.failUrl, failUrl) || other.failUrl == failUrl)&&(identical(other.eventTitle, eventTitle) || other.eventTitle == eventTitle)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.ticketImageUrl, ticketImageUrl) || other.ticketImageUrl == ticketImageUrl)&&(identical(other.venueName, venueName) || other.venueName == venueName));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,orderId,amount,orderName,customerName,customerEmail,clientKey,successUrl,failUrl);
+int get hashCode => Object.hash(runtimeType,orderId,amount,orderName,customerName,customerEmail,successUrl,failUrl,eventTitle,eventDate,seatInfo,ticketImageUrl,venueName);
 
 @override
 String toString() {
-  return 'PaymentRequestEntity(orderId: $orderId, amount: $amount, orderName: $orderName, customerName: $customerName, customerEmail: $customerEmail, clientKey: $clientKey, successUrl: $successUrl, failUrl: $failUrl)';
+  return 'PaymentRequestEntity(orderId: $orderId, amount: $amount, orderName: $orderName, customerName: $customerName, customerEmail: $customerEmail, successUrl: $successUrl, failUrl: $failUrl, eventTitle: $eventTitle, eventDate: $eventDate, seatInfo: $seatInfo, ticketImageUrl: $ticketImageUrl, venueName: $venueName)';
 }
 
 
@@ -255,7 +263,7 @@ abstract mixin class _$PaymentRequestEntityCopyWith<$Res> implements $PaymentReq
   factory _$PaymentRequestEntityCopyWith(_PaymentRequestEntity value, $Res Function(_PaymentRequestEntity) _then) = __$PaymentRequestEntityCopyWithImpl;
 @override @useResult
 $Res call({
- String orderId, int amount, String orderName, String? customerName, String? customerEmail, String clientKey, String successUrl, String failUrl
+ String orderId, int amount, String orderName, String? customerName, String? customerEmail, String successUrl, String failUrl, String? eventTitle, String? eventDate, String? seatInfo, String? ticketImageUrl, String? venueName
 });
 
 
@@ -272,17 +280,21 @@ class __$PaymentRequestEntityCopyWithImpl<$Res>
 
 /// Create a copy of PaymentRequestEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? orderId = null,Object? amount = null,Object? orderName = null,Object? customerName = freezed,Object? customerEmail = freezed,Object? clientKey = null,Object? successUrl = null,Object? failUrl = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? orderId = null,Object? amount = null,Object? orderName = null,Object? customerName = freezed,Object? customerEmail = freezed,Object? successUrl = null,Object? failUrl = null,Object? eventTitle = freezed,Object? eventDate = freezed,Object? seatInfo = freezed,Object? ticketImageUrl = freezed,Object? venueName = freezed,}) {
   return _then(_PaymentRequestEntity(
 orderId: null == orderId ? _self.orderId : orderId // ignore: cast_nullable_to_non_nullable
 as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
 as int,orderName: null == orderName ? _self.orderName : orderName // ignore: cast_nullable_to_non_nullable
 as String,customerName: freezed == customerName ? _self.customerName : customerName // ignore: cast_nullable_to_non_nullable
 as String?,customerEmail: freezed == customerEmail ? _self.customerEmail : customerEmail // ignore: cast_nullable_to_non_nullable
-as String?,clientKey: null == clientKey ? _self.clientKey : clientKey // ignore: cast_nullable_to_non_nullable
-as String,successUrl: null == successUrl ? _self.successUrl : successUrl // ignore: cast_nullable_to_non_nullable
+as String?,successUrl: null == successUrl ? _self.successUrl : successUrl // ignore: cast_nullable_to_non_nullable
 as String,failUrl: null == failUrl ? _self.failUrl : failUrl // ignore: cast_nullable_to_non_nullable
-as String,
+as String,eventTitle: freezed == eventTitle ? _self.eventTitle : eventTitle // ignore: cast_nullable_to_non_nullable
+as String?,eventDate: freezed == eventDate ? _self.eventDate : eventDate // ignore: cast_nullable_to_non_nullable
+as String?,seatInfo: freezed == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
+as String?,ticketImageUrl: freezed == ticketImageUrl ? _self.ticketImageUrl : ticketImageUrl // ignore: cast_nullable_to_non_nullable
+as String?,venueName: freezed == venueName ? _self.venueName : venueName // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PaymentState {
 
- bool get isLoading; PaymentRequestEntity? get paymentRequest; PaymentConfirmEntity? get paymentConfirm; String? get errorMessage;
+ bool get isLoading; PaymentRequestEntity? get paymentRequest; PaymentConfirmEntity? get paymentConfirm; String? get errorMessage; int? get roomId;
 /// Create a copy of PaymentState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $PaymentStateCopyWith<PaymentState> get copyWith => _$PaymentStateCopyWithImpl<P
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaymentState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.paymentRequest, paymentRequest) || other.paymentRequest == paymentRequest)&&(identical(other.paymentConfirm, paymentConfirm) || other.paymentConfirm == paymentConfirm)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaymentState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.paymentRequest, paymentRequest) || other.paymentRequest == paymentRequest)&&(identical(other.paymentConfirm, paymentConfirm) || other.paymentConfirm == paymentConfirm)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.roomId, roomId) || other.roomId == roomId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,paymentRequest,paymentConfirm,errorMessage);
+int get hashCode => Object.hash(runtimeType,isLoading,paymentRequest,paymentConfirm,errorMessage,roomId);
 
 @override
 String toString() {
-  return 'PaymentState(isLoading: $isLoading, paymentRequest: $paymentRequest, paymentConfirm: $paymentConfirm, errorMessage: $errorMessage)';
+  return 'PaymentState(isLoading: $isLoading, paymentRequest: $paymentRequest, paymentConfirm: $paymentConfirm, errorMessage: $errorMessage, roomId: $roomId)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $PaymentStateCopyWith<$Res>  {
   factory $PaymentStateCopyWith(PaymentState value, $Res Function(PaymentState) _then) = _$PaymentStateCopyWithImpl;
 @useResult
 $Res call({
- bool isLoading, PaymentRequestEntity? paymentRequest, PaymentConfirmEntity? paymentConfirm, String? errorMessage
+ bool isLoading, PaymentRequestEntity? paymentRequest, PaymentConfirmEntity? paymentConfirm, String? errorMessage, int? roomId
 });
 
 
@@ -62,13 +62,14 @@ class _$PaymentStateCopyWithImpl<$Res>
 
 /// Create a copy of PaymentState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? paymentRequest = freezed,Object? paymentConfirm = freezed,Object? errorMessage = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? paymentRequest = freezed,Object? paymentConfirm = freezed,Object? errorMessage = freezed,Object? roomId = freezed,}) {
   return _then(_self.copyWith(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,paymentRequest: freezed == paymentRequest ? _self.paymentRequest : paymentRequest // ignore: cast_nullable_to_non_nullable
 as PaymentRequestEntity?,paymentConfirm: freezed == paymentConfirm ? _self.paymentConfirm : paymentConfirm // ignore: cast_nullable_to_non_nullable
 as PaymentConfirmEntity?,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,roomId: freezed == roomId ? _self.roomId : roomId // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 /// Create a copy of PaymentState
@@ -177,10 +178,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading,  PaymentRequestEntity? paymentRequest,  PaymentConfirmEntity? paymentConfirm,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading,  PaymentRequestEntity? paymentRequest,  PaymentConfirmEntity? paymentConfirm,  String? errorMessage,  int? roomId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PaymentState() when $default != null:
-return $default(_that.isLoading,_that.paymentRequest,_that.paymentConfirm,_that.errorMessage);case _:
+return $default(_that.isLoading,_that.paymentRequest,_that.paymentConfirm,_that.errorMessage,_that.roomId);case _:
   return orElse();
 
 }
@@ -198,10 +199,10 @@ return $default(_that.isLoading,_that.paymentRequest,_that.paymentConfirm,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading,  PaymentRequestEntity? paymentRequest,  PaymentConfirmEntity? paymentConfirm,  String? errorMessage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading,  PaymentRequestEntity? paymentRequest,  PaymentConfirmEntity? paymentConfirm,  String? errorMessage,  int? roomId)  $default,) {final _that = this;
 switch (_that) {
 case _PaymentState():
-return $default(_that.isLoading,_that.paymentRequest,_that.paymentConfirm,_that.errorMessage);case _:
+return $default(_that.isLoading,_that.paymentRequest,_that.paymentConfirm,_that.errorMessage,_that.roomId);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -218,10 +219,10 @@ return $default(_that.isLoading,_that.paymentRequest,_that.paymentConfirm,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading,  PaymentRequestEntity? paymentRequest,  PaymentConfirmEntity? paymentConfirm,  String? errorMessage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading,  PaymentRequestEntity? paymentRequest,  PaymentConfirmEntity? paymentConfirm,  String? errorMessage,  int? roomId)?  $default,) {final _that = this;
 switch (_that) {
 case _PaymentState() when $default != null:
-return $default(_that.isLoading,_that.paymentRequest,_that.paymentConfirm,_that.errorMessage);case _:
+return $default(_that.isLoading,_that.paymentRequest,_that.paymentConfirm,_that.errorMessage,_that.roomId);case _:
   return null;
 
 }
@@ -233,13 +234,14 @@ return $default(_that.isLoading,_that.paymentRequest,_that.paymentConfirm,_that.
 
 
 class _PaymentState implements PaymentState {
-  const _PaymentState({this.isLoading = false, this.paymentRequest, this.paymentConfirm, this.errorMessage});
+  const _PaymentState({this.isLoading = false, this.paymentRequest, this.paymentConfirm, this.errorMessage, this.roomId});
   
 
 @override@JsonKey() final  bool isLoading;
 @override final  PaymentRequestEntity? paymentRequest;
 @override final  PaymentConfirmEntity? paymentConfirm;
 @override final  String? errorMessage;
+@override final  int? roomId;
 
 /// Create a copy of PaymentState
 /// with the given fields replaced by the non-null parameter values.
@@ -251,16 +253,16 @@ _$PaymentStateCopyWith<_PaymentState> get copyWith => __$PaymentStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaymentState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.paymentRequest, paymentRequest) || other.paymentRequest == paymentRequest)&&(identical(other.paymentConfirm, paymentConfirm) || other.paymentConfirm == paymentConfirm)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaymentState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.paymentRequest, paymentRequest) || other.paymentRequest == paymentRequest)&&(identical(other.paymentConfirm, paymentConfirm) || other.paymentConfirm == paymentConfirm)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.roomId, roomId) || other.roomId == roomId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,paymentRequest,paymentConfirm,errorMessage);
+int get hashCode => Object.hash(runtimeType,isLoading,paymentRequest,paymentConfirm,errorMessage,roomId);
 
 @override
 String toString() {
-  return 'PaymentState(isLoading: $isLoading, paymentRequest: $paymentRequest, paymentConfirm: $paymentConfirm, errorMessage: $errorMessage)';
+  return 'PaymentState(isLoading: $isLoading, paymentRequest: $paymentRequest, paymentConfirm: $paymentConfirm, errorMessage: $errorMessage, roomId: $roomId)';
 }
 
 
@@ -271,7 +273,7 @@ abstract mixin class _$PaymentStateCopyWith<$Res> implements $PaymentStateCopyWi
   factory _$PaymentStateCopyWith(_PaymentState value, $Res Function(_PaymentState) _then) = __$PaymentStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool isLoading, PaymentRequestEntity? paymentRequest, PaymentConfirmEntity? paymentConfirm, String? errorMessage
+ bool isLoading, PaymentRequestEntity? paymentRequest, PaymentConfirmEntity? paymentConfirm, String? errorMessage, int? roomId
 });
 
 
@@ -288,13 +290,14 @@ class __$PaymentStateCopyWithImpl<$Res>
 
 /// Create a copy of PaymentState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? paymentRequest = freezed,Object? paymentConfirm = freezed,Object? errorMessage = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? paymentRequest = freezed,Object? paymentConfirm = freezed,Object? errorMessage = freezed,Object? roomId = freezed,}) {
   return _then(_PaymentState(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,paymentRequest: freezed == paymentRequest ? _self.paymentRequest : paymentRequest // ignore: cast_nullable_to_non_nullable
 as PaymentRequestEntity?,paymentConfirm: freezed == paymentConfirm ? _self.paymentConfirm : paymentConfirm // ignore: cast_nullable_to_non_nullable
 as PaymentConfirmEntity?,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,roomId: freezed == roomId ? _self.roomId : roomId // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
