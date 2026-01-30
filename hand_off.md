@@ -225,3 +225,16 @@ public async Task<IActionResult> TestBroadcast([FromBody] int roomId)
 - [ ] `PaymentWebView` 내 `clientKey`가 **결제위젯 전용** 테스트 키인가?
 - [ ] 서버에서 실제 결제 승인을 담당하는 API(`payment/confirm`)가 토스 시크릿 키로 정상 연동되어 있는가?
 - [ ] 안드로이드 에뮬레이터 또는 기기에서 `flutter clean` 후 재빌드 시 웹뷰가 정상 로드되는가?
+
+---
+
+### 3. 결제 완료 후 채팅 메시지 자동화 (2026-01-30 작업)
+
+**작업 내용**:
+- **결제 완료 화면 개선**: 주문 번호 대신 '상품명' 표시, '거래 내역 보기' 버튼을 '채팅방으로 이동'으로 변경.
+- **채팅 메시지 분리**: 결제 성공 시 기존 카드를 업데이트하는 대신 **별도의 텍스트 메시지("결제가 완료되었습니다...")**가 전송되도록 구현.
+- **API 문서화**: 백엔드에서 `PAYMENT_SUCCESS` 메시지를 자동 생성하기 위한 API 수정 요청서 작성 (`docs/api/payment_success_message.md`).
+
+**향후 계획 (백엔드 지원 시)**:
+- 백엔드에서 `PAYMENT_SUCCESS` 타입 메시지를 지원하면, 프론트엔드의 `PaymentSuccessCard` 위젯을 활성화하여 카드 형태로 표시할 예정.
+- 현재는 프론트엔드에서 텍스트 메시지를 자동 전송하는 임시 로직(`PaymentViewModel` 내 `sendMessage`)이 적용되어 있음. 백엔드 구현 완료 시 해당 로직 제거 필요.
