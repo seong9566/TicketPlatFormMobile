@@ -12,7 +12,6 @@ abstract class PaymentRequestRespDto with _$PaymentRequestRespDto {
     required String orderName,
     String? customerName,
     String? customerEmail,
-    required String clientKey,
     required String successUrl,
     required String failUrl,
   }) = _PaymentRequestRespDto;
@@ -22,16 +21,26 @@ abstract class PaymentRequestRespDto with _$PaymentRequestRespDto {
 }
 
 extension PaymentRequestRespDtoX on PaymentRequestRespDto {
-  PaymentRequestEntity toEntity() {
+  PaymentRequestEntity toEntity({
+    String? eventTitle,
+    String? eventDate,
+    String? seatInfo,
+    String? ticketImageUrl,
+    String? venueName,
+  }) {
     return PaymentRequestEntity(
       orderId: orderId,
       amount: amount,
       orderName: orderName,
       customerName: customerName,
       customerEmail: customerEmail,
-      clientKey: clientKey,
       successUrl: successUrl,
       failUrl: failUrl,
+      eventTitle: eventTitle,
+      eventDate: eventDate,
+      seatInfo: seatInfo,
+      ticketImageUrl: ticketImageUrl,
+      venueName: venueName,
     );
   }
 }

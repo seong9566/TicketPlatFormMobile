@@ -22,7 +22,8 @@ import 'package:ticket_platform_mobile/features/sell/presentation/views/sell_she
 import 'package:ticket_platform_mobile/features/splash/presentation/view/splash_view.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/views/transaction_history_view.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/views/profile_edit_view.dart';
-import 'package:ticket_platform_mobile/features/payment/presentation/views/payment_webview.dart';
+import 'package:ticket_platform_mobile/features/payment/presentation/views/payment_view.dart';
+import 'package:ticket_platform_mobile/features/payment/presentation/views/payment_final_view.dart';
 import 'package:ticket_platform_mobile/features/payment/domain/entities/payment_entities.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/ui_models/my_profile_ui_model.dart';
 import 'package:ticket_platform_mobile/shared/widgets/full_screen_image_viewer.dart';
@@ -240,7 +241,7 @@ GoRouter goRouter(Ref ref) {
         name: AppRouterPath.payment.name,
         builder: (context, state) {
           final paymentRequest = state.extra as PaymentRequestEntity;
-          return PaymentWebView(
+          return PaymentView(
             amount: paymentRequest.amount.toDouble(),
             orderId: paymentRequest.orderId,
             orderName: paymentRequest.orderName,
@@ -248,6 +249,20 @@ GoRouter goRouter(Ref ref) {
             customerEmail: paymentRequest.customerEmail,
             successUrl: paymentRequest.successUrl,
             failUrl: paymentRequest.failUrl,
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRouterPath.paymentFinal.path,
+        name: AppRouterPath.paymentFinal.name,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          return PaymentFinalView(
+            paymentKey: extra['paymentKey'] as String,
+            orderId: extra['orderId'] as String,
+            amount: extra['amount'] as int,
+            frontendErrorCode: extra['frontendErrorCode'] as String?,
+            frontendErrorMessage: extra['frontendErrorMessage'] as String?,
           );
         },
       ),

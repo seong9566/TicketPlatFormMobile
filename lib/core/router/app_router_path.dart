@@ -52,4 +52,5 @@ class AppRouterPath {
   static const findPassword = _Route('/find-password', 'findPassword');
   static const imageViewer = _Route('/image_viewer', 'imageViewer');
   static const payment = _Route('/payment', 'payment');
+  static const paymentFinal = _Route('/payment/final', 'paymentFinal');
 }

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PaymentRequestRespDto {
 
- String get orderId; int get amount; String get orderName; String? get customerName; String? get customerEmail; String get clientKey; String get successUrl; String get failUrl;
+ String get orderId; int get amount; String get orderName; String? get customerName; String? get customerEmail; String get successUrl; String get failUrl;
 /// Create a copy of PaymentRequestRespDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $PaymentRequestRespDtoCopyWith<PaymentRequestRespDto> get copyWith => _$PaymentR
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaymentRequestRespDto&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.orderName, orderName) || other.orderName == orderName)&&(identical(other.customerName, customerName) || other.customerName == customerName)&&(identical(other.customerEmail, customerEmail) || other.customerEmail == customerEmail)&&(identical(other.clientKey, clientKey) || other.clientKey == clientKey)&&(identical(other.successUrl, successUrl) || other.successUrl == successUrl)&&(identical(other.failUrl, failUrl) || other.failUrl == failUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaymentRequestRespDto&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.orderName, orderName) || other.orderName == orderName)&&(identical(other.customerName, customerName) || other.customerName == customerName)&&(identical(other.customerEmail, customerEmail) || other.customerEmail == customerEmail)&&(identical(other.successUrl, successUrl) || other.successUrl == successUrl)&&(identical(other.failUrl, failUrl) || other.failUrl == failUrl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,orderId,amount,orderName,customerName,customerEmail,clientKey,successUrl,failUrl);
+int get hashCode => Object.hash(runtimeType,orderId,amount,orderName,customerName,customerEmail,successUrl,failUrl);
 
 @override
 String toString() {
-  return 'PaymentRequestRespDto(orderId: $orderId, amount: $amount, orderName: $orderName, customerName: $customerName, customerEmail: $customerEmail, clientKey: $clientKey, successUrl: $successUrl, failUrl: $failUrl)';
+  return 'PaymentRequestRespDto(orderId: $orderId, amount: $amount, orderName: $orderName, customerName: $customerName, customerEmail: $customerEmail, successUrl: $successUrl, failUrl: $failUrl)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $PaymentRequestRespDtoCopyWith<$Res>  {
   factory $PaymentRequestRespDtoCopyWith(PaymentRequestRespDto value, $Res Function(PaymentRequestRespDto) _then) = _$PaymentRequestRespDtoCopyWithImpl;
 @useResult
 $Res call({
- String orderId, int amount, String orderName, String? customerName, String? customerEmail, String clientKey, String successUrl, String failUrl
+ String orderId, int amount, String orderName, String? customerName, String? customerEmail, String successUrl, String failUrl
 });
 
 
@@ -65,15 +65,14 @@ class _$PaymentRequestRespDtoCopyWithImpl<$Res>
 
 /// Create a copy of PaymentRequestRespDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? orderId = null,Object? amount = null,Object? orderName = null,Object? customerName = freezed,Object? customerEmail = freezed,Object? clientKey = null,Object? successUrl = null,Object? failUrl = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? orderId = null,Object? amount = null,Object? orderName = null,Object? customerName = freezed,Object? customerEmail = freezed,Object? successUrl = null,Object? failUrl = null,}) {
   return _then(_self.copyWith(
 orderId: null == orderId ? _self.orderId : orderId // ignore: cast_nullable_to_non_nullable
 as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
 as int,orderName: null == orderName ? _self.orderName : orderName // ignore: cast_nullable_to_non_nullable
 as String,customerName: freezed == customerName ? _self.customerName : customerName // ignore: cast_nullable_to_non_nullable
 as String?,customerEmail: freezed == customerEmail ? _self.customerEmail : customerEmail // ignore: cast_nullable_to_non_nullable
-as String?,clientKey: null == clientKey ? _self.clientKey : clientKey // ignore: cast_nullable_to_non_nullable
-as String,successUrl: null == successUrl ? _self.successUrl : successUrl // ignore: cast_nullable_to_non_nullable
+as String?,successUrl: null == successUrl ? _self.successUrl : successUrl // ignore: cast_nullable_to_non_nullable
 as String,failUrl: null == failUrl ? _self.failUrl : failUrl // ignore: cast_nullable_to_non_nullable
 as String,
   ));
@@ -160,10 +159,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String orderId,  int amount,  String orderName,  String? customerName,  String? customerEmail,  String clientKey,  String successUrl,  String failUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String orderId,  int amount,  String orderName,  String? customerName,  String? customerEmail,  String successUrl,  String failUrl)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PaymentRequestRespDto() when $default != null:
-return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_that.customerEmail,_that.clientKey,_that.successUrl,_that.failUrl);case _:
+return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_that.customerEmail,_that.successUrl,_that.failUrl);case _:
   return orElse();
 
 }
@@ -181,10 +180,10 @@ return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String orderId,  int amount,  String orderName,  String? customerName,  String? customerEmail,  String clientKey,  String successUrl,  String failUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String orderId,  int amount,  String orderName,  String? customerName,  String? customerEmail,  String successUrl,  String failUrl)  $default,) {final _that = this;
 switch (_that) {
 case _PaymentRequestRespDto():
-return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_that.customerEmail,_that.clientKey,_that.successUrl,_that.failUrl);case _:
+return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_that.customerEmail,_that.successUrl,_that.failUrl);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +200,10 @@ return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String orderId,  int amount,  String orderName,  String? customerName,  String? customerEmail,  String clientKey,  String successUrl,  String failUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String orderId,  int amount,  String orderName,  String? customerName,  String? customerEmail,  String successUrl,  String failUrl)?  $default,) {final _that = this;
 switch (_that) {
 case _PaymentRequestRespDto() when $default != null:
-return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_that.customerEmail,_that.clientKey,_that.successUrl,_that.failUrl);case _:
+return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_that.customerEmail,_that.successUrl,_that.failUrl);case _:
   return null;
 
 }
@@ -216,7 +215,7 @@ return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_t
 @JsonSerializable()
 
 class _PaymentRequestRespDto implements PaymentRequestRespDto {
-  const _PaymentRequestRespDto({required this.orderId, required this.amount, required this.orderName, this.customerName, this.customerEmail, required this.clientKey, required this.successUrl, required this.failUrl});
+  const _PaymentRequestRespDto({required this.orderId, required this.amount, required this.orderName, this.customerName, this.customerEmail, required this.successUrl, required this.failUrl});
   factory _PaymentRequestRespDto.fromJson(Map<String, dynamic> json) => _$PaymentRequestRespDtoFromJson(json);
 
 @override final  String orderId;
@@ -224,7 +223,6 @@ class _PaymentRequestRespDto implements PaymentRequestRespDto {
 @override final  String orderName;
 @override final  String? customerName;
 @override final  String? customerEmail;
-@override final  String clientKey;
 @override final  String successUrl;
 @override final  String failUrl;
 
@@ -241,16 +239,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaymentRequestRespDto&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.orderName, orderName) || other.orderName == orderName)&&(identical(other.customerName, customerName) || other.customerName == customerName)&&(identical(other.customerEmail, customerEmail) || other.customerEmail == customerEmail)&&(identical(other.clientKey, clientKey) || other.clientKey == clientKey)&&(identical(other.successUrl, successUrl) || other.successUrl == successUrl)&&(identical(other.failUrl, failUrl) || other.failUrl == failUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaymentRequestRespDto&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.orderName, orderName) || other.orderName == orderName)&&(identical(other.customerName, customerName) || other.customerName == customerName)&&(identical(other.customerEmail, customerEmail) || other.customerEmail == customerEmail)&&(identical(other.successUrl, successUrl) || other.successUrl == successUrl)&&(identical(other.failUrl, failUrl) || other.failUrl == failUrl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,orderId,amount,orderName,customerName,customerEmail,clientKey,successUrl,failUrl);
+int get hashCode => Object.hash(runtimeType,orderId,amount,orderName,customerName,customerEmail,successUrl,failUrl);
 
 @override
 String toString() {
-  return 'PaymentRequestRespDto(orderId: $orderId, amount: $amount, orderName: $orderName, customerName: $customerName, customerEmail: $customerEmail, clientKey: $clientKey, successUrl: $successUrl, failUrl: $failUrl)';
+  return 'PaymentRequestRespDto(orderId: $orderId, amount: $amount, orderName: $orderName, customerName: $customerName, customerEmail: $customerEmail, successUrl: $successUrl, failUrl: $failUrl)';
 }
 
 
@@ -261,7 +259,7 @@ abstract mixin class _$PaymentRequestRespDtoCopyWith<$Res> implements $PaymentRe
   factory _$PaymentRequestRespDtoCopyWith(_PaymentRequestRespDto value, $Res Function(_PaymentRequestRespDto) _then) = __$PaymentRequestRespDtoCopyWithImpl;
 @override @useResult
 $Res call({
- String orderId, int amount, String orderName, String? customerName, String? customerEmail, String clientKey, String successUrl, String failUrl
+ String orderId, int amount, String orderName, String? customerName, String? customerEmail, String successUrl, String failUrl
 });
 
 
@@ -278,15 +276,14 @@ class __$PaymentRequestRespDtoCopyWithImpl<$Res>
 
 /// Create a copy of PaymentRequestRespDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? orderId = null,Object? amount = null,Object? orderName = null,Object? customerName = freezed,Object? customerEmail = freezed,Object? clientKey = null,Object? successUrl = null,Object? failUrl = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? orderId = null,Object? amount = null,Object? orderName = null,Object? customerName = freezed,Object? customerEmail = freezed,Object? successUrl = null,Object? failUrl = null,}) {
   return _then(_PaymentRequestRespDto(
 orderId: null == orderId ? _self.orderId : orderId // ignore: cast_nullable_to_non_nullable
 as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
 as int,orderName: null == orderName ? _self.orderName : orderName // ignore: cast_nullable_to_non_nullable
 as String,customerName: freezed == customerName ? _self.customerName : customerName // ignore: cast_nullable_to_non_nullable
 as String?,customerEmail: freezed == customerEmail ? _self.customerEmail : customerEmail // ignore: cast_nullable_to_non_nullable
-as String?,clientKey: null == clientKey ? _self.clientKey : clientKey // ignore: cast_nullable_to_non_nullable
-as String,successUrl: null == successUrl ? _self.successUrl : successUrl // ignore: cast_nullable_to_non_nullable
+as String?,successUrl: null == successUrl ? _self.successUrl : successUrl // ignore: cast_nullable_to_non_nullable
 as String,failUrl: null == failUrl ? _self.failUrl : failUrl // ignore: cast_nullable_to_non_nullable
 as String,
   ));
