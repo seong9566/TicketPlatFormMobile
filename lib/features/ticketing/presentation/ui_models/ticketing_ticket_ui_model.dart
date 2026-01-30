@@ -40,6 +40,7 @@ abstract class TicketingTicketUiModel with _$TicketingTicketUiModel {
   factory TicketingTicketUiModel.fromEntity(TicketingTicketEntity entity) {
     // area와 row를 조합하여 seatInfo 생성
     final seatInfo = [
+      if (entity.locationName != null) entity.locationName,
       if (entity.area != null) entity.area,
       if (entity.row != null) entity.row,
     ].where((e) => e != null && e.isNotEmpty).join(' ');

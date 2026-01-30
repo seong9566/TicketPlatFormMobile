@@ -157,7 +157,7 @@ class TicketingView extends ConsumerWidget {
     }
 
     return SliverPadding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      padding: const EdgeInsets.symmetric(vertical: 12),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate((context, index) {
           final ticket = tickets[index];
