@@ -69,4 +69,8 @@ class AppColors {
 
   // Disabled
   static const disabled = Color(0xFFD1D5DB);
+
+  // Grayscale
+  static const gray50 = Color(0xFFF9FAFB);
+  static const gray100 = Color(0xFFF3F4F6);
 }

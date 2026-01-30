@@ -4,6 +4,11 @@ class RequestPaymentParams {
   final String orderName;
   final String customerName;
   final String customerEmail;
+  final String? eventTitle;
+  final String? eventDate;
+  final String? seatInfo;
+  final String? ticketImageUrl;
+  final String? venueName;
 
   RequestPaymentParams({
     required this.transactionId,
@@ -11,6 +16,11 @@ class RequestPaymentParams {
     required this.orderName,
     required this.customerName,
     required this.customerEmail,
+    this.eventTitle,
+    this.eventDate,
+    this.seatInfo,
+    this.ticketImageUrl,
+    this.venueName,
   });
 }
 
