@@ -1,240 +1,53 @@
-# SignalR 실시간 채팅 문제 - 서버 측 확인 사항
+# 인수인계 - 최근 작업 요약
 
-## 📌 현재 상황
-- 클라이언트 측 레이스 컨디션 수정 완료
-- 여전히 실시간 메시지 수신 불가
-- **HTTP API로 메시지 전송은 성공** (200 응답)
-- 재진입 시에만 메시지 확인 가능
+## 작업 요약
+- 채팅 결제/구매확정 메시지 타입 처리 보강
+  - `MessageType.purchaseConfirmed` 추가 및 `PAYMENT_SUCCESS`/`PURCHASE_CONFIRMED` 파싱 반영
+  - SignalR/DTO 파싱에서 타입 매핑 추가
+  - 구매확정 카드 UI(`PurchaseConfirmedBubble`) 신규 추가
+  - 결제완료 카드(`PaymentSuccessBubble`) 역할 기반 정렬 및 상태 표시 개선
+    - 결제 완료 후 타이틀: "구매 확정"
+    - 확정 완료 타이틀: "구매확정 완료"
+  - 결제 요청 카드(`PaymentRequestBubble`) 메시지/상태 UX 개선
+  - 빈 메시지(텍스트/이미지 없음) 렌더링 방지
 
----
+- 채팅방 나가기 API 연동 추가
+  - `POST /api/chat/rooms/leave` 연결
+  - DTO/RemoteDataSource/Repository/Usecase 추가
+  - 채팅방 메뉴에서 나가기 실행 시 로딩/실패 스낵바/리스트 갱신 후 pop 처리
 
-## 🔍 서버 측 확인 필요 사항
+- 채팅 목록 스와이프 나가기 UX 추가
+  - `Dismissible`로 좌측 스와이프 → 확인 다이얼로그 → 로딩 → API 호출
+  - 성공 시 목록에서 즉시 제거 + 성공 스낵바
+  - 실패 시 에러 스낵바
 
-### 1. SignalR Hub의 `JoinRoom` 메서드
+## 변경 파일
+- `lib/features/chat/domain/entities/message_entity.dart`
+- `lib/features/chat/data/dto/response/chat_resp_dto.dart`
+- `lib/features/chat/data/datasources/chat_signalr_data_source.dart`
+- `lib/features/chat/presentation/widgets/purchase_confirmed_bubble.dart`
+- `lib/features/chat/presentation/widgets/payment_success_bubble.dart`
+- `lib/features/chat/presentation/widgets/payment_request_bubble.dart`
+- `lib/features/chat/presentation/widgets/chat_bubble.dart`
+- `lib/core/network/api_endpoint.dart`
+- `lib/features/chat/data/dto/request/chat_req_dto.dart`
+- `lib/features/chat/data/datasources/chat_remote_data_source.dart`
+- `lib/features/chat/domain/repositories/chat_repository.dart`
+- `lib/features/chat/data/repositories/chat_repository_impl.dart`
+- `lib/features/chat/domain/usecases/leave_chat_room_usecase.dart`
+- `lib/features/chat/domain/usecases/leave_chat_room_usecase.g.dart`
+- `lib/features/chat/presentation/viewmodels/chat_room_viewmodel.dart`
+- `lib/features/chat/presentation/viewmodels/chat_list_viewmodel.dart`
+- `lib/features/chat/presentation/view/chat_room_view.dart`
+- `lib/features/chat/presentation/view/chat_view.dart`
 
-**확인 질문**: 클라이언트가 `JoinRoom(roomId)`을 호출할 때 해당 유저가 SignalR 그룹에 정상 추가되나요?
+## 메모/주의
+- `PAYMENT_SUCCESS`는 타입 기반 처리도 추가했지만, 기존 텍스트 매칭도 유지됨
+- `PURCHASE_CONFIRMED`는 `message: null`이어도 카드가 렌더링됨
+- 나가기 성공 시 목록에서 즉시 제거되며, RoomUpdated 이벤트는 리스트 refresh로 처리 중
+- `leave_chat_room_usecase.g.dart`는 현재 수동 생성 상태이므로, 필요 시 `build_runner` 재생성 권장
 
-**기대 구현**:
-```csharp
-public async Task JoinRoom(int roomId)
-{
-    // ✅ 이 로그가 서버에 찍히는지 확인
-    Console.WriteLine($"User {Context.UserIdentifier} joining room {roomId}");
-    
-    await Groups.AddToGroupAsync(Context.ConnectionId, $"room_{roomId}");
-    
-    // 입장 알림 브로드캐스트
-    await Clients.Group($"room_{roomId}").SendAsync("UserJoined", new {
-        userId = int.Parse(Context.UserIdentifier),
-        roomId = roomId,
-        timestamp = DateTime.UtcNow
-    });
-}
-```
-
-**서버 로그 확인**: 클라이언트가 `JoinRoom`을 호출했을 때 서버 로그에 해당 메시지가 찍히나요?
-
----
-
-### 2. 메시지 전송 시 브로드캐스트
-
-**확인 질문**: `POST /api/chat/messages` 호출 시 SignalR로 그룹에 브로드캐스트하나요?
-
-**기대 구현**:
-```csharp
-// ChatController.cs 또는 ChatService.cs
-public async Task<MessageResponse> SendMessage(...)
-{
-    // 1. DB에 메시지 저장
-    var message = await _messageRepository.CreateAsync(...);
-    
-    // 2. SignalR로 그룹에 브로드캐스트 
-    await _hubContext.Clients.Group($"room_{roomId}").SendAsync("ReceiveMessage", new {
-        messageId = message.Id,
-        roomId = message.RoomId,
-        senderId = message.SenderId,
-        senderNickname = user.Nickname,
-        senderProfileImage = user.ProfileImageUrl,
-        message = message.Content,
-        imageUrl = message.ImageUrl,
-        createdAt = message.CreatedAt
-    });
-    
-    return new MessageResponse { ... };
-}
-```
-
-**확인 사항**:
-- `IHubContext<ChatHub>` 주입이 되어있나요?
-- `Clients.Group(...)` 호출이 정상 실행되나요?
-- 그룹 이름이 `JoinRoom`에서 사용한 것과 일치하나요? (예: `room_1`)
-
----
-
-### 3. 그룹 이름 일관성
-
-**확인 질문**: `JoinRoom`과 브로드캐스트에서 사용하는 그룹 이름이 동일한가요?
-
-| 위치 | 그룹 이름 |
-|------|----------|
-| `JoinRoom` | `room_{roomId}` or `Room_{roomId}` |
-| `SendMessage` 브로드캐스트 | 동일해야 함 |
-
-**흔한 실수**: 대소문자 차이, 접두사 차이 (`room_` vs `Room_` vs `ChatRoom_`)
-
----
-
-### 4. JWT 인증 및 UserIdentifier
-
-**확인 질문**: SignalR 연결 시 JWT 토큰이 정상 파싱되어 `Context.UserIdentifier`가 설정되나요?
-
-**기대 구현**:
-```csharp
-// Program.cs 또는 Startup.cs
-services.AddSignalR();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapHub<ChatHub>("/hubs/chat");
-```
-
-**확인 사항**:
-```csharp
-public async Task JoinRoom(int roomId)
-{
-    var userId = Context.UserIdentifier;  // ← null이면 문제!
-    Console.WriteLine($"UserIdentifier: {userId}");
-}
-```
-
----
-
-### 5. 서버 측 디버그 로그 추가 요청
-
-다음 로그를 추가해서 확인 부탁드립니다:
-
-```csharp
-public class ChatHub : Hub
-{
-    public override async Task OnConnectedAsync()
-    {
-        Console.WriteLine($"[ChatHub] Connected: {Context.ConnectionId}, User: {Context.UserIdentifier}");
-        await base.OnConnectedAsync();
-    }
-
-    public override async Task OnDisconnectedAsync(Exception? exception)
-    {
-        Console.WriteLine($"[ChatHub] Disconnected: {Context.ConnectionId}, Error: {exception?.Message}");
-        await base.OnDisconnectedAsync(exception);
-    }
-
-    public async Task JoinRoom(int roomId)
-    {
-        Console.WriteLine($"[ChatHub] JoinRoom: roomId={roomId}, connectionId={Context.ConnectionId}, user={Context.UserIdentifier}");
-        await Groups.AddToGroupAsync(Context.ConnectionId, $"room_{roomId}");
-        Console.WriteLine($"[ChatHub] Added to group: room_{roomId}");
-    }
-}
-```
-
-메시지 전송 시:
-```csharp
-public async Task<...> SendMessage(...)
-{
-    Console.WriteLine($"[ChatService] Broadcasting to group: room_{roomId}");
-    await _hubContext.Clients.Group($"room_{roomId}").SendAsync("ReceiveMessage", messageDto);
-    Console.WriteLine($"[ChatService] Broadcast complete");
-}
-```
-
----
-
-## 📋 서버 확인 체크리스트
-
-- [ ] `JoinRoom` 호출 시 서버 로그에 출력되는가?
-- [ ] `Groups.AddToGroupAsync`가 정상 호출되는가?
-- [ ] 메시지 전송 시 `IHubContext.Clients.Group(...).SendAsync("ReceiveMessage", ...)` 호출되는가?
-- [ ] 그룹 이름이 일관되게 사용되는가? (대소문자 주의)
-- [ ] `Context.UserIdentifier`가 null이 아닌가?
-
----
-
-## 🧪 빠른 테스트 방법
-
-서버에서 직접 테스트 브로드캐스트:
-```csharp
-// 테스트 엔드포인트 추가
-[HttpPost("test-broadcast")]
-public async Task<IActionResult> TestBroadcast([FromBody] int roomId)
-{
-    await _hubContext.Clients.Group($"room_{roomId}").SendAsync("ReceiveMessage", new {
-        messageId = 999,
-        roomId = roomId,
-        senderId = 0,
-        senderNickname = "테스트",
-        message = "테스트 메시지",
-        createdAt = DateTime.UtcNow.ToString("o")
-    });
-    return Ok("Broadcast sent");
-}
-```
----
-
-# 토스페이먼츠 결제 연동 - 현황 및 인계 사항
-
-## 📌 현재 상황
-- `tosspayments_widget_sdk_flutter` (결제위젯 SDK) 기반 연동 완료.
-- `PaymentWebView`를 통해 결제 수단 선택 및 이용 약관 동의 영역 활성화.
-- 안드로이드 플랫폼 뷰 등록 오류 및 린트 이슈 해결 완료.
-
----
-
-## 🔍 결제 연동 핵심 확인 사항
-
-### 1. 인증되지 않은 키 에러 (4000) 해결
-- **현상**: `PaymentWidget` 로드 시 `errorCode: 4000` 발생.
-- **원인**: **'API 개별 연동 키'**와 **'결제위젯 연동 키'**의 혼용.
-- **해결책**:
-  1. 토스페이먼츠 개발자 센터 접속.
-  2. 상단 **[결제위젯 연동 키]** 섹션에서 '이용 신청하기' 완료 (테스트 환경은 사업자 번호 불필요).
-  3. 여기서 발급된 전용 클라이언트 키를 `PaymentWebView`의 `clientKey` 변수에 적용.
-
-### 2. UI 커스텀 방식 결정
-- **현재 방식 (결제위젯)**: 토스가 제공하는 UI 위젯을 사용. 관리자 페이지에서 결제 수단을 실시간 제어 가능.
-- **개별 UI 구현 시**: 사용자가 직접 디자인한 버튼을 사용하려면 일반 결제용 SDK(`tosspayments_flutter`)로 교체하거나 직접 API 연동 필요.
-
----
-
-## 🛠️ 안드로이드 플랫폼 설정 변경 내역
-
-결제창(InAppWebView)의 정상 작동을 위해 다음 설정이 변경되었습니다:
-
-1. **Manifest 보강** (`android/app/src/main/AndroidManifest.xml`):
-   - `android:hardwareAccelerated="true"`: 플랫폼 뷰 렌더링 필수.
-   - `android:usesCleartextTraffic="true"`: 일부 결제 완료/실패 페이지 리다이렉트 대응.
-   - `android:enableOnBackInvokedCallback="true"`: 안드로이드 13 이상 시스템 백 제스처 대응.
-
-2. **빌드 사양 변경** (`android/app/build.gradle.kts`):
-   - `minSdkVersion = 21`: 최신 웹뷰 플러그인 요구 사항 충족.
-
----
-
-## 📋 결제 연동 체크리스트
-
-- [ ] `PaymentWebView` 내 `clientKey`가 **결제위젯 전용** 테스트 키인가?
-- [ ] 서버에서 실제 결제 승인을 담당하는 API(`payment/confirm`)가 토스 시크릿 키로 정상 연동되어 있는가?
-- [ ] 안드로이드 에뮬레이터 또는 기기에서 `flutter clean` 후 재빌드 시 웹뷰가 정상 로드되는가?
-
----
-
-### 3. 결제 완료 후 채팅 메시지 자동화 (2026-01-30 작업)
-
-**작업 내용**:
-- **결제 완료 화면 개선**: 주문 번호 대신 '상품명' 표시, '거래 내역 보기' 버튼을 '채팅방으로 이동'으로 변경.
-- **채팅 메시지 분리**: 결제 성공 시 기존 카드를 업데이트하는 대신 **별도의 텍스트 메시지("결제가 완료되었습니다...")**가 전송되도록 구현.
-- **API 문서화**: 백엔드에서 `PAYMENT_SUCCESS` 메시지를 자동 생성하기 위한 API 수정 요청서 작성 (`docs/api/payment_success_message.md`).
-
-**향후 계획 (백엔드 지원 시)**:
-- 백엔드에서 `PAYMENT_SUCCESS` 타입 메시지를 지원하면, 프론트엔드의 `PaymentSuccessCard` 위젯을 활성화하여 카드 형태로 표시할 예정.
-- 현재는 프론트엔드에서 텍스트 메시지를 자동 전송하는 임시 로직(`PaymentViewModel` 내 `sendMessage`)이 적용되어 있음. 백엔드 구현 완료 시 해당 로직 제거 필요.
+## 다음 확인 포인트
+- 서버에서 `RoomUpdated: RoomClosed` 및 `ReceiveMessage` 전송 여부 검증
+- `PAYMENT_SUCCESS` 타입을 서버가 실제로 내려주는지 확인
+- 스와이프 나가기 시 Undo UX 필요 여부 판단
