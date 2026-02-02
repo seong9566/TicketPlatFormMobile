@@ -36,7 +36,7 @@ class PaymentRequestBubble extends ConsumerWidget {
     final config = _getStatusConfig(status);
 
     return Container(
-      width: 300,
+      width: 250,
       margin: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -101,6 +101,7 @@ class PaymentRequestBubble extends ConsumerWidget {
                   style: AppTextStyles.body1.copyWith(
                     color: AppColors.textPrimary,
                     fontSize: 15,
+                    height: 1.5,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -167,16 +168,20 @@ class PaymentRequestBubble extends ConsumerWidget {
     return switch (status) {
       TransactionStatus.reserved => _StatusConfig(
         title: '결제요청',
-        message: '판매자가 결제를 요청했어요.',
+        message: isBuyer
+            ? '판매자가 결제를 요청했어요.\n아래 버튼을 눌러 결제를 진행하세요.'
+            : '구매자에게 결제를 요청했습니다.\n결제 완료를 기다려주세요.',
         headerBgColor: const Color(0xFFFFF1EB),
         icon: Icons.payment,
         iconColor: const Color(0xFFFF8A65),
-        buttonText: isBuyer ? '결제하기' : '상세보기',
+        buttonText: isBuyer ? '결제하기' : '결제 대기 중',
         isBuyerAction: true,
       ),
       TransactionStatus.pendingPayment => _StatusConfig(
         title: '결제대기',
-        message: isBuyer ? '결제를 완료해주세요!' : '구매자의 결제를 기다리고 있어요.',
+        message: isBuyer
+            ? '결제를 완료해주세요!\n결제가 지연되면 자동으로 취소될 수 있습니다.'
+            : '구매자의 결제를 기다리고 있어요.\n잠시만 기다려주세요.',
         headerBgColor: const Color(0xFFE3F2FD),
         icon: Icons.hourglass_empty,
         iconColor: Colors.blue,
@@ -186,30 +191,32 @@ class PaymentRequestBubble extends ConsumerWidget {
       TransactionStatus.paid => _StatusConfig(
         title: '결제완료',
         message: isBuyer
-            ? '물건을 받으셨다면 구매 확정을 눌러주세요.'
-            : '결제가 완료되었습니다. 물건을 전달해주세요.',
+            ? '결제가 완료되었습니다.\n물건을 받으신 후 구매 확정을 눌러주세요.'
+            : '구매자가 결제를 완료했습니다.\n물건을 전송해주세요.',
         headerBgColor: const Color(0xFFE8F5E9),
-        icon: Icons.check_circle_outline,
+        icon: Icons.check_circle,
         iconColor: Colors.green,
-        buttonText: isBuyer ? '구매 확정하기' : '결제 완료됨',
-        isBuyerAction: true,
+        buttonText: null, // 버튼 없음 (PaymentSuccessBubble에서 처리)
+        isBuyerAction: false,
       ),
       TransactionStatus.confirmed => _StatusConfig(
         title: '구매확정',
-        message: '구매가 확정되었습니다. 거래가 곧 완료됩니다.',
+        message: isBuyer
+            ? '구매가 확정되었습니다.\n거래가 곧 완료됩니다.'
+            : '구매자가 구매를 확정했습니다.\n거래가 곧 완료됩니다.',
         headerBgColor: const Color(0xFFF3E5F5),
         icon: Icons.handshake,
         iconColor: Colors.purple,
-        buttonText: '상세보기',
+        buttonText: null,
         isBuyerAction: false,
       ),
       TransactionStatus.completed => _StatusConfig(
         title: '거래완료',
-        message: '거래가 성공적으로 완료되었습니다!',
+        message: '거래가 성공적으로 완료되었습니다!\n감사합니다.',
         headerBgColor: const Color(0xFFF9FBE7),
         icon: Icons.celebration,
         iconColor: Colors.lime,
-        buttonText: '후기 남기기',
+        buttonText: isBuyer ? '후기 남기기' : null,
         isBuyerAction: true,
       ),
       TransactionStatus.cancelled => _StatusConfig(

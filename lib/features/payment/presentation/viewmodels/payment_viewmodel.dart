@@ -2,7 +2,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ticket_platform_mobile/features/payment/domain/entities/payment_entities.dart';
 import 'package:ticket_platform_mobile/features/payment/domain/usecases/payment_params.dart';
-import 'package:ticket_platform_mobile/features/chat/domain/usecases/send_message_usecase.dart';
 import 'package:ticket_platform_mobile/features/payment/presentation/providers/payment_providers_di.dart';
 
 part 'payment_viewmodel.freezed.dart';
@@ -82,6 +81,10 @@ class PaymentViewModel extends _$PaymentViewModel {
       if (!ref.mounted) return false;
 
       // 결제 성공 후 채팅 메시지 전송 (roomId가 있는 경우)
+      // 결제 성공 후 채팅 메시지 전송 (roomId가 있는 경우)
+      // NOTE: 백엔드에서 결제 완료 시 자동으로 시스템 메시지를 생성하거나,
+      // 프론트엔드에서 중복 전송 방지를 위해 주석 처리함.
+      /*
       if (state.roomId != null) {
         try {
           await ref
@@ -89,7 +92,7 @@ class PaymentViewModel extends _$PaymentViewModel {
               .call(
                 SendMessageParams(
                   roomId: state.roomId!,
-                  message: '결제가 완료되었습니다. 상품을 전송해주세요.',
+                  message: AppConstants.paymentSuccessMessage,
                 ),
               );
         } catch (e) {
@@ -97,6 +100,7 @@ class PaymentViewModel extends _$PaymentViewModel {
           print('결제 완료 메시지 전송 실패: $e');
         }
       }
+      */
 
       state = state.copyWith(isLoading: false, paymentConfirm: result);
       return true;

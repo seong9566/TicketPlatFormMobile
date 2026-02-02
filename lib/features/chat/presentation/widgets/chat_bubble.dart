@@ -10,17 +10,22 @@ import 'package:ticket_platform_mobile/features/chat/domain/entities/message_ent
 import 'package:ticket_platform_mobile/features/chat/presentation/ui_models/chat_room_ui_model.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/viewmodels/chat_room_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/payment_request_bubble.dart';
+import 'package:ticket_platform_mobile/core/constants/app_constants.dart';
+import 'package:ticket_platform_mobile/features/chat/presentation/widgets/payment_success_bubble.dart';
+import 'package:ticket_platform_mobile/features/chat/presentation/widgets/purchase_confirmed_bubble.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/profile_viewmodel.dart';
 
 class ChatBubble extends ConsumerWidget {
   final MessageUiModel message;
   final VoidCallback onBuyerPayment;
+  final VoidCallback onConfirmPurchase;
   final VoidCallback onCancelTransaction;
 
   const ChatBubble({
     super.key,
     required this.message,
     required this.onBuyerPayment,
+    required this.onConfirmPurchase,
     required this.onCancelTransaction,
   });
 
@@ -34,6 +39,105 @@ class ChatBubble extends ConsumerWidget {
 
     final hasImages = message.images != null && message.images!.isNotEmpty;
     final hasText = message.message != null && message.message!.isNotEmpty;
+
+    // 결제 완료 메시지인 경우
+    if ((message.type == MessageType.text &&
+            message.message == AppConstants.paymentSuccessMessage) ||
+        message.type == MessageType.paymentSuccess) {
+      final chatRoom = ref
+          .watch(chatRoomViewModelProvider(message.roomId))
+          .value;
+      if (chatRoom != null) {
+        final myUserId = ref
+            .read(profileViewModelProvider)
+            .value
+            ?.profile
+            ?.userId;
+        final isBuyer = myUserId == chatRoom.buyer.userId;
+
+        // 역할 기반 정렬: 구매자(결제한 사람) = 오른쪽, 판매자 = 왼쪽
+        return Row(
+          mainAxisAlignment: isBuyer
+              ? MainAxisAlignment.end
+              : MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Column(
+              crossAxisAlignment: isBuyer
+                  ? CrossAxisAlignment.end
+                  : CrossAxisAlignment.start,
+              children: [
+                PaymentSuccessBubble(
+                  message: message,
+                  ticket: chatRoom.ticket,
+                  isBuyer: isBuyer,
+                  onConfirmPurchase: onConfirmPurchase,
+                  onCancelTransaction: onCancelTransaction,
+                ),
+                const SizedBox(height: 4),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    message.timeDisplay,
+                    style: AppTextStyles.caption.copyWith(
+                      fontSize: 11,
+                      color: AppColors.textTertiary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      }
+    }
+
+    // 구매 확정 메시지인 경우
+    if (message.type == MessageType.purchaseConfirmed) {
+      final chatRoom = ref
+          .watch(chatRoomViewModelProvider(message.roomId))
+          .value;
+      if (chatRoom != null) {
+        final myUserId = ref
+            .read(profileViewModelProvider)
+            .value
+            ?.profile
+            ?.userId;
+        final isBuyer = myUserId == chatRoom.buyer.userId;
+
+        return Row(
+          mainAxisAlignment: isBuyer
+              ? MainAxisAlignment.end
+              : MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Column(
+              crossAxisAlignment: isBuyer
+                  ? CrossAxisAlignment.end
+                  : CrossAxisAlignment.start,
+              children: [
+                PurchaseConfirmedBubble(
+                  message: message,
+                  ticket: chatRoom.ticket,
+                  isBuyer: isBuyer,
+                ),
+                const SizedBox(height: 4),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    message.timeDisplay,
+                    style: AppTextStyles.caption.copyWith(
+                      fontSize: 11,
+                      color: AppColors.textTertiary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      }
+    }
 
     // 결제 요청 메시지인 경우
     if (message.type == MessageType.paymentRequest) {
@@ -63,6 +167,11 @@ class ChatBubble extends ConsumerWidget {
           ],
         );
       }
+    }
+
+    // 빈 메시지는 렌더링하지 않음 (프로필 사진만 나타나는 문제 방지)
+    if (!hasText && !hasImages) {
+      return const SizedBox.shrink();
     }
 
     return Row(
