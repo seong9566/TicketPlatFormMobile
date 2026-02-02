@@ -340,6 +340,12 @@ class ChatSignalRDataSourceImpl implements ChatSignalRDataSource {
       if (typeStr == 'PAYMENT_REQUEST') {
         messageType = MessageType.paymentRequest;
       }
+      if (typeStr == 'PAYMENT_SUCCESS') {
+        messageType = MessageType.paymentSuccess;
+      }
+      if (typeStr == 'PURCHASE_CONFIRMED') {
+        messageType = MessageType.purchaseConfirmed;
+      }
     } else if (data['message'] == '결제가 요청되었습니다.') {
       messageType = MessageType.paymentRequest;
     }

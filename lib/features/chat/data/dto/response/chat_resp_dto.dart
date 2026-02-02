@@ -187,6 +187,10 @@ extension MessageDtoX on MessageDto {
       if (type == 'TEXT') messageType = MessageType.text;
       if (type == 'IMAGE') messageType = MessageType.image;
       if (type == 'PAYMENT_REQUEST') messageType = MessageType.paymentRequest;
+      if (type == 'PAYMENT_SUCCESS') messageType = MessageType.paymentSuccess;
+      if (type == 'PURCHASE_CONFIRMED') {
+        messageType = MessageType.purchaseConfirmed;
+      }
     } else if (message == '결제가 요청되었습니다.') {
       messageType = MessageType.paymentRequest;
     }

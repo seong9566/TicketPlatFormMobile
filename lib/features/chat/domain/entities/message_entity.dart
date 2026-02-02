@@ -15,6 +15,10 @@ enum MessageType {
   image,
   @JsonValue('PAYMENT_REQUEST')
   paymentRequest,
+  @JsonValue('PAYMENT_SUCCESS')
+  paymentSuccess,
+  @JsonValue('PURCHASE_CONFIRMED')
+  purchaseConfirmed,
 }
 
 @freezed
