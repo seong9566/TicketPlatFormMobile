@@ -11,6 +11,7 @@ class ChatMessageList extends StatelessWidget {
   final ScrollController scrollController;
   final ChatRoomDetailUiModel chatRoom;
   final VoidCallback onBuyerPayment;
+  final VoidCallback onConfirmPurchase;
   final VoidCallback onCancelTransaction;
 
   const ChatMessageList({
@@ -19,6 +20,7 @@ class ChatMessageList extends StatelessWidget {
     required this.scrollController,
     required this.chatRoom,
     required this.onBuyerPayment,
+    required this.onConfirmPurchase,
     required this.onCancelTransaction,
   });
 
@@ -53,6 +55,7 @@ class ChatMessageList extends StatelessWidget {
               ChatBubble(
                 message: message,
                 onBuyerPayment: onBuyerPayment,
+                onConfirmPurchase: onConfirmPurchase,
                 onCancelTransaction: onCancelTransaction,
               ),
             ],

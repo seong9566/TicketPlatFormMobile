@@ -54,6 +54,9 @@ abstract class ChatRepository {
     required String cancelReason,
   });
 
+  /// 채팅방 나가기
+  Future<void> leaveRoom({required int roomId});
+
   /// 이미지 URL 재발급
   Future<ImageUrlRefreshEntity> refreshImageUrl(int messageId);
 }

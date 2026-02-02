@@ -9,6 +9,7 @@ import 'package:ticket_platform_mobile/features/chat/data/datasources/chat_signa
 import 'package:ticket_platform_mobile/features/chat/domain/entities/message_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/events/chat_message_event.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/usecases/get_chat_rooms_usecase.dart';
+import 'package:ticket_platform_mobile/features/chat/domain/usecases/leave_chat_room_usecase.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/ui_models/chat_room_ui_model.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/profile_viewmodel.dart';
 
@@ -176,6 +177,24 @@ class ChatListViewModel extends _$ChatListViewModel {
     AppLogger.i(
       '✅ Reset unreadCount for room $roomId (was ${room.unreadCount})',
     );
+  }
+
+  /// 채팅방 나가기
+  Future<bool> leaveRoom(int roomId) async {
+    try {
+      await ref
+          .read(leaveChatRoomUsecaseProvider)
+          .call(LeaveChatRoomParams(roomId: roomId));
+
+      _allChatRooms = _allChatRooms
+          .where((room) => room.roomId != roomId)
+          .toList();
+      _filterChatRooms();
+      return true;
+    } catch (e, stack) {
+      AppLogger.e('Error leaving room $roomId', e, stack);
+      return false;
+    }
   }
 
   /// SignalR 실시간 이벤트 리스너 설정

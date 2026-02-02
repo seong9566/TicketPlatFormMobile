@@ -127,6 +127,11 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
+  Future<void> leaveRoom({required int roomId}) async {
+    await _remoteDataSource.leaveRoom(LeaveChatRoomReqDto(roomId: roomId));
+  }
+
+  @override
   Future<ImageUrlRefreshEntity> refreshImageUrl(int messageId) async {
     final response = await _remoteDataSource.refreshImageUrl(messageId);
     return response.dataOrThrow.toEntity();

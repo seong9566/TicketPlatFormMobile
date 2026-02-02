@@ -353,17 +353,20 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
                   scrollController: _scrollController,
                   chatRoom: chatRoom, // 정보 전달
                   onBuyerPayment: () => _handleBuyerPaymentAction(chatRoom),
+                  onConfirmPurchase: () => _showConfirmPurchaseDialog(chatRoom),
                   onCancelTransaction: () =>
                       _showCancelTransactionDialog(chatRoom),
                 ),
               ),
 
-              // 하단 입력 필드
-              // 결제 대기(pending_payment) 상태에서는 구매 확정 버튼이 의미가 없으므로 노출하지 않음
+              // 하단 액션바
+              // PaymentSuccessBubble이 구매 확정/거래 취소를 처리하므로,
+              // paid 상태에서는 ActionBar를 숨김
               if ((chatRoom.canConfirmPurchase ||
                       chatRoom.canCancelTransaction) &&
                   chatRoom.transaction?.status !=
-                      TransactionStatus.pendingPayment)
+                      TransactionStatus.pendingPayment &&
+                  chatRoom.transaction?.status != TransactionStatus.paid)
                 ChatRoomActionBar(
                   chatRoom: chatRoom,
                   onConfirmPurchase: () => _showConfirmPurchaseDialog(chatRoom),
@@ -456,13 +459,37 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => ChatRoomMenuBottomSheet(
-        onLeaveRoom: () {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(const SnackBar(content: Text('채팅방 나가기 기능은 준비 중입니다')));
-        },
+      builder: (context) =>
+          ChatRoomMenuBottomSheet(onLeaveRoom: _handleLeaveRoom),
+    );
+  }
+
+  Future<void> _handleLeaveRoom() async {
+    if (!mounted) return;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(color: AppColors.primary),
       ),
     );
+
+    final success = await ref
+        .read(chatRoomViewModelProvider(roomId).notifier)
+        .leaveRoom();
+
+    if (!mounted) return;
+
+    Navigator.of(context, rootNavigator: true).pop();
+
+    if (!success) {
+      _showErrorSnackBar('채팅방 나가기에 실패했습니다. 잠시 후 다시 시도해주세요.');
+      return;
+    }
+
+    await ref.read(chatListViewModelProvider.notifier).refresh();
+    if (!mounted) return;
+    context.pop(true);
   }
 }

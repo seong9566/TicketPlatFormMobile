@@ -60,6 +60,9 @@ abstract class ChatRemoteDataSource {
   /// 거래 취소
   Future<BaseResponse<void>> cancelTransaction(CancelTransactionReqDto req);
 
+  /// 채팅방 나가기
+  Future<BaseResponse<void>> leaveRoom(LeaveChatRoomReqDto req);
+
   /// 이미지 URL 재발급
   Future<BaseResponse<ImageUrlRefreshRespDto>> refreshImageUrl(int messageId);
 }
@@ -279,6 +282,19 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
         options: options,
       ),
       apiName: 'cancelTransaction',
+      dataParser: (_) {},
+    );
+  }
+
+  @override
+  Future<BaseResponse<void>> leaveRoom(LeaveChatRoomReqDto req) async {
+    return safeApiCall<void>(
+      apiCall: (options) => _dio.post(
+        ApiEndpoint.chatRoomLeave,
+        data: req.toMap(),
+        options: options,
+      ),
+      apiName: 'leaveRoom',
       dataParser: (_) {},
     );
   }

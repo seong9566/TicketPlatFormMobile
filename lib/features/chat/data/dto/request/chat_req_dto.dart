@@ -70,3 +70,13 @@ class CancelTransactionReqDto {
     };
   }
 }
+
+class LeaveChatRoomReqDto {
+  final int roomId;
+
+  LeaveChatRoomReqDto({required this.roomId});
+
+  Map<String, dynamic> toMap() {
+    return {'roomId': roomId};
+  }
+}

@@ -27,6 +27,7 @@ import 'package:ticket_platform_mobile/features/chat/domain/usecases/cancel_tran
 import 'package:ticket_platform_mobile/features/chat/domain/usecases/confirm_purchase_usecase.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/usecases/get_chat_room_detail_usecase.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/usecases/get_messages_usecase.dart';
+import 'package:ticket_platform_mobile/features/chat/domain/usecases/leave_chat_room_usecase.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/usecases/mark_as_read_usecase.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/usecases/refresh_image_url_usecase.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/usecases/request_payment_usecase.dart';
@@ -380,6 +381,21 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
       return true;
     } catch (e, stack) {
       AppLogger.e('Error canceling transaction', e, stack);
+      return false;
+    }
+  }
+
+  Future<bool> leaveRoom() async {
+    final current = state.value;
+    if (current == null) return false;
+
+    try {
+      await ref
+          .read(leaveChatRoomUsecaseProvider)
+          .call(LeaveChatRoomParams(roomId: current.roomId));
+      return true;
+    } catch (e, stack) {
+      AppLogger.e('Error leaving chat room', e, stack);
       return false;
     }
   }

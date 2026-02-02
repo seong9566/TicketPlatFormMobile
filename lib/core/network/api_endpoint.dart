@@ -45,6 +45,7 @@ class ApiEndpoint {
   static const String requestPayment = '/api/chat/rooms/request-payment';
   static const String confirmPurchase = '/api/chat/rooms/confirm-purchase';
   static const String cancelTransaction = '/api/chat/rooms/cancel';
+  static const String chatRoomLeave = '/api/chat/rooms/leave';
   static const String chatMessageImageUrl = '/api/chat/messages/image-url';
 
   // Sell
