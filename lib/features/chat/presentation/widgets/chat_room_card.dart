@@ -101,13 +101,15 @@ class ChatRoomCard extends StatelessWidget {
   }
 
   Widget _buildAvatar() {
+    final avatarUrl =
+        chatRoom.ticketThumbnailUrl ?? chatRoom.otherUserProfileImageUrl;
     return CircleAvatar(
       radius: 30,
       backgroundColor: AppColors.chatAvatarDefault,
-      backgroundImage: chatRoom.otherUserProfileImageUrl != null
-          ? CachedNetworkImageProvider(chatRoom.otherUserProfileImageUrl!)
+      backgroundImage: avatarUrl != null
+          ? CachedNetworkImageProvider(avatarUrl)
           : null,
-      child: chatRoom.otherUserProfileImageUrl == null
+      child: avatarUrl == null
           ? const Icon(Icons.person, color: Colors.white, size: 32)
           : null,
     );

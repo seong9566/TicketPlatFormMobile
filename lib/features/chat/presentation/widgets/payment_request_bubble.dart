@@ -108,6 +108,9 @@ class PaymentRequestBubble extends ConsumerWidget {
 
                 // Info List (당근페이 스타일)
                 _buildInfoItem('상품명', ticket.title),
+                // TODO: Backend should return transaction amount & quantity in TransactionEntity
+                // Currently showing ticket unit price, not total amount (price * quantity)
+                // Once backend provides amount, update to show total: transaction.amount
                 _buildInfoItem('결제금액', ticket.price),
                 _buildInfoItem('거래상태', statusName),
 

@@ -73,6 +73,7 @@ class _ChatViewState extends ConsumerState<ChatView> {
                       key: ValueKey('chat-room-${chatRoom.roomId}'),
                       direction: DismissDirection.endToStart,
                       confirmDismiss: (_) => _handleLeaveRoom(chatRoom),
+                      background: Container(),
                       secondaryBackground: _buildSwipeBackground(
                         alignment: Alignment.centerRight,
                       ),
