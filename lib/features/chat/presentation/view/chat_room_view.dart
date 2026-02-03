@@ -17,13 +17,20 @@ import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_room_ticket_header.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_input_bar.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_room_menu_bottom_sheet.dart';
+import 'package:ticket_platform_mobile/features/chat/presentation/widgets/quantity_input_dialog.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ticket_platform_mobile/features/payment/presentation/viewmodels/payment_viewmodel.dart';
 
 class ChatRoomView extends ConsumerStatefulWidget {
   final String chatRoomId;
-  const ChatRoomView({super.key, required this.chatRoomId});
+  final bool fromTicketDetail;
+
+  const ChatRoomView({
+    super.key,
+    required this.chatRoomId,
+    this.fromTicketDetail = false,
+  });
 
   @override
   ConsumerState<ChatRoomView> createState() => _ChatRoomViewState();
@@ -220,6 +227,47 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
     }
   }
 
+  Future<void> _handleSellerPaymentRequest(
+    ChatRoomDetailUiModel chatRoom,
+  ) async {
+    final remainingQuantity = chatRoom.ticket.remainingQuantity;
+
+    // Validation: Check if remaining quantity is available
+    if (remainingQuantity == null || remainingQuantity <= 0) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('판매 가능한 티켓이 없습니다.'),
+          backgroundColor: AppColors.destructive,
+        ),
+      );
+      return;
+    }
+
+    final unitPrice = chatRoom.ticket.priceValue;
+
+    final quantity = await showQuantityInputDialog(
+      context: context,
+      maxQuantity: remainingQuantity,
+      unitPrice: unitPrice,
+    );
+
+    if (quantity == null) return; // User cancelled
+
+    final success = await ref
+        .read(chatRoomViewModelProvider(roomId).notifier)
+        .requestPayment(quantity);
+
+    if (!success && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('결제 요청에 실패했습니다.'),
+          backgroundColor: AppColors.destructive,
+        ),
+      );
+    }
+  }
+
   void _showConfirmPurchaseDialog(ChatRoomDetailUiModel chatRoom) {
     showDialog(
       context: context,
@@ -333,15 +381,19 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
                   if (isBuyer) {
                     await _handleBuyerPaymentAction(chatRoom);
                   } else {
-                    // 판매자: 다이얼로그 없이 즉시 결제 요청 (채팅 카드로 전송됨)
-                    await ref
-                        .read(chatRoomViewModelProvider(roomId).notifier)
-                        .requestPayment();
+                    // 판매자: 수량 입력 후 결제 요청
+                    await _handleSellerPaymentRequest(chatRoom);
                   }
                 },
-                onViewTicketDetail: () => context.push(
-                  '${AppRouterPath.ticketDetail.path}/${chatRoom.ticket.ticketId}',
-                ),
+                onViewTicketDetail: () {
+                  if (widget.fromTicketDetail) {
+                    context.pop();
+                  } else {
+                    context.push(
+                      '${AppRouterPath.ticketDetail.path}/${chatRoom.ticket.ticketId}',
+                    );
+                  }
+                },
               ),
               const SizedBox(height: AppSpacing.xs),
               const Divider(height: 1, color: AppColors.muted),

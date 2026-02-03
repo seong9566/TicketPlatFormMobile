@@ -93,9 +93,12 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<PaymentRequestEntity> requestPayment({required int roomId}) async {
+  Future<PaymentRequestEntity> requestPayment({
+    required int roomId,
+    required int quantity,
+  }) async {
     final response = await _remoteDataSource.requestPayment(
-      RequestPaymentReqDto(roomId: roomId),
+      RequestPaymentReqDto(roomId: roomId, quantity: quantity),
     );
     return response.dataOrThrow.toEntity();
   }

@@ -661,7 +661,7 @@ $TransactionDtoCopyWith<$Res>? get transaction {
 /// @nodoc
 mixin _$TicketInfoDto {
 
- int get ticketId; String get title; int get price; String? get thumbnailUrl; String? get seatInfo; String? get eventDateTime; String? get venueName;
+ int get ticketId; String get title; int get price; String? get thumbnailUrl; String? get seatInfo; String? get eventDateTime; String? get venueName; int? get unitPrice; int? get totalQuantity; int? get remainingQuantity;
 /// Create a copy of TicketInfoDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -674,16 +674,16 @@ $TicketInfoDtoCopyWith<TicketInfoDto> get copyWith => _$TicketInfoDtoCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketInfoDto&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.title, title) || other.title == title)&&(identical(other.price, price) || other.price == price)&&(identical(other.thumbnailUrl, thumbnailUrl) || other.thumbnailUrl == thumbnailUrl)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.eventDateTime, eventDateTime) || other.eventDateTime == eventDateTime)&&(identical(other.venueName, venueName) || other.venueName == venueName));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketInfoDto&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.title, title) || other.title == title)&&(identical(other.price, price) || other.price == price)&&(identical(other.thumbnailUrl, thumbnailUrl) || other.thumbnailUrl == thumbnailUrl)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.eventDateTime, eventDateTime) || other.eventDateTime == eventDateTime)&&(identical(other.venueName, venueName) || other.venueName == venueName)&&(identical(other.unitPrice, unitPrice) || other.unitPrice == unitPrice)&&(identical(other.totalQuantity, totalQuantity) || other.totalQuantity == totalQuantity)&&(identical(other.remainingQuantity, remainingQuantity) || other.remainingQuantity == remainingQuantity));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ticketId,title,price,thumbnailUrl,seatInfo,eventDateTime,venueName);
+int get hashCode => Object.hash(runtimeType,ticketId,title,price,thumbnailUrl,seatInfo,eventDateTime,venueName,unitPrice,totalQuantity,remainingQuantity);
 
 @override
 String toString() {
-  return 'TicketInfoDto(ticketId: $ticketId, title: $title, price: $price, thumbnailUrl: $thumbnailUrl, seatInfo: $seatInfo, eventDateTime: $eventDateTime, venueName: $venueName)';
+  return 'TicketInfoDto(ticketId: $ticketId, title: $title, price: $price, thumbnailUrl: $thumbnailUrl, seatInfo: $seatInfo, eventDateTime: $eventDateTime, venueName: $venueName, unitPrice: $unitPrice, totalQuantity: $totalQuantity, remainingQuantity: $remainingQuantity)';
 }
 
 
@@ -694,7 +694,7 @@ abstract mixin class $TicketInfoDtoCopyWith<$Res>  {
   factory $TicketInfoDtoCopyWith(TicketInfoDto value, $Res Function(TicketInfoDto) _then) = _$TicketInfoDtoCopyWithImpl;
 @useResult
 $Res call({
- int ticketId, String title, int price, String? thumbnailUrl, String? seatInfo, String? eventDateTime, String? venueName
+ int ticketId, String title, int price, String? thumbnailUrl, String? seatInfo, String? eventDateTime, String? venueName, int? unitPrice, int? totalQuantity, int? remainingQuantity
 });
 
 
@@ -711,7 +711,7 @@ class _$TicketInfoDtoCopyWithImpl<$Res>
 
 /// Create a copy of TicketInfoDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? ticketId = null,Object? title = null,Object? price = null,Object? thumbnailUrl = freezed,Object? seatInfo = freezed,Object? eventDateTime = freezed,Object? venueName = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? ticketId = null,Object? title = null,Object? price = null,Object? thumbnailUrl = freezed,Object? seatInfo = freezed,Object? eventDateTime = freezed,Object? venueName = freezed,Object? unitPrice = freezed,Object? totalQuantity = freezed,Object? remainingQuantity = freezed,}) {
   return _then(_self.copyWith(
 ticketId: null == ticketId ? _self.ticketId : ticketId // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -720,7 +720,10 @@ as int,thumbnailUrl: freezed == thumbnailUrl ? _self.thumbnailUrl : thumbnailUrl
 as String?,seatInfo: freezed == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
 as String?,eventDateTime: freezed == eventDateTime ? _self.eventDateTime : eventDateTime // ignore: cast_nullable_to_non_nullable
 as String?,venueName: freezed == venueName ? _self.venueName : venueName // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,unitPrice: freezed == unitPrice ? _self.unitPrice : unitPrice // ignore: cast_nullable_to_non_nullable
+as int?,totalQuantity: freezed == totalQuantity ? _self.totalQuantity : totalQuantity // ignore: cast_nullable_to_non_nullable
+as int?,remainingQuantity: freezed == remainingQuantity ? _self.remainingQuantity : remainingQuantity // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -805,10 +808,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int ticketId,  String title,  int price,  String? thumbnailUrl,  String? seatInfo,  String? eventDateTime,  String? venueName)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int ticketId,  String title,  int price,  String? thumbnailUrl,  String? seatInfo,  String? eventDateTime,  String? venueName,  int? unitPrice,  int? totalQuantity,  int? remainingQuantity)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TicketInfoDto() when $default != null:
-return $default(_that.ticketId,_that.title,_that.price,_that.thumbnailUrl,_that.seatInfo,_that.eventDateTime,_that.venueName);case _:
+return $default(_that.ticketId,_that.title,_that.price,_that.thumbnailUrl,_that.seatInfo,_that.eventDateTime,_that.venueName,_that.unitPrice,_that.totalQuantity,_that.remainingQuantity);case _:
   return orElse();
 
 }
@@ -826,10 +829,10 @@ return $default(_that.ticketId,_that.title,_that.price,_that.thumbnailUrl,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int ticketId,  String title,  int price,  String? thumbnailUrl,  String? seatInfo,  String? eventDateTime,  String? venueName)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int ticketId,  String title,  int price,  String? thumbnailUrl,  String? seatInfo,  String? eventDateTime,  String? venueName,  int? unitPrice,  int? totalQuantity,  int? remainingQuantity)  $default,) {final _that = this;
 switch (_that) {
 case _TicketInfoDto():
-return $default(_that.ticketId,_that.title,_that.price,_that.thumbnailUrl,_that.seatInfo,_that.eventDateTime,_that.venueName);case _:
+return $default(_that.ticketId,_that.title,_that.price,_that.thumbnailUrl,_that.seatInfo,_that.eventDateTime,_that.venueName,_that.unitPrice,_that.totalQuantity,_that.remainingQuantity);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -846,10 +849,10 @@ return $default(_that.ticketId,_that.title,_that.price,_that.thumbnailUrl,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int ticketId,  String title,  int price,  String? thumbnailUrl,  String? seatInfo,  String? eventDateTime,  String? venueName)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int ticketId,  String title,  int price,  String? thumbnailUrl,  String? seatInfo,  String? eventDateTime,  String? venueName,  int? unitPrice,  int? totalQuantity,  int? remainingQuantity)?  $default,) {final _that = this;
 switch (_that) {
 case _TicketInfoDto() when $default != null:
-return $default(_that.ticketId,_that.title,_that.price,_that.thumbnailUrl,_that.seatInfo,_that.eventDateTime,_that.venueName);case _:
+return $default(_that.ticketId,_that.title,_that.price,_that.thumbnailUrl,_that.seatInfo,_that.eventDateTime,_that.venueName,_that.unitPrice,_that.totalQuantity,_that.remainingQuantity);case _:
   return null;
 
 }
@@ -861,7 +864,7 @@ return $default(_that.ticketId,_that.title,_that.price,_that.thumbnailUrl,_that.
 @JsonSerializable()
 
 class _TicketInfoDto implements TicketInfoDto {
-  const _TicketInfoDto({required this.ticketId, required this.title, required this.price, this.thumbnailUrl, this.seatInfo, this.eventDateTime, this.venueName});
+  const _TicketInfoDto({required this.ticketId, required this.title, required this.price, this.thumbnailUrl, this.seatInfo, this.eventDateTime, this.venueName, this.unitPrice, this.totalQuantity, this.remainingQuantity});
   factory _TicketInfoDto.fromJson(Map<String, dynamic> json) => _$TicketInfoDtoFromJson(json);
 
 @override final  int ticketId;
@@ -871,6 +874,9 @@ class _TicketInfoDto implements TicketInfoDto {
 @override final  String? seatInfo;
 @override final  String? eventDateTime;
 @override final  String? venueName;
+@override final  int? unitPrice;
+@override final  int? totalQuantity;
+@override final  int? remainingQuantity;
 
 /// Create a copy of TicketInfoDto
 /// with the given fields replaced by the non-null parameter values.
@@ -885,16 +891,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TicketInfoDto&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.title, title) || other.title == title)&&(identical(other.price, price) || other.price == price)&&(identical(other.thumbnailUrl, thumbnailUrl) || other.thumbnailUrl == thumbnailUrl)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.eventDateTime, eventDateTime) || other.eventDateTime == eventDateTime)&&(identical(other.venueName, venueName) || other.venueName == venueName));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TicketInfoDto&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.title, title) || other.title == title)&&(identical(other.price, price) || other.price == price)&&(identical(other.thumbnailUrl, thumbnailUrl) || other.thumbnailUrl == thumbnailUrl)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.eventDateTime, eventDateTime) || other.eventDateTime == eventDateTime)&&(identical(other.venueName, venueName) || other.venueName == venueName)&&(identical(other.unitPrice, unitPrice) || other.unitPrice == unitPrice)&&(identical(other.totalQuantity, totalQuantity) || other.totalQuantity == totalQuantity)&&(identical(other.remainingQuantity, remainingQuantity) || other.remainingQuantity == remainingQuantity));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ticketId,title,price,thumbnailUrl,seatInfo,eventDateTime,venueName);
+int get hashCode => Object.hash(runtimeType,ticketId,title,price,thumbnailUrl,seatInfo,eventDateTime,venueName,unitPrice,totalQuantity,remainingQuantity);
 
 @override
 String toString() {
-  return 'TicketInfoDto(ticketId: $ticketId, title: $title, price: $price, thumbnailUrl: $thumbnailUrl, seatInfo: $seatInfo, eventDateTime: $eventDateTime, venueName: $venueName)';
+  return 'TicketInfoDto(ticketId: $ticketId, title: $title, price: $price, thumbnailUrl: $thumbnailUrl, seatInfo: $seatInfo, eventDateTime: $eventDateTime, venueName: $venueName, unitPrice: $unitPrice, totalQuantity: $totalQuantity, remainingQuantity: $remainingQuantity)';
 }
 
 
@@ -905,7 +911,7 @@ abstract mixin class _$TicketInfoDtoCopyWith<$Res> implements $TicketInfoDtoCopy
   factory _$TicketInfoDtoCopyWith(_TicketInfoDto value, $Res Function(_TicketInfoDto) _then) = __$TicketInfoDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int ticketId, String title, int price, String? thumbnailUrl, String? seatInfo, String? eventDateTime, String? venueName
+ int ticketId, String title, int price, String? thumbnailUrl, String? seatInfo, String? eventDateTime, String? venueName, int? unitPrice, int? totalQuantity, int? remainingQuantity
 });
 
 
@@ -922,7 +928,7 @@ class __$TicketInfoDtoCopyWithImpl<$Res>
 
 /// Create a copy of TicketInfoDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? ticketId = null,Object? title = null,Object? price = null,Object? thumbnailUrl = freezed,Object? seatInfo = freezed,Object? eventDateTime = freezed,Object? venueName = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? ticketId = null,Object? title = null,Object? price = null,Object? thumbnailUrl = freezed,Object? seatInfo = freezed,Object? eventDateTime = freezed,Object? venueName = freezed,Object? unitPrice = freezed,Object? totalQuantity = freezed,Object? remainingQuantity = freezed,}) {
   return _then(_TicketInfoDto(
 ticketId: null == ticketId ? _self.ticketId : ticketId // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -931,7 +937,10 @@ as int,thumbnailUrl: freezed == thumbnailUrl ? _self.thumbnailUrl : thumbnailUrl
 as String?,seatInfo: freezed == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
 as String?,eventDateTime: freezed == eventDateTime ? _self.eventDateTime : eventDateTime // ignore: cast_nullable_to_non_nullable
 as String?,venueName: freezed == venueName ? _self.venueName : venueName // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,unitPrice: freezed == unitPrice ? _self.unitPrice : unitPrice // ignore: cast_nullable_to_non_nullable
+as int?,totalQuantity: freezed == totalQuantity ? _self.totalQuantity : totalQuantity // ignore: cast_nullable_to_non_nullable
+as int?,remainingQuantity: freezed == remainingQuantity ? _self.remainingQuantity : remainingQuantity // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -1787,7 +1796,7 @@ as bool,
 /// @nodoc
 mixin _$ChatRoomListItemDto {
 
- int get roomId; int get ticketId; String get ticketTitle; OtherUserDto get otherUser; String? get lastMessage; String? get lastMessageAt; int get unreadCount; String get roomStatusCode; String get roomStatusName; int? get transactionId; String? get transactionStatusCode; String? get transactionStatusName;
+ int get roomId; int get ticketId; String get ticketTitle; String? get ticketThumbnailUrl; OtherUserDto get otherUser; String? get lastMessage; String? get lastMessageAt; int get unreadCount; String get roomStatusCode; String get roomStatusName; int? get transactionId; String? get transactionStatusCode; String? get transactionStatusName;
 /// Create a copy of ChatRoomListItemDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1800,16 +1809,16 @@ $ChatRoomListItemDtoCopyWith<ChatRoomListItemDto> get copyWith => _$ChatRoomList
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatRoomListItemDto&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.ticketTitle, ticketTitle) || other.ticketTitle == ticketTitle)&&(identical(other.otherUser, otherUser) || other.otherUser == otherUser)&&(identical(other.lastMessage, lastMessage) || other.lastMessage == lastMessage)&&(identical(other.lastMessageAt, lastMessageAt) || other.lastMessageAt == lastMessageAt)&&(identical(other.unreadCount, unreadCount) || other.unreadCount == unreadCount)&&(identical(other.roomStatusCode, roomStatusCode) || other.roomStatusCode == roomStatusCode)&&(identical(other.roomStatusName, roomStatusName) || other.roomStatusName == roomStatusName)&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.transactionStatusCode, transactionStatusCode) || other.transactionStatusCode == transactionStatusCode)&&(identical(other.transactionStatusName, transactionStatusName) || other.transactionStatusName == transactionStatusName));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatRoomListItemDto&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.ticketTitle, ticketTitle) || other.ticketTitle == ticketTitle)&&(identical(other.ticketThumbnailUrl, ticketThumbnailUrl) || other.ticketThumbnailUrl == ticketThumbnailUrl)&&(identical(other.otherUser, otherUser) || other.otherUser == otherUser)&&(identical(other.lastMessage, lastMessage) || other.lastMessage == lastMessage)&&(identical(other.lastMessageAt, lastMessageAt) || other.lastMessageAt == lastMessageAt)&&(identical(other.unreadCount, unreadCount) || other.unreadCount == unreadCount)&&(identical(other.roomStatusCode, roomStatusCode) || other.roomStatusCode == roomStatusCode)&&(identical(other.roomStatusName, roomStatusName) || other.roomStatusName == roomStatusName)&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.transactionStatusCode, transactionStatusCode) || other.transactionStatusCode == transactionStatusCode)&&(identical(other.transactionStatusName, transactionStatusName) || other.transactionStatusName == transactionStatusName));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,roomId,ticketId,ticketTitle,otherUser,lastMessage,lastMessageAt,unreadCount,roomStatusCode,roomStatusName,transactionId,transactionStatusCode,transactionStatusName);
+int get hashCode => Object.hash(runtimeType,roomId,ticketId,ticketTitle,ticketThumbnailUrl,otherUser,lastMessage,lastMessageAt,unreadCount,roomStatusCode,roomStatusName,transactionId,transactionStatusCode,transactionStatusName);
 
 @override
 String toString() {
-  return 'ChatRoomListItemDto(roomId: $roomId, ticketId: $ticketId, ticketTitle: $ticketTitle, otherUser: $otherUser, lastMessage: $lastMessage, lastMessageAt: $lastMessageAt, unreadCount: $unreadCount, roomStatusCode: $roomStatusCode, roomStatusName: $roomStatusName, transactionId: $transactionId, transactionStatusCode: $transactionStatusCode, transactionStatusName: $transactionStatusName)';
+  return 'ChatRoomListItemDto(roomId: $roomId, ticketId: $ticketId, ticketTitle: $ticketTitle, ticketThumbnailUrl: $ticketThumbnailUrl, otherUser: $otherUser, lastMessage: $lastMessage, lastMessageAt: $lastMessageAt, unreadCount: $unreadCount, roomStatusCode: $roomStatusCode, roomStatusName: $roomStatusName, transactionId: $transactionId, transactionStatusCode: $transactionStatusCode, transactionStatusName: $transactionStatusName)';
 }
 
 
@@ -1820,7 +1829,7 @@ abstract mixin class $ChatRoomListItemDtoCopyWith<$Res>  {
   factory $ChatRoomListItemDtoCopyWith(ChatRoomListItemDto value, $Res Function(ChatRoomListItemDto) _then) = _$ChatRoomListItemDtoCopyWithImpl;
 @useResult
 $Res call({
- int roomId, int ticketId, String ticketTitle, OtherUserDto otherUser, String? lastMessage, String? lastMessageAt, int unreadCount, String roomStatusCode, String roomStatusName, int? transactionId, String? transactionStatusCode, String? transactionStatusName
+ int roomId, int ticketId, String ticketTitle, String? ticketThumbnailUrl, OtherUserDto otherUser, String? lastMessage, String? lastMessageAt, int unreadCount, String roomStatusCode, String roomStatusName, int? transactionId, String? transactionStatusCode, String? transactionStatusName
 });
 
 
@@ -1837,12 +1846,13 @@ class _$ChatRoomListItemDtoCopyWithImpl<$Res>
 
 /// Create a copy of ChatRoomListItemDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? roomId = null,Object? ticketId = null,Object? ticketTitle = null,Object? otherUser = null,Object? lastMessage = freezed,Object? lastMessageAt = freezed,Object? unreadCount = null,Object? roomStatusCode = null,Object? roomStatusName = null,Object? transactionId = freezed,Object? transactionStatusCode = freezed,Object? transactionStatusName = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? roomId = null,Object? ticketId = null,Object? ticketTitle = null,Object? ticketThumbnailUrl = freezed,Object? otherUser = null,Object? lastMessage = freezed,Object? lastMessageAt = freezed,Object? unreadCount = null,Object? roomStatusCode = null,Object? roomStatusName = null,Object? transactionId = freezed,Object? transactionStatusCode = freezed,Object? transactionStatusName = freezed,}) {
   return _then(_self.copyWith(
 roomId: null == roomId ? _self.roomId : roomId // ignore: cast_nullable_to_non_nullable
 as int,ticketId: null == ticketId ? _self.ticketId : ticketId // ignore: cast_nullable_to_non_nullable
 as int,ticketTitle: null == ticketTitle ? _self.ticketTitle : ticketTitle // ignore: cast_nullable_to_non_nullable
-as String,otherUser: null == otherUser ? _self.otherUser : otherUser // ignore: cast_nullable_to_non_nullable
+as String,ticketThumbnailUrl: freezed == ticketThumbnailUrl ? _self.ticketThumbnailUrl : ticketThumbnailUrl // ignore: cast_nullable_to_non_nullable
+as String?,otherUser: null == otherUser ? _self.otherUser : otherUser // ignore: cast_nullable_to_non_nullable
 as OtherUserDto,lastMessage: freezed == lastMessage ? _self.lastMessage : lastMessage // ignore: cast_nullable_to_non_nullable
 as String?,lastMessageAt: freezed == lastMessageAt ? _self.lastMessageAt : lastMessageAt // ignore: cast_nullable_to_non_nullable
 as String?,unreadCount: null == unreadCount ? _self.unreadCount : unreadCount // ignore: cast_nullable_to_non_nullable
@@ -1945,10 +1955,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int roomId,  int ticketId,  String ticketTitle,  OtherUserDto otherUser,  String? lastMessage,  String? lastMessageAt,  int unreadCount,  String roomStatusCode,  String roomStatusName,  int? transactionId,  String? transactionStatusCode,  String? transactionStatusName)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int roomId,  int ticketId,  String ticketTitle,  String? ticketThumbnailUrl,  OtherUserDto otherUser,  String? lastMessage,  String? lastMessageAt,  int unreadCount,  String roomStatusCode,  String roomStatusName,  int? transactionId,  String? transactionStatusCode,  String? transactionStatusName)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChatRoomListItemDto() when $default != null:
-return $default(_that.roomId,_that.ticketId,_that.ticketTitle,_that.otherUser,_that.lastMessage,_that.lastMessageAt,_that.unreadCount,_that.roomStatusCode,_that.roomStatusName,_that.transactionId,_that.transactionStatusCode,_that.transactionStatusName);case _:
+return $default(_that.roomId,_that.ticketId,_that.ticketTitle,_that.ticketThumbnailUrl,_that.otherUser,_that.lastMessage,_that.lastMessageAt,_that.unreadCount,_that.roomStatusCode,_that.roomStatusName,_that.transactionId,_that.transactionStatusCode,_that.transactionStatusName);case _:
   return orElse();
 
 }
@@ -1966,10 +1976,10 @@ return $default(_that.roomId,_that.ticketId,_that.ticketTitle,_that.otherUser,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int roomId,  int ticketId,  String ticketTitle,  OtherUserDto otherUser,  String? lastMessage,  String? lastMessageAt,  int unreadCount,  String roomStatusCode,  String roomStatusName,  int? transactionId,  String? transactionStatusCode,  String? transactionStatusName)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int roomId,  int ticketId,  String ticketTitle,  String? ticketThumbnailUrl,  OtherUserDto otherUser,  String? lastMessage,  String? lastMessageAt,  int unreadCount,  String roomStatusCode,  String roomStatusName,  int? transactionId,  String? transactionStatusCode,  String? transactionStatusName)  $default,) {final _that = this;
 switch (_that) {
 case _ChatRoomListItemDto():
-return $default(_that.roomId,_that.ticketId,_that.ticketTitle,_that.otherUser,_that.lastMessage,_that.lastMessageAt,_that.unreadCount,_that.roomStatusCode,_that.roomStatusName,_that.transactionId,_that.transactionStatusCode,_that.transactionStatusName);case _:
+return $default(_that.roomId,_that.ticketId,_that.ticketTitle,_that.ticketThumbnailUrl,_that.otherUser,_that.lastMessage,_that.lastMessageAt,_that.unreadCount,_that.roomStatusCode,_that.roomStatusName,_that.transactionId,_that.transactionStatusCode,_that.transactionStatusName);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1986,10 +1996,10 @@ return $default(_that.roomId,_that.ticketId,_that.ticketTitle,_that.otherUser,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int roomId,  int ticketId,  String ticketTitle,  OtherUserDto otherUser,  String? lastMessage,  String? lastMessageAt,  int unreadCount,  String roomStatusCode,  String roomStatusName,  int? transactionId,  String? transactionStatusCode,  String? transactionStatusName)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int roomId,  int ticketId,  String ticketTitle,  String? ticketThumbnailUrl,  OtherUserDto otherUser,  String? lastMessage,  String? lastMessageAt,  int unreadCount,  String roomStatusCode,  String roomStatusName,  int? transactionId,  String? transactionStatusCode,  String? transactionStatusName)?  $default,) {final _that = this;
 switch (_that) {
 case _ChatRoomListItemDto() when $default != null:
-return $default(_that.roomId,_that.ticketId,_that.ticketTitle,_that.otherUser,_that.lastMessage,_that.lastMessageAt,_that.unreadCount,_that.roomStatusCode,_that.roomStatusName,_that.transactionId,_that.transactionStatusCode,_that.transactionStatusName);case _:
+return $default(_that.roomId,_that.ticketId,_that.ticketTitle,_that.ticketThumbnailUrl,_that.otherUser,_that.lastMessage,_that.lastMessageAt,_that.unreadCount,_that.roomStatusCode,_that.roomStatusName,_that.transactionId,_that.transactionStatusCode,_that.transactionStatusName);case _:
   return null;
 
 }
@@ -2001,12 +2011,13 @@ return $default(_that.roomId,_that.ticketId,_that.ticketTitle,_that.otherUser,_t
 @JsonSerializable()
 
 class _ChatRoomListItemDto implements ChatRoomListItemDto {
-  const _ChatRoomListItemDto({required this.roomId, required this.ticketId, required this.ticketTitle, required this.otherUser, this.lastMessage, this.lastMessageAt, required this.unreadCount, required this.roomStatusCode, required this.roomStatusName, this.transactionId, this.transactionStatusCode, this.transactionStatusName});
+  const _ChatRoomListItemDto({required this.roomId, required this.ticketId, required this.ticketTitle, this.ticketThumbnailUrl, required this.otherUser, this.lastMessage, this.lastMessageAt, required this.unreadCount, required this.roomStatusCode, required this.roomStatusName, this.transactionId, this.transactionStatusCode, this.transactionStatusName});
   factory _ChatRoomListItemDto.fromJson(Map<String, dynamic> json) => _$ChatRoomListItemDtoFromJson(json);
 
 @override final  int roomId;
 @override final  int ticketId;
 @override final  String ticketTitle;
+@override final  String? ticketThumbnailUrl;
 @override final  OtherUserDto otherUser;
 @override final  String? lastMessage;
 @override final  String? lastMessageAt;
@@ -2030,16 +2041,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatRoomListItemDto&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.ticketTitle, ticketTitle) || other.ticketTitle == ticketTitle)&&(identical(other.otherUser, otherUser) || other.otherUser == otherUser)&&(identical(other.lastMessage, lastMessage) || other.lastMessage == lastMessage)&&(identical(other.lastMessageAt, lastMessageAt) || other.lastMessageAt == lastMessageAt)&&(identical(other.unreadCount, unreadCount) || other.unreadCount == unreadCount)&&(identical(other.roomStatusCode, roomStatusCode) || other.roomStatusCode == roomStatusCode)&&(identical(other.roomStatusName, roomStatusName) || other.roomStatusName == roomStatusName)&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.transactionStatusCode, transactionStatusCode) || other.transactionStatusCode == transactionStatusCode)&&(identical(other.transactionStatusName, transactionStatusName) || other.transactionStatusName == transactionStatusName));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatRoomListItemDto&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.ticketTitle, ticketTitle) || other.ticketTitle == ticketTitle)&&(identical(other.ticketThumbnailUrl, ticketThumbnailUrl) || other.ticketThumbnailUrl == ticketThumbnailUrl)&&(identical(other.otherUser, otherUser) || other.otherUser == otherUser)&&(identical(other.lastMessage, lastMessage) || other.lastMessage == lastMessage)&&(identical(other.lastMessageAt, lastMessageAt) || other.lastMessageAt == lastMessageAt)&&(identical(other.unreadCount, unreadCount) || other.unreadCount == unreadCount)&&(identical(other.roomStatusCode, roomStatusCode) || other.roomStatusCode == roomStatusCode)&&(identical(other.roomStatusName, roomStatusName) || other.roomStatusName == roomStatusName)&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.transactionStatusCode, transactionStatusCode) || other.transactionStatusCode == transactionStatusCode)&&(identical(other.transactionStatusName, transactionStatusName) || other.transactionStatusName == transactionStatusName));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,roomId,ticketId,ticketTitle,otherUser,lastMessage,lastMessageAt,unreadCount,roomStatusCode,roomStatusName,transactionId,transactionStatusCode,transactionStatusName);
+int get hashCode => Object.hash(runtimeType,roomId,ticketId,ticketTitle,ticketThumbnailUrl,otherUser,lastMessage,lastMessageAt,unreadCount,roomStatusCode,roomStatusName,transactionId,transactionStatusCode,transactionStatusName);
 
 @override
 String toString() {
-  return 'ChatRoomListItemDto(roomId: $roomId, ticketId: $ticketId, ticketTitle: $ticketTitle, otherUser: $otherUser, lastMessage: $lastMessage, lastMessageAt: $lastMessageAt, unreadCount: $unreadCount, roomStatusCode: $roomStatusCode, roomStatusName: $roomStatusName, transactionId: $transactionId, transactionStatusCode: $transactionStatusCode, transactionStatusName: $transactionStatusName)';
+  return 'ChatRoomListItemDto(roomId: $roomId, ticketId: $ticketId, ticketTitle: $ticketTitle, ticketThumbnailUrl: $ticketThumbnailUrl, otherUser: $otherUser, lastMessage: $lastMessage, lastMessageAt: $lastMessageAt, unreadCount: $unreadCount, roomStatusCode: $roomStatusCode, roomStatusName: $roomStatusName, transactionId: $transactionId, transactionStatusCode: $transactionStatusCode, transactionStatusName: $transactionStatusName)';
 }
 
 
@@ -2050,7 +2061,7 @@ abstract mixin class _$ChatRoomListItemDtoCopyWith<$Res> implements $ChatRoomLis
   factory _$ChatRoomListItemDtoCopyWith(_ChatRoomListItemDto value, $Res Function(_ChatRoomListItemDto) _then) = __$ChatRoomListItemDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int roomId, int ticketId, String ticketTitle, OtherUserDto otherUser, String? lastMessage, String? lastMessageAt, int unreadCount, String roomStatusCode, String roomStatusName, int? transactionId, String? transactionStatusCode, String? transactionStatusName
+ int roomId, int ticketId, String ticketTitle, String? ticketThumbnailUrl, OtherUserDto otherUser, String? lastMessage, String? lastMessageAt, int unreadCount, String roomStatusCode, String roomStatusName, int? transactionId, String? transactionStatusCode, String? transactionStatusName
 });
 
 
@@ -2067,12 +2078,13 @@ class __$ChatRoomListItemDtoCopyWithImpl<$Res>
 
 /// Create a copy of ChatRoomListItemDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? roomId = null,Object? ticketId = null,Object? ticketTitle = null,Object? otherUser = null,Object? lastMessage = freezed,Object? lastMessageAt = freezed,Object? unreadCount = null,Object? roomStatusCode = null,Object? roomStatusName = null,Object? transactionId = freezed,Object? transactionStatusCode = freezed,Object? transactionStatusName = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? roomId = null,Object? ticketId = null,Object? ticketTitle = null,Object? ticketThumbnailUrl = freezed,Object? otherUser = null,Object? lastMessage = freezed,Object? lastMessageAt = freezed,Object? unreadCount = null,Object? roomStatusCode = null,Object? roomStatusName = null,Object? transactionId = freezed,Object? transactionStatusCode = freezed,Object? transactionStatusName = freezed,}) {
   return _then(_ChatRoomListItemDto(
 roomId: null == roomId ? _self.roomId : roomId // ignore: cast_nullable_to_non_nullable
 as int,ticketId: null == ticketId ? _self.ticketId : ticketId // ignore: cast_nullable_to_non_nullable
 as int,ticketTitle: null == ticketTitle ? _self.ticketTitle : ticketTitle // ignore: cast_nullable_to_non_nullable
-as String,otherUser: null == otherUser ? _self.otherUser : otherUser // ignore: cast_nullable_to_non_nullable
+as String,ticketThumbnailUrl: freezed == ticketThumbnailUrl ? _self.ticketThumbnailUrl : ticketThumbnailUrl // ignore: cast_nullable_to_non_nullable
+as String?,otherUser: null == otherUser ? _self.otherUser : otherUser // ignore: cast_nullable_to_non_nullable
 as OtherUserDto,lastMessage: freezed == lastMessage ? _self.lastMessage : lastMessage // ignore: cast_nullable_to_non_nullable
 as String?,lastMessageAt: freezed == lastMessageAt ? _self.lastMessageAt : lastMessageAt // ignore: cast_nullable_to_non_nullable
 as String?,unreadCount: null == unreadCount ? _self.unreadCount : unreadCount // ignore: cast_nullable_to_non_nullable

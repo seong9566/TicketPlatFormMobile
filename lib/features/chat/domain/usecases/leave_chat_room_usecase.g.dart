@@ -2,10 +2,11 @@
 
 part of 'leave_chat_room_usecase.dart';
 
-// ***************************************************************************
+// **************************************************************************
 // RiverpodGenerator
-// ***************************************************************************
+// **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(leaveChatRoomUsecase)
@@ -54,4 +55,4 @@ final class LeaveChatRoomUsecaseProvider
 }
 
 String _$leaveChatRoomUsecaseHash() =>
-    r'9f3d7f5f4c7b8a9b5c8a221c4c0d2a0b31d7f2af';
+    r'773b8d035d634f299ac93d96d98592c49899b631';

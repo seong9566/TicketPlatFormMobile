@@ -34,6 +34,8 @@ abstract class TicketInfoEntity with _$TicketInfoEntity {
     String? seatInfo,
     DateTime? eventDateTime,
     String? venueName,
+    int? totalQuantity,
+    int? remainingQuantity,
   }) = _TicketInfoEntity;
 }
 
@@ -43,6 +45,7 @@ abstract class ChatRoomListItemEntity with _$ChatRoomListItemEntity {
     required int roomId,
     required int ticketId,
     required String ticketTitle,
+    String? ticketThumbnailUrl,
     required OtherUserEntity otherUser,
     String? lastMessage,
     DateTime? lastMessageAt,

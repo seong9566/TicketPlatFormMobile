@@ -7,8 +7,9 @@ part 'request_payment_usecase.g.dart';
 
 class RequestPaymentParams {
   final int roomId;
+  final int quantity;
 
-  RequestPaymentParams({required this.roomId});
+  RequestPaymentParams({required this.roomId, required this.quantity});
 }
 
 class RequestPaymentUsecase {
@@ -17,7 +18,10 @@ class RequestPaymentUsecase {
   RequestPaymentUsecase(this._repository);
 
   Future<PaymentRequestEntity> call(RequestPaymentParams params) async {
-    return _repository.requestPayment(roomId: params.roomId);
+    return _repository.requestPayment(
+      roomId: params.roomId,
+      quantity: params.quantity,
+    );
   }
 }
 

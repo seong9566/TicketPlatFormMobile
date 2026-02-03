@@ -62,6 +62,9 @@ _TicketInfoDto _$TicketInfoDtoFromJson(Map<String, dynamic> json) =>
       seatInfo: json['seatInfo'] as String?,
       eventDateTime: json['eventDateTime'] as String?,
       venueName: json['venueName'] as String?,
+      unitPrice: (json['unitPrice'] as num?)?.toInt(),
+      totalQuantity: (json['totalQuantity'] as num?)?.toInt(),
+      remainingQuantity: (json['remainingQuantity'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$TicketInfoDtoToJson(_TicketInfoDto instance) =>
@@ -73,6 +76,9 @@ Map<String, dynamic> _$TicketInfoDtoToJson(_TicketInfoDto instance) =>
       'seatInfo': instance.seatInfo,
       'eventDateTime': instance.eventDateTime,
       'venueName': instance.venueName,
+      'unitPrice': instance.unitPrice,
+      'totalQuantity': instance.totalQuantity,
+      'remainingQuantity': instance.remainingQuantity,
     };
 
 _UserProfileDto _$UserProfileDtoFromJson(Map<String, dynamic> json) =>
@@ -143,6 +149,7 @@ _ChatRoomListItemDto _$ChatRoomListItemDtoFromJson(Map<String, dynamic> json) =>
       roomId: (json['roomId'] as num).toInt(),
       ticketId: (json['ticketId'] as num).toInt(),
       ticketTitle: json['ticketTitle'] as String,
+      ticketThumbnailUrl: json['ticketThumbnailUrl'] as String?,
       otherUser: OtherUserDto.fromJson(
         json['otherUser'] as Map<String, dynamic>,
       ),
@@ -162,6 +169,7 @@ Map<String, dynamic> _$ChatRoomListItemDtoToJson(
   'roomId': instance.roomId,
   'ticketId': instance.ticketId,
   'ticketTitle': instance.ticketTitle,
+  'ticketThumbnailUrl': instance.ticketThumbnailUrl,
   'otherUser': instance.otherUser,
   'lastMessage': instance.lastMessage,
   'lastMessageAt': instance.lastMessageAt,

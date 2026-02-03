@@ -20,6 +20,7 @@ class ChatRoomListUiModel {
   final int roomId;
   final int ticketId;
   final String ticketTitle;
+  final String? ticketThumbnailUrl;
   final String otherUserNickname;
   final String? otherUserProfileImageUrl;
   final String lastMessage;
@@ -35,6 +36,7 @@ class ChatRoomListUiModel {
     required this.roomId,
     required this.ticketId,
     required this.ticketTitle,
+    this.ticketThumbnailUrl,
     required this.otherUserNickname,
     this.otherUserProfileImageUrl,
     required this.lastMessage,
@@ -52,6 +54,7 @@ class ChatRoomListUiModel {
       roomId: entity.roomId,
       ticketId: entity.ticketId,
       ticketTitle: entity.ticketTitle,
+      ticketThumbnailUrl: entity.ticketThumbnailUrl,
       otherUserNickname: entity.otherUser.nickname,
       otherUserProfileImageUrl: entity.otherUser.profileImageUrl,
       lastMessage: entity.lastMessage ?? '',
@@ -154,6 +157,8 @@ class TicketInfoUiModel {
   final String? seatInfo;
   final String? dateTime;
   final String? location;
+  final int? totalQuantity;
+  final int? remainingQuantity;
 
   TicketInfoUiModel({
     required this.ticketId,
@@ -164,6 +169,8 @@ class TicketInfoUiModel {
     this.seatInfo,
     this.dateTime,
     this.location,
+    this.totalQuantity,
+    this.remainingQuantity,
   });
 
   factory TicketInfoUiModel.fromEntity(TicketInfoEntity entity) {
@@ -178,6 +185,8 @@ class TicketInfoUiModel {
           ? DateFormatUtil.formatDateTime(entity.eventDateTime!)
           : null,
       location: entity.venueName,
+      totalQuantity: entity.totalQuantity,
+      remainingQuantity: entity.remainingQuantity,
     );
   }
 }

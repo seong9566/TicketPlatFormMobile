@@ -32,11 +32,12 @@ class MarkAsReadReqDto {
 
 class RequestPaymentReqDto {
   final int roomId;
+  final int quantity;
 
-  RequestPaymentReqDto({required this.roomId});
+  RequestPaymentReqDto({required this.roomId, required this.quantity});
 
   Map<String, dynamic> toMap() {
-    return {'roomId': roomId};
+    return {'roomId': roomId, 'quantity': quantity};
   }
 }
 

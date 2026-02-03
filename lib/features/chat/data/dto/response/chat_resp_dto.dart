@@ -73,6 +73,9 @@ abstract class TicketInfoDto with _$TicketInfoDto {
     String? seatInfo,
     String? eventDateTime,
     String? venueName,
+    int? unitPrice,
+    int? totalQuantity,
+    int? remainingQuantity,
   }) = _TicketInfoDto;
 
   factory TicketInfoDto.fromJson(Map<String, dynamic> json) =>
@@ -83,13 +86,15 @@ extension TicketInfoDtoX on TicketInfoDto {
   TicketInfoEntity toEntity() => TicketInfoEntity(
     ticketId: ticketId,
     title: title,
-    price: price,
+    price: unitPrice ?? price, // unitPrice 우선, fallback to price
     thumbnailUrl: thumbnailUrl,
     seatInfo: seatInfo,
     eventDateTime: eventDateTime != null
         ? DateTime.parse(eventDateTime!)
         : null,
     venueName: venueName,
+    totalQuantity: totalQuantity,
+    remainingQuantity: remainingQuantity,
   );
 }
 
@@ -216,6 +221,7 @@ abstract class ChatRoomListItemDto with _$ChatRoomListItemDto {
     required int roomId,
     required int ticketId,
     required String ticketTitle,
+    String? ticketThumbnailUrl,
     required OtherUserDto otherUser,
     String? lastMessage,
     String? lastMessageAt,
@@ -236,6 +242,7 @@ extension ChatRoomListItemDtoX on ChatRoomListItemDto {
     roomId: roomId,
     ticketId: ticketId,
     ticketTitle: ticketTitle,
+    ticketThumbnailUrl: ticketThumbnailUrl,
     otherUser: otherUser.toEntity(),
     lastMessage: lastMessage,
     lastMessageAt: lastMessageAt != null

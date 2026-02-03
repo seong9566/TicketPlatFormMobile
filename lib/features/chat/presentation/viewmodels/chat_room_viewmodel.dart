@@ -302,7 +302,7 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
     }
   }
 
-  Future<bool> requestPayment() async {
+  Future<bool> requestPayment(int quantity) async {
     final current = state.value;
     if (current == null) return false;
 
@@ -329,7 +329,9 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
       // 2. 실제 서버 요청 실행
       await ref
           .read(requestPaymentUsecaseProvider)
-          .call(RequestPaymentParams(roomId: current.roomId));
+          .call(
+            RequestPaymentParams(roomId: current.roomId, quantity: quantity),
+          );
 
       // 3. 서버로부터 최신 데이터를 가져와 상태 동기화
       await refresh();
