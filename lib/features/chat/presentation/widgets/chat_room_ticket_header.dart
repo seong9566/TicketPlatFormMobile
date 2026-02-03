@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
@@ -50,54 +51,57 @@ class _ChatRoomTicketHeaderState extends State<ChatRoomTicketHeader> {
   }
 
   Widget _buildTicketSummary() {
-    return Padding(
-      padding: const EdgeInsets.all(AppSpacing.md),
-      child: Row(
-        children: [
-          Container(
-            width: 72,
-            height: 72,
-            decoration: BoxDecoration(
-              color: AppColors.muted,
-              borderRadius: BorderRadius.circular(16),
-              image: widget.ticket.thumbnailUrl != null
-                  ? DecorationImage(
-                      image: CachedNetworkImageProvider(
-                        widget.ticket.thumbnailUrl!,
-                      ),
-                      fit: BoxFit.cover,
-                    )
-                  : null,
+    return GestureDetector(
+      onTap: widget.onViewTicketDetail,
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.md),
+        child: Row(
+          children: [
+            Container(
+              width: 72,
+              height: 72,
+              decoration: BoxDecoration(
+                color: AppColors.muted,
+                borderRadius: BorderRadius.circular(16),
+                image: widget.ticket.thumbnailUrl != null
+                    ? DecorationImage(
+                        image: CachedNetworkImageProvider(
+                          widget.ticket.thumbnailUrl!,
+                        ),
+                        fit: BoxFit.cover,
+                      )
+                    : null,
+              ),
             ),
-          ),
-          const SizedBox(width: AppSpacing.md),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.ticket.title,
-                  style: AppTextStyles.body2.copyWith(
-                    color: AppColors.textSecondary,
-                    fontWeight: FontWeight.w500,
+            const SizedBox(width: AppSpacing.md),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.ticket.title,
+                    style: AppTextStyles.body2.copyWith(
+                      color: AppColors.textSecondary,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  widget.ticket.price,
-                  style: AppTextStyles.heading3.copyWith(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 22,
+                  const SizedBox(height: 4),
+                  Text(
+                    widget.ticket.price,
+                    style: AppTextStyles.heading3.copyWith(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 22,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          if (widget.canRequestPayment) _buildPaymentButton(),
-        ],
+            if (widget.canRequestPayment) _buildPaymentButton(),
+          ],
+        ),
       ),
     );
   }

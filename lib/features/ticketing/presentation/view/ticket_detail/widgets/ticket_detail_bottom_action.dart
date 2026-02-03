@@ -55,6 +55,7 @@ class TicketDetailBottomAction extends ConsumerWidget {
         context.pushNamed(
           AppRouterPath.chatRoom.name,
           pathParameters: {'id': roomIdToNavigate.toString()},
+          extra: {'fromTicketDetail': true},
         );
       }
     } catch (e) {

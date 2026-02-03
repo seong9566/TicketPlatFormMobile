@@ -73,7 +73,12 @@ GoRouter goRouter(Ref ref) {
         name: AppRouterPath.chatRoom.name,
         builder: (context, state) {
           final id = state.pathParameters['id']!;
-          return ChatRoomView(chatRoomId: id);
+          final extra = state.extra as Map<String, dynamic>?;
+          final fromTicketDetail = extra?['fromTicketDetail'] as bool? ?? false;
+          return ChatRoomView(
+            chatRoomId: id,
+            fromTicketDetail: fromTicketDetail,
+          );
         },
       ),
 
