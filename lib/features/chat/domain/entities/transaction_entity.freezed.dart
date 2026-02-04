@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TransactionEntity {
 
- int get transactionId; TransactionStatus get status; String get statusName; DateTime? get confirmedAt; DateTime? get cancelledAt;
+ int get transactionId; TransactionStatus get status; String get statusName; int get amount; DateTime? get confirmedAt; DateTime? get cancelledAt;
 /// Create a copy of TransactionEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $TransactionEntityCopyWith<TransactionEntity> get copyWith => _$TransactionEntit
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TransactionEntity&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.status, status) || other.status == status)&&(identical(other.statusName, statusName) || other.statusName == statusName)&&(identical(other.confirmedAt, confirmedAt) || other.confirmedAt == confirmedAt)&&(identical(other.cancelledAt, cancelledAt) || other.cancelledAt == cancelledAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TransactionEntity&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.status, status) || other.status == status)&&(identical(other.statusName, statusName) || other.statusName == statusName)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.confirmedAt, confirmedAt) || other.confirmedAt == confirmedAt)&&(identical(other.cancelledAt, cancelledAt) || other.cancelledAt == cancelledAt));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,transactionId,status,statusName,confirmedAt,cancelledAt);
+int get hashCode => Object.hash(runtimeType,transactionId,status,statusName,amount,confirmedAt,cancelledAt);
 
 @override
 String toString() {
-  return 'TransactionEntity(transactionId: $transactionId, status: $status, statusName: $statusName, confirmedAt: $confirmedAt, cancelledAt: $cancelledAt)';
+  return 'TransactionEntity(transactionId: $transactionId, status: $status, statusName: $statusName, amount: $amount, confirmedAt: $confirmedAt, cancelledAt: $cancelledAt)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $TransactionEntityCopyWith<$Res>  {
   factory $TransactionEntityCopyWith(TransactionEntity value, $Res Function(TransactionEntity) _then) = _$TransactionEntityCopyWithImpl;
 @useResult
 $Res call({
- int transactionId, TransactionStatus status, String statusName, DateTime? confirmedAt, DateTime? cancelledAt
+ int transactionId, TransactionStatus status, String statusName, int amount, DateTime? confirmedAt, DateTime? cancelledAt
 });
 
 
@@ -62,12 +62,13 @@ class _$TransactionEntityCopyWithImpl<$Res>
 
 /// Create a copy of TransactionEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? transactionId = null,Object? status = null,Object? statusName = null,Object? confirmedAt = freezed,Object? cancelledAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? transactionId = null,Object? status = null,Object? statusName = null,Object? amount = null,Object? confirmedAt = freezed,Object? cancelledAt = freezed,}) {
   return _then(_self.copyWith(
 transactionId: null == transactionId ? _self.transactionId : transactionId // ignore: cast_nullable_to_non_nullable
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as TransactionStatus,statusName: null == statusName ? _self.statusName : statusName // ignore: cast_nullable_to_non_nullable
-as String,confirmedAt: freezed == confirmedAt ? _self.confirmedAt : confirmedAt // ignore: cast_nullable_to_non_nullable
+as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
+as int,confirmedAt: freezed == confirmedAt ? _self.confirmedAt : confirmedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,cancelledAt: freezed == cancelledAt ? _self.cancelledAt : cancelledAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
@@ -154,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int transactionId,  TransactionStatus status,  String statusName,  DateTime? confirmedAt,  DateTime? cancelledAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int transactionId,  TransactionStatus status,  String statusName,  int amount,  DateTime? confirmedAt,  DateTime? cancelledAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TransactionEntity() when $default != null:
-return $default(_that.transactionId,_that.status,_that.statusName,_that.confirmedAt,_that.cancelledAt);case _:
+return $default(_that.transactionId,_that.status,_that.statusName,_that.amount,_that.confirmedAt,_that.cancelledAt);case _:
   return orElse();
 
 }
@@ -175,10 +176,10 @@ return $default(_that.transactionId,_that.status,_that.statusName,_that.confirme
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int transactionId,  TransactionStatus status,  String statusName,  DateTime? confirmedAt,  DateTime? cancelledAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int transactionId,  TransactionStatus status,  String statusName,  int amount,  DateTime? confirmedAt,  DateTime? cancelledAt)  $default,) {final _that = this;
 switch (_that) {
 case _TransactionEntity():
-return $default(_that.transactionId,_that.status,_that.statusName,_that.confirmedAt,_that.cancelledAt);case _:
+return $default(_that.transactionId,_that.status,_that.statusName,_that.amount,_that.confirmedAt,_that.cancelledAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +196,10 @@ return $default(_that.transactionId,_that.status,_that.statusName,_that.confirme
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int transactionId,  TransactionStatus status,  String statusName,  DateTime? confirmedAt,  DateTime? cancelledAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int transactionId,  TransactionStatus status,  String statusName,  int amount,  DateTime? confirmedAt,  DateTime? cancelledAt)?  $default,) {final _that = this;
 switch (_that) {
 case _TransactionEntity() when $default != null:
-return $default(_that.transactionId,_that.status,_that.statusName,_that.confirmedAt,_that.cancelledAt);case _:
+return $default(_that.transactionId,_that.status,_that.statusName,_that.amount,_that.confirmedAt,_that.cancelledAt);case _:
   return null;
 
 }
@@ -210,12 +211,13 @@ return $default(_that.transactionId,_that.status,_that.statusName,_that.confirme
 
 
 class _TransactionEntity implements TransactionEntity {
-  const _TransactionEntity({required this.transactionId, required this.status, required this.statusName, this.confirmedAt, this.cancelledAt});
+  const _TransactionEntity({required this.transactionId, required this.status, required this.statusName, required this.amount, this.confirmedAt, this.cancelledAt});
   
 
 @override final  int transactionId;
 @override final  TransactionStatus status;
 @override final  String statusName;
+@override final  int amount;
 @override final  DateTime? confirmedAt;
 @override final  DateTime? cancelledAt;
 
@@ -229,16 +231,16 @@ _$TransactionEntityCopyWith<_TransactionEntity> get copyWith => __$TransactionEn
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TransactionEntity&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.status, status) || other.status == status)&&(identical(other.statusName, statusName) || other.statusName == statusName)&&(identical(other.confirmedAt, confirmedAt) || other.confirmedAt == confirmedAt)&&(identical(other.cancelledAt, cancelledAt) || other.cancelledAt == cancelledAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TransactionEntity&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.status, status) || other.status == status)&&(identical(other.statusName, statusName) || other.statusName == statusName)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.confirmedAt, confirmedAt) || other.confirmedAt == confirmedAt)&&(identical(other.cancelledAt, cancelledAt) || other.cancelledAt == cancelledAt));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,transactionId,status,statusName,confirmedAt,cancelledAt);
+int get hashCode => Object.hash(runtimeType,transactionId,status,statusName,amount,confirmedAt,cancelledAt);
 
 @override
 String toString() {
-  return 'TransactionEntity(transactionId: $transactionId, status: $status, statusName: $statusName, confirmedAt: $confirmedAt, cancelledAt: $cancelledAt)';
+  return 'TransactionEntity(transactionId: $transactionId, status: $status, statusName: $statusName, amount: $amount, confirmedAt: $confirmedAt, cancelledAt: $cancelledAt)';
 }
 
 
@@ -249,7 +251,7 @@ abstract mixin class _$TransactionEntityCopyWith<$Res> implements $TransactionEn
   factory _$TransactionEntityCopyWith(_TransactionEntity value, $Res Function(_TransactionEntity) _then) = __$TransactionEntityCopyWithImpl;
 @override @useResult
 $Res call({
- int transactionId, TransactionStatus status, String statusName, DateTime? confirmedAt, DateTime? cancelledAt
+ int transactionId, TransactionStatus status, String statusName, int amount, DateTime? confirmedAt, DateTime? cancelledAt
 });
 
 
@@ -266,12 +268,13 @@ class __$TransactionEntityCopyWithImpl<$Res>
 
 /// Create a copy of TransactionEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? transactionId = null,Object? status = null,Object? statusName = null,Object? confirmedAt = freezed,Object? cancelledAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? transactionId = null,Object? status = null,Object? statusName = null,Object? amount = null,Object? confirmedAt = freezed,Object? cancelledAt = freezed,}) {
   return _then(_TransactionEntity(
 transactionId: null == transactionId ? _self.transactionId : transactionId // ignore: cast_nullable_to_non_nullable
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as TransactionStatus,statusName: null == statusName ? _self.statusName : statusName // ignore: cast_nullable_to_non_nullable
-as String,confirmedAt: freezed == confirmedAt ? _self.confirmedAt : confirmedAt // ignore: cast_nullable_to_non_nullable
+as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
+as int,confirmedAt: freezed == confirmedAt ? _self.confirmedAt : confirmedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,cancelledAt: freezed == cancelledAt ? _self.cancelledAt : cancelledAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));

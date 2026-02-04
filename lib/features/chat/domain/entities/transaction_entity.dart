@@ -30,6 +30,7 @@ abstract class TransactionEntity with _$TransactionEntity {
     required int transactionId,
     required TransactionStatus status,
     required String statusName,
+    required int amount,
     DateTime? confirmedAt,
     DateTime? cancelledAt,
   }) = _TransactionEntity;

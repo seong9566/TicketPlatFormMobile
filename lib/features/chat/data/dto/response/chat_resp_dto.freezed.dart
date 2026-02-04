@@ -1223,7 +1223,7 @@ as double,
 /// @nodoc
 mixin _$TransactionDto {
 
- int? get transactionId; String? get statusCode; String? get statusName; String? get confirmedAt; String? get cancelledAt;
+ int? get transactionId; String? get statusCode; String? get statusName; int? get amount; String? get confirmedAt; String? get cancelledAt;
 /// Create a copy of TransactionDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1236,16 +1236,16 @@ $TransactionDtoCopyWith<TransactionDto> get copyWith => _$TransactionDtoCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TransactionDto&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.statusName, statusName) || other.statusName == statusName)&&(identical(other.confirmedAt, confirmedAt) || other.confirmedAt == confirmedAt)&&(identical(other.cancelledAt, cancelledAt) || other.cancelledAt == cancelledAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TransactionDto&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.statusName, statusName) || other.statusName == statusName)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.confirmedAt, confirmedAt) || other.confirmedAt == confirmedAt)&&(identical(other.cancelledAt, cancelledAt) || other.cancelledAt == cancelledAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,transactionId,statusCode,statusName,confirmedAt,cancelledAt);
+int get hashCode => Object.hash(runtimeType,transactionId,statusCode,statusName,amount,confirmedAt,cancelledAt);
 
 @override
 String toString() {
-  return 'TransactionDto(transactionId: $transactionId, statusCode: $statusCode, statusName: $statusName, confirmedAt: $confirmedAt, cancelledAt: $cancelledAt)';
+  return 'TransactionDto(transactionId: $transactionId, statusCode: $statusCode, statusName: $statusName, amount: $amount, confirmedAt: $confirmedAt, cancelledAt: $cancelledAt)';
 }
 
 
@@ -1256,7 +1256,7 @@ abstract mixin class $TransactionDtoCopyWith<$Res>  {
   factory $TransactionDtoCopyWith(TransactionDto value, $Res Function(TransactionDto) _then) = _$TransactionDtoCopyWithImpl;
 @useResult
 $Res call({
- int? transactionId, String? statusCode, String? statusName, String? confirmedAt, String? cancelledAt
+ int? transactionId, String? statusCode, String? statusName, int? amount, String? confirmedAt, String? cancelledAt
 });
 
 
@@ -1273,12 +1273,13 @@ class _$TransactionDtoCopyWithImpl<$Res>
 
 /// Create a copy of TransactionDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? transactionId = freezed,Object? statusCode = freezed,Object? statusName = freezed,Object? confirmedAt = freezed,Object? cancelledAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? transactionId = freezed,Object? statusCode = freezed,Object? statusName = freezed,Object? amount = freezed,Object? confirmedAt = freezed,Object? cancelledAt = freezed,}) {
   return _then(_self.copyWith(
 transactionId: freezed == transactionId ? _self.transactionId : transactionId // ignore: cast_nullable_to_non_nullable
 as int?,statusCode: freezed == statusCode ? _self.statusCode : statusCode // ignore: cast_nullable_to_non_nullable
 as String?,statusName: freezed == statusName ? _self.statusName : statusName // ignore: cast_nullable_to_non_nullable
-as String?,confirmedAt: freezed == confirmedAt ? _self.confirmedAt : confirmedAt // ignore: cast_nullable_to_non_nullable
+as String?,amount: freezed == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
+as int?,confirmedAt: freezed == confirmedAt ? _self.confirmedAt : confirmedAt // ignore: cast_nullable_to_non_nullable
 as String?,cancelledAt: freezed == cancelledAt ? _self.cancelledAt : cancelledAt // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -1365,10 +1366,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? transactionId,  String? statusCode,  String? statusName,  String? confirmedAt,  String? cancelledAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? transactionId,  String? statusCode,  String? statusName,  int? amount,  String? confirmedAt,  String? cancelledAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TransactionDto() when $default != null:
-return $default(_that.transactionId,_that.statusCode,_that.statusName,_that.confirmedAt,_that.cancelledAt);case _:
+return $default(_that.transactionId,_that.statusCode,_that.statusName,_that.amount,_that.confirmedAt,_that.cancelledAt);case _:
   return orElse();
 
 }
@@ -1386,10 +1387,10 @@ return $default(_that.transactionId,_that.statusCode,_that.statusName,_that.conf
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? transactionId,  String? statusCode,  String? statusName,  String? confirmedAt,  String? cancelledAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? transactionId,  String? statusCode,  String? statusName,  int? amount,  String? confirmedAt,  String? cancelledAt)  $default,) {final _that = this;
 switch (_that) {
 case _TransactionDto():
-return $default(_that.transactionId,_that.statusCode,_that.statusName,_that.confirmedAt,_that.cancelledAt);case _:
+return $default(_that.transactionId,_that.statusCode,_that.statusName,_that.amount,_that.confirmedAt,_that.cancelledAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1406,10 +1407,10 @@ return $default(_that.transactionId,_that.statusCode,_that.statusName,_that.conf
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? transactionId,  String? statusCode,  String? statusName,  String? confirmedAt,  String? cancelledAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? transactionId,  String? statusCode,  String? statusName,  int? amount,  String? confirmedAt,  String? cancelledAt)?  $default,) {final _that = this;
 switch (_that) {
 case _TransactionDto() when $default != null:
-return $default(_that.transactionId,_that.statusCode,_that.statusName,_that.confirmedAt,_that.cancelledAt);case _:
+return $default(_that.transactionId,_that.statusCode,_that.statusName,_that.amount,_that.confirmedAt,_that.cancelledAt);case _:
   return null;
 
 }
@@ -1421,12 +1422,13 @@ return $default(_that.transactionId,_that.statusCode,_that.statusName,_that.conf
 @JsonSerializable()
 
 class _TransactionDto implements TransactionDto {
-  const _TransactionDto({this.transactionId, this.statusCode, this.statusName, this.confirmedAt, this.cancelledAt});
+  const _TransactionDto({this.transactionId, this.statusCode, this.statusName, this.amount, this.confirmedAt, this.cancelledAt});
   factory _TransactionDto.fromJson(Map<String, dynamic> json) => _$TransactionDtoFromJson(json);
 
 @override final  int? transactionId;
 @override final  String? statusCode;
 @override final  String? statusName;
+@override final  int? amount;
 @override final  String? confirmedAt;
 @override final  String? cancelledAt;
 
@@ -1443,16 +1445,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TransactionDto&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.statusName, statusName) || other.statusName == statusName)&&(identical(other.confirmedAt, confirmedAt) || other.confirmedAt == confirmedAt)&&(identical(other.cancelledAt, cancelledAt) || other.cancelledAt == cancelledAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TransactionDto&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.statusName, statusName) || other.statusName == statusName)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.confirmedAt, confirmedAt) || other.confirmedAt == confirmedAt)&&(identical(other.cancelledAt, cancelledAt) || other.cancelledAt == cancelledAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,transactionId,statusCode,statusName,confirmedAt,cancelledAt);
+int get hashCode => Object.hash(runtimeType,transactionId,statusCode,statusName,amount,confirmedAt,cancelledAt);
 
 @override
 String toString() {
-  return 'TransactionDto(transactionId: $transactionId, statusCode: $statusCode, statusName: $statusName, confirmedAt: $confirmedAt, cancelledAt: $cancelledAt)';
+  return 'TransactionDto(transactionId: $transactionId, statusCode: $statusCode, statusName: $statusName, amount: $amount, confirmedAt: $confirmedAt, cancelledAt: $cancelledAt)';
 }
 
 
@@ -1463,7 +1465,7 @@ abstract mixin class _$TransactionDtoCopyWith<$Res> implements $TransactionDtoCo
   factory _$TransactionDtoCopyWith(_TransactionDto value, $Res Function(_TransactionDto) _then) = __$TransactionDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int? transactionId, String? statusCode, String? statusName, String? confirmedAt, String? cancelledAt
+ int? transactionId, String? statusCode, String? statusName, int? amount, String? confirmedAt, String? cancelledAt
 });
 
 
@@ -1480,12 +1482,13 @@ class __$TransactionDtoCopyWithImpl<$Res>
 
 /// Create a copy of TransactionDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? transactionId = freezed,Object? statusCode = freezed,Object? statusName = freezed,Object? confirmedAt = freezed,Object? cancelledAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? transactionId = freezed,Object? statusCode = freezed,Object? statusName = freezed,Object? amount = freezed,Object? confirmedAt = freezed,Object? cancelledAt = freezed,}) {
   return _then(_TransactionDto(
 transactionId: freezed == transactionId ? _self.transactionId : transactionId // ignore: cast_nullable_to_non_nullable
 as int?,statusCode: freezed == statusCode ? _self.statusCode : statusCode // ignore: cast_nullable_to_non_nullable
 as String?,statusName: freezed == statusName ? _self.statusName : statusName // ignore: cast_nullable_to_non_nullable
-as String?,confirmedAt: freezed == confirmedAt ? _self.confirmedAt : confirmedAt // ignore: cast_nullable_to_non_nullable
+as String?,amount: freezed == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
+as int?,confirmedAt: freezed == confirmedAt ? _self.confirmedAt : confirmedAt // ignore: cast_nullable_to_non_nullable
 as String?,cancelledAt: freezed == cancelledAt ? _self.cancelledAt : cancelledAt // ignore: cast_nullable_to_non_nullable
 as String?,
   ));

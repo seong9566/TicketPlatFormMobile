@@ -187,7 +187,7 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
     // 결제 요청 정보 생성
     await paymentViewModel.requestPayment(
       transactionId: transaction.transactionId,
-      amount: ticketInfo.priceValue,
+      amount: transaction.amount,
       orderName:
           "${ticketInfo.title} ${ticketInfo.location} ${ticketInfo.seatInfo} ${ticketInfo.dateTime}",
       customerName: profile?.nickname ?? '구매자',

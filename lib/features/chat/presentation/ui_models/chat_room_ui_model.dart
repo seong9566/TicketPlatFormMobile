@@ -221,12 +221,16 @@ class TransactionUiModel {
   final int transactionId;
   final TransactionStatus status;
   final String statusName;
+  final int amount;
+  final String formattedAmount;
   final String? confirmedAt;
   final String? cancelledAt;
   TransactionUiModel({
     required this.transactionId,
     required this.status,
     required this.statusName,
+    required this.amount,
+    required this.formattedAmount,
     this.confirmedAt,
     this.cancelledAt,
   });
@@ -236,6 +240,8 @@ class TransactionUiModel {
       transactionId: entity.transactionId,
       status: entity.status,
       statusName: entity.statusName,
+      amount: entity.amount,
+      formattedAmount: NumberFormatUtil.formatPrice(entity.amount),
       confirmedAt: entity.confirmedAt?.toIso8601String(),
       cancelledAt: entity.cancelledAt?.toIso8601String(),
     );

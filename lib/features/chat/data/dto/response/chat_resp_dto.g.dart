@@ -102,6 +102,7 @@ _TransactionDto _$TransactionDtoFromJson(Map<String, dynamic> json) =>
       transactionId: (json['transactionId'] as num?)?.toInt(),
       statusCode: json['statusCode'] as String?,
       statusName: json['statusName'] as String?,
+      amount: (json['amount'] as num?)?.toInt(),
       confirmedAt: json['confirmedAt'] as String?,
       cancelledAt: json['cancelledAt'] as String?,
     );
@@ -111,6 +112,7 @@ Map<String, dynamic> _$TransactionDtoToJson(_TransactionDto instance) =>
       'transactionId': instance.transactionId,
       'statusCode': instance.statusCode,
       'statusName': instance.statusName,
+      'amount': instance.amount,
       'confirmedAt': instance.confirmedAt,
       'cancelledAt': instance.cancelledAt,
     };

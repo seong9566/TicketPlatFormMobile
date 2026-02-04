@@ -126,6 +126,7 @@ abstract class TransactionDto with _$TransactionDto {
     int? transactionId,
     String? statusCode,
     String? statusName,
+    int? amount,
     String? confirmedAt,
     String? cancelledAt,
   }) = _TransactionDto;
@@ -153,6 +154,7 @@ extension TransactionDtoX on TransactionDto {
       transactionId: transactionId ?? 0,
       status: statusFromCode(statusCode ?? ''),
       statusName: statusName ?? '',
+      amount: amount ?? 0,
       confirmedAt: confirmedAt != null ? DateTime.parse(confirmedAt!) : null,
       cancelledAt: cancelledAt != null ? DateTime.parse(cancelledAt!) : null,
     );
