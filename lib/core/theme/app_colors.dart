@@ -73,4 +73,8 @@ class AppColors {
   // Grayscale
   static const gray50 = Color(0xFFF9FAFB);
   static const gray100 = Color(0xFFF3F4F6);
+
+  // Aliases for compatibility
+  static const error = destructive;
+  static const textDisabled = disabled;
 }
