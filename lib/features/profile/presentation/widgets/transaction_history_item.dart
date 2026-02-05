@@ -3,31 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
+import 'package:ticket_platform_mobile/features/profile/presentation/ui_models/transaction_history_ui_model.dart';
+import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/transaction_history_viewmodel.dart';
 
 class TransactionHistoryItem extends StatelessWidget {
-  final String imageUrl;
-  final String category;
-  final String title;
-  final String price;
-  final String date;
-  final String location;
-  final String seat;
-  final String state;
-  final Color stateColor;
-  final Color? stateTextColor;
+  final TransactionHistoryUiModel item;
+  final TransactionType type;
 
   const TransactionHistoryItem({
     super.key,
-    required this.imageUrl,
-    required this.category,
-    required this.title,
-    required this.price,
-    required this.date,
-    required this.location,
-    required this.seat,
-    required this.state,
-    required this.stateColor,
-    this.stateTextColor,
+    required this.item,
+    required this.type,
   });
 
   @override
@@ -54,7 +40,7 @@ class TransactionHistoryItem extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: CachedNetworkImage(
-                    imageUrl: imageUrl,
+                    imageUrl: item.ticketThumbnailUrl ?? '',
                     width: 80,
                     height: 80,
                     fit: BoxFit.cover,
@@ -72,14 +58,14 @@ class TransactionHistoryItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        category,
+                        type == TransactionType.purchases ? '구매 내역' : '판매 내역',
                         style: AppTextStyles.caption.copyWith(
                           color: AppColors.textSecondary,
                         ),
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        title,
+                        item.ticketTitle,
                         style: AppTextStyles.body2.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -88,14 +74,14 @@ class TransactionHistoryItem extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        price,
+                        item.price,
                         style: AppTextStyles.body1.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        date,
+                        item.eventDate,
                         style: AppTextStyles.caption.copyWith(
                           color: AppColors.textSecondary,
                         ),
@@ -115,7 +101,7 @@ class TransactionHistoryItem extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  location,
+                  item.venueName,
                   style: AppTextStyles.caption.copyWith(
                     color: AppColors.textSecondary,
                   ),
@@ -123,7 +109,7 @@ class TransactionHistoryItem extends StatelessWidget {
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Text(
-                    seat,
+                    item.seatInfo,
                     style: AppTextStyles.caption.copyWith(
                       color: AppColors.success,
                       fontWeight: FontWeight.w600,
@@ -150,20 +136,22 @@ class TransactionHistoryItem extends StatelessWidget {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: stateColor.withValues(alpha: 0.2),
+                    color: item.stateColor.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
-                    state,
+                    item.state,
                     style: AppTextStyles.caption.copyWith(
-                      color: stateTextColor ?? stateColor,
+                      color: item.stateTextColor ?? item.stateColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 const Spacer(),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    // TODO: 상세 화면 이동
+                  },
                   child: Row(
                     children: [
                       Text(

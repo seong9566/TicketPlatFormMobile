@@ -62,6 +62,10 @@ class ApiEndpoint {
   static const String sellTicketImageRefresh =
       '/api/sell/tickets/images/refresh';
 
+  // Transactions
+  static const String salesHistory = '/api/transactions/sales';
+  static const String purchasesHistory = '/api/transactions/purchases';
+
   // Profile
   static const String myProfile = '/api/users/profile';
   static String userProfile(int userId) => '/api/users/profile/user';

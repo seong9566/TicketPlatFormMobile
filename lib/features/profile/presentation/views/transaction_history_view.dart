@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
+import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/transaction_history_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/widgets/transaction_history_item.dart';
 
 class TransactionHistoryView extends StatefulWidget {
@@ -45,12 +47,6 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView>
         ),
         title: const Text('거래 내역', style: AppTextStyles.body1),
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh, color: AppColors.textPrimary),
-            onPressed: () {},
-          ),
-        ],
       ),
       body: Column(
         children: [
@@ -72,54 +68,139 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: [_buildPurchaseList(), _buildSalesList()],
+              children: const [
+                TransactionHistoryList(type: TransactionType.purchases),
+                TransactionHistoryList(type: TransactionType.sales),
+              ],
             ),
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _buildPurchaseList() {
-    return ListView.separated(
-      padding: const EdgeInsets.all(16),
-      itemCount: 3,
-      separatorBuilder: (context, index) => const SizedBox(height: 12),
-      itemBuilder: (context, index) {
-        return TransactionHistoryItem(
-          imageUrl: 'https://picsum.photos/200?random=$index',
-          category: '뮤지컬',
-          title: '뮤지컬 <오페라의 유령>',
-          price: '150,000원',
-          date: '2023.10.26',
-          location: '블루스퀘어',
-          seat: 'A구역 3열 15번',
-          state: '거래 완료',
-          stateColor: AppColors.success,
-        );
-      },
-    );
+class TransactionHistoryList extends ConsumerStatefulWidget {
+  final TransactionType type;
+
+  const TransactionHistoryList({super.key, required this.type});
+
+  @override
+  ConsumerState<TransactionHistoryList> createState() =>
+      _TransactionHistoryListState();
+}
+
+class _TransactionHistoryListState
+    extends ConsumerState<TransactionHistoryList> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
   }
 
-  Widget _buildSalesList() {
-    return ListView.separated(
-      padding: const EdgeInsets.all(16),
-      itemCount: 2,
-      separatorBuilder: (context, index) => const SizedBox(height: 12),
-      itemBuilder: (context, index) {
-        return TransactionHistoryItem(
-          imageUrl: 'https://picsum.photos/200?random=${index + 10}',
-          category: '콘서트',
-          title: '콘서트 <아이유>',
-          price: '180,000원',
-          date: '2023.10.24',
-          location: 'KSPO돔',
-          seat: 'S구역 12열 8번',
-          state: '입금 대기',
-          stateColor: AppColors.badgeWaitingBackground,
-          stateTextColor: AppColors.badgeWaitingText,
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      ref
+          .read(transactionHistoryViewModelProvider(widget.type).notifier)
+          .loadMore();
+    }
+  }
+
+  Future<void> _refresh() async {
+    return ref
+        .read(transactionHistoryViewModelProvider(widget.type).notifier)
+        .refresh();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(transactionHistoryViewModelProvider(widget.type));
+
+    return state.when(
+      data: (data) {
+        if (data.items.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.receipt_long_outlined,
+                  size: 48,
+                  color: AppColors.textDisabled,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  widget.type == TransactionType.purchases
+                      ? '구매 내역이 없습니다.'
+                      : '판매 내역이 없습니다.',
+                  style: AppTextStyles.body2.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        return RefreshIndicator(
+          onRefresh: _refresh,
+          child: ListView.separated(
+            controller: _scrollController,
+            padding: EdgeInsets.only(
+              left: 16,
+              right: 16,
+              top: 16,
+              bottom: 16 + MediaQuery.of(context).padding.bottom,
+            ),
+            itemCount: data.items.length + (data.isLoadingMore ? 1 : 0),
+            separatorBuilder: (context, index) => const SizedBox(height: 12),
+            itemBuilder: (context, index) {
+              if (index == data.items.length) {
+                return const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+              return TransactionHistoryItem(
+                item: data.items[index],
+                type: widget.type,
+              );
+            },
+          ),
         );
       },
+      loading: () => const Center(
+        child: CircularProgressIndicator(color: AppColors.primary),
+      ),
+      error: (error, stack) => Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.error_outline, size: 48, color: AppColors.error),
+            const SizedBox(height: 16),
+            Text(
+              '데이터를 불러오는데 실패했습니다.',
+              style: AppTextStyles.body2.copyWith(
+                color: AppColors.textSecondary,
+              ),
+            ),
+            const SizedBox(height: 8),
+            TextButton(onPressed: _refresh, child: const Text('다시 시도')),
+          ],
+        ),
+      ),
     );
   }
 }
