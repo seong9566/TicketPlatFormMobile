@@ -97,6 +97,7 @@ lib/
 - `fromJson`, `toJson` 자동 생성 활용.
 - Union types를 사용하여 상태(State) 표현 권장.
 - Code generation (`build_runner`) 필수 실행.
+- **필수**: `freezed` 클래스는 `abstract class`로 정의해야 함 (mixin 사용 시).
 
 ## Localization (l10n)
 - 하드코딩된 한국어 문자열 금지.
