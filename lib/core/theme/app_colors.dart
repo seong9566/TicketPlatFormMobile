@@ -59,6 +59,11 @@ class AppColors {
   static const transparent = Color(0x00000000);
   static const scaffoldBackground = Color(0xFFF8F8F8);
 
+  // Enhanced backgrounds for transactions
+  static const scaffoldGradientStart = Color(0xFFFAFAF8);
+  static const scaffoldGradientEnd = Color(0xFFF5F5F3);
+  static const cardShadowTint = Color(0x0A00B874); // primary with 4% opacity
+
   // Chat
   static const chatHighlightBackground = Color(0xFFE8F5E9);
   static const chatAvatarDefault = Color(0xFFE6C39C);

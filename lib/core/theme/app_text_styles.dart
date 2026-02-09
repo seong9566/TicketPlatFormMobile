@@ -46,4 +46,21 @@ class AppTextStyles {
     fontSize: 12,
     color: AppColors.textSecondary,
   );
+
+  // Transaction-specific styles
+  static const priceDisplay = TextStyle(
+    fontFamily: AppConstants.fontFamily,
+    fontWeight: FontWeight.w800,
+    fontSize: 18,
+    letterSpacing: -0.5,
+    color: AppColors.textPrimary,
+  );
+
+  static const ticketTitle = TextStyle(
+    fontFamily: AppConstants.fontFamily,
+    fontWeight: FontWeight.w700,
+    fontSize: 15,
+    height: 1.3,
+    color: AppColors.textPrimary,
+  );
 }
