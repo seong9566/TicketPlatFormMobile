@@ -1,5 +1,6 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:ticket_platform_mobile/core/error/failures.dart';
 import 'package:ticket_platform_mobile/core/utils/logger.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/providers/profile_providers_di.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/profile_edit_state.dart';
@@ -62,6 +63,16 @@ class ProfileEditViewModel extends _$ProfileEditViewModel {
   }
 
   String _getErrorMessage(dynamic error) {
+    if (error is Failure) {
+      return error.when(
+        server: (message) => message.isNotEmpty ? message : '프로필 수정에 실패했습니다.',
+        network: () => '네트워크 연결을 확인해주세요.',
+        unauthorized: () => '로그인이 필요합니다.',
+        notFound: () => '요청 정보를 찾을 수 없습니다.',
+        unknown: (message) => message.isNotEmpty ? message : '프로필 수정에 실패했습니다.',
+      );
+    }
+
     final errorString = error.toString();
     if (errorString.contains('409')) {
       return '이미 사용 중인 닉네임입니다.';

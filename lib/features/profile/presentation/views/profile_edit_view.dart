@@ -22,6 +22,17 @@ class ProfileEditView extends ConsumerStatefulWidget {
 }
 
 class _ProfileEditViewState extends ConsumerState<ProfileEditView> {
+  static final RegExp _nicknameRegex = RegExp(r'^[가-힣a-zA-Z0-9_-]{2,20}$');
+  static const int _maxImageBytes = 5 * 1024 * 1024;
+  static const Set<String> _allowedImageExtensions = {
+    'jpg',
+    'jpeg',
+    'png',
+    'webp',
+    'heic',
+    'heif',
+    'avif',
+  };
   late final TextEditingController _nicknameController;
   late final TextEditingController _emailController;
   XFile? _selectedImage;
@@ -59,6 +70,15 @@ class _ProfileEditViewState extends ConsumerState<ProfileEditView> {
       return;
     }
 
+    if (nickname.isNotEmpty && !_nicknameRegex.hasMatch(nickname)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('닉네임에 허용되지 않는 문자가 포함되어 있습니다. (한글, 영문, 숫자, _, - 만 허용)'),
+        ),
+      );
+      return;
+    }
+
     final viewModel = ref.read(profileEditViewModelProvider.notifier);
     final success = await viewModel.updateProfile(
       nickname: nickname.isNotEmpty ? nickname : null,
@@ -89,10 +109,43 @@ class _ProfileEditViewState extends ConsumerState<ProfileEditView> {
     );
 
     if (image != null) {
+      final extension = _getFileExtension(image);
+      if (extension == null || !_allowedImageExtensions.contains(extension)) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                '지원하지 않는 이미지 형식입니다. (허용: JPEG, PNG, WebP, HEIC, HEIF, AVIF)',
+              ),
+            ),
+          );
+        }
+        return;
+      }
+
+      final size = await image.length();
+      if (size > _maxImageBytes) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('프로필 이미지는 5MB 이하만 업로드 가능합니다.')),
+          );
+        }
+        return;
+      }
+
       setState(() {
         _selectedImage = image;
       });
     }
+  }
+
+  String? _getFileExtension(XFile file) {
+    final path = file.path.toLowerCase();
+    final index = path.lastIndexOf('.');
+    if (index == -1 || index == path.length - 1) {
+      return null;
+    }
+    return path.substring(index + 1);
   }
 
   @override
