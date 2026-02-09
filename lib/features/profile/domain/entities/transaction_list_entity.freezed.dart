@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TransactionListEntity {
 
- List<TransactionHistoryEntity> get items; String? get nextCursor; bool get hasMore; int get totalCount;
+ List<TransactionHistoryEntity> get items; String? get nextCursor; bool get hasMore; int? get totalCount;
 /// Create a copy of TransactionListEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -45,7 +45,7 @@ abstract mixin class $TransactionListEntityCopyWith<$Res>  {
   factory $TransactionListEntityCopyWith(TransactionListEntity value, $Res Function(TransactionListEntity) _then) = _$TransactionListEntityCopyWithImpl;
 @useResult
 $Res call({
- List<TransactionHistoryEntity> items, String? nextCursor, bool hasMore, int totalCount
+ List<TransactionHistoryEntity> items, String? nextCursor, bool hasMore, int? totalCount
 });
 
 
@@ -62,13 +62,13 @@ class _$TransactionListEntityCopyWithImpl<$Res>
 
 /// Create a copy of TransactionListEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? items = null,Object? nextCursor = freezed,Object? hasMore = null,Object? totalCount = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? items = null,Object? nextCursor = freezed,Object? hasMore = null,Object? totalCount = freezed,}) {
   return _then(_self.copyWith(
 items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
 as List<TransactionHistoryEntity>,nextCursor: freezed == nextCursor ? _self.nextCursor : nextCursor // ignore: cast_nullable_to_non_nullable
 as String?,hasMore: null == hasMore ? _self.hasMore : hasMore // ignore: cast_nullable_to_non_nullable
-as bool,totalCount: null == totalCount ? _self.totalCount : totalCount // ignore: cast_nullable_to_non_nullable
-as int,
+as bool,totalCount: freezed == totalCount ? _self.totalCount : totalCount // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -153,7 +153,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<TransactionHistoryEntity> items,  String? nextCursor,  bool hasMore,  int totalCount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<TransactionHistoryEntity> items,  String? nextCursor,  bool hasMore,  int? totalCount)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TransactionListEntity() when $default != null:
 return $default(_that.items,_that.nextCursor,_that.hasMore,_that.totalCount);case _:
@@ -174,7 +174,7 @@ return $default(_that.items,_that.nextCursor,_that.hasMore,_that.totalCount);cas
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<TransactionHistoryEntity> items,  String? nextCursor,  bool hasMore,  int totalCount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<TransactionHistoryEntity> items,  String? nextCursor,  bool hasMore,  int? totalCount)  $default,) {final _that = this;
 switch (_that) {
 case _TransactionListEntity():
 return $default(_that.items,_that.nextCursor,_that.hasMore,_that.totalCount);case _:
@@ -194,7 +194,7 @@ return $default(_that.items,_that.nextCursor,_that.hasMore,_that.totalCount);cas
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<TransactionHistoryEntity> items,  String? nextCursor,  bool hasMore,  int totalCount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<TransactionHistoryEntity> items,  String? nextCursor,  bool hasMore,  int? totalCount)?  $default,) {final _that = this;
 switch (_that) {
 case _TransactionListEntity() when $default != null:
 return $default(_that.items,_that.nextCursor,_that.hasMore,_that.totalCount);case _:
@@ -209,7 +209,7 @@ return $default(_that.items,_that.nextCursor,_that.hasMore,_that.totalCount);cas
 
 
 class _TransactionListEntity implements TransactionListEntity {
-  const _TransactionListEntity({final  List<TransactionHistoryEntity> items = const [], this.nextCursor, this.hasMore = false, this.totalCount = 0}): _items = items;
+  const _TransactionListEntity({final  List<TransactionHistoryEntity> items = const [], this.nextCursor, this.hasMore = false, this.totalCount}): _items = items;
   
 
  final  List<TransactionHistoryEntity> _items;
@@ -221,7 +221,7 @@ class _TransactionListEntity implements TransactionListEntity {
 
 @override final  String? nextCursor;
 @override@JsonKey() final  bool hasMore;
-@override@JsonKey() final  int totalCount;
+@override final  int? totalCount;
 
 /// Create a copy of TransactionListEntity
 /// with the given fields replaced by the non-null parameter values.
@@ -253,7 +253,7 @@ abstract mixin class _$TransactionListEntityCopyWith<$Res> implements $Transacti
   factory _$TransactionListEntityCopyWith(_TransactionListEntity value, $Res Function(_TransactionListEntity) _then) = __$TransactionListEntityCopyWithImpl;
 @override @useResult
 $Res call({
- List<TransactionHistoryEntity> items, String? nextCursor, bool hasMore, int totalCount
+ List<TransactionHistoryEntity> items, String? nextCursor, bool hasMore, int? totalCount
 });
 
 
@@ -270,13 +270,13 @@ class __$TransactionListEntityCopyWithImpl<$Res>
 
 /// Create a copy of TransactionListEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? items = null,Object? nextCursor = freezed,Object? hasMore = null,Object? totalCount = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? items = null,Object? nextCursor = freezed,Object? hasMore = null,Object? totalCount = freezed,}) {
   return _then(_TransactionListEntity(
 items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
 as List<TransactionHistoryEntity>,nextCursor: freezed == nextCursor ? _self.nextCursor : nextCursor // ignore: cast_nullable_to_non_nullable
 as String?,hasMore: null == hasMore ? _self.hasMore : hasMore // ignore: cast_nullable_to_non_nullable
-as bool,totalCount: null == totalCount ? _self.totalCount : totalCount // ignore: cast_nullable_to_non_nullable
-as int,
+as bool,totalCount: freezed == totalCount ? _self.totalCount : totalCount // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 

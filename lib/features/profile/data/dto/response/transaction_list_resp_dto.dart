@@ -11,7 +11,7 @@ abstract class TransactionListRespDto with _$TransactionListRespDto {
     @Default([]) List<TransactionItemRespDto> items,
     String? nextCursor,
     @Default(false) bool hasMore,
-    @Default(0) int totalCount,
+    int? totalCount,
   }) = _TransactionListRespDto;
 
   factory TransactionListRespDto.fromJson(Map<String, dynamic> json) =>

@@ -16,8 +16,12 @@ abstract class TransactionHistoryState with _$TransactionHistoryState {
     @Default([]) List<TransactionHistoryUiModel> items,
     String? nextCursor,
     @Default(false) bool hasMore,
-    @Default(0) int totalCount,
     @Default(false) bool isLoadingMore,
+    String? selectedStatus,
+    @Default('all') String selectedPeriod,
+    @Default('latest') String selectedSort,
+    int? totalCount,
+    int? cachedTotalCount,
   }) = _TransactionHistoryState;
 }
 
@@ -34,8 +38,18 @@ class TransactionHistoryViewModel extends _$TransactionHistoryViewModel {
   Future<TransactionHistoryState> _fetchTransactions({
     String? cursor,
     int limit = 20,
+    String? status,
+    String? period,
+    String? sortBy,
   }) async {
-    final useCaseResult = await _executeUseCase(cursor: cursor, limit: limit);
+    final currentState = state.value;
+    final useCaseResult = await _executeUseCase(
+      cursor: cursor,
+      limit: limit,
+      status: status ?? currentState?.selectedStatus,
+      period: period ?? currentState?.selectedPeriod ?? 'all',
+      sortBy: sortBy ?? currentState?.selectedSort ?? 'latest',
+    );
 
     final newItems = useCaseResult.items
         .map((e) => TransactionHistoryUiModel.fromEntity(e))
@@ -48,14 +62,21 @@ class TransactionHistoryViewModel extends _$TransactionHistoryViewModel {
         nextCursor: useCaseResult.nextCursor,
         hasMore: useCaseResult.hasMore,
         totalCount: useCaseResult.totalCount,
+        cachedTotalCount: useCaseResult.totalCount,
+        selectedStatus: status ?? currentState?.selectedStatus,
+        selectedPeriod: period ?? currentState?.selectedPeriod ?? 'all',
+        selectedSort: sortBy ?? currentState?.selectedSort ?? 'latest',
       );
     } else {
-      // 더 보기
-      return state.value!.copyWith(
-        items: [...state.value!.items, ...newItems],
+      // 더 보기 (두 번째 페이지 이후)
+      // totalCount가 null이면 캐싱된 값 유지
+      return currentState!.copyWith(
+        items: [...currentState.items, ...newItems],
         nextCursor: useCaseResult.nextCursor,
         hasMore: useCaseResult.hasMore,
         totalCount: useCaseResult.totalCount,
+        cachedTotalCount:
+            useCaseResult.totalCount ?? currentState.cachedTotalCount,
         isLoadingMore: false,
       );
     }
@@ -64,13 +85,28 @@ class TransactionHistoryViewModel extends _$TransactionHistoryViewModel {
   Future<TransactionListEntity> _executeUseCase({
     String? cursor,
     int? limit,
+    String? status,
+    String? period,
+    String? sortBy,
   }) async {
     if (_type == TransactionType.sales) {
       final usecase = ref.read(getSalesHistoryUsecaseProvider);
-      return usecase.call(cursor: cursor, limit: limit);
+      return usecase.call(
+        cursor: cursor,
+        limit: limit,
+        status: status,
+        period: period,
+        sortBy: sortBy,
+      );
     } else {
       final usecase = ref.read(getPurchasesHistoryUsecaseProvider);
-      return usecase.call(cursor: cursor, limit: limit);
+      return usecase.call(
+        cursor: cursor,
+        limit: limit,
+        status: status,
+        period: period,
+        sortBy: sortBy,
+      );
     }
   }
 
@@ -100,5 +136,37 @@ class TransactionHistoryViewModel extends _$TransactionHistoryViewModel {
   Future<void> refresh() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() => _fetchTransactions());
+  }
+
+  Future<void> applyFilter({
+    String? status,
+    String? period,
+    String? sortBy,
+  }) async {
+    // 낙관적 업데이트: 즉시 필터 상태 반영 (로딩 없음)
+    final currentState = state.value;
+    if (currentState != null) {
+      state = AsyncValue.data(
+        currentState.copyWith(
+          selectedStatus: status ?? currentState.selectedStatus,
+          selectedPeriod: period ?? currentState.selectedPeriod,
+          selectedSort: sortBy ?? currentState.selectedSort,
+        ),
+      );
+    }
+
+    // 백그라운드에서 실제 데이터 fetch
+    try {
+      final newState = await _fetchTransactions(
+        status: status,
+        period: period,
+        sortBy: sortBy,
+      );
+      state = AsyncValue.data(newState);
+    } catch (e, stack) {
+      AppLogger.e('필터 적용 실패', e, stack);
+      // 실패 시 에러 상태로 전환 (롤백)
+      state = AsyncValue.error(e, stack);
+    }
   }
 }

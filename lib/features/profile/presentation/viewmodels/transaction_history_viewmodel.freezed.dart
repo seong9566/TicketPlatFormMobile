@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TransactionHistoryState {
 
- List<TransactionHistoryUiModel> get items; String? get nextCursor; bool get hasMore; int get totalCount; bool get isLoadingMore;
+ List<TransactionHistoryUiModel> get items; String? get nextCursor; bool get hasMore; bool get isLoadingMore; String? get selectedStatus; String get selectedPeriod; String get selectedSort; int? get totalCount; int? get cachedTotalCount;
 /// Create a copy of TransactionHistoryState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $TransactionHistoryStateCopyWith<TransactionHistoryState> get copyWith => _$Tran
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TransactionHistoryState&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.nextCursor, nextCursor) || other.nextCursor == nextCursor)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.totalCount, totalCount) || other.totalCount == totalCount)&&(identical(other.isLoadingMore, isLoadingMore) || other.isLoadingMore == isLoadingMore));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TransactionHistoryState&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.nextCursor, nextCursor) || other.nextCursor == nextCursor)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.isLoadingMore, isLoadingMore) || other.isLoadingMore == isLoadingMore)&&(identical(other.selectedStatus, selectedStatus) || other.selectedStatus == selectedStatus)&&(identical(other.selectedPeriod, selectedPeriod) || other.selectedPeriod == selectedPeriod)&&(identical(other.selectedSort, selectedSort) || other.selectedSort == selectedSort)&&(identical(other.totalCount, totalCount) || other.totalCount == totalCount)&&(identical(other.cachedTotalCount, cachedTotalCount) || other.cachedTotalCount == cachedTotalCount));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(items),nextCursor,hasMore,totalCount,isLoadingMore);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(items),nextCursor,hasMore,isLoadingMore,selectedStatus,selectedPeriod,selectedSort,totalCount,cachedTotalCount);
 
 @override
 String toString() {
-  return 'TransactionHistoryState(items: $items, nextCursor: $nextCursor, hasMore: $hasMore, totalCount: $totalCount, isLoadingMore: $isLoadingMore)';
+  return 'TransactionHistoryState(items: $items, nextCursor: $nextCursor, hasMore: $hasMore, isLoadingMore: $isLoadingMore, selectedStatus: $selectedStatus, selectedPeriod: $selectedPeriod, selectedSort: $selectedSort, totalCount: $totalCount, cachedTotalCount: $cachedTotalCount)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $TransactionHistoryStateCopyWith<$Res>  {
   factory $TransactionHistoryStateCopyWith(TransactionHistoryState value, $Res Function(TransactionHistoryState) _then) = _$TransactionHistoryStateCopyWithImpl;
 @useResult
 $Res call({
- List<TransactionHistoryUiModel> items, String? nextCursor, bool hasMore, int totalCount, bool isLoadingMore
+ List<TransactionHistoryUiModel> items, String? nextCursor, bool hasMore, bool isLoadingMore, String? selectedStatus, String selectedPeriod, String selectedSort, int? totalCount, int? cachedTotalCount
 });
 
 
@@ -62,14 +62,18 @@ class _$TransactionHistoryStateCopyWithImpl<$Res>
 
 /// Create a copy of TransactionHistoryState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? items = null,Object? nextCursor = freezed,Object? hasMore = null,Object? totalCount = null,Object? isLoadingMore = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? items = null,Object? nextCursor = freezed,Object? hasMore = null,Object? isLoadingMore = null,Object? selectedStatus = freezed,Object? selectedPeriod = null,Object? selectedSort = null,Object? totalCount = freezed,Object? cachedTotalCount = freezed,}) {
   return _then(_self.copyWith(
 items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
 as List<TransactionHistoryUiModel>,nextCursor: freezed == nextCursor ? _self.nextCursor : nextCursor // ignore: cast_nullable_to_non_nullable
 as String?,hasMore: null == hasMore ? _self.hasMore : hasMore // ignore: cast_nullable_to_non_nullable
-as bool,totalCount: null == totalCount ? _self.totalCount : totalCount // ignore: cast_nullable_to_non_nullable
-as int,isLoadingMore: null == isLoadingMore ? _self.isLoadingMore : isLoadingMore // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,isLoadingMore: null == isLoadingMore ? _self.isLoadingMore : isLoadingMore // ignore: cast_nullable_to_non_nullable
+as bool,selectedStatus: freezed == selectedStatus ? _self.selectedStatus : selectedStatus // ignore: cast_nullable_to_non_nullable
+as String?,selectedPeriod: null == selectedPeriod ? _self.selectedPeriod : selectedPeriod // ignore: cast_nullable_to_non_nullable
+as String,selectedSort: null == selectedSort ? _self.selectedSort : selectedSort // ignore: cast_nullable_to_non_nullable
+as String,totalCount: freezed == totalCount ? _self.totalCount : totalCount // ignore: cast_nullable_to_non_nullable
+as int?,cachedTotalCount: freezed == cachedTotalCount ? _self.cachedTotalCount : cachedTotalCount // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -154,10 +158,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<TransactionHistoryUiModel> items,  String? nextCursor,  bool hasMore,  int totalCount,  bool isLoadingMore)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<TransactionHistoryUiModel> items,  String? nextCursor,  bool hasMore,  bool isLoadingMore,  String? selectedStatus,  String selectedPeriod,  String selectedSort,  int? totalCount,  int? cachedTotalCount)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TransactionHistoryState() when $default != null:
-return $default(_that.items,_that.nextCursor,_that.hasMore,_that.totalCount,_that.isLoadingMore);case _:
+return $default(_that.items,_that.nextCursor,_that.hasMore,_that.isLoadingMore,_that.selectedStatus,_that.selectedPeriod,_that.selectedSort,_that.totalCount,_that.cachedTotalCount);case _:
   return orElse();
 
 }
@@ -175,10 +179,10 @@ return $default(_that.items,_that.nextCursor,_that.hasMore,_that.totalCount,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<TransactionHistoryUiModel> items,  String? nextCursor,  bool hasMore,  int totalCount,  bool isLoadingMore)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<TransactionHistoryUiModel> items,  String? nextCursor,  bool hasMore,  bool isLoadingMore,  String? selectedStatus,  String selectedPeriod,  String selectedSort,  int? totalCount,  int? cachedTotalCount)  $default,) {final _that = this;
 switch (_that) {
 case _TransactionHistoryState():
-return $default(_that.items,_that.nextCursor,_that.hasMore,_that.totalCount,_that.isLoadingMore);case _:
+return $default(_that.items,_that.nextCursor,_that.hasMore,_that.isLoadingMore,_that.selectedStatus,_that.selectedPeriod,_that.selectedSort,_that.totalCount,_that.cachedTotalCount);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +199,10 @@ return $default(_that.items,_that.nextCursor,_that.hasMore,_that.totalCount,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<TransactionHistoryUiModel> items,  String? nextCursor,  bool hasMore,  int totalCount,  bool isLoadingMore)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<TransactionHistoryUiModel> items,  String? nextCursor,  bool hasMore,  bool isLoadingMore,  String? selectedStatus,  String selectedPeriod,  String selectedSort,  int? totalCount,  int? cachedTotalCount)?  $default,) {final _that = this;
 switch (_that) {
 case _TransactionHistoryState() when $default != null:
-return $default(_that.items,_that.nextCursor,_that.hasMore,_that.totalCount,_that.isLoadingMore);case _:
+return $default(_that.items,_that.nextCursor,_that.hasMore,_that.isLoadingMore,_that.selectedStatus,_that.selectedPeriod,_that.selectedSort,_that.totalCount,_that.cachedTotalCount);case _:
   return null;
 
 }
@@ -210,7 +214,7 @@ return $default(_that.items,_that.nextCursor,_that.hasMore,_that.totalCount,_tha
 
 
 class _TransactionHistoryState implements TransactionHistoryState {
-  const _TransactionHistoryState({final  List<TransactionHistoryUiModel> items = const [], this.nextCursor, this.hasMore = false, this.totalCount = 0, this.isLoadingMore = false}): _items = items;
+  const _TransactionHistoryState({final  List<TransactionHistoryUiModel> items = const [], this.nextCursor, this.hasMore = false, this.isLoadingMore = false, this.selectedStatus, this.selectedPeriod = 'all', this.selectedSort = 'latest', this.totalCount, this.cachedTotalCount}): _items = items;
   
 
  final  List<TransactionHistoryUiModel> _items;
@@ -222,8 +226,12 @@ class _TransactionHistoryState implements TransactionHistoryState {
 
 @override final  String? nextCursor;
 @override@JsonKey() final  bool hasMore;
-@override@JsonKey() final  int totalCount;
 @override@JsonKey() final  bool isLoadingMore;
+@override final  String? selectedStatus;
+@override@JsonKey() final  String selectedPeriod;
+@override@JsonKey() final  String selectedSort;
+@override final  int? totalCount;
+@override final  int? cachedTotalCount;
 
 /// Create a copy of TransactionHistoryState
 /// with the given fields replaced by the non-null parameter values.
@@ -235,16 +243,16 @@ _$TransactionHistoryStateCopyWith<_TransactionHistoryState> get copyWith => __$T
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TransactionHistoryState&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.nextCursor, nextCursor) || other.nextCursor == nextCursor)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.totalCount, totalCount) || other.totalCount == totalCount)&&(identical(other.isLoadingMore, isLoadingMore) || other.isLoadingMore == isLoadingMore));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TransactionHistoryState&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.nextCursor, nextCursor) || other.nextCursor == nextCursor)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.isLoadingMore, isLoadingMore) || other.isLoadingMore == isLoadingMore)&&(identical(other.selectedStatus, selectedStatus) || other.selectedStatus == selectedStatus)&&(identical(other.selectedPeriod, selectedPeriod) || other.selectedPeriod == selectedPeriod)&&(identical(other.selectedSort, selectedSort) || other.selectedSort == selectedSort)&&(identical(other.totalCount, totalCount) || other.totalCount == totalCount)&&(identical(other.cachedTotalCount, cachedTotalCount) || other.cachedTotalCount == cachedTotalCount));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_items),nextCursor,hasMore,totalCount,isLoadingMore);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_items),nextCursor,hasMore,isLoadingMore,selectedStatus,selectedPeriod,selectedSort,totalCount,cachedTotalCount);
 
 @override
 String toString() {
-  return 'TransactionHistoryState(items: $items, nextCursor: $nextCursor, hasMore: $hasMore, totalCount: $totalCount, isLoadingMore: $isLoadingMore)';
+  return 'TransactionHistoryState(items: $items, nextCursor: $nextCursor, hasMore: $hasMore, isLoadingMore: $isLoadingMore, selectedStatus: $selectedStatus, selectedPeriod: $selectedPeriod, selectedSort: $selectedSort, totalCount: $totalCount, cachedTotalCount: $cachedTotalCount)';
 }
 
 
@@ -255,7 +263,7 @@ abstract mixin class _$TransactionHistoryStateCopyWith<$Res> implements $Transac
   factory _$TransactionHistoryStateCopyWith(_TransactionHistoryState value, $Res Function(_TransactionHistoryState) _then) = __$TransactionHistoryStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<TransactionHistoryUiModel> items, String? nextCursor, bool hasMore, int totalCount, bool isLoadingMore
+ List<TransactionHistoryUiModel> items, String? nextCursor, bool hasMore, bool isLoadingMore, String? selectedStatus, String selectedPeriod, String selectedSort, int? totalCount, int? cachedTotalCount
 });
 
 
@@ -272,14 +280,18 @@ class __$TransactionHistoryStateCopyWithImpl<$Res>
 
 /// Create a copy of TransactionHistoryState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? items = null,Object? nextCursor = freezed,Object? hasMore = null,Object? totalCount = null,Object? isLoadingMore = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? items = null,Object? nextCursor = freezed,Object? hasMore = null,Object? isLoadingMore = null,Object? selectedStatus = freezed,Object? selectedPeriod = null,Object? selectedSort = null,Object? totalCount = freezed,Object? cachedTotalCount = freezed,}) {
   return _then(_TransactionHistoryState(
 items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
 as List<TransactionHistoryUiModel>,nextCursor: freezed == nextCursor ? _self.nextCursor : nextCursor // ignore: cast_nullable_to_non_nullable
 as String?,hasMore: null == hasMore ? _self.hasMore : hasMore // ignore: cast_nullable_to_non_nullable
-as bool,totalCount: null == totalCount ? _self.totalCount : totalCount // ignore: cast_nullable_to_non_nullable
-as int,isLoadingMore: null == isLoadingMore ? _self.isLoadingMore : isLoadingMore // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,isLoadingMore: null == isLoadingMore ? _self.isLoadingMore : isLoadingMore // ignore: cast_nullable_to_non_nullable
+as bool,selectedStatus: freezed == selectedStatus ? _self.selectedStatus : selectedStatus // ignore: cast_nullable_to_non_nullable
+as String?,selectedPeriod: null == selectedPeriod ? _self.selectedPeriod : selectedPeriod // ignore: cast_nullable_to_non_nullable
+as String,selectedSort: null == selectedSort ? _self.selectedSort : selectedSort // ignore: cast_nullable_to_non_nullable
+as String,totalCount: freezed == totalCount ? _self.totalCount : totalCount // ignore: cast_nullable_to_non_nullable
+as int?,cachedTotalCount: freezed == cachedTotalCount ? _self.cachedTotalCount : cachedTotalCount // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 

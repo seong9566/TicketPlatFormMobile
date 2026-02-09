@@ -18,7 +18,7 @@ _TransactionListRespDto _$TransactionListRespDtoFromJson(
       const [],
   nextCursor: json['nextCursor'] as String?,
   hasMore: json['hasMore'] as bool? ?? false,
-  totalCount: (json['totalCount'] as num?)?.toInt() ?? 0,
+  totalCount: (json['totalCount'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$TransactionListRespDtoToJson(

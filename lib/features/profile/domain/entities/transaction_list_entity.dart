@@ -9,6 +9,6 @@ abstract class TransactionListEntity with _$TransactionListEntity {
     @Default([]) List<TransactionHistoryEntity> items,
     String? nextCursor,
     @Default(false) bool hasMore,
-    @Default(0) int totalCount,
+    int? totalCount,
   }) = _TransactionListEntity;
 }
