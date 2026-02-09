@@ -6,10 +6,15 @@ import 'package:ticket_platform_mobile/core/storage/token_storage.dart';
 import 'package:ticket_platform_mobile/core/utils/logger.dart';
 
 class ApiInterceptor extends Interceptor {
-  ApiInterceptor({required this.tokenStorage, required this.onTokenExpired});
+  ApiInterceptor({
+    required this.tokenStorage,
+    required this.onTokenExpired,
+    required this.baseUrl,
+  });
 
   final TokenStorage tokenStorage;
   final Future<void> Function() onTokenExpired;
+  final String baseUrl;
 
   // 동시 다발적인 401 에러 발생 시 토큰 갱신을 한 번만 수행하기 위한 Completer
   Completer<void>? _refreshCompleter;
@@ -80,7 +85,7 @@ class ApiInterceptor extends Interceptor {
     // Token 갱신 요청을 위한 전용 Dio 인스턴스 사용 (무한 루프 방지)
     final dio = Dio(
       BaseOptions(
-        baseUrl: ApiEndpoint.baseUrl,
+        baseUrl: baseUrl,
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 5),
       ),

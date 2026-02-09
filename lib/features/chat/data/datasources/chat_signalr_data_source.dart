@@ -26,7 +26,7 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:signalr_netcore/signalr_client.dart';
-import 'package:ticket_platform_mobile/core/network/api_endpoint.dart';
+import 'package:ticket_platform_mobile/core/config/app_config_provider.dart';
 import 'package:ticket_platform_mobile/core/utils/logger.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/message_entity.dart';
 
@@ -117,6 +117,9 @@ abstract class ChatSignalRDataSource {
 }
 
 class ChatSignalRDataSourceImpl implements ChatSignalRDataSource {
+  ChatSignalRDataSourceImpl({required this.baseUrl});
+
+  final String baseUrl;
   HubConnection? _hubConnection;
 
   StreamController<MessageEntity>? _messageController;
@@ -150,7 +153,7 @@ class ChatSignalRDataSourceImpl implements ChatSignalRDataSource {
         await disconnect();
       }
 
-      final hubUrl = ApiEndpoint.chatHub;
+      final hubUrl = '$baseUrl/hubs/chat';
       AppLogger.i('SignalR connecting to: $hubUrl');
 
       _hubConnection = HubConnectionBuilder()
@@ -491,7 +494,8 @@ class ChatSignalRDataSourceImpl implements ChatSignalRDataSource {
 /// - 연결 상태가 여러 ViewModel에서 동일하게 유지됨
 @Riverpod(keepAlive: true)
 ChatSignalRDataSource chatSignalRDataSource(Ref ref) {
-  final dataSource = ChatSignalRDataSourceImpl();
+  final config = ref.watch(appConfigProvider);
+  final dataSource = ChatSignalRDataSourceImpl(baseUrl: config.apiBaseUrl);
 
   // Provider가 dispose될 때 SignalR 연결 해제
   ref.onDispose(() {

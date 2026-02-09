@@ -1,19 +1,5 @@
-import 'dart:io';
-
 class ApiEndpoint {
   const ApiEndpoint._();
-
-  static String get baseUrl {
-    const int port = 5224;
-
-    if (Platform.isIOS) {
-      // iOS USB 인터넷 공유: Mac의 bridge100 IP 사용
-      return 'http://192.168.2.1:$port';
-    }
-
-    // Android Wi-Fi: Mac의 유선 네트워크 IP 사용
-    return 'http://123.2.156.230:$port';
-  }
 
   // Home
   static const String home = '/api/home';
@@ -75,7 +61,4 @@ class ApiEndpoint {
   static const String paymentReq = '/api/payment/request';
   static const String paymentConfirm = '/api/payment/confirm';
   static const String paymentCancel = '/api/payment/cancel';
-
-  // SignalR Hub
-  static String get chatHub => '$baseUrl/hubs/chat';
 }

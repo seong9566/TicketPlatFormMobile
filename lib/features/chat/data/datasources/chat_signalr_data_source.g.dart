@@ -65,4 +65,4 @@ final class ChatSignalRDataSourceProvider
 }
 
 String _$chatSignalRDataSourceHash() =>
-    r'b898666f0071d3c5699ac0629329774c2ab99b6a';
+    r'0d656385d43f525fd9a8f01f88015d770e5219a5';
