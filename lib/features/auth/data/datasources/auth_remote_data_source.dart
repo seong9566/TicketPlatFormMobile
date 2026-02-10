@@ -55,7 +55,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<BaseResponse<TokenRespDto>> refreshToken(String refreshToken) async {
     return safeApiCall<TokenRespDto>(
       apiCall: (options) => _dio.post(
-        ApiEndpoint.tokenRefresh, // /auth/refresh
+        ApiEndpoint.tokenRefresh, // /api/auth/refresh
         data: {'refreshToken': refreshToken},
         options: options,
       ),
