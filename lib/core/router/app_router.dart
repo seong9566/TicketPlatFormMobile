@@ -22,6 +22,7 @@ import 'package:ticket_platform_mobile/features/sell/presentation/views/sell_she
 import 'package:ticket_platform_mobile/features/splash/presentation/view/splash_view.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/views/transaction_history_view.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/views/profile_edit_view.dart';
+import 'package:ticket_platform_mobile/features/profile/presentation/views/change_password_view.dart';
 import 'package:ticket_platform_mobile/features/payment/presentation/views/payment_view.dart';
 import 'package:ticket_platform_mobile/features/payment/presentation/views/payment_final_view.dart';
 import 'package:ticket_platform_mobile/features/payment/domain/entities/payment_entities.dart';
@@ -217,6 +218,13 @@ GoRouter goRouter(Ref ref) {
           final profile = state.extra as MyProfileUiModel?;
           return ProfileEditView(profile: profile);
         },
+      ),
+
+      /// 비밀번호 변경 화면
+      GoRoute(
+        path: AppRouterPath.changePassword.path,
+        name: AppRouterPath.changePassword.name,
+        builder: (context, state) => const ChangePasswordView(),
       ),
       // 이미지 뷰어 화면
       GoRoute(

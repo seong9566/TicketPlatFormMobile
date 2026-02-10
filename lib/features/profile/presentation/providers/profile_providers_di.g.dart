@@ -298,3 +298,51 @@ final class GetPurchasesHistoryUsecaseProvider
 
 String _$getPurchasesHistoryUsecaseHash() =>
     r'1b0e577088f461a0b5f64e7775ac30e78444b375';
+
+@ProviderFor(changePasswordUsecase)
+const changePasswordUsecaseProvider = ChangePasswordUsecaseProvider._();
+
+final class ChangePasswordUsecaseProvider
+    extends
+        $FunctionalProvider<
+          ChangePasswordUsecase,
+          ChangePasswordUsecase,
+          ChangePasswordUsecase
+        >
+    with $Provider<ChangePasswordUsecase> {
+  const ChangePasswordUsecaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'changePasswordUsecaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$changePasswordUsecaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<ChangePasswordUsecase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  ChangePasswordUsecase create(Ref ref) {
+    return changePasswordUsecase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ChangePasswordUsecase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ChangePasswordUsecase>(value),
+    );
+  }
+}
+
+String _$changePasswordUsecaseHash() =>
+    r'22908c3f48a3f0175603cfe21685aa3aff0c38d8';

@@ -87,10 +87,11 @@ class ProfileView extends ConsumerWidget {
                   trailingText: asyncState.value?.profile?.email ?? '',
                   showChevron: false,
                 ),
-                const ProfileMenuTile(
+                ProfileMenuTile(
                   icon: Icons.lock_outline,
                   title: '비밀번호',
                   trailingText: '변경하기',
+                  onTap: () => context.push(AppRouterPath.changePassword.path),
                 ),
               ],
             ),

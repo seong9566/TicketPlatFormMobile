@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ticket_platform_mobile/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:ticket_platform_mobile/features/profile/data/repositories/transaction_history_repository_impl.dart';
+import 'package:ticket_platform_mobile/features/profile/domain/usecases/change_password_usecase.dart';
 import 'package:ticket_platform_mobile/features/profile/domain/usecases/get_my_profile_usecase.dart';
 import 'package:ticket_platform_mobile/features/profile/domain/usecases/get_purchases_history_usecase.dart';
 import 'package:ticket_platform_mobile/features/profile/domain/usecases/get_sales_history_usecase.dart';
@@ -40,4 +41,9 @@ GetPurchasesHistoryUsecase getPurchasesHistoryUsecase(Ref ref) {
   return GetPurchasesHistoryUsecase(
     ref.read(transactionHistoryRepositoryProvider),
   );
+}
+
+@riverpod
+ChangePasswordUsecase changePasswordUsecase(Ref ref) {
+  return ChangePasswordUsecase(ref.read(profileRepositoryProvider));
 }

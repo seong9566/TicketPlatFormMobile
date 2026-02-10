@@ -56,6 +56,7 @@ class ApiEndpoint {
   static const String myProfile = '/api/users/profile';
   static String userProfile(int userId) => '/api/users/profile/user';
   static const String profileImageRefresh = '/api/users/profile/image-refresh';
+  static const String changePassword = '/api/users/password';
 
   // Payment
   static const String paymentReq = '/api/payment/request';

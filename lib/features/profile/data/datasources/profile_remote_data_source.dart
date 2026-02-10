@@ -4,6 +4,7 @@ import 'package:ticket_platform_mobile/core/network/api_endpoint.dart';
 import 'package:ticket_platform_mobile/core/network/base_response.dart';
 import 'package:ticket_platform_mobile/core/network/dio_provider.dart';
 import 'package:ticket_platform_mobile/core/network/safe_api_call.dart';
+import 'package:ticket_platform_mobile/features/profile/data/dto/request/change_password_req_dto.dart';
 import 'package:ticket_platform_mobile/features/profile/data/dto/request/update_profile_req_dto.dart';
 import 'package:ticket_platform_mobile/features/profile/data/dto/response/image_refresh_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/profile/data/dto/response/my_profile_resp_dto.dart';
@@ -27,6 +28,9 @@ abstract class ProfileRemoteDataSource {
   Future<BaseResponse<ImageRefreshRespDto>> refreshProfileImageUrl({
     int? userId,
   });
+
+  /// 비밀번호 변경
+  Future<BaseResponse<void>> changePassword(ChangePasswordReqDto reqDto);
 }
 
 /// Profile RemoteDataSource Implementation
@@ -86,6 +90,19 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
       apiName: 'refreshProfileImageUrl',
       dataParser: (json) =>
           ImageRefreshRespDto.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
+  @override
+  Future<BaseResponse<void>> changePassword(ChangePasswordReqDto reqDto) async {
+    return safeApiCall<void>(
+      apiCall: (options) => _dio.put(
+        ApiEndpoint.changePassword,
+        data: reqDto.toMap(),
+        options: options,
+      ),
+      apiName: 'changePassword',
+      dataParser: (_) {},
     );
   }
 }

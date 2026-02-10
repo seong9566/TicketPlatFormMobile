@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ticket_platform_mobile/core/network/base_response.dart';
 import 'package:ticket_platform_mobile/core/utils/logger.dart';
 import 'package:ticket_platform_mobile/features/profile/data/datasources/profile_remote_data_source.dart';
+import 'package:ticket_platform_mobile/features/profile/data/dto/request/change_password_req_dto.dart';
 import 'package:ticket_platform_mobile/features/profile/data/dto/request/update_profile_req_dto.dart';
 import 'package:ticket_platform_mobile/features/profile/data/dto/response/my_profile_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/profile/domain/entities/my_profile_entity.dart';
@@ -77,6 +78,29 @@ class ProfileRepositoryImpl implements ProfileRepository {
       return response.data?.profileImageUrl;
     } catch (e) {
       AppLogger.e('프로필 이미지 URL 갱신 실패', e);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    try {
+      final reqDto = ChangePasswordReqDto(
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+      );
+      final response = await _remoteDataSource.changePassword(reqDto);
+      if (!response.isSuccess) {
+        final message = response.message.isNotEmpty
+            ? response.message
+            : '비밀번호 변경에 실패했습니다.';
+        throw Exception(message);
+      }
+    } catch (e) {
+      AppLogger.e('비밀번호 변경 실패', e);
       rethrow;
     }
   }

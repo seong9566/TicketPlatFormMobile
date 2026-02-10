@@ -20,4 +20,10 @@ abstract class ProfileRepository {
   /// 프로필 이미지 URL 갱신
   /// [userId]가 null이면 본인의 URL 갱신
   Future<String?> refreshProfileImageUrl({int? userId});
+
+  /// 비밀번호 변경
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  });
 }
