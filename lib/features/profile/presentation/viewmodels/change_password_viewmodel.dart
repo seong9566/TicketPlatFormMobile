@@ -20,6 +20,9 @@ class ChangePasswordViewModel extends _$ChangePasswordViewModel {
   }) async {
     if (state.isLoading) return false;
 
+    final trimmedCurrentPassword = currentPassword.trim();
+    final trimmedNewPassword = newPassword.trim();
+
     state = state.copyWith(
       isLoading: true,
       errorMessage: null,
@@ -29,8 +32,8 @@ class ChangePasswordViewModel extends _$ChangePasswordViewModel {
     try {
       final usecase = ref.read(changePasswordUsecaseProvider);
       await usecase.call(
-        currentPassword: currentPassword,
-        newPassword: newPassword,
+        currentPassword: trimmedCurrentPassword,
+        newPassword: trimmedNewPassword,
       );
 
       AppLogger.i('비밀번호 변경 성공');
@@ -66,40 +69,6 @@ class ChangePasswordViewModel extends _$ChangePasswordViewModel {
         notFound: () => '사용자 정보를 찾을 수 없습니다.',
         unknown: (message) => message.isNotEmpty ? message : '비밀번호 변경에 실패했습니다.',
       );
-    }
-
-    final errorString = error.toString();
-
-    // 400 Bad Request - 비밀번호 정책 위반 or 동일한 비밀번호
-    if (errorString.contains('400')) {
-      if (errorString.contains('SAME_AS_CURRENT_PASSWORD')) {
-        return '새 비밀번호는 현재 비밀번호와 달라야 합니다.';
-      }
-      if (errorString.contains('INVALID_PASSWORD_FORMAT')) {
-        return '비밀번호는 8자 이상, 영문/숫자/특수문자 중 3가지 이상 조합이어야 합니다.';
-      }
-      return '입력값을 확인해주세요.';
-    }
-
-    // 401 Unauthorized - 현재 비밀번호 불일치
-    if (errorString.contains('401')) {
-      if (errorString.contains('INVALID_CURRENT_PASSWORD')) {
-        return '현재 비밀번호가 일치하지 않습니다.';
-      }
-      return '인증에 실패했습니다. 다시 로그인해주세요.';
-    }
-
-    // 403 Forbidden - 소셜 로그인 사용자
-    if (errorString.contains('403')) {
-      if (errorString.contains('SOCIAL_LOGIN_USER')) {
-        return '소셜 로그인 사용자는 비밀번호를 변경할 수 없습니다.';
-      }
-      return '권한이 없습니다.';
-    }
-
-    // 404 Not Found - 사용자 없음
-    if (errorString.contains('404')) {
-      return '사용자 정보를 찾을 수 없습니다.';
     }
 
     return '비밀번호 변경에 실패했습니다.';
