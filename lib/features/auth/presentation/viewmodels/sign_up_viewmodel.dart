@@ -45,14 +45,16 @@ class SignUpViewModel extends _$SignUpViewModel with ErrorHandler {
   }
 
   Future<void> signUp() async {
+    final trimmedPassword = state.password.trim();
+    final trimmedConfirmPassword = state.confirmPassword.trim();
     if (state.email.isEmpty ||
-        state.password.isEmpty ||
-        state.confirmPassword.isEmpty) {
+        trimmedPassword.isEmpty ||
+        trimmedConfirmPassword.isEmpty) {
       state = state.copyWith(errorMessage: '모든 정보를 입력해주세요.');
       return;
     }
 
-    if (state.password != state.confirmPassword) {
+    if (trimmedPassword != trimmedConfirmPassword) {
       state = state.copyWith(errorMessage: '비밀번호가 일치하지 않습니다.');
       return;
     }
@@ -67,7 +69,7 @@ class SignUpViewModel extends _$SignUpViewModel with ErrorHandler {
     try {
       final req = SignUpReqDto(
         email: state.email,
-        password: state.password,
+        password: trimmedPassword,
         phone: state.phone,
         provider: 'email',
       );

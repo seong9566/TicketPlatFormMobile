@@ -28,7 +28,8 @@ class LoginViewModel extends _$LoginViewModel with ErrorHandler {
   }
 
   Future<void> login() async {
-    if (state.email.isEmpty || state.password.isEmpty) {
+    final trimmedPassword = state.password.trim();
+    if (state.email.isEmpty || trimmedPassword.isEmpty) {
       state = state.copyWith(errorMessage: '이메일과 비밀번호를 모두 입력해주세요.');
       return;
     }
@@ -36,7 +37,7 @@ class LoginViewModel extends _$LoginViewModel with ErrorHandler {
     state = state.copyWith(isLoading: true, errorMessage: null);
 
     try {
-      final req = LoginReqDto(email: state.email, password: state.password);
+      final req = LoginReqDto(email: state.email, password: trimmedPassword);
       await _loginUsecase.call(req);
       state = state.copyWith(isLoading: false, isSuccess: true);
     } catch (e) {

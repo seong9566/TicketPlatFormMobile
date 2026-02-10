@@ -67,9 +67,8 @@ class _ChangePasswordViewState extends ConsumerState<ChangePasswordView> {
         );
         // 성공 후 뒤로가기
         Future.delayed(const Duration(milliseconds: 500), () {
-          if (mounted) {
-            context.pop();
-          }
+          if (!context.mounted) return;
+          context.pop();
         });
       }
 
@@ -233,7 +232,7 @@ class _ChangePasswordViewState extends ConsumerState<ChangePasswordView> {
         color: AppColors.background,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, -2),
           ),
