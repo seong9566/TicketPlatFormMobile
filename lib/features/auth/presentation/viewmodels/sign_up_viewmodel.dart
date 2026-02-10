@@ -45,9 +45,11 @@ class SignUpViewModel extends _$SignUpViewModel with ErrorHandler {
   }
 
   Future<void> signUp() async {
+    final trimmedEmail = state.email.trim();
     final trimmedPassword = state.password.trim();
     final trimmedConfirmPassword = state.confirmPassword.trim();
-    if (state.email.isEmpty ||
+    final trimmedPhone = state.phone.trim();
+    if (trimmedEmail.isEmpty ||
         trimmedPassword.isEmpty ||
         trimmedConfirmPassword.isEmpty) {
       state = state.copyWith(errorMessage: '모든 정보를 입력해주세요.');
@@ -68,9 +70,9 @@ class SignUpViewModel extends _$SignUpViewModel with ErrorHandler {
 
     try {
       final req = SignUpReqDto(
-        email: state.email,
+        email: trimmedEmail,
         password: trimmedPassword,
-        phone: state.phone,
+        phone: trimmedPhone,
         provider: 'email',
       );
 
