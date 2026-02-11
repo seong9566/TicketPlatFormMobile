@@ -5,6 +5,7 @@ import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
+import 'package:ticket_platform_mobile/features/notification/presentation/viewmodels/unread_badge_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/profile_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/widgets/profile_header_section.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/widgets/profile_menu_tile.dart';
@@ -14,9 +15,49 @@ import 'package:ticket_platform_mobile/shared/widgets/app_dialog.dart';
 class ProfileView extends ConsumerWidget {
   const ProfileView({super.key});
 
+  String? _resolveSocialProvider(String? email, String? provider) {
+    final normalizedProvider = (provider ?? '').toLowerCase();
+    if (normalizedProvider == 'kakao' ||
+        normalizedProvider == 'google' ||
+        normalizedProvider == 'apple') {
+      return normalizedProvider;
+    }
+
+    final normalizedEmail = (email ?? '').toLowerCase();
+    if (!normalizedEmail.endsWith('@social.local')) {
+      return null;
+    }
+
+    if (normalizedEmail.startsWith('kakao_')) return 'kakao';
+    if (normalizedEmail.startsWith('google_')) return 'google';
+    if (normalizedEmail.startsWith('apple_')) return 'apple';
+
+    return 'social';
+  }
+
+  String _buildSocialLoginText(String provider) {
+    switch (provider) {
+      case 'google':
+        return 'Google로그인';
+      case 'kakao':
+        return 'Kakao로그인';
+      case 'apple':
+        return 'Apple로그인';
+      default:
+        return '소셜로그인';
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncState = ref.watch(profileViewModelProvider);
+    final profile = asyncState.value?.profile;
+    final unreadNotificationCount = ref.watch(unreadBadgeViewModelProvider);
+    final socialProvider = _resolveSocialProvider(
+      profile?.email,
+      profile?.provider,
+    );
+    final isSocialLogin = socialProvider != null;
 
     /// 로그아웃 확인 다이얼로그
     void showLogoutDialog(BuildContext context, WidgetRef ref) {
@@ -81,18 +122,28 @@ class ProfileView extends ConsumerWidget {
             ProfileSection(
               title: '계정 정보',
               children: [
-                ProfileMenuTile(
-                  icon: Icons.person_outline,
-                  title: '아이디',
-                  trailingText: asyncState.value?.profile?.email ?? '',
-                  showChevron: false,
-                ),
-                ProfileMenuTile(
-                  icon: Icons.lock_outline,
-                  title: '비밀번호',
-                  trailingText: '변경하기',
-                  onTap: () => context.push(AppRouterPath.changePassword.path),
-                ),
+                if (isSocialLogin)
+                  ProfileMenuTile(
+                    icon: Icons.person_outline,
+                    title: '로그인 방식',
+                    trailingText: _buildSocialLoginText(socialProvider),
+                    showChevron: false,
+                  )
+                else
+                  ProfileMenuTile(
+                    icon: Icons.person_outline,
+                    title: '계정 이메일',
+                    trailingText: profile?.email ?? '',
+                    showChevron: false,
+                  ),
+                if (!isSocialLogin)
+                  ProfileMenuTile(
+                    icon: Icons.lock_outline,
+                    title: '비밀번호',
+                    trailingText: '변경하기',
+                    onTap: () =>
+                        context.push(AppRouterPath.changePassword.path),
+                  ),
               ],
             ),
             ProfileSection(
@@ -114,9 +165,20 @@ class ProfileView extends ConsumerWidget {
             ),
             ProfileSection(
               title: '설정',
-              children: const [
-                ProfileMenuTile(icon: Icons.notifications_none, title: '알림 설정'),
-                ProfileMenuTile(icon: Icons.place_outlined, title: '배송지 관리'),
+              children: [
+                ProfileMenuTile(
+                  icon: Icons.notifications_none,
+                  title: '알림',
+                  trailingText: unreadNotificationCount > 0
+                      ? '$unreadNotificationCount개 미읽음'
+                      : null,
+                  onTap: () =>
+                      context.push(AppRouterPath.notificationList.path),
+                ),
+                const ProfileMenuTile(
+                  icon: Icons.place_outlined,
+                  title: '배송지 관리',
+                ),
               ],
             ),
             ProfileSection(

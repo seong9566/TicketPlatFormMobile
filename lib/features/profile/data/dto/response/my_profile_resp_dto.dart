@@ -9,6 +9,7 @@ abstract class MyProfileRespDto with _$MyProfileRespDto {
   const factory MyProfileRespDto({
     required int userId,
     required String email,
+    String? provider,
     required String nickname,
     String? profileImageUrl,
     String? bio,
@@ -24,6 +25,7 @@ extension MyProfileRespDtoX on MyProfileRespDto {
   MyProfileEntity toEntity() => MyProfileEntity(
     userId: userId,
     email: email,
+    provider: provider,
     nickname: nickname,
     profileImageUrl: profileImageUrl,
     bio: bio,

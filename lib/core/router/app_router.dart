@@ -23,6 +23,7 @@ import 'package:ticket_platform_mobile/features/splash/presentation/view/splash_
 import 'package:ticket_platform_mobile/features/profile/presentation/views/transaction_history_view.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/views/profile_edit_view.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/views/change_password_view.dart';
+import 'package:ticket_platform_mobile/features/notification/presentation/views/notification_list_view.dart';
 import 'package:ticket_platform_mobile/features/payment/presentation/views/payment_view.dart';
 import 'package:ticket_platform_mobile/features/payment/presentation/views/payment_final_view.dart';
 import 'package:ticket_platform_mobile/features/payment/domain/entities/payment_entities.dart';
@@ -93,6 +94,12 @@ GoRouter goRouter(Ref ref) {
               int.tryParse(state.pathParameters['initialIndex'] ?? '0') ?? 0;
           return TransactionHistoryView(initialIndex: initialIndex);
         },
+      ),
+
+      GoRoute(
+        path: AppRouterPath.notificationList.path,
+        name: AppRouterPath.notificationList.name,
+        builder: (context, state) => const NotificationListView(),
       ),
 
       /// 공연 예매 목록 화면

@@ -1,7 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:ticket_platform_mobile/core/utils/logger.dart';
+import 'package:ticket_platform_mobile/firebase_options.dart';
 
 import 'package:ticket_platform_mobile/core/router/app_router.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
@@ -9,28 +13,46 @@ import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 
 import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  const kakaoNativeAppKey = String.fromEnvironment(
-    'KAKAO_NATIVE_APP_KEY',
-    defaultValue: '',
-  );
-  if (kakaoNativeAppKey.isNotEmpty) {
-    KakaoSdk.init(nativeAppKey: kakaoNativeAppKey);
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    AppLogger.i('[Firebase] initialized');
+  } catch (e) {
+    AppLogger.e('[Firebase] initialization failed', e);
   }
 
-  initializeDateFormatting().then((_) {
-    runApp(
-      ProviderScope(
-        // Riverpod3.0에 자동 재시도 로직이 생김 개발 시에는 필요가 없음.
-        retry: (retryCount, error) {
-          return null;
-        },
-        child: TicketPlatformApp(),
-      ),
+  try {
+    await dotenv.load(fileName: '.env');
+  } catch (e) {
+    AppLogger.w('[Env] .env file load failed: $e');
+  }
+
+  final kakaoNativeAppKey = (dotenv.env['KAKAO_NATIVE_APP_KEY'] ?? '').trim();
+
+  if (kakaoNativeAppKey.isNotEmpty) {
+    KakaoSdk.init(nativeAppKey: kakaoNativeAppKey);
+    AppLogger.i('[Kakao] SDK initialized');
+  } else {
+    AppLogger.w(
+      '[Kakao] KAKAO_NATIVE_APP_KEY is empty in .env. Kakao login disabled.',
     );
-  });
+  }
+
+  await initializeDateFormatting();
+
+  runApp(
+    ProviderScope(
+      // Riverpod3.0에 자동 재시도 로직이 생김 개발 시에는 필요가 없음.
+      retry: (retryCount, error) {
+        return null;
+      },
+      child: TicketPlatformApp(),
+    ),
+  );
 }
 
 class TicketPlatformApp extends ConsumerWidget {

@@ -63,4 +63,12 @@ class ApiEndpoint {
   static const String paymentReq = '/api/payment/request';
   static const String paymentConfirm = '/api/payment/confirm';
   static const String paymentCancel = '/api/payment/cancel';
+
+  // Notification
+  static const String notificationToken = '/api/notifications/token';
+  static const String notifications = '/api/notifications';
+  static const String notificationsReadAll = '/api/notifications/read-all';
+  static const String notificationsUnreadCount =
+      '/api/notifications/unread-count';
+  static String notificationRead(int id) => '/api/notifications/$id/read';
 }

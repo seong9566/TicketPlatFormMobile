@@ -1,7 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:ticket_platform_mobile/features/auth/data/datasources/google_oauth_data_source.dart';
-import 'package:ticket_platform_mobile/features/auth/data/datasources/kakao_oauth_data_source.dart';
 import 'package:ticket_platform_mobile/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:ticket_platform_mobile/features/auth/data/repositories/social_oauth_repository_impl.dart';
 import 'package:ticket_platform_mobile/features/auth/domain/usecases/google_sign_in_usecase.dart';
 import 'package:ticket_platform_mobile/features/auth/domain/usecases/kakao_sign_in_usecase.dart';
 import 'package:ticket_platform_mobile/features/auth/domain/usecases/login_usecase.dart';
@@ -22,7 +21,7 @@ SignUpUsecase signUpUsecase(Ref ref) {
 @riverpod
 GoogleSignInUsecase googleSignInUsecase(Ref ref) {
   return GoogleSignInUsecase(
-    ref.watch(googleOAuthDataSourceProvider),
+    ref.watch(socialOAuthRepositoryProvider),
     ref.watch(authRepositoryProvider),
   );
 }
@@ -30,7 +29,7 @@ GoogleSignInUsecase googleSignInUsecase(Ref ref) {
 @riverpod
 KakaoSignInUsecase kakaoSignInUsecase(Ref ref) {
   return KakaoSignInUsecase(
-    ref.watch(kakaoOAuthDataSourceProvider),
+    ref.watch(socialOAuthRepositoryProvider),
     ref.watch(authRepositoryProvider),
   );
 }

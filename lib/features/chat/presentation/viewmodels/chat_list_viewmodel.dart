@@ -132,6 +132,8 @@ class ChatListViewModel extends _$ChatListViewModel {
     return rooms.fold<int>(0, (sum, room) => sum + room.unreadCount);
   }
 
+  int? get currentRoomId => _currentlyViewingRoomId;
+
   /// 현재 보고 있는 채팅방 ID 설정
   /// - 채팅방 입장 시 roomId 설정, 퇴장 시 null 설정
   /// - 해당 방의 메시지는 unreadCount 증가 안함

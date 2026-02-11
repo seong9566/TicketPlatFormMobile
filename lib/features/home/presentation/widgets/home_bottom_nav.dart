@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/viewmodels/chat_list_viewmodel.dart';
+import 'package:ticket_platform_mobile/features/notification/presentation/viewmodels/unread_badge_viewmodel.dart';
+import 'package:ticket_platform_mobile/features/notification/presentation/widgets/notification_badge_widget.dart';
 
 class HomeBottomNav extends ConsumerWidget {
   final int currentIndex;
@@ -25,6 +27,7 @@ class HomeBottomNav extends ConsumerWidget {
         );
       }),
     );
+    final unreadNotificationCount = ref.watch(unreadBadgeViewModelProvider);
 
     return BottomNavigationBar(
       currentIndex: currentIndex,
@@ -46,10 +49,25 @@ class HomeBottomNav extends ConsumerWidget {
           icon: Icon(Icons.favorite_border),
           label: '찜',
         ),
-        const BottomNavigationBarItem(
-          icon: Icon(Icons.person_outline),
+        BottomNavigationBarItem(
+          icon: _buildProfileIcon(unreadCount: unreadNotificationCount),
           label: '내정보',
         ),
+      ],
+    );
+  }
+
+  Widget _buildProfileIcon({required int unreadCount}) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        const Icon(Icons.person_outline),
+        if (unreadCount > 0)
+          Positioned(
+            right: -6,
+            top: -4,
+            child: NotificationBadgeWidget(count: unreadCount, small: true),
+          ),
       ],
     );
   }

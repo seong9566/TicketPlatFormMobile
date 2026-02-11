@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ticket_platform_mobile/core/utils/error_handler.dart';
-import 'package:ticket_platform_mobile/features/auth/data/dto/request/auth_req_dto.dart';
 import 'package:ticket_platform_mobile/features/auth/domain/usecases/sign_up_usecase.dart';
+import 'package:ticket_platform_mobile/features/auth/domain/usecases/auth_params.dart';
 import 'package:ticket_platform_mobile/features/auth/presentation/providers/auth_providers_di.dart';
 import 'package:ticket_platform_mobile/features/auth/presentation/viewmodels/sign_up_state.dart';
 
@@ -69,14 +69,14 @@ class SignUpViewModel extends _$SignUpViewModel with ErrorHandler {
     state = state.copyWith(isLoading: true, errorMessage: null);
 
     try {
-      final req = SignUpReqDto(
+      final params = SignUpParams(
         email: trimmedEmail,
         password: trimmedPassword,
         phone: trimmedPhone,
         provider: 'email',
       );
 
-      await _signUpUsecase.call(req);
+      await _signUpUsecase.call(params);
       state = state.copyWith(isLoading: false, isSuccess: true);
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: handleError(e));

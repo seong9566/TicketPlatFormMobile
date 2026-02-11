@@ -8,6 +8,7 @@ abstract class MyProfileUiModel with _$MyProfileUiModel {
   const factory MyProfileUiModel({
     required int userId,
     required String email,
+    String? provider,
     required String nickname,
     String? profileImageUrl,
     String? bio,
@@ -19,6 +20,7 @@ abstract class MyProfileUiModel with _$MyProfileUiModel {
     return MyProfileUiModel(
       userId: entity.userId,
       email: entity.email,
+      provider: entity.provider,
       nickname: entity.nickname.isEmpty ? '닉네임 없음' : entity.nickname,
       profileImageUrl: entity.profileImageUrl,
       bio: entity.bio,

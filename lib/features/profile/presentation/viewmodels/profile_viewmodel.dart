@@ -1,6 +1,10 @@
+import 'dart:io';
+
+import 'package:ticket_platform_mobile/core/services/fcm_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ticket_platform_mobile/core/storage/token_storage.dart';
 import 'package:ticket_platform_mobile/core/utils/logger.dart';
+import 'package:ticket_platform_mobile/features/notification/presentation/providers/notification_providers_di.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/providers/profile_providers_di.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/ui_models/my_profile_ui_model.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/profile_state.dart';
@@ -42,6 +46,8 @@ class ProfileViewModel extends _$ProfileViewModel {
   /// 토큰 삭제 후 성공 상태 반환
   Future<bool> logout() async {
     try {
+      await _deleteFcmTokenOnLogout();
+
       final tokenStorage = ref.read(tokenStorageProvider);
       await tokenStorage.clearTokens();
 
@@ -63,4 +69,21 @@ class ProfileViewModel extends _$ProfileViewModel {
       return false;
     }
   }
+
+  Future<void> _deleteFcmTokenOnLogout() async {
+    try {
+      final token = await ref.read(fcmServiceProvider).getToken();
+      if (token == null || token.isEmpty) {
+        return;
+      }
+
+      await ref.read(deleteFcmTokenUsecaseProvider).call(deviceToken: token);
+      AppLogger.i('[FCM] 로그아웃 시 토큰 삭제 성공 (${_platform})');
+    } catch (e, stack) {
+      AppLogger.w('[FCM] 로그아웃 토큰 삭제 실패 (로그아웃은 계속 진행): $e');
+      AppLogger.e('[FCM] 로그아웃 토큰 삭제 stack', e, stack);
+    }
+  }
+
+  String get _platform => Platform.isIOS ? 'IOS' : 'ANDROID';
 }

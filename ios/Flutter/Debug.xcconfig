@@ -1,4 +1,4 @@
 #include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"
 #include "Generated.xcconfig"
-KAKAO_NATIVE_APP_KEY=
-GOOGLE_IOS_CLIENT_ID=
+KAKAO_NATIVE_APP_KEY=c11cc5032df94c413226818579dd4f2e
+GOOGLE_IOS_CLIENT_ID=362905054730-nhihcab6oht92os5d27clemc665qcq5o.apps.googleusercontent.com

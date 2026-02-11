@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MyProfileRespDto {
 
- int get userId; String get email; String get nickname; String? get profileImageUrl; String? get bio; double? get mannerTemperature; int? get totalTradeCount;
+ int get userId; String get email; String? get provider; String get nickname; String? get profileImageUrl; String? get bio; double? get mannerTemperature; int? get totalTradeCount;
 /// Create a copy of MyProfileRespDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $MyProfileRespDtoCopyWith<MyProfileRespDto> get copyWith => _$MyProfileRespDtoCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MyProfileRespDto&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.email, email) || other.email == email)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImageUrl, profileImageUrl) || other.profileImageUrl == profileImageUrl)&&(identical(other.bio, bio) || other.bio == bio)&&(identical(other.mannerTemperature, mannerTemperature) || other.mannerTemperature == mannerTemperature)&&(identical(other.totalTradeCount, totalTradeCount) || other.totalTradeCount == totalTradeCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MyProfileRespDto&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.email, email) || other.email == email)&&(identical(other.provider, provider) || other.provider == provider)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImageUrl, profileImageUrl) || other.profileImageUrl == profileImageUrl)&&(identical(other.bio, bio) || other.bio == bio)&&(identical(other.mannerTemperature, mannerTemperature) || other.mannerTemperature == mannerTemperature)&&(identical(other.totalTradeCount, totalTradeCount) || other.totalTradeCount == totalTradeCount));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,userId,email,nickname,profileImageUrl,bio,mannerTemperature,totalTradeCount);
+int get hashCode => Object.hash(runtimeType,userId,email,provider,nickname,profileImageUrl,bio,mannerTemperature,totalTradeCount);
 
 @override
 String toString() {
-  return 'MyProfileRespDto(userId: $userId, email: $email, nickname: $nickname, profileImageUrl: $profileImageUrl, bio: $bio, mannerTemperature: $mannerTemperature, totalTradeCount: $totalTradeCount)';
+  return 'MyProfileRespDto(userId: $userId, email: $email, provider: $provider, nickname: $nickname, profileImageUrl: $profileImageUrl, bio: $bio, mannerTemperature: $mannerTemperature, totalTradeCount: $totalTradeCount)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $MyProfileRespDtoCopyWith<$Res>  {
   factory $MyProfileRespDtoCopyWith(MyProfileRespDto value, $Res Function(MyProfileRespDto) _then) = _$MyProfileRespDtoCopyWithImpl;
 @useResult
 $Res call({
- int userId, String email, String nickname, String? profileImageUrl, String? bio, double? mannerTemperature, int? totalTradeCount
+ int userId, String email, String? provider, String nickname, String? profileImageUrl, String? bio, double? mannerTemperature, int? totalTradeCount
 });
 
 
@@ -65,11 +65,12 @@ class _$MyProfileRespDtoCopyWithImpl<$Res>
 
 /// Create a copy of MyProfileRespDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,Object? email = null,Object? nickname = null,Object? profileImageUrl = freezed,Object? bio = freezed,Object? mannerTemperature = freezed,Object? totalTradeCount = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,Object? email = null,Object? provider = freezed,Object? nickname = null,Object? profileImageUrl = freezed,Object? bio = freezed,Object? mannerTemperature = freezed,Object? totalTradeCount = freezed,}) {
   return _then(_self.copyWith(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as int,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
-as String,nickname: null == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
+as String,provider: freezed == provider ? _self.provider : provider // ignore: cast_nullable_to_non_nullable
+as String?,nickname: null == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
 as String,profileImageUrl: freezed == profileImageUrl ? _self.profileImageUrl : profileImageUrl // ignore: cast_nullable_to_non_nullable
 as String?,bio: freezed == bio ? _self.bio : bio // ignore: cast_nullable_to_non_nullable
 as String?,mannerTemperature: freezed == mannerTemperature ? _self.mannerTemperature : mannerTemperature // ignore: cast_nullable_to_non_nullable
@@ -159,10 +160,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int userId,  String email,  String nickname,  String? profileImageUrl,  String? bio,  double? mannerTemperature,  int? totalTradeCount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int userId,  String email,  String? provider,  String nickname,  String? profileImageUrl,  String? bio,  double? mannerTemperature,  int? totalTradeCount)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MyProfileRespDto() when $default != null:
-return $default(_that.userId,_that.email,_that.nickname,_that.profileImageUrl,_that.bio,_that.mannerTemperature,_that.totalTradeCount);case _:
+return $default(_that.userId,_that.email,_that.provider,_that.nickname,_that.profileImageUrl,_that.bio,_that.mannerTemperature,_that.totalTradeCount);case _:
   return orElse();
 
 }
@@ -180,10 +181,10 @@ return $default(_that.userId,_that.email,_that.nickname,_that.profileImageUrl,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int userId,  String email,  String nickname,  String? profileImageUrl,  String? bio,  double? mannerTemperature,  int? totalTradeCount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int userId,  String email,  String? provider,  String nickname,  String? profileImageUrl,  String? bio,  double? mannerTemperature,  int? totalTradeCount)  $default,) {final _that = this;
 switch (_that) {
 case _MyProfileRespDto():
-return $default(_that.userId,_that.email,_that.nickname,_that.profileImageUrl,_that.bio,_that.mannerTemperature,_that.totalTradeCount);case _:
+return $default(_that.userId,_that.email,_that.provider,_that.nickname,_that.profileImageUrl,_that.bio,_that.mannerTemperature,_that.totalTradeCount);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -200,10 +201,10 @@ return $default(_that.userId,_that.email,_that.nickname,_that.profileImageUrl,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int userId,  String email,  String nickname,  String? profileImageUrl,  String? bio,  double? mannerTemperature,  int? totalTradeCount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int userId,  String email,  String? provider,  String nickname,  String? profileImageUrl,  String? bio,  double? mannerTemperature,  int? totalTradeCount)?  $default,) {final _that = this;
 switch (_that) {
 case _MyProfileRespDto() when $default != null:
-return $default(_that.userId,_that.email,_that.nickname,_that.profileImageUrl,_that.bio,_that.mannerTemperature,_that.totalTradeCount);case _:
+return $default(_that.userId,_that.email,_that.provider,_that.nickname,_that.profileImageUrl,_that.bio,_that.mannerTemperature,_that.totalTradeCount);case _:
   return null;
 
 }
@@ -215,11 +216,12 @@ return $default(_that.userId,_that.email,_that.nickname,_that.profileImageUrl,_t
 @JsonSerializable()
 
 class _MyProfileRespDto implements MyProfileRespDto {
-  const _MyProfileRespDto({required this.userId, required this.email, required this.nickname, this.profileImageUrl, this.bio, this.mannerTemperature, this.totalTradeCount});
+  const _MyProfileRespDto({required this.userId, required this.email, this.provider, required this.nickname, this.profileImageUrl, this.bio, this.mannerTemperature, this.totalTradeCount});
   factory _MyProfileRespDto.fromJson(Map<String, dynamic> json) => _$MyProfileRespDtoFromJson(json);
 
 @override final  int userId;
 @override final  String email;
+@override final  String? provider;
 @override final  String nickname;
 @override final  String? profileImageUrl;
 @override final  String? bio;
@@ -239,16 +241,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MyProfileRespDto&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.email, email) || other.email == email)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImageUrl, profileImageUrl) || other.profileImageUrl == profileImageUrl)&&(identical(other.bio, bio) || other.bio == bio)&&(identical(other.mannerTemperature, mannerTemperature) || other.mannerTemperature == mannerTemperature)&&(identical(other.totalTradeCount, totalTradeCount) || other.totalTradeCount == totalTradeCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MyProfileRespDto&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.email, email) || other.email == email)&&(identical(other.provider, provider) || other.provider == provider)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImageUrl, profileImageUrl) || other.profileImageUrl == profileImageUrl)&&(identical(other.bio, bio) || other.bio == bio)&&(identical(other.mannerTemperature, mannerTemperature) || other.mannerTemperature == mannerTemperature)&&(identical(other.totalTradeCount, totalTradeCount) || other.totalTradeCount == totalTradeCount));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,userId,email,nickname,profileImageUrl,bio,mannerTemperature,totalTradeCount);
+int get hashCode => Object.hash(runtimeType,userId,email,provider,nickname,profileImageUrl,bio,mannerTemperature,totalTradeCount);
 
 @override
 String toString() {
-  return 'MyProfileRespDto(userId: $userId, email: $email, nickname: $nickname, profileImageUrl: $profileImageUrl, bio: $bio, mannerTemperature: $mannerTemperature, totalTradeCount: $totalTradeCount)';
+  return 'MyProfileRespDto(userId: $userId, email: $email, provider: $provider, nickname: $nickname, profileImageUrl: $profileImageUrl, bio: $bio, mannerTemperature: $mannerTemperature, totalTradeCount: $totalTradeCount)';
 }
 
 
@@ -259,7 +261,7 @@ abstract mixin class _$MyProfileRespDtoCopyWith<$Res> implements $MyProfileRespD
   factory _$MyProfileRespDtoCopyWith(_MyProfileRespDto value, $Res Function(_MyProfileRespDto) _then) = __$MyProfileRespDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int userId, String email, String nickname, String? profileImageUrl, String? bio, double? mannerTemperature, int? totalTradeCount
+ int userId, String email, String? provider, String nickname, String? profileImageUrl, String? bio, double? mannerTemperature, int? totalTradeCount
 });
 
 
@@ -276,11 +278,12 @@ class __$MyProfileRespDtoCopyWithImpl<$Res>
 
 /// Create a copy of MyProfileRespDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? email = null,Object? nickname = null,Object? profileImageUrl = freezed,Object? bio = freezed,Object? mannerTemperature = freezed,Object? totalTradeCount = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? email = null,Object? provider = freezed,Object? nickname = null,Object? profileImageUrl = freezed,Object? bio = freezed,Object? mannerTemperature = freezed,Object? totalTradeCount = freezed,}) {
   return _then(_MyProfileRespDto(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as int,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
-as String,nickname: null == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
+as String,provider: freezed == provider ? _self.provider : provider // ignore: cast_nullable_to_non_nullable
+as String?,nickname: null == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
 as String,profileImageUrl: freezed == profileImageUrl ? _self.profileImageUrl : profileImageUrl // ignore: cast_nullable_to_non_nullable
 as String?,bio: freezed == bio ? _self.bio : bio // ignore: cast_nullable_to_non_nullable
 as String?,mannerTemperature: freezed == mannerTemperature ? _self.mannerTemperature : mannerTemperature // ignore: cast_nullable_to_non_nullable

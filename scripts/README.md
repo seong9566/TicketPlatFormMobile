@@ -4,6 +4,15 @@ AppConfig `--dart-define` 주입용 원클릭 실행 스크립트.
 
 ## 사용법
 
+### 카카오 로그인 키 설정(.env)
+프로젝트 루트(`ticket_platform_mobile/.env`)에 키를 설정합니다.
+
+```bash
+KAKAO_NATIVE_APP_KEY=your_kakao_native_app_key
+```
+
+`.env.example`를 복사해 `.env`로 사용해도 됩니다.
+
 ### 개발 환경 실행
 ```bash
 ./scripts/run_dev.sh
