@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 import 'package:ticket_platform_mobile/core/router/app_router.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
@@ -10,6 +11,15 @@ import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+
+  const kakaoNativeAppKey = String.fromEnvironment(
+    'KAKAO_NATIVE_APP_KEY',
+    defaultValue: '',
+  );
+  if (kakaoNativeAppKey.isNotEmpty) {
+    KakaoSdk.init(nativeAppKey: kakaoNativeAppKey);
+  }
+
   initializeDateFormatting().then((_) {
     runApp(
       ProviderScope(
