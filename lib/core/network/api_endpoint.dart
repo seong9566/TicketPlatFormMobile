@@ -11,6 +11,7 @@ class ApiEndpoint {
   static const String signup = '/api/auth/sign';
   static const String logout = '/api/auth/logout';
   static const String tokenRefresh = '/api/auth/refresh';
+  static const String socialLogin = '/api/auth/social/login';
 
   // Ticketing
   static const String ticketingInfo = '/api/ticketing/info';

@@ -5,12 +5,14 @@ import 'package:ticket_platform_mobile/core/network/base_response.dart';
 import 'package:ticket_platform_mobile/core/network/dio_provider.dart';
 import 'package:ticket_platform_mobile/core/network/safe_api_call.dart';
 import 'package:ticket_platform_mobile/features/auth/data/dto/request/auth_req_dto.dart';
+import 'package:ticket_platform_mobile/features/auth/data/dto/request/social_login_req_dto.dart';
 import 'package:ticket_platform_mobile/features/auth/data/dto/response/auth_resp_dto.dart';
 
 part 'auth_remote_data_source.g.dart';
 
 abstract class AuthRemoteDataSource {
   Future<BaseResponse<AuthRespDto>> login(LoginReqDto req);
+  Future<BaseResponse<AuthRespDto>> socialLogin(SocialLoginReqDto req);
   Future<BaseResponse<SignUpRespDto>> signUp(SignUpReqDto req);
   Future<BaseResponse<void>> logout();
   Future<BaseResponse<TokenRespDto>> refreshToken(String refreshToken);
@@ -27,6 +29,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       apiCall: (options) =>
           _dio.post(ApiEndpoint.login, data: req.toMap(), options: options),
       apiName: 'login',
+      dataParser: (json) => AuthRespDto.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
+  @override
+  Future<BaseResponse<AuthRespDto>> socialLogin(SocialLoginReqDto req) async {
+    return safeApiCall<AuthRespDto>(
+      apiCall: (options) => _dio.post(
+        ApiEndpoint.socialLogin,
+        data: req.toMap(),
+        options: options,
+      ),
+      apiName: 'socialLogin',
       dataParser: (json) => AuthRespDto.fromJson(json as Map<String, dynamic>),
     );
   }
