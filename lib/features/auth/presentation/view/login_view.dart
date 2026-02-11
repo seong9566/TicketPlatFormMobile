@@ -96,7 +96,7 @@ class LoginView extends ConsumerWidget {
           const SizedBox(height: 24),
           _buildDivider(),
           const SizedBox(height: 24),
-          _buildSocialLogin(),
+          _buildSocialLogin(viewModel),
           const SizedBox(height: 24),
           _buildSignUpLink(context),
         ],
@@ -135,27 +135,38 @@ class LoginView extends ConsumerWidget {
     );
   }
 
-  Widget _buildSocialLogin() {
+  Widget _buildSocialLogin(LoginViewModel viewModel) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _buildOAuthButton(
-          iconPath: AppAssets.kakaoLogo,
+          child: SvgPicture.asset(
+            AppAssets.kakaoLogo,
+            fit: BoxFit.cover,
+            width: 20,
+            height: 20,
+          ),
           backgroundColor: const Color(0xffFEE500),
-          onTap: () {},
+          onTap: viewModel.signInWithKakao,
         ),
         const SizedBox(width: AppSpacing.md),
         _buildOAuthButton(
-          iconPath: AppAssets.naverLogo,
-          backgroundColor: const Color(0xff03C75A),
-          onTap: () {},
+          child: Text(
+            'G',
+            style: AppTextStyles.body1.copyWith(
+              fontWeight: FontWeight.w700,
+              color: AppColors.textPrimary,
+            ),
+          ),
+          backgroundColor: Colors.white,
+          onTap: viewModel.signInWithGoogle,
         ),
       ],
     );
   }
 
   Widget _buildOAuthButton({
-    required String iconPath,
+    required Widget child,
     required Color backgroundColor,
     required VoidCallback onTap,
   }) {
@@ -166,14 +177,10 @@ class LoginView extends ConsumerWidget {
         decoration: BoxDecoration(
           color: backgroundColor,
           shape: BoxShape.circle,
+          border: Border.all(color: AppColors.border),
         ),
         padding: EdgeInsets.all(17),
-        child: SvgPicture.asset(
-          iconPath,
-          fit: BoxFit.cover,
-          width: 20,
-          height: 20,
-        ),
+        child: child,
       ),
     );
   }

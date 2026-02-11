@@ -286,7 +286,6 @@ as String,
 
 }
 
-
 /// @nodoc
 mixin _$AuthRespDto {
 
@@ -297,8 +296,6 @@ mixin _$AuthRespDto {
 @pragma('vm:prefer-inline')
 $AuthRespDtoCopyWith<AuthRespDto> get copyWith => _$AuthRespDtoCopyWithImpl<AuthRespDto>(this as AuthRespDto, _$identity);
 
-  /// Serializes this AuthRespDto to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -306,7 +303,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthRespDto&&(identical(other.id, id) || other.id == id)&&(identical(other.email, email) || other.email == email)&&(identical(other.role, role) || other.role == role)&&(identical(other.provider, provider) || other.provider == provider)&&(identical(other.lastLoginAt, lastLoginAt) || other.lastLoginAt == lastLoginAt)&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken)&&(identical(other.expiresIn, expiresIn) || other.expiresIn == expiresIn)&&(identical(other.tokenType, tokenType) || other.tokenType == tokenType)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt));
 }
 
-@JsonKey(includeFromJson: false, includeToJson: false)
+
 @override
 int get hashCode => Object.hash(runtimeType,id,email,role,provider,lastLoginAt,accessToken,refreshToken,expiresIn,tokenType,expiresAt);
 
@@ -490,11 +487,11 @@ return $default(_that.id,_that.email,_that.role,_that.provider,_that.lastLoginAt
 }
 
 /// @nodoc
-@JsonSerializable()
+
 
 class _AuthRespDto implements AuthRespDto {
   const _AuthRespDto({required this.id, required this.email, required this.role, required this.provider, this.lastLoginAt, required this.accessToken, required this.refreshToken, required this.expiresIn, required this.tokenType, required this.expiresAt});
-  factory _AuthRespDto.fromJson(Map<String, dynamic> json) => _$AuthRespDtoFromJson(json);
+  
 
 @override final  int id;
 @override final  String email;
@@ -513,17 +510,14 @@ class _AuthRespDto implements AuthRespDto {
 @pragma('vm:prefer-inline')
 _$AuthRespDtoCopyWith<_AuthRespDto> get copyWith => __$AuthRespDtoCopyWithImpl<_AuthRespDto>(this, _$identity);
 
-@override
-Map<String, dynamic> toJson() {
-  return _$AuthRespDtoToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthRespDto&&(identical(other.id, id) || other.id == id)&&(identical(other.email, email) || other.email == email)&&(identical(other.role, role) || other.role == role)&&(identical(other.provider, provider) || other.provider == provider)&&(identical(other.lastLoginAt, lastLoginAt) || other.lastLoginAt == lastLoginAt)&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken)&&(identical(other.expiresIn, expiresIn) || other.expiresIn == expiresIn)&&(identical(other.tokenType, tokenType) || other.tokenType == tokenType)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt));
 }
 
-@JsonKey(includeFromJson: false, includeToJson: false)
+
 @override
 int get hashCode => Object.hash(runtimeType,id,email,role,provider,lastLoginAt,accessToken,refreshToken,expiresIn,tokenType,expiresAt);
 

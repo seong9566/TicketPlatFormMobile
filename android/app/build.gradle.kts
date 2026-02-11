@@ -5,6 +5,9 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+val kakaoNativeAppKey =
+    (project.findProperty("KAKAO_NATIVE_APP_KEY") as String?) ?: "YOUR_KAKAO_NATIVE_APP_KEY"
+
 android {
     namespace = "com.example.ticket_platform_mobile"
     compileSdk = flutter.compileSdkVersion
@@ -24,10 +27,12 @@ android {
         applicationId = "com.example.ticket_platform_mobile"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        minSdk = maxOf(flutter.minSdkVersion, 21)
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        manifestPlaceholders["kakaoAppKey"] = kakaoNativeAppKey
+        manifestPlaceholders["kakaoScheme"] = "kakao$kakaoNativeAppKey"
     }
 
     buildTypes {

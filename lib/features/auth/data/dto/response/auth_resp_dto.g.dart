@@ -24,33 +24,6 @@ Map<String, dynamic> _$TokenRespDtoToJson(_TokenRespDto instance) =>
       'expiresAt': instance.expiresAt,
     };
 
-_AuthRespDto _$AuthRespDtoFromJson(Map<String, dynamic> json) => _AuthRespDto(
-  id: (json['id'] as num).toInt(),
-  email: json['email'] as String,
-  role: json['role'] as String,
-  provider: json['provider'] as String,
-  lastLoginAt: json['lastLoginAt'] as String?,
-  accessToken: json['accessToken'] as String,
-  refreshToken: json['refreshToken'] as String,
-  expiresIn: (json['expiresIn'] as num).toInt(),
-  tokenType: json['tokenType'] as String,
-  expiresAt: json['expiresAt'] as String,
-);
-
-Map<String, dynamic> _$AuthRespDtoToJson(_AuthRespDto instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'email': instance.email,
-      'role': instance.role,
-      'provider': instance.provider,
-      'lastLoginAt': instance.lastLoginAt,
-      'accessToken': instance.accessToken,
-      'refreshToken': instance.refreshToken,
-      'expiresIn': instance.expiresIn,
-      'tokenType': instance.tokenType,
-      'expiresAt': instance.expiresAt,
-    };
-
 _SignUpRespDto _$SignUpRespDtoFromJson(Map<String, dynamic> json) =>
     _SignUpRespDto(
       email: json['email'] as String,
