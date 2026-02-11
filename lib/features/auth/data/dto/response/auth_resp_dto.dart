@@ -35,8 +35,22 @@ abstract class AuthRespDto with _$AuthRespDto {
     required String expiresAt,
   }) = _AuthRespDto;
 
-  factory AuthRespDto.fromJson(Map<String, dynamic> json) =>
-      _$AuthRespDtoFromJson(json);
+  factory AuthRespDto.fromJson(Map<String, dynamic> json) {
+    final rawId = json['id'] ?? json['userId'] ?? 0;
+
+    return AuthRespDto(
+      id: rawId is int ? rawId : (rawId as num).toInt(),
+      email: json['email'] as String? ?? '',
+      role: json['role'] as String? ?? 'user',
+      provider: json['provider'] as String? ?? 'email',
+      lastLoginAt: json['lastLoginAt'] as String?,
+      accessToken: json['accessToken'] as String? ?? '',
+      refreshToken: json['refreshToken'] as String? ?? '',
+      expiresIn: (json['expiresIn'] as num?)?.toInt() ?? 0,
+      tokenType: json['tokenType'] as String? ?? 'Bearer',
+      expiresAt: json['expiresAt'] as String? ?? '',
+    );
+  }
 }
 
 @freezed
