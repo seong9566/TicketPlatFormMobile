@@ -4,6 +4,10 @@ import 'package:ticket_platform_mobile/features/auth/domain/entities/user_entity
 
 abstract class AuthRepository {
   Future<UserEntity> login(LoginReqDto req);
+  Future<UserEntity> socialLogin({
+    required String provider,
+    required String accessToken,
+  });
   Future<SignUpEntity> signUp(SignUpReqDto req);
   Future<void> logout();
   Future<bool> refreshToken();
