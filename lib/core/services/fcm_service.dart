@@ -29,7 +29,7 @@ class FcmMessagePayload {
   final String? type;
   final String? targetId;
   final String? extra;
-  final Map<String, String> rawData;
+  final Map<String, dynamic> rawData;
 
   factory FcmMessagePayload.fromRemoteMessage(RemoteMessage message) {
     final data = message.data;
@@ -147,7 +147,10 @@ class FcmService {
 
   Future<String?> getToken() async {
     final token = await _messaging.getToken();
-    AppLogger.i('[FCM] Token acquired: ${token?.substring(0, 16)}...');
+    final tokenPreview = token == null
+        ? 'null'
+        : (token.length <= 16 ? token : '${token.substring(0, 16)}...');
+    AppLogger.i('[FCM] Token acquired: $tokenPreview');
     return token;
   }
 

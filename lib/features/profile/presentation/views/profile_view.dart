@@ -5,6 +5,7 @@ import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
+import 'package:ticket_platform_mobile/features/notification/presentation/viewmodels/unread_badge_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/profile_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/widgets/profile_header_section.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/widgets/profile_menu_tile.dart';
@@ -51,6 +52,7 @@ class ProfileView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncState = ref.watch(profileViewModelProvider);
     final profile = asyncState.value?.profile;
+    final unreadNotificationCount = ref.watch(unreadBadgeViewModelProvider);
     final socialProvider = _resolveSocialProvider(
       profile?.email,
       profile?.provider,
@@ -163,9 +165,20 @@ class ProfileView extends ConsumerWidget {
             ),
             ProfileSection(
               title: '설정',
-              children: const [
-                ProfileMenuTile(icon: Icons.notifications_none, title: '알림 설정'),
-                ProfileMenuTile(icon: Icons.place_outlined, title: '배송지 관리'),
+              children: [
+                ProfileMenuTile(
+                  icon: Icons.notifications_none,
+                  title: '알림',
+                  trailingText: unreadNotificationCount > 0
+                      ? '$unreadNotificationCount개 미읽음'
+                      : null,
+                  onTap: () =>
+                      context.push(AppRouterPath.notificationList.path),
+                ),
+                const ProfileMenuTile(
+                  icon: Icons.place_outlined,
+                  title: '배송지 관리',
+                ),
               ],
             ),
             ProfileSection(

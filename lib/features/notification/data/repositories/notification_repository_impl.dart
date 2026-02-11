@@ -1,8 +1,10 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:ticket_platform_mobile/core/network/base_response.dart';
 import 'package:ticket_platform_mobile/features/notification/data/datasources/notification_remote_data_source.dart';
 import 'package:ticket_platform_mobile/features/notification/data/dto/request/delete_token_req_dto.dart';
 import 'package:ticket_platform_mobile/features/notification/data/dto/request/get_notifications_req_dto.dart';
 import 'package:ticket_platform_mobile/features/notification/data/dto/request/register_token_req_dto.dart';
+import 'package:ticket_platform_mobile/features/notification/data/dto/response/notification_list_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/notification/domain/entities/notification_list_entity.dart';
 import 'package:ticket_platform_mobile/features/notification/domain/repositories/notification_repository.dart';
 
