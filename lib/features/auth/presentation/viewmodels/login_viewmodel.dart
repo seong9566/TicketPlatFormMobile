@@ -1,6 +1,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ticket_platform_mobile/core/utils/error_handler.dart';
 import 'package:ticket_platform_mobile/features/auth/data/dto/request/auth_req_dto.dart';
+import 'package:ticket_platform_mobile/features/auth/domain/usecases/google_sign_in_usecase.dart';
+import 'package:ticket_platform_mobile/features/auth/domain/usecases/kakao_sign_in_usecase.dart';
 import 'package:ticket_platform_mobile/features/auth/domain/usecases/login_usecase.dart';
 import 'package:ticket_platform_mobile/features/auth/presentation/providers/auth_providers_di.dart';
 import 'package:ticket_platform_mobile/features/auth/presentation/viewmodels/login_state.dart';
@@ -10,6 +12,10 @@ part 'login_viewmodel.g.dart';
 @riverpod
 class LoginViewModel extends _$LoginViewModel with ErrorHandler {
   LoginUsecase get _loginUsecase => ref.read(loginUsecaseProvider);
+  GoogleSignInUsecase get _googleSignInUsecase =>
+      ref.read(googleSignInUsecaseProvider);
+  KakaoSignInUsecase get _kakaoSignInUsecase =>
+      ref.read(kakaoSignInUsecaseProvider);
 
   @override
   LoginState build() =>
@@ -40,6 +46,38 @@ class LoginViewModel extends _$LoginViewModel with ErrorHandler {
     try {
       final req = LoginReqDto(email: trimmedEmail, password: trimmedPassword);
       await _loginUsecase.call(req);
+      state = state.copyWith(isLoading: false, isSuccess: true);
+    } catch (e) {
+      state = state.copyWith(isLoading: false, errorMessage: handleError(e));
+    }
+  }
+
+  Future<void> signInWithGoogle() async {
+    if (state.isLoading) return;
+
+    state = state.copyWith(isLoading: true, errorMessage: null);
+    try {
+      final user = await _googleSignInUsecase.call();
+      if (user == null) {
+        state = state.copyWith(isLoading: false);
+        return;
+      }
+      state = state.copyWith(isLoading: false, isSuccess: true);
+    } catch (e) {
+      state = state.copyWith(isLoading: false, errorMessage: handleError(e));
+    }
+  }
+
+  Future<void> signInWithKakao() async {
+    if (state.isLoading) return;
+
+    state = state.copyWith(isLoading: true, errorMessage: null);
+    try {
+      final user = await _kakaoSignInUsecase.call();
+      if (user == null) {
+        state = state.copyWith(isLoading: false);
+        return;
+      }
       state = state.copyWith(isLoading: false, isSuccess: true);
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: handleError(e));
