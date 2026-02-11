@@ -90,3 +90,99 @@ final class SignUpUsecaseProvider
 }
 
 String _$signUpUsecaseHash() => r'd14169e377694fd46343442f0e0cad565859757c';
+
+@ProviderFor(googleSignInUsecase)
+const googleSignInUsecaseProvider = GoogleSignInUsecaseProvider._();
+
+final class GoogleSignInUsecaseProvider
+    extends
+        $FunctionalProvider<
+          GoogleSignInUsecase,
+          GoogleSignInUsecase,
+          GoogleSignInUsecase
+        >
+    with $Provider<GoogleSignInUsecase> {
+  const GoogleSignInUsecaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'googleSignInUsecaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$googleSignInUsecaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GoogleSignInUsecase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GoogleSignInUsecase create(Ref ref) {
+    return googleSignInUsecase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GoogleSignInUsecase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GoogleSignInUsecase>(value),
+    );
+  }
+}
+
+String _$googleSignInUsecaseHash() =>
+    r'3afcaa450b38c1c4f8b14379581c3f36bfa224a7';
+
+@ProviderFor(kakaoSignInUsecase)
+const kakaoSignInUsecaseProvider = KakaoSignInUsecaseProvider._();
+
+final class KakaoSignInUsecaseProvider
+    extends
+        $FunctionalProvider<
+          KakaoSignInUsecase,
+          KakaoSignInUsecase,
+          KakaoSignInUsecase
+        >
+    with $Provider<KakaoSignInUsecase> {
+  const KakaoSignInUsecaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'kakaoSignInUsecaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$kakaoSignInUsecaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<KakaoSignInUsecase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  KakaoSignInUsecase create(Ref ref) {
+    return kakaoSignInUsecase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(KakaoSignInUsecase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<KakaoSignInUsecase>(value),
+    );
+  }
+}
+
+String _$kakaoSignInUsecaseHash() =>
+    r'b6f92b6b3ff15baabd02d1617e28c37d379a7039';
