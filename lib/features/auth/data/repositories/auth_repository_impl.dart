@@ -8,6 +8,7 @@ import 'package:ticket_platform_mobile/features/auth/data/dto/response/auth_resp
 import 'package:ticket_platform_mobile/features/auth/domain/entities/sign_up_entity.dart';
 import 'package:ticket_platform_mobile/features/auth/domain/entities/user_entity.dart';
 import 'package:ticket_platform_mobile/features/auth/domain/repositories/auth_repository.dart';
+import 'package:ticket_platform_mobile/features/auth/domain/usecases/auth_params.dart';
 
 part 'auth_repository_impl.g.dart';
 
@@ -18,8 +19,9 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this._remoteDataSource, this._tokenStorage);
 
   @override
-  Future<UserEntity> login(LoginReqDto req) async {
+  Future<UserEntity> login(LoginParams params) async {
     try {
+      final req = LoginReqDto(email: params.email, password: params.password);
       final response = await _remoteDataSource.login(req);
       final dto = response.dataOrThrow;
 
@@ -37,14 +39,11 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<UserEntity> socialLogin({
-    required String provider,
-    required String accessToken,
-  }) async {
+  Future<UserEntity> socialLogin(SocialLoginParams params) async {
     try {
       final req = SocialLoginReqDto(
-        provider: provider,
-        accessToken: accessToken,
+        provider: params.provider,
+        accessToken: params.accessToken,
       );
       final response = await _remoteDataSource.socialLogin(req);
       final dto = response.dataOrThrow;
@@ -62,8 +61,15 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<SignUpEntity> signUp(SignUpReqDto req) async {
+  Future<SignUpEntity> signUp(SignUpParams params) async {
     try {
+      final req = SignUpReqDto(
+        email: params.email,
+        password: params.password,
+        phone: params.phone,
+        role: params.role,
+        provider: params.provider,
+      );
       final response = await _remoteDataSource.signUp(req);
       final dto = response.dataOrThrow;
       return dto.toEntity();

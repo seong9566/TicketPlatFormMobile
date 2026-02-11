@@ -1,9 +1,9 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ticket_platform_mobile/core/utils/error_handler.dart';
-import 'package:ticket_platform_mobile/features/auth/data/dto/request/auth_req_dto.dart';
 import 'package:ticket_platform_mobile/features/auth/domain/usecases/google_sign_in_usecase.dart';
 import 'package:ticket_platform_mobile/features/auth/domain/usecases/kakao_sign_in_usecase.dart';
 import 'package:ticket_platform_mobile/features/auth/domain/usecases/login_usecase.dart';
+import 'package:ticket_platform_mobile/features/auth/domain/usecases/auth_params.dart';
 import 'package:ticket_platform_mobile/features/auth/presentation/providers/auth_providers_di.dart';
 import 'package:ticket_platform_mobile/features/auth/presentation/viewmodels/login_state.dart';
 
@@ -44,8 +44,11 @@ class LoginViewModel extends _$LoginViewModel with ErrorHandler {
     state = state.copyWith(isLoading: true, errorMessage: null);
 
     try {
-      final req = LoginReqDto(email: trimmedEmail, password: trimmedPassword);
-      await _loginUsecase.call(req);
+      final params = LoginParams(
+        email: trimmedEmail,
+        password: trimmedPassword,
+      );
+      await _loginUsecase.call(params);
       state = state.copyWith(isLoading: false, isSuccess: true);
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: handleError(e));
