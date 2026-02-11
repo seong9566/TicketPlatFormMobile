@@ -60,6 +60,8 @@ dependencies:
   webview_flutter: ^4.13.1
   tosspayments_widget_sdk_flutter: ^2.1.2
   flutter_inappwebview: ^6.1.5
+  google_sign_in: ^6.2.1
+  kakao_flutter_sdk: ^1.9.5
 
 dev_dependencies:
   flutter_test:
@@ -123,4 +125,3 @@ flutter:
           weight: 500
         - asset: assets/font/google_login/Roboto-Bold.ttf
           weight: 700
-
