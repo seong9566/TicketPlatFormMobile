@@ -24,6 +24,7 @@ class AppRouterPath {
     '/transaction-history',
     'transactionHistory',
   );
+  static const notificationList = _Route('/notifications', 'notificationList');
 
   static const ticketing = _Route('/ticketing', 'ticketing');
   static const ticketDetail = _Route('/ticket_detail', 'ticketDetail');

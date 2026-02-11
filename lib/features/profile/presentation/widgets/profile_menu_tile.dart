@@ -28,6 +28,8 @@ class ProfileMenuTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final trailingMaxWidth = MediaQuery.sizeOf(context).width * 0.45;
+
     return InkWell(
       onTap: onTap,
       child: Padding(
@@ -49,13 +51,17 @@ class ProfileMenuTile extends StatelessWidget {
               ),
               const SizedBox(width: AppSpacing.md),
             ],
-            Text(
-              title,
-              style: AppTextStyles.body2.copyWith(
-                color: titleColor ?? AppColors.textPrimary,
+            Expanded(
+              child: Text(
+                title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTextStyles.body2.copyWith(
+                  color: titleColor ?? AppColors.textPrimary,
+                ),
               ),
             ),
-            const Spacer(),
+            const SizedBox(width: AppSpacing.sm),
             if (trailingButtonLabel != null)
               Container(
                 padding: const EdgeInsets.symmetric(
@@ -74,12 +80,18 @@ class ProfileMenuTile extends StatelessWidget {
                 ),
               )
             else if (trailingText != null)
-              Padding(
-                padding: const EdgeInsets.only(right: AppSpacing.xs),
-                child: Text(
-                  trailingText!,
-                  style: AppTextStyles.caption.copyWith(
-                    color: trailingTextColor ?? AppColors.textSecondary,
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: trailingMaxWidth),
+                child: Padding(
+                  padding: const EdgeInsets.only(right: AppSpacing.xs),
+                  child: Text(
+                    trailingText!,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.right,
+                    style: AppTextStyles.caption.copyWith(
+                      color: trailingTextColor ?? AppColors.textSecondary,
+                    ),
                   ),
                 ),
               ),
