@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "52151131826",
+    "project_id": "ticketswap-28b11",
+    "storage_bucket": "ticketswap-28b11.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:52151131826:android:1283711f176ed2c0c5b3ab",
+        "android_client_info": {
+          "package_name": "com.example.ticket_platform_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCcYO37IIoLC9SvUXw-QA1n18yXYxgKnw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
