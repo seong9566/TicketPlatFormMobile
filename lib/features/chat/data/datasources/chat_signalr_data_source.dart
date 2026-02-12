@@ -312,9 +312,10 @@ class ChatSignalRDataSourceImpl implements ChatSignalRDataSource {
 
   /// SignalR 메시지 데이터를 MessageEntity로 변환
   /// - 서버에서 전송된 JSON 데이터 파싱
-  /// - isMyMessage는 SignalR에서 수신한 메시지이므로 항상 false
+  /// - isMyMessage는 서버가 제공하면 사용, 없으면 false (클라이언트에서 senderId 기반 보정)
   MessageEntity _parseMessage(Map<String, dynamic> data) {
     List<ImageInfoEntity>? imageEntities;
+    final signalRIsMyMessage = data['isMyMessage'] as bool?;
 
     // 신규 API: images 배열 파싱
     if (data['images'] != null && (data['images'] as List).isNotEmpty) {
@@ -363,7 +364,7 @@ class ChatSignalRDataSourceImpl implements ChatSignalRDataSource {
       message: data['message'] as String?,
       images: imageEntities,
       createdAt: DateTime.parse(data['createdAt'] as String),
-      isMyMessage: false,
+      isMyMessage: signalRIsMyMessage ?? false,
     );
   }
 

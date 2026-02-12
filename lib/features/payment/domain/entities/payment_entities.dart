@@ -12,6 +12,7 @@ abstract class PaymentRequestEntity with _$PaymentRequestEntity {
     String? customerEmail,
     required String successUrl,
     required String failUrl,
+    required String clientKey,
     String? eventTitle,
     String? eventDate,
     String? seatInfo,

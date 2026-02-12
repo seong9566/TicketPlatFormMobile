@@ -32,6 +32,7 @@ class PaymentSuccessBubble extends ConsumerWidget {
     final canCancel = chatRoom?.canCancelTransaction ?? false;
     final isPaid = transaction?.status == TransactionStatus.paid;
     final isConfirmed = transaction?.status == TransactionStatus.confirmed;
+    final amountText = transaction?.formattedAmount ?? ticket.price;
 
     // 역할별 메시지
     final String displayMessage = isBuyer
@@ -124,7 +125,7 @@ class PaymentSuccessBubble extends ConsumerWidget {
 
                 // Info List
                 _buildInfoItem('상품명', ticket.title),
-                _buildInfoItem('결제금액', ticket.price),
+                _buildInfoItem('결제금액', amountText),
                 _buildInfoItem('거래상태', transaction?.statusName ?? '결제 완료'),
 
                 const SizedBox(height: 24),

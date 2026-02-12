@@ -1,3 +1,5 @@
+import 'package:ticket_platform_mobile/core/utils/logger.dart';
+
 class CreateChatRoomReqDto {
   final int ticketId;
 
@@ -37,7 +39,9 @@ class RequestPaymentReqDto {
   RequestPaymentReqDto({required this.roomId, required this.quantity});
 
   Map<String, dynamic> toMap() {
-    return {'roomId': roomId, 'quantity': quantity};
+    final map = {'roomId': roomId, 'quantity': quantity};
+    AppLogger.d('📤 [RequestPaymentReqDto] toMap: $map');
+    return map;
   }
 }
 

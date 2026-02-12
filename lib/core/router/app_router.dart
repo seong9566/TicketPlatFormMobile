@@ -269,6 +269,7 @@ GoRouter goRouter(Ref ref) {
             customerEmail: paymentRequest.customerEmail,
             successUrl: paymentRequest.successUrl,
             failUrl: paymentRequest.failUrl,
+            clientKey: paymentRequest.clientKey,
           );
         },
       ),

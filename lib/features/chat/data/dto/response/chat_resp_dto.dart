@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:ticket_platform_mobile/core/utils/logger.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/chat_room_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/message_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/transaction_entity.dart';
@@ -331,11 +332,20 @@ abstract class PaymentRequestRespDto with _$PaymentRequestRespDto {
 }
 
 extension PaymentRequestRespDtoX on PaymentRequestRespDto {
-  PaymentRequestEntity toEntity() => PaymentRequestEntity(
-    paymentUrl: paymentUrl,
-    transactionId: transactionId,
-    amount: amount,
-  );
+  PaymentRequestEntity toEntity() {
+    AppLogger.d('📥 [PaymentRequestRespDto] Converting to Entity:');
+    AppLogger.d('  - transactionId: $transactionId');
+    AppLogger.d('  - amount: $amount');
+    AppLogger.d(
+      '  - paymentUrl: ${paymentUrl.substring(0, paymentUrl.length > 50 ? 50 : paymentUrl.length)}...',
+    );
+
+    return PaymentRequestEntity(
+      paymentUrl: paymentUrl,
+      transactionId: transactionId,
+      amount: amount,
+    );
+  }
 }
 
 @freezed

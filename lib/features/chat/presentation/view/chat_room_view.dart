@@ -293,51 +293,62 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
   }
 
   void _showCancelTransactionDialog(ChatRoomDetailUiModel chatRoom) {
-    final reasonController = TextEditingController();
-
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('거래 취소'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('거래를 취소하시겠습니까?'),
-            const SizedBox(height: 16),
-            TextField(
-              controller: reasonController,
-              decoration: const InputDecoration(
-                labelText: '취소 사유',
-                hintText: '취소 사유를 입력해주세요',
-                border: OutlineInputBorder(),
+      builder: (dialogContext) {
+        // Dialog 내부에서 TextEditingController 생성
+        final reasonController = TextEditingController();
+
+        return AlertDialog(
+          title: const Text('거래 취소'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('거래를 취소하시겠습니까?'),
+              const SizedBox(height: 16),
+              TextField(
+                controller: reasonController,
+                decoration: const InputDecoration(
+                  labelText: '취소 사유',
+                  hintText: '취소 사유를 입력해주세요',
+                  border: OutlineInputBorder(),
+                ),
+                maxLines: 2,
               ),
-              maxLines: 2,
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                reasonController.dispose();
+                Navigator.of(dialogContext).pop();
+              },
+              child: const Text('닫기'),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.destructive,
+              ),
+              onPressed: () async {
+                final reason = reasonController.text.trim();
+                reasonController.dispose();
+                Navigator.of(dialogContext).pop();
+
+                if (chatRoom.transaction != null) {
+                  await ref
+                      .read(chatRoomViewModelProvider(roomId).notifier)
+                      .cancelTransaction(
+                        chatRoom.transaction!.transactionId,
+                        reason,
+                      );
+                }
+              },
+              child: const Text('취소'),
             ),
           ],
-        ),
-        actions: [
-          TextButton(onPressed: () => context.pop(), child: const Text('닫기')),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.destructive,
-            ),
-            onPressed: () async {
-              final reason = reasonController.text.trim();
-              context.pop();
-              if (chatRoom.transaction != null) {
-                await ref
-                    .read(chatRoomViewModelProvider(roomId).notifier)
-                    .cancelTransaction(
-                      chatRoom.transaction!.transactionId,
-                      reason,
-                    );
-              }
-            },
-            child: const Text('취소'),
-          ),
-        ],
-      ),
-    ).then((_) => reasonController.dispose());
+        );
+      },
+    );
   }
 
   @override
@@ -345,11 +356,24 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
     final chatRoomAsync = ref.watch(chatRoomViewModelProvider(roomId));
 
     return PopScope(
-      onPopInvokedWithResult: (result, didPop) {
-        if (result) {
-          // 채팅방 퇴장: 현재 보고 있는 방 해제 (state 수정 없으므로 안전)
-          ref.read(chatListViewModelProvider.notifier).setCurrentRoomId(null);
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+          return;
         }
+
+        // 채팅방 퇴장 직전 읽음 동기화
+        unawaited(
+          ref
+              .read(chatRoomViewModelProvider(roomId).notifier)
+              .markCurrentRoomAsRead(),
+        );
+
+        // 채팅 목록의 unreadCount 즉시 반영
+        final listNotifier = ref.read(chatListViewModelProvider.notifier);
+        listNotifier.resetUnreadCount(roomId);
+
+        // 현재 보고 있는 방 해제
+        listNotifier.setCurrentRoomId(null);
       },
       child: Scaffold(
         backgroundColor: AppColors.scaffoldBackground,

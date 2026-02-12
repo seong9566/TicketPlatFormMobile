@@ -14,6 +14,7 @@ abstract class PaymentRequestRespDto with _$PaymentRequestRespDto {
     String? customerEmail,
     required String successUrl,
     required String failUrl,
+    required String clientKey,
   }) = _PaymentRequestRespDto;
 
   factory PaymentRequestRespDto.fromJson(Map<String, dynamic> json) =>
@@ -36,6 +37,7 @@ extension PaymentRequestRespDtoX on PaymentRequestRespDto {
       customerEmail: customerEmail,
       successUrl: successUrl,
       failUrl: failUrl,
+      clientKey: clientKey,
       eventTitle: eventTitle,
       eventDate: eventDate,
       seatInfo: seatInfo,

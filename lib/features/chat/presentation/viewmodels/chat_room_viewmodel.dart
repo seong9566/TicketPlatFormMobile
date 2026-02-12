@@ -19,6 +19,7 @@ import 'dart:io';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ticket_platform_mobile/core/storage/token_storage.dart';
 import 'package:ticket_platform_mobile/core/utils/logger.dart';
+import 'package:ticket_platform_mobile/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:ticket_platform_mobile/features/chat/data/datasources/chat_event_bus.dart';
 import 'package:ticket_platform_mobile/features/chat/data/datasources/chat_signalr_data_source.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/message_entity.dart';
@@ -43,11 +44,14 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
   /// - 200개 초과 시 오래된 메시지 자동 삭제
   /// - 삭제된 메시지는 loadMoreMessages()로 재로드 가능
   static const int _maxMessagesInMemory = 200;
+  static const Duration _markAsReadThrottle = Duration(milliseconds: 700);
   StreamSubscription<MessageEntity>? _messageSubscription;
   StreamSubscription<RoomUpdatedEvent>? _roomUpdatedSubscription;
   int? _lastMessageId;
   bool _hasMoreMessages = true;
   bool _isLoadingMoreMessages = false;
+  bool _isMarkingAsRead = false;
+  DateTime? _lastMarkAsReadAt;
   final Set<int> _receivedMessageIds = {}; // 중복 메시지 방지용 (SignalR 이벤트 중복 수신)
 
   /// AsyncNotifier 초기화 및 데이터 로드
@@ -86,7 +90,7 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
         .read(getChatRoomDetailUsecaseProvider)
         .call(roomId);
 
-    await ref.read(markAsReadUsecaseProvider).call(roomId);
+    await _markRoomAsRead(roomId, force: true);
 
     if (entity.messages.isNotEmpty) {
       _lastMessageId = entity.messages.last.messageId;
@@ -173,33 +177,41 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
     final current = state.value;
     if (current == null) return;
 
-    // 1차 중복 체크: SignalR 이벤트 중복 수신 방지 (room_{roomId} + user_{userId})
-    if (_receivedMessageIds.contains(message.messageId)) {
-      AppLogger.i('📌 Duplicate SignalR message ignored: ${message.messageId}');
-      return;
-    }
-    _receivedMessageIds.add(message.messageId);
+    final currentUserId = _resolveCurrentUserId(current);
+    final resolvedIsMyMessage =
+        message.isMyMessage ||
+        (currentUserId != null && message.senderId == currentUserId);
 
-    // 2차 중복 체크: 메모리에 이미 존재하는 메시지 방지
-    final isDuplicate = current.messages.any(
+    final messageToUse = message.copyWith(isMyMessage: resolvedIsMyMessage);
+    final newMessageUi = MessageUiModel.fromEntity(messageToUse);
+
+    // 중복 메시지 처리: 기존 메시지가 있으면 무시하지 않고 merge하여 정합성 보정
+    final duplicateIndex = current.messages.indexWhere(
       (msg) => msg.messageId == message.messageId,
     );
-    if (isDuplicate) {
+    if (duplicateIndex != -1) {
+      final existing = current.messages[duplicateIndex];
+      final merged = _mergeMessage(existing, newMessageUi);
+
+      if (_isSameMessage(existing, merged)) {
+        AppLogger.i(
+          '📌 Duplicate message ignored (no changes): ${message.messageId}',
+        );
+        return;
+      }
+
+      final updatedMessages = [...current.messages];
+      updatedMessages[duplicateIndex] = merged;
+      state = AsyncValue.data(current.copyWith(messages: updatedMessages));
+
       AppLogger.i(
-        '📌 Duplicate message in memory ignored: ${message.messageId}',
+        '♻️ Duplicate message reconciled: ${message.messageId}, isMyMessage=${merged.isMyMessage}',
       );
       return;
     }
 
-    // 현재 사용자 ID 가져오기
-    final myProfile = ref.read(profileViewModelProvider).value?.profile;
-    final isMyMessage = myProfile?.userId == message.senderId;
-
-    // isMyMessage 플래그 강제 설정 (SignalR 메시지는 false로 오므로 보정 필요)
-    final messageToUse = message.copyWith(
-      isMyMessage: isMyMessage || message.isMyMessage,
-    );
-    final newMessageUi = MessageUiModel.fromEntity(messageToUse);
+    // 신규 메시지는 한 번만 기록 (SignalR 중복 이벤트 방지)
+    _receivedMessageIds.add(message.messageId);
 
     var updatedMessages = [newMessageUi, ...current.messages];
 
@@ -210,6 +222,116 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
     }
 
     state = AsyncValue.data(current.copyWith(messages: updatedMessages));
+
+    if (!resolvedIsMyMessage) {
+      unawaited(_markRoomAsRead(message.roomId));
+    }
+  }
+
+  Future<void> markCurrentRoomAsRead({bool force = true}) async {
+    final roomId = state.value?.roomId;
+    if (roomId == null) {
+      return;
+    }
+
+    await _markRoomAsRead(roomId, force: force);
+  }
+
+  Future<void> _markRoomAsRead(int roomId, {bool force = false}) async {
+    if (!force && _isMarkingAsRead) {
+      return;
+    }
+
+    final now = DateTime.now();
+    if (!force && _lastMarkAsReadAt != null) {
+      final elapsed = now.difference(_lastMarkAsReadAt!);
+      if (elapsed < _markAsReadThrottle) {
+        return;
+      }
+    }
+
+    _isMarkingAsRead = true;
+    try {
+      await ref.read(markAsReadUsecaseProvider).call(roomId);
+      _lastMarkAsReadAt = DateTime.now();
+    } catch (e, stack) {
+      AppLogger.e('Error marking room as read', e, stack);
+    } finally {
+      _isMarkingAsRead = false;
+    }
+  }
+
+  int? _resolveCurrentUserId(ChatRoomDetailUiModel current) {
+    final profileUserId = ref
+        .read(profileViewModelProvider)
+        .value
+        ?.profile
+        ?.userId;
+    if (profileUserId != null) {
+      return profileUserId;
+    }
+
+    for (final msg in current.messages) {
+      if (msg.isMyMessage) {
+        return msg.senderId;
+      }
+    }
+
+    return null;
+  }
+
+  MessageUiModel _mergeMessage(
+    MessageUiModel existing,
+    MessageUiModel incoming,
+  ) {
+    final mergedMessageText = (existing.message ?? '').trim().isNotEmpty
+        ? existing.message
+        : incoming.message;
+    final mergedImages =
+        (existing.images != null && existing.images!.isNotEmpty)
+        ? existing.images
+        : incoming.images;
+
+    return existing.copyWith(
+      senderNickname: incoming.senderNickname,
+      senderProfileImage: incoming.senderProfileImage,
+      message: mergedMessageText,
+      images: mergedImages,
+      type: incoming.type,
+      createdAt: incoming.createdAt,
+      timeDisplay: incoming.timeDisplay,
+      isMyMessage: existing.isMyMessage || incoming.isMyMessage,
+    );
+  }
+
+  bool _isSameMessage(MessageUiModel a, MessageUiModel b) {
+    return a.senderNickname == b.senderNickname &&
+        a.senderProfileImage == b.senderProfileImage &&
+        a.message == b.message &&
+        a.type == b.type &&
+        a.createdAt == b.createdAt &&
+        a.timeDisplay == b.timeDisplay &&
+        a.isMyMessage == b.isMyMessage &&
+        _isSameImages(a.images, b.images);
+  }
+
+  bool _isSameImages(List<ImageInfoUiModel>? a, List<ImageInfoUiModel>? b) {
+    if (identical(a, b)) {
+      return true;
+    }
+    if (a == null || b == null) {
+      return a == b;
+    }
+    if (a.length != b.length) {
+      return false;
+    }
+
+    for (int i = 0; i < a.length; i++) {
+      if (a[i].url != b[i].url || a[i].expiresAt != b[i].expiresAt) {
+        return false;
+      }
+    }
+    return true;
   }
 
   void _handleRoomUpdate(RoomUpdatedEvent event) {
@@ -327,19 +449,33 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
       state = AsyncValue.data(current.copyWith(messages: updatedMessages));
 
       // 2. 실제 서버 요청 실행
-      await ref
+      final result = await ref
           .read(requestPaymentUsecaseProvider)
           .call(
             RequestPaymentParams(roomId: current.roomId, quantity: quantity),
           );
 
-      // 3. 서버로부터 최신 데이터를 가져와 상태 동기화
-      await refresh();
+      // 3. 부분 업데이트: 전체 리로드 없이 트랜잭션 상태만 업데이트
+      // SignalR 메시지로 실시간 업데이트되므로 refresh() 호출 불필요
+      // 트랜잭션 상태는 SignalR을 통해 자동으로 업데이트됨
+
+      AppLogger.i(
+        '✅ Payment requested successfully (amount: ${result.amount})',
+      );
       return true;
     } catch (e, stack) {
       AppLogger.e('Error requesting payment', e, stack);
-      // 에러 발생 시 원래 상태로 복구하기 위해 refresh 호출
-      await refresh();
+      // 에러 발생 시 낙관적 업데이트 롤백
+      final current = state.value;
+      if (current != null) {
+        // 임시 메시지 제거
+        final messagesWithoutOptimistic = current.messages
+            .where((msg) => msg.messageId >= 0) // 음수 ID 제거
+            .toList();
+        state = AsyncValue.data(
+          current.copyWith(messages: messagesWithoutOptimistic),
+        );
+      }
       return false;
     }
   }
@@ -451,7 +587,7 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
 
       // 이미 연결되어 있으면 스킵
       if (signalR.isConnected) {
-        AppLogger.i('✅ SignalR already connected');
+        AppLogger.i('✅ SignalR already connected from chat room');
         return;
       }
 
@@ -459,15 +595,54 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
 
       // 토큰 가져오기
       final tokenStorage = ref.read(tokenStorageProvider);
-      final accessToken = await tokenStorage.getAccessToken();
+      var accessToken = await tokenStorage.getAccessToken();
 
       if (accessToken == null || accessToken.isEmpty) {
         AppLogger.w('⚠️ No access token found, cannot connect SignalR');
         return;
       }
 
+      // 토큰 만료 확인 및 갱신
+      final expiresAt = await tokenStorage.getExpiresAt();
+      if (expiresAt != null) {
+        try {
+          final expiryDate = DateTime.parse(expiresAt);
+          final now = DateTime.now();
+
+          // 만료되었거나 1분 이내 만료 예정이면 갱신
+          if (now.isAfter(expiryDate) ||
+              now.isAfter(expiryDate.subtract(const Duration(minutes: 1)))) {
+            AppLogger.i(
+              '🔄 Token expired or expiring soon, refreshing before SignalR connection...',
+            );
+
+            final authRepo = ref.read(authRepositoryProvider);
+            final refreshSuccess = await authRepo.refreshToken();
+
+            if (refreshSuccess) {
+              // 갱신된 토큰 다시 가져오기
+              accessToken = await tokenStorage.getAccessToken();
+              if (accessToken == null || accessToken.isEmpty) {
+                AppLogger.e('❌ Token refresh succeeded but new token is null');
+                return;
+              }
+              AppLogger.i(
+                '✅ Token refreshed successfully before SignalR connection',
+              );
+            } else {
+              AppLogger.e('❌ Token refresh failed, cannot connect SignalR');
+              return;
+            }
+          }
+        } catch (e) {
+          AppLogger.w('⚠️ Failed to parse token expiry date: $e');
+          // 파싱 실패 시에도 연결 시도
+        }
+      }
+
       // SignalR 연결
-      await signalR.connect(accessToken);
+      AppLogger.i('🔌 Connecting to SignalR with valid token...');
+      await signalR.connect(accessToken!);
       AppLogger.i('✅ SignalR connected successfully from chat room');
     } catch (e, stack) {
       AppLogger.e('❌ Failed to connect SignalR from chat room', e, stack);

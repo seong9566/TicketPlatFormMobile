@@ -16,6 +16,7 @@ _PaymentRequestRespDto _$PaymentRequestRespDtoFromJson(
   customerEmail: json['customerEmail'] as String?,
   successUrl: json['successUrl'] as String,
   failUrl: json['failUrl'] as String,
+  clientKey: json['clientKey'] as String,
 );
 
 Map<String, dynamic> _$PaymentRequestRespDtoToJson(
@@ -28,4 +29,5 @@ Map<String, dynamic> _$PaymentRequestRespDtoToJson(
   'customerEmail': instance.customerEmail,
   'successUrl': instance.successUrl,
   'failUrl': instance.failUrl,
+  'clientKey': instance.clientKey,
 };

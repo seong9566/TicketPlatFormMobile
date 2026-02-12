@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ticket_platform_mobile/core/storage/token_storage.dart';
 import 'package:ticket_platform_mobile/core/utils/date_format_util.dart';
 import 'package:ticket_platform_mobile/core/utils/logger.dart';
+import 'package:ticket_platform_mobile/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:ticket_platform_mobile/features/chat/data/datasources/chat_event_bus.dart';
 import 'package:ticket_platform_mobile/features/chat/data/datasources/chat_signalr_data_source.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/message_entity.dart';
@@ -73,6 +74,33 @@ class ChatListViewModel extends _$ChatListViewModel {
     _debounceTimer?.cancel();
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() => _fetchChatRooms());
+  }
+
+  /// 로딩 인디케이터 없이 최신 채팅방 목록을 동기화
+  /// - 앱 재진입/푸시 수신 직후 새로운 방 반영 용도
+  Future<void> syncLatestRooms() async {
+    try {
+      _currentPage = 1;
+      _hasMore = true;
+      final latestRooms = await _fetchChatRooms();
+
+      if (state.hasValue) {
+        _filterChatRooms();
+      } else {
+        state = AsyncValue.data(latestRooms);
+      }
+    } catch (e, stack) {
+      AppLogger.e('Error syncing latest chat rooms', e, stack);
+    }
+  }
+
+  ChatRoomListUiModel? findRoomById(int roomId) {
+    for (final room in _allChatRooms) {
+      if (room.roomId == roomId) {
+        return room;
+      }
+    }
+    return null;
   }
 
   Future<void> loadMore() async {
@@ -363,15 +391,54 @@ class ChatListViewModel extends _$ChatListViewModel {
 
       // 토큰 가져오기
       final tokenStorage = ref.read(tokenStorageProvider);
-      final accessToken = await tokenStorage.getAccessToken();
+      var accessToken = await tokenStorage.getAccessToken();
 
       if (accessToken == null || accessToken.isEmpty) {
         AppLogger.w('⚠️ No access token found, cannot connect SignalR');
         return;
       }
 
+      // 토큰 만료 확인 및 갱신
+      final expiresAt = await tokenStorage.getExpiresAt();
+      if (expiresAt != null) {
+        try {
+          final expiryDate = DateTime.parse(expiresAt);
+          final now = DateTime.now();
+
+          // 만료되었거나 1분 이내 만료 예정이면 갱신
+          if (now.isAfter(expiryDate) ||
+              now.isAfter(expiryDate.subtract(const Duration(minutes: 1)))) {
+            AppLogger.i(
+              '🔄 Token expired or expiring soon, refreshing before SignalR connection...',
+            );
+
+            final authRepo = ref.read(authRepositoryProvider);
+            final refreshSuccess = await authRepo.refreshToken();
+
+            if (refreshSuccess) {
+              // 갱신된 토큰 다시 가져오기
+              accessToken = await tokenStorage.getAccessToken();
+              if (accessToken == null || accessToken.isEmpty) {
+                AppLogger.e('❌ Token refresh succeeded but new token is null');
+                return;
+              }
+              AppLogger.i(
+                '✅ Token refreshed successfully before SignalR connection',
+              );
+            } else {
+              AppLogger.e('❌ Token refresh failed, cannot connect SignalR');
+              return;
+            }
+          }
+        } catch (e) {
+          AppLogger.w('⚠️ Failed to parse token expiry date: $e');
+          // 파싱 실패 시에도 연결 시도
+        }
+      }
+
       // SignalR 연결
-      await signalR.connect(accessToken);
+      AppLogger.i('🔌 Connecting to SignalR with valid token...');
+      await signalR.connect(accessToken!);
       AppLogger.i('✅ SignalR connected successfully');
     } catch (e, stack) {
       AppLogger.e('❌ Failed to connect SignalR', e, stack);

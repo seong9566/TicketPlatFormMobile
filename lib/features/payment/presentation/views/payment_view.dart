@@ -11,7 +11,6 @@ import 'package:tosspayments_widget_sdk_flutter/model/payment_widget_options.dar
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
-import 'package:ticket_platform_mobile/core/config/app_config_provider.dart';
 import 'package:ticket_platform_mobile/features/payment/presentation/viewmodels/payment_viewmodel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ticket_platform_mobile/core/utils/number_format_util.dart';
@@ -25,6 +24,7 @@ class PaymentView extends ConsumerStatefulWidget {
   final String? customerEmail;
   final String successUrl;
   final String failUrl;
+  final String clientKey;
 
   const PaymentView({
     super.key,
@@ -35,6 +35,7 @@ class PaymentView extends ConsumerStatefulWidget {
     this.customerEmail,
     required this.successUrl,
     required this.failUrl,
+    required this.clientKey,
   });
 
   @override
@@ -44,7 +45,6 @@ class PaymentView extends ConsumerStatefulWidget {
 class _PaymentViewState extends ConsumerState<PaymentView> {
   late PaymentWidget _paymentWidget;
   bool _isWidgetInitialized = false;
-  late final String clientKey;
 
   // 상품 가격
   late int originPrice;
@@ -55,7 +55,6 @@ class _PaymentViewState extends ConsumerState<PaymentView> {
     super.initState();
     originPrice = widget.amount.toInt();
     orderName = widget.orderName;
-    clientKey = ref.read(appConfigProvider).tossPaymentsClientKey;
 
     // 토스 페이먼츠 초기화
     _initPaymentWidget();
@@ -72,7 +71,7 @@ class _PaymentViewState extends ConsumerState<PaymentView> {
 
     // 2. PaymentWidget 초기화
     _paymentWidget = PaymentWidget(
-      clientKey: clientKey,
+      clientKey: widget.clientKey,
       customerKey: 'CUSTOMER_@_${DateTime.now().millisecondsSinceEpoch}',
     );
 
