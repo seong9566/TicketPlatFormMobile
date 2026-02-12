@@ -58,8 +58,9 @@ dependencies:
 
   # WebView
   webview_flutter: ^4.13.1
-  tosspayments_widget_sdk_flutter: ^2.1.2
   flutter_inappwebview: ^6.1.5
+  tosspayments_widget_sdk_flutter: ^2.1.2
+  url_launcher: ^6.3.2
   google_sign_in: ^6.2.1
   kakao_flutter_sdk: 1.10.0
   flutter_dotenv: ^5.2.1
