@@ -59,21 +59,38 @@ class ApiInterceptor extends Interceptor {
       if (refreshToken != null && refreshToken.isNotEmpty) {
         _refreshCompleter = Completer<void>();
 
+        AppLogger.d(
+          '🔄 [Token Refresh] Refresh token found, starting refresh process...',
+        );
+
         try {
           await _refreshToken(refreshToken);
           _refreshCompleter?.complete();
           _refreshCompleter = null;
           return _retryRequest(err.requestOptions, handler);
-        } catch (e) {
+        } catch (e, stackTrace) {
           _refreshCompleter?.completeError(e);
           _refreshCompleter = null;
-          AppLogger.e('Token refresh failed: $e');
+          AppLogger.e('❌ [Token Refresh] Token refresh failed', e, stackTrace);
+
+          // DioException인 경우 상세 정보 로깅
+          if (e is DioException) {
+            AppLogger.e(
+              '❌ [Token Refresh] Status code: ${e.response?.statusCode}',
+            );
+            AppLogger.e('❌ [Token Refresh] Response data: ${e.response?.data}');
+            AppLogger.e('❌ [Token Refresh] Error type: ${e.type}');
+          }
+
           await tokenStorage.clearTokens();
           await onTokenExpired();
           return handler.next(err);
         }
       } else {
         // Refresh Token 없음
+        AppLogger.w(
+          '⚠️ [Token Refresh] No refresh token found, clearing tokens...',
+        );
         await tokenStorage.clearTokens();
         await onTokenExpired();
       }
@@ -82,6 +99,12 @@ class ApiInterceptor extends Interceptor {
   }
 
   Future<void> _refreshToken(String refreshToken) async {
+    // Refresh Token 검증
+    AppLogger.d('🔄 [Token Refresh] Starting token refresh...');
+    AppLogger.d(
+      '🔄 [Token Refresh] Refresh token (first 30 chars): ${refreshToken.substring(0, refreshToken.length > 30 ? 30 : refreshToken.length)}...',
+    );
+
     // Token 갱신 요청을 위한 전용 Dio 인스턴스 사용 (무한 루프 방지)
     final dio = Dio(
       BaseOptions(
@@ -91,10 +114,17 @@ class ApiInterceptor extends Interceptor {
       ),
     );
 
+    AppLogger.d(
+      '🔄 [Token Refresh] Sending POST request to: ${ApiEndpoint.tokenRefresh}',
+    );
     final response = await dio.post(
       ApiEndpoint.tokenRefresh,
       data: {'refreshToken': refreshToken},
     );
+
+    AppLogger.d('🔄 [Token Refresh] Response status: ${response.statusCode}');
+
+    AppLogger.d('🔄 [Token Refresh] Response status: ${response.statusCode}');
 
     if (response.statusCode == 200) {
       final data = response.data['data'];
@@ -102,14 +132,28 @@ class ApiInterceptor extends Interceptor {
       final newRefreshToken = data['refreshToken'];
       final newExpiresAt = data['expiresAt'];
 
+      AppLogger.d('🔄 [Token Refresh] Response data received');
+      AppLogger.d(
+        '🔄 [Token Refresh] New access token exists: ${newAccessToken != null}',
+      );
+      AppLogger.d(
+        '🔄 [Token Refresh] New refresh token exists: ${newRefreshToken != null}',
+      );
+      AppLogger.d('🔄 [Token Refresh] Expires at: $newExpiresAt');
+
       if (newAccessToken != null) {
         // 새 Token 저장
+        AppLogger.d('🔄 [Token Refresh] Saving new tokens...');
         await tokenStorage.saveTokens(
           accessToken: newAccessToken,
           refreshToken: newRefreshToken ?? refreshToken,
           expiresAt: newExpiresAt,
         );
+        AppLogger.i('✅ [Token Refresh] Token refresh successful!');
       } else {
+        AppLogger.e(
+          '❌ [Token Refresh] AccessToken is null in refresh response',
+        );
         throw DioException(
           requestOptions: response.requestOptions,
           response: response,
@@ -117,6 +161,9 @@ class ApiInterceptor extends Interceptor {
         );
       }
     } else {
+      AppLogger.e(
+        '❌ [Token Refresh] Unexpected status code: ${response.statusCode}',
+      );
       throw DioException(
         requestOptions: response.requestOptions,
         response: response,
