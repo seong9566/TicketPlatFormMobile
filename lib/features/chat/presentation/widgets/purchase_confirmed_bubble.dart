@@ -7,21 +7,26 @@ import 'package:ticket_platform_mobile/features/chat/presentation/ui_models/chat
 class PurchaseConfirmedBubble extends StatelessWidget {
   final MessageUiModel message;
   final TicketInfoUiModel ticket;
+  final TransactionUiModel? transaction;
   final bool isBuyer;
 
   const PurchaseConfirmedBubble({
     super.key,
     required this.message,
     required this.ticket,
+    this.transaction,
     required this.isBuyer,
   });
 
   @override
   Widget build(BuildContext context) {
-    final title = isBuyer ? '구매확정 완료' : '구매확정';
+    const title = '구매확정';
     final description = isBuyer
         ? '구매 확정이 완료되었습니다.\n정산이 진행됩니다.'
         : '구매자가 구매를 확정했습니다.\n정산이 진행됩니다.';
+    final amountText = transaction?.formattedAmount ?? ticket.price;
+    final ticketCountText = _buildTicketCountText();
+    final seatInfoText = _buildSeatInfoText();
 
     return Container(
       width: 270,
@@ -88,14 +93,43 @@ class PurchaseConfirmedBubble extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 _buildInfoItem('상품명', ticket.title),
-                _buildInfoItem('결제금액', ticket.price),
-                _buildInfoItem('거래상태', '구매 확정'),
+                _buildInfoItem('결제 금액', amountText),
+                _buildInfoItem('티켓 개수', ticketCountText),
+                _buildInfoItem('좌석 정보', seatInfoText),
               ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  String _buildTicketCountText() {
+    final transactionAmount = transaction?.amount;
+    final unitPrice = ticket.priceValue;
+
+    if (transactionAmount != null && transactionAmount > 0 && unitPrice > 0) {
+      final count = transactionAmount ~/ unitPrice;
+      if (count > 0 && count * unitPrice == transactionAmount) {
+        return '$count매';
+      }
+    }
+
+    final totalQuantity = ticket.totalQuantity;
+    if (totalQuantity != null && totalQuantity > 0) {
+      return '$totalQuantity매';
+    }
+
+    return '-';
+  }
+
+  String _buildSeatInfoText() {
+    final seatInfo = ticket.seatInfo?.trim();
+    if (seatInfo == null || seatInfo.isEmpty) {
+      return '-';
+    }
+
+    return seatInfo;
   }
 
   Widget _buildInfoItem(String label, String value) {

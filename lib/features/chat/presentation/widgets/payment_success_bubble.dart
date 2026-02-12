@@ -32,19 +32,25 @@ class PaymentSuccessBubble extends ConsumerWidget {
     final canCancel = chatRoom?.canCancelTransaction ?? false;
     final isPaid = transaction?.status == TransactionStatus.paid;
     final isConfirmed = transaction?.status == TransactionStatus.confirmed;
+    final isCompleted = transaction?.status == TransactionStatus.completed;
+    final hasPurchaseConfirmedMessage =
+        chatRoom?.messages.any((msg) => msg.type.name == 'purchaseConfirmed') ??
+        false;
+    final isPurchaseFinalized =
+        isConfirmed || isCompleted || hasPurchaseConfirmedMessage;
     final amountText = transaction?.formattedAmount ?? ticket.price;
+    final ticketCountText = _buildTicketCountText(transaction);
+    final seatInfoText = _buildSeatInfoText();
 
     // 역할별 메시지
-    final String displayMessage = isBuyer
+    final String displayMessage = isPurchaseFinalized
+        ? '구매 확정이 완료되었습니다.\n정산이 진행됩니다.'
+        : isBuyer
         ? '물건을 받으셨다면 구매 확정을 눌러주세요.'
         : '구매자가 결제를 완료했습니다. 물건을 전송해주세요.';
 
     // 버튼 텍스트 및 상태
-    final String buttonText = isConfirmed
-        ? '✓ 구매 확정 완료'
-        : canConfirm
-        ? '구매 확정하기'
-        : '구매 확정 대기중';
+    final String buttonText = canConfirm ? '구매 확정하기' : '구매 확정 대기중';
 
     return Container(
       width: 270,
@@ -68,9 +74,7 @@ class PaymentSuccessBubble extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(AppSpacing.lg),
             decoration: BoxDecoration(
-              color: isConfirmed
-                  ? const Color(0xFFF3E5F5) // Purple (confirmed)
-                  : const Color(0xFFE8F5E9), // Green (paid)
+              color: const Color(0xFFE8F5E9),
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(20),
               ),
@@ -82,10 +86,10 @@ class PaymentSuccessBubble extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      isConfirmed ? '구매확정 완료' : '구매 확정',
+                      '결제 완료',
                       style: AppTextStyles.heading2.copyWith(
                         fontSize: 22,
-                        color: isConfirmed ? Colors.purple : Colors.green,
+                        color: Colors.green,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
@@ -98,8 +102,8 @@ class PaymentSuccessBubble extends ConsumerWidget {
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
-                    isConfirmed ? Icons.handshake : Icons.check_circle,
-                    color: isConfirmed ? Colors.purple : Colors.green,
+                    Icons.check_circle,
+                    color: Colors.green,
                     size: 24,
                   ),
                 ),
@@ -125,13 +129,14 @@ class PaymentSuccessBubble extends ConsumerWidget {
 
                 // Info List
                 _buildInfoItem('상품명', ticket.title),
-                _buildInfoItem('결제금액', amountText),
-                _buildInfoItem('거래상태', transaction?.statusName ?? '결제 완료'),
+                _buildInfoItem('결제 금액', amountText),
+                _buildInfoItem('티켓 개수', ticketCountText),
+                _buildInfoItem('좌석 정보', seatInfoText),
 
                 const SizedBox(height: 24),
 
                 // Action Buttons (구매자만 표시)
-                if (isBuyer) ...[
+                if (isBuyer && !isPurchaseFinalized) ...[
                   // 구매 확정 버튼
                   SizedBox(
                     width: double.infinity,
@@ -155,11 +160,6 @@ class PaymentSuccessBubble extends ConsumerWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          if (isConfirmed)
-                            const Padding(
-                              padding: EdgeInsets.only(right: 8),
-                              child: Icon(Icons.check, size: 18),
-                            ),
                           Text(
                             buttonText,
                             style: AppTextStyles.body1.copyWith(
@@ -196,7 +196,7 @@ class PaymentSuccessBubble extends ConsumerWidget {
                 ],
 
                 // 판매자용 안내 메시지
-                if (!isBuyer && isPaid) ...[
+                if (!isBuyer && isPaid && !isPurchaseFinalized) ...[
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(12),
@@ -234,6 +234,34 @@ class PaymentSuccessBubble extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  String _buildTicketCountText(TransactionUiModel? transaction) {
+    final transactionAmount = transaction?.amount;
+    final unitPrice = ticket.priceValue;
+
+    if (transactionAmount != null && transactionAmount > 0 && unitPrice > 0) {
+      final count = transactionAmount ~/ unitPrice;
+      if (count > 0 && count * unitPrice == transactionAmount) {
+        return '$count매';
+      }
+    }
+
+    final totalQuantity = ticket.totalQuantity;
+    if (totalQuantity != null && totalQuantity > 0) {
+      return '$totalQuantity매';
+    }
+
+    return '-';
+  }
+
+  String _buildSeatInfoText() {
+    final seatInfo = ticket.seatInfo?.trim();
+    if (seatInfo == null || seatInfo.isEmpty) {
+      return '-';
+    }
+
+    return seatInfo;
   }
 
   Widget _buildInfoItem(String label, String value) {

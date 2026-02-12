@@ -30,8 +30,9 @@ class PaymentRequestBubble extends ConsumerWidget {
     final transaction = chatRoom?.transaction;
 
     final status = transaction?.status ?? TransactionStatus.reserved;
-    final statusName = transaction?.statusName ?? '예약중';
     final amountText = transaction?.formattedAmount ?? ticket.price;
+    final ticketCountText = _buildTicketCountText(transaction);
+    final seatInfoText = _buildSeatInfoText();
 
     // 상태별 디자인 설정
     final config = _getStatusConfig(status);
@@ -109,8 +110,9 @@ class PaymentRequestBubble extends ConsumerWidget {
 
                 // Info List (당근페이 스타일)
                 _buildInfoItem('상품명', ticket.title),
-                _buildInfoItem('결제금액', amountText),
-                _buildInfoItem('거래상태', statusName),
+                _buildInfoItem('결제 금액', amountText),
+                _buildInfoItem('티켓 개수', ticketCountText),
+                _buildInfoItem('좌석 정보', seatInfoText),
 
                 const SizedBox(height: 24),
 
@@ -122,11 +124,11 @@ class PaymentRequestBubble extends ConsumerWidget {
                       onPressed:
                           (isBuyer && config.isBuyerAction) ||
                               (!isBuyer && !config.isBuyerAction)
-                          ? config.onPressed ?? (isBuyer ? onPayment : null)
+                          ? (isBuyer ? onPayment : null)
                           : null,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: config.buttonColor,
-                        foregroundColor: config.buttonTextColor,
+                        backgroundColor: const Color(0xFFF2F3F5),
+                        foregroundColor: AppColors.textPrimary,
                         elevation: 0,
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
@@ -179,7 +181,7 @@ class PaymentRequestBubble extends ConsumerWidget {
         isBuyerAction: true,
       ),
       TransactionStatus.pendingPayment => _StatusConfig(
-        title: '결제대기',
+        title: '결제 대기',
         message: isBuyer
             ? '결제를 완료해주세요!\n결제가 지연되면 자동으로 취소될 수 있습니다.'
             : '구매자의 결제를 기다리고 있어요.\n잠시만 기다려주세요.',
@@ -190,7 +192,7 @@ class PaymentRequestBubble extends ConsumerWidget {
         isBuyerAction: true,
       ),
       TransactionStatus.paid => _StatusConfig(
-        title: '결제완료',
+        title: '결제 완료',
         message: isBuyer
             ? '결제가 완료되었습니다.\n물건을 받으신 후 구매 확정을 눌러주세요.'
             : '구매자가 결제를 완료했습니다.\n물건을 전송해주세요.',
@@ -241,6 +243,34 @@ class PaymentRequestBubble extends ConsumerWidget {
     };
   }
 
+  String _buildTicketCountText(TransactionUiModel? transaction) {
+    final transactionAmount = transaction?.amount;
+    final unitPrice = ticket.priceValue;
+
+    if (transactionAmount != null && transactionAmount > 0 && unitPrice > 0) {
+      final count = transactionAmount ~/ unitPrice;
+      if (count > 0 && count * unitPrice == transactionAmount) {
+        return '$count매';
+      }
+    }
+
+    final totalQuantity = ticket.totalQuantity;
+    if (totalQuantity != null && totalQuantity > 0) {
+      return '$totalQuantity매';
+    }
+
+    return '-';
+  }
+
+  String _buildSeatInfoText() {
+    final seatInfo = ticket.seatInfo?.trim();
+    if (seatInfo == null || seatInfo.isEmpty) {
+      return '-';
+    }
+
+    return seatInfo;
+  }
+
   Widget _buildInfoItem(String label, String value) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
@@ -288,9 +318,6 @@ class _StatusConfig {
   final Color iconColor;
   final String? buttonText;
   final bool isBuyerAction;
-  final Color buttonColor;
-  final Color buttonTextColor;
-  final VoidCallback? onPressed;
 
   _StatusConfig({
     required this.title,
@@ -300,8 +327,5 @@ class _StatusConfig {
     required this.iconColor,
     this.buttonText,
     this.isBuyerAction = true,
-    this.buttonColor = const Color(0xFFF2F3F5),
-    this.buttonTextColor = AppColors.textPrimary,
-    this.onPressed,
   });
 }

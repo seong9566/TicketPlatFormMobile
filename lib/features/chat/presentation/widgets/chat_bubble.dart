@@ -119,6 +119,7 @@ class ChatBubble extends ConsumerWidget {
                 PurchaseConfirmedBubble(
                   message: message,
                   ticket: chatRoom.ticket,
+                  transaction: chatRoom.transaction,
                   isBuyer: isBuyer,
                 ),
                 const SizedBox(height: 4),
