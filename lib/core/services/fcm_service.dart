@@ -135,12 +135,14 @@ class FcmService {
       unawaited(onMessageOpenedApp(payload));
     });
 
-    final initialMessage = await _messaging.getInitialMessage();
-    if (initialMessage != null) {
-      final payload = FcmMessagePayload.fromRemoteMessage(initialMessage);
-      AppLogger.i('[FCM] Initial message opened: ${payload.normalizedType}');
-      await onMessageOpenedApp(payload);
-    }
+    // Initial message 처리 제거
+    // 앱 재시작 시 홈 화면으로 이동하도록 하기 위해 주석 처리
+    // final initialMessage = await _messaging.getInitialMessage();
+    // if (initialMessage != null) {
+    //   final payload = FcmMessagePayload.fromRemoteMessage(initialMessage);
+    //   AppLogger.i('[FCM] Initial message opened: ${payload.normalizedType}');
+    //   await onMessageOpenedApp(payload);
+    // }
 
     _isInitialized = true;
   }
