@@ -1,22 +1,17 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:go_router/go_router.dart';
-import 'package:tosspayments_widget_sdk_flutter/model/payment_info.dart';
-import 'package:tosspayments_widget_sdk_flutter/payment_widget.dart';
-import 'package:tosspayments_widget_sdk_flutter/widgets/payment_method.dart';
-import 'package:tosspayments_widget_sdk_flutter/widgets/agreement.dart';
-import 'package:tosspayments_widget_sdk_flutter/model/payment_widget_options.dart';
-import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
-import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
-import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
-import 'package:ticket_platform_mobile/features/payment/presentation/viewmodels/payment_viewmodel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ticket_platform_mobile/core/utils/number_format_util.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
+import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
+import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
+import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
+import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
+import 'package:ticket_platform_mobile/core/utils/number_format_util.dart';
+import 'package:tosspayments_widget_sdk_flutter/model/paymentData.dart';
+import 'package:tosspayments_widget_sdk_flutter/model/tosspayments_result.dart';
+import 'package:tosspayments_widget_sdk_flutter/pages/tosspayments_sdk_flutter.dart';
 
-class PaymentView extends ConsumerStatefulWidget {
+class PaymentView extends StatefulWidget {
   final double amount;
   final String orderId;
   final String orderName;
@@ -39,268 +34,357 @@ class PaymentView extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<PaymentView> createState() => _PaymentViewState();
+  State<PaymentView> createState() => _PaymentViewState();
 }
 
-class _PaymentViewState extends ConsumerState<PaymentView> {
-  late PaymentWidget _paymentWidget;
-  bool _isWidgetInitialized = false;
+class _PaymentViewState extends State<PaymentView> {
+  bool _isLaunchingPayment = false;
 
-  // 상품 가격
-  late int originPrice;
-  late String orderName;
+  int get _amount => widget.amount.toInt();
 
-  @override
-  void initState() {
-    super.initState();
-    originPrice = widget.amount.toInt();
-    orderName = widget.orderName;
-
-    // 토스 페이먼츠 초기화
-    _initPaymentWidget();
-  }
-
-  Future<void> _initPaymentWidget() async {
-    // 1. InAppWebView 플랫폼 인스턴스 확인
-    if (!kIsWeb && InAppWebViewPlatform.instance == null) {
-      if (mounted) {
-        // _handlePaymentFail('이 기기에서는 결제 기능을 사용할 수 없습니다.');
-      }
+  Future<void> _openPaymentWindow() async {
+    if (_isLaunchingPayment) {
       return;
     }
 
-    // 2. PaymentWidget 초기화
-    _paymentWidget = PaymentWidget(
-      clientKey: widget.clientKey,
-      customerKey: 'CUSTOMER_@_${DateTime.now().millisecondsSinceEpoch}',
+    setState(() {
+      _isLaunchingPayment = true;
+    });
+
+    final result = await Navigator.of(context).push<Result>(
+      MaterialPageRoute(
+        builder: (context) => _TossPaymentWindowPage(
+          clientKey: widget.clientKey,
+          paymentData: PaymentData(
+            paymentMethod: '카드',
+            amount: _amount,
+            orderId: widget.orderId,
+            orderName: widget.orderName,
+            customerName: widget.customerName,
+            customerEmail: widget.customerEmail,
+            successUrl: widget.successUrl,
+            failUrl: widget.failUrl,
+          ),
+        ),
+      ),
     );
 
-    // 3. 결제 UI 렌더링
-    _paymentWidget.renderPaymentMethods(
-      selector: 'payment-methods',
-      // 결제 금액
-      amount: Amount(value: originPrice, currency: Currency.KRW, country: "KR"),
-      options: RenderPaymentMethodsOptions(variantKey: "DEFAULT"),
-    );
-
-    // 4.약관동의 UI 렌더링
-    _paymentWidget.renderAgreement(selector: 'agreement');
+    if (!mounted) {
+      return;
+    }
 
     setState(() {
-      _isWidgetInitialized = true;
+      _isLaunchingPayment = false;
     });
+
+    if (result == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('결제가 취소되었습니다.')));
+      return;
+    }
+
+    if (result.success != null) {
+      final success = result.success!;
+      context.pushNamed(
+        AppRouterPath.paymentFinal.name,
+        extra: {
+          'paymentKey': success.paymentKey,
+          'orderId': success.orderId,
+          'amount': success.amount.toInt(),
+        },
+      );
+      return;
+    }
+
+    if (result.fail != null) {
+      final fail = result.fail!;
+      context.pushNamed(
+        AppRouterPath.paymentFinal.name,
+        extra: {
+          'paymentKey': '',
+          'orderId': fail.orderId,
+          'amount': 0,
+          'frontendErrorCode': fail.errorCode,
+          'frontendErrorMessage': fail.errorMessage,
+        },
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!_isWidgetInitialized) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
-    final paymentState = ref.watch(paymentViewModelProvider);
-    final paymentRequest = paymentState.paymentRequest;
-
     return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
-        title: const Text('주문 결제'),
+        title: const Text('결제 진행'),
+        elevation: 0,
         backgroundColor: AppColors.background,
         foregroundColor: AppColors.textPrimary,
-        elevation: 0,
       ),
-      backgroundColor: AppColors.scaffoldBackground,
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            if (paymentRequest != null)
-              SliverToBoxAdapter(child: _buildTicketInfo(paymentState)),
-            SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                return Column(
-                  children: [
-                    PaymentMethodWidget(
-                      paymentWidget: _paymentWidget,
-                      selector: 'payment-methods',
-                    ),
-                    AgreementWidget(
-                      paymentWidget: _paymentWidget,
-                      selector: 'agreement',
-                    ),
-                    const SizedBox(height: AppSpacing.xl),
-                    _buildPaymentButton(
-                      orderId: widget.orderId,
-                      orderName: widget.orderName,
-                    ),
-                    const SizedBox(height: AppSpacing.xl),
-                  ],
-                );
-              }, childCount: 1),
+      body: CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.md,
+              AppSpacing.md,
+              AppSpacing.md,
+              AppSpacing.xl,
             ),
-          ],
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                _buildPaymentSummaryCard(),
+                const SizedBox(height: AppSpacing.md),
+                _buildTicketInfoCard(),
+                const SizedBox(height: AppSpacing.md),
+                _buildGuideCard(),
+              ]),
+            ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: SafeArea(
+        minimum: const EdgeInsets.fromLTRB(
+          AppSpacing.md,
+          AppSpacing.sm,
+          AppSpacing.md,
+          AppSpacing.md,
+        ),
+        child: SizedBox(
+          height: 56,
+          child: ElevatedButton(
+            onPressed: _isLaunchingPayment ? null : _openPaymentWindow,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              foregroundColor: Colors.white,
+              disabledBackgroundColor: AppColors.primary.withValues(alpha: 0.6),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppRadius.lg),
+              ),
+              elevation: 0,
+            ),
+            child: _isLaunchingPayment
+                ? const SizedBox(
+                    width: 22,
+                    height: 22,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.2,
+                      color: Colors.white,
+                    ),
+                  )
+                : Text(
+                    '${NumberFormatUtil.formatNumber(_amount)}원 결제하기',
+                    style: AppTextStyles.body1.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildTicketInfo(PaymentState state) {
-    final req = state.paymentRequest!;
+  Widget _buildPaymentSummaryCard() {
     return Container(
-      padding: const EdgeInsets.all(AppSpacing.md),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
-        color: AppColors.card,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(5),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF153B2E), Color(0xFF00B874)],
+        ),
+        borderRadius: BorderRadius.circular(AppRadius.xl),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '티켓 정보',
-            style: AppTextStyles.body1.copyWith(fontWeight: FontWeight.bold),
+            '지금 결제할 금액',
+            style: AppTextStyles.body2.copyWith(
+              color: Colors.white.withValues(alpha: 0.85),
+            ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            '${NumberFormatUtil.formatNumber(_amount)}원',
+            style: AppTextStyles.heading1.copyWith(
+              color: Colors.white,
+              fontSize: 34,
+            ),
           ),
           const SizedBox(height: AppSpacing.md),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // 티켓 이미지
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  width: 100,
-                  height: 120,
-                  color: AppColors.muted,
-                  child: req.ticketImageUrl != null
-                      ? CachedNetworkImage(
-                          imageUrl: req.ticketImageUrl!,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => const Center(
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          ),
-                          errorWidget: (context, url, error) => const Icon(
-                            Icons.image_not_supported,
-                            color: AppColors.textTertiary,
-                          ),
-                        )
-                      : const Icon(
-                          Icons.confirmation_number,
-                          color: AppColors.textTertiary,
-                          size: 32,
-                        ),
-                ),
-              ),
-              const SizedBox(width: AppSpacing.md),
-              // 티켓 상세 정보
-              Expanded(
-                child: Column(
-                  children: [
-                    _buildInfoRow('공연', req.eventTitle ?? '-'),
-                    _buildInfoRow('일시', req.eventDate ?? '-'),
-                    _buildInfoRow('장소', req.venueName ?? '-'),
-                    const SizedBox(height: AppSpacing.xs),
-                    const Divider(height: 1, color: AppColors.border),
-                    const SizedBox(height: AppSpacing.xs),
-                    _buildInfoRow('좌석', req.seatInfo ?? '-', isBold: true),
-                  ],
-                ),
-              ),
-            ],
+          Text(
+            widget.orderName,
+            style: AppTextStyles.body1.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildInfoRow(String label, String value, {bool isBold = false}) {
+  Widget _buildTicketInfoCard() {
+    final hasMetadata =
+        widget.orderName.isNotEmpty ||
+        widget.customerName != null ||
+        widget.customerEmail != null;
+
+    if (!hasMetadata) {
+      return const SizedBox.shrink();
+    }
+
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(AppRadius.md),
+            child: Container(
+              width: 92,
+              height: 116,
+              color: AppColors.muted,
+              child: CachedNetworkImage(
+                imageUrl: 'https://picsum.photos/300/400?random=17',
+                fit: BoxFit.cover,
+                errorWidget: (context, url, error) => const Icon(
+                  Icons.confirmation_number_outlined,
+                  color: AppColors.textTertiary,
+                  size: 28,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.orderName,
+                  style: AppTextStyles.body1.copyWith(
+                    fontWeight: FontWeight.w700,
+                    height: 1.3,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                _PaymentOverviewItem(label: '주문번호', value: widget.orderId),
+                if ((widget.customerName ?? '').isNotEmpty)
+                  _PaymentOverviewItem(
+                    label: '구매자',
+                    value: widget.customerName!,
+                  ),
+                if ((widget.customerEmail ?? '').isNotEmpty)
+                  _PaymentOverviewItem(
+                    label: '이메일',
+                    value: widget.customerEmail!,
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGuideCard() {
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: AppColors.primaryLight,
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '결제 안내',
+            style: AppTextStyles.body1.copyWith(fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            '결제 버튼을 누르면 토스 결제창으로 이동합니다.',
+            style: AppTextStyles.body2.copyWith(color: AppColors.textSecondary),
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          Text(
+            '결제가 완료되면 자동으로 승인 절차를 진행합니다.',
+            style: AppTextStyles.body2.copyWith(color: AppColors.textSecondary),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PaymentOverviewItem extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _PaymentOverviewItem({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.only(top: 6),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            label,
-            style: AppTextStyles.body2.copyWith(
+            '$label ',
+            style: AppTextStyles.caption.copyWith(
               color: AppColors.textSecondary,
-              fontSize: 13,
             ),
           ),
-          const Spacer(),
           Expanded(
-            flex: 4,
             child: Text(
               value,
-              style: AppTextStyles.body1.copyWith(
-                fontSize: 14,
-                fontWeight: isBold ? FontWeight.bold : FontWeight.w500,
+              style: AppTextStyles.caption.copyWith(
                 color: AppColors.textPrimary,
+                fontWeight: FontWeight.w600,
               ),
-              textAlign: TextAlign.end,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _buildPaymentButton({
-    required String orderId,
-    required String orderName,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-      child: ElevatedButton(
-        onPressed: () async {
-          final paymentResult = await _paymentWidget.requestPayment(
-            paymentInfo: PaymentInfo(orderId: orderId, orderName: orderName),
-          );
+class _TossPaymentWindowPage extends StatelessWidget {
+  final String clientKey;
+  final PaymentData paymentData;
 
-          if (!mounted) return;
+  const _TossPaymentWindowPage({
+    required this.clientKey,
+    required this.paymentData,
+  });
 
-          if (paymentResult.success != null) {
-            // 결제 성공 -> PaymentFinalView로 이동
-            context.pushNamed(
-              AppRouterPath.paymentFinal.name,
-              extra: {
-                'paymentKey': paymentResult.success!.paymentKey,
-                'orderId': paymentResult.success!.orderId,
-                'amount': paymentResult.success!.amount.toInt(),
-              },
-            );
-          } else if (paymentResult.fail != null) {
-            // 결제 실패 -> PaymentFinalView로 이동 (에러 정보 전달)
-            context.pushNamed(
-              AppRouterPath.paymentFinal.name,
-              extra: {
-                // 더미 데이터 (실패 시에는 결제승인 로직을 안타므로)
-                'paymentKey': '',
-                'orderId': orderId,
-                'amount': 0,
-                'frontendErrorCode': paymentResult.fail!.errorCode,
-                'frontendErrorMessage': paymentResult.fail!.errorMessage,
-              },
-            );
-          }
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.primaryForeground,
-          minimumSize: const Size(double.infinity, 54),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          elevation: 0,
-        ),
-        child: Text(
-          '${NumberFormatUtil.formatNumber(originPrice)}원 결제하기',
-          style: AppTextStyles.body1.copyWith(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-      ),
+  @override
+  Widget build(BuildContext context) {
+    return TossPayments(
+      clientKey: clientKey,
+      data: paymentData,
+      success: (dynamic result) {
+        final success = result as Success;
+        Navigator.of(context).pop(Result(success: success));
+      },
+      fail: (dynamic result) {
+        final fail = result as Fail;
+        Navigator.of(context).pop(Result(fail: fail));
+      },
     );
   }
 }
