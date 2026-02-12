@@ -96,7 +96,7 @@ class LoginView extends ConsumerWidget {
           const SizedBox(height: 24),
           _buildDivider(),
           const SizedBox(height: 24),
-          _buildSocialLogin(viewModel),
+          _buildSocialLogin(state, viewModel),
           const SizedBox(height: 24),
           _buildSignUpLink(context),
         ],
@@ -135,32 +135,56 @@ class LoginView extends ConsumerWidget {
     );
   }
 
-  Widget _buildSocialLogin(LoginViewModel viewModel) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+  Widget _buildSocialLogin(LoginState state, LoginViewModel viewModel) {
+    return Column(
       children: [
-        _buildOAuthButton(
-          child: SvgPicture.asset(
-            AppAssets.kakaoLogo,
-            fit: BoxFit.cover,
-            width: 20,
-            height: 20,
-          ),
-          backgroundColor: const Color(0xffFEE500),
-          onTap: viewModel.signInWithKakao,
-        ),
-        const SizedBox(width: AppSpacing.md),
-        _buildOAuthButton(
-          child: Text(
-            'G',
-            style: AppTextStyles.body1.copyWith(
-              fontWeight: FontWeight.w700,
-              color: AppColors.textPrimary,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _buildOAuthButton(
+              child: SvgPicture.asset(
+                AppAssets.kakaoLogo,
+                fit: BoxFit.cover,
+                width: 20,
+                height: 20,
+              ),
+              backgroundColor: const Color(0xffFEE500),
+              onTap: state.isLoading ? null : viewModel.signInWithKakao,
             ),
-          ),
-          backgroundColor: Colors.white,
-          onTap: viewModel.signInWithGoogle,
+            const SizedBox(width: AppSpacing.md),
+            _buildOAuthButton(
+              child: Text(
+                'G',
+                style: AppTextStyles.body1.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+              backgroundColor: Colors.white,
+              onTap: state.isLoading ? null : viewModel.signInWithGoogle,
+            ),
+          ],
         ),
+        if (state.isLoading) ...[
+          const SizedBox(height: AppSpacing.md),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Text(
+                '로그인 처리 중입니다...',
+                style: AppTextStyles.caption.copyWith(
+                  color: AppColors.textSecondary,
+                ),
+              ),
+            ],
+          ),
+        ],
       ],
     );
   }
@@ -168,14 +192,18 @@ class LoginView extends ConsumerWidget {
   Widget _buildOAuthButton({
     required Widget child,
     required Color backgroundColor,
-    required VoidCallback onTap,
+    required VoidCallback? onTap,
   }) {
+    final isDisabled = onTap == null;
+
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(8),
       child: Container(
         decoration: BoxDecoration(
-          color: backgroundColor,
+          color: isDisabled
+              ? backgroundColor.withValues(alpha: 0.6)
+              : backgroundColor,
           shape: BoxShape.circle,
           border: Border.all(color: AppColors.border),
         ),

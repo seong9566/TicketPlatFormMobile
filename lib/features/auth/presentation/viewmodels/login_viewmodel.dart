@@ -42,6 +42,7 @@ class LoginViewModel extends _$LoginViewModel with ErrorHandler {
     }
 
     state = state.copyWith(isLoading: true, errorMessage: null);
+    final keepAliveLink = ref.keepAlive();
 
     try {
       final params = LoginParams(
@@ -49,9 +50,20 @@ class LoginViewModel extends _$LoginViewModel with ErrorHandler {
         password: trimmedPassword,
       );
       await _loginUsecase.call(params);
+
+      if (!ref.mounted) {
+        return;
+      }
+
       state = state.copyWith(isLoading: false, isSuccess: true);
     } catch (e) {
+      if (!ref.mounted) {
+        return;
+      }
+
       state = state.copyWith(isLoading: false, errorMessage: handleError(e));
+    } finally {
+      keepAliveLink.close();
     }
   }
 
@@ -59,15 +71,29 @@ class LoginViewModel extends _$LoginViewModel with ErrorHandler {
     if (state.isLoading) return;
 
     state = state.copyWith(isLoading: true, errorMessage: null);
+    final keepAliveLink = ref.keepAlive();
+
     try {
       final user = await _googleSignInUsecase.call();
+
+      if (!ref.mounted) {
+        return;
+      }
+
       if (user == null) {
         state = state.copyWith(isLoading: false);
         return;
       }
+
       state = state.copyWith(isLoading: false, isSuccess: true);
     } catch (e) {
+      if (!ref.mounted) {
+        return;
+      }
+
       state = state.copyWith(isLoading: false, errorMessage: handleError(e));
+    } finally {
+      keepAliveLink.close();
     }
   }
 
@@ -75,15 +101,29 @@ class LoginViewModel extends _$LoginViewModel with ErrorHandler {
     if (state.isLoading) return;
 
     state = state.copyWith(isLoading: true, errorMessage: null);
+    final keepAliveLink = ref.keepAlive();
+
     try {
       final user = await _kakaoSignInUsecase.call();
+
+      if (!ref.mounted) {
+        return;
+      }
+
       if (user == null) {
         state = state.copyWith(isLoading: false);
         return;
       }
+
       state = state.copyWith(isLoading: false, isSuccess: true);
     } catch (e) {
+      if (!ref.mounted) {
+        return;
+      }
+
       state = state.copyWith(isLoading: false, errorMessage: handleError(e));
+    } finally {
+      keepAliveLink.close();
     }
   }
 
