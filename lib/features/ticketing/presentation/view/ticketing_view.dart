@@ -8,7 +8,6 @@ import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widg
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticketing_filter_header_delegate.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticketing_filter_bar.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticketing_header_section.dart';
-import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticketing_list_header.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_ticket_ui_model.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_info_ui_model.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/viewmodels/ticketing_state.dart';
@@ -24,7 +23,7 @@ class TicketingView extends ConsumerWidget {
     final stateAsync = ref.watch(ticketingViewModelProvider(performanceId));
 
     return Scaffold(
-      backgroundColor: AppColors.muted,
+      backgroundColor: AppColors.background,
       appBar: _buildAppBar(context, stateAsync),
       body: stateAsync.when(
         data: (state) {
@@ -42,35 +41,34 @@ class TicketingView extends ConsumerWidget {
 
           // 2. 정렬 로직
           if (state.sortBy == '가격 낮은순') {
-            filteredListings.sort((a, b) => a.price.compareTo(b.price));
+            filteredListings.sort(
+              (a, b) => a.totalPrice.compareTo(b.totalPrice),
+            );
           } else if (state.sortBy == '가격 높은순') {
-            filteredListings.sort((a, b) => b.price.compareTo(a.price));
+            filteredListings.sort(
+              (a, b) => b.totalPrice.compareTo(a.totalPrice),
+            );
           } else if (state.sortBy == '최신순') {
             filteredListings.sort((a, b) => b.createdAt.compareTo(a.createdAt));
           }
 
           return SafeArea(
-            child: Column(
-              children: [
-                Expanded(
-                  child: CustomScrollView(
-                    slivers: [
-                      // 공연 정보
-                      SliverToBoxAdapter(
-                        child: TicketingHeaderSection(ticketingInfo: info),
-                      ),
-                      _buildStickyFilter(performanceId, state, ref),
-                      SliverToBoxAdapter(
-                        child: TicketingListHeader(
-                          count: filteredListings.length,
-                          sortBy: state.sortBy,
-                          onSortTap: () => _showSortBottomSheet(context, ref),
-                        ),
-                      ),
-                      _buildListingList(filteredListings, ref),
-                    ],
-                  ),
+            child: CustomScrollView(
+              slivers: [
+                // 공연 정보
+                SliverToBoxAdapter(
+                  child: TicketingHeaderSection(ticketingInfo: info),
                 ),
+                _buildStickyFilter(
+                  performanceId,
+                  state,
+                  ref,
+                  filteredListings.length,
+                ),
+                _buildListingList(filteredListings, ref),
+                const SliverToBoxAdapter(
+                  child: SizedBox(height: 80),
+                ), // FAB 여유 공간
               ],
             ),
           );
@@ -79,9 +77,10 @@ class TicketingView extends ConsumerWidget {
         error: (err, stack) => Center(child: Text('Error: $err')),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: Colors.black,
-        child: const Icon(Icons.tune, color: Colors.white),
+        onPressed: () => _showSortBottomSheet(context, ref),
+        backgroundColor: AppColors.secondary,
+        elevation: 4,
+        child: const Icon(Icons.swap_vert, color: Colors.white),
       ),
     );
   }
@@ -121,7 +120,12 @@ class TicketingView extends ConsumerWidget {
     );
   }
 
-  Widget _buildStickyFilter(String id, TicketingState state, WidgetRef ref) {
+  Widget _buildStickyFilter(
+    String id,
+    TicketingState state,
+    WidgetRef ref,
+    int totalCount,
+  ) {
     final info = state.ticketingInfo;
     if (info == null || info.ticketGrades.isEmpty) {
       return const SliverToBoxAdapter(child: SizedBox.shrink());
@@ -137,7 +141,9 @@ class TicketingView extends ConsumerWidget {
           onGradeSelected: (TicketingGradeUiModel grade) => ref
               .read(ticketingViewModelProvider(id).notifier)
               .selectGrade(grade),
-          onSortSelected: (sort) => _showSortBottomSheet(ref.context, ref),
+          totalCount: totalCount,
+          sortBy: state.sortBy,
+          onSortTap: () => _showSortBottomSheet(ref.context, ref),
         ),
       ),
     );

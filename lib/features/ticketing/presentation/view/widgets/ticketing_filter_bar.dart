@@ -4,12 +4,16 @@ import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_info_ui_model.dart';
 
+import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticketing_list_header.dart';
+
 class TicketingFilterBar extends StatelessWidget {
   final List<TicketingGradeUiModel> grades;
   final TicketingInfoUiModel? ticketingInfo;
   final TicketingGradeUiModel? selectedGrade;
   final Function(TicketingGradeUiModel) onGradeSelected;
-  final Function(String) onSortSelected;
+  final int totalCount;
+  final String sortBy;
+  final VoidCallback onSortTap;
 
   const TicketingFilterBar({
     super.key,
@@ -17,61 +21,44 @@ class TicketingFilterBar extends StatelessWidget {
     required this.ticketingInfo,
     required this.selectedGrade,
     required this.onGradeSelected,
-    required this.onSortSelected,
+    required this.totalCount,
+    required this.sortBy,
+    required this.onSortTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.background,
-      height: 54.0,
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.md,
-        vertical: AppSpacing.sm,
-      ),
-      child: Row(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          const _FilterIconButton(),
-          const SizedBox(width: AppSpacing.sm),
-          Expanded(
-            child: SingleChildScrollView(
+          // Row 1: 등급 필터
+          SizedBox(
+            height: 44.0,
+            child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              child: Row(
-                children: grades.map((grade) {
-                  final isSelected = selectedGrade?.id == grade.id;
-                  return _GradeChip(
-                    grade: grade,
-                    isSelected: isSelected,
-                    onSelected: () => onGradeSelected(grade),
-                  );
-                }).toList(),
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+              itemCount: grades.length,
+              itemBuilder: (context, index) {
+                final grade = grades[index];
+                final isSelected = selectedGrade?.id == grade.id;
+                return _GradeChip(
+                  grade: grade,
+                  isSelected: isSelected,
+                  onSelected: () => onGradeSelected(grade),
+                );
+              },
             ),
           ),
+          // Row 2: 갯수 및 정렬 (TicketingListHeader 활용)
+          TicketingListHeader(
+            count: totalCount,
+            sortBy: sortBy,
+            onSortTap: onSortTap,
+          ),
+          const Divider(height: 1, color: AppColors.border),
         ],
-      ),
-    );
-  }
-}
-
-class _FilterIconButton extends StatelessWidget {
-  const _FilterIconButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: AppColors.secondary, // 검은색 배경
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Text(
-        '필터',
-        style: AppTextStyles.body2.copyWith(
-          fontSize: 14,
-          color: AppColors.secondaryForeground,
-          fontWeight: FontWeight.w600,
-        ),
       ),
     );
   }
@@ -94,27 +81,35 @@ class _GradeChip extends StatelessWidget {
       padding: const EdgeInsets.only(right: 8),
       child: GestureDetector(
         onTap: onSelected,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
           decoration: BoxDecoration(
-            color: isSelected
-                ? AppColors
-                      .success // 초록색 (선택됨)
-                : AppColors.background, // 흰색 (비선택)
-            borderRadius: BorderRadius.circular(20),
-            border: isSelected
-                ? null
-                : Border.all(color: AppColors.border, width: 1),
+            color: isSelected ? AppColors.primary : AppColors.background,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: isSelected ? AppColors.primary : AppColors.border,
+              width: 1,
+            ),
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: 0.2),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ]
+                : null,
           ),
           child: Text(
             grade.name,
             style: AppTextStyles.body2.copyWith(
               fontSize: 14,
-              color: isSelected
-                  ? AppColors.primaryForeground
-                  : AppColors.textPrimary,
-              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+              color: isSelected ? Colors.white : AppColors.textPrimary,
+              fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
             ),
+            textAlign: TextAlign.center,
           ),
         ),
       ),
