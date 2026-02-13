@@ -48,10 +48,17 @@ class AuthRepositoryImpl implements AuthRepository {
       final response = await _remoteDataSource.socialLogin(req);
       final dto = response.dataOrThrow;
 
+      // expiresAt이 비어있으면(socialLogin API 특성) expiresIn으로 계산
+      String resolvedExpiresAt = dto.expiresAt;
+      if (resolvedExpiresAt.isEmpty && dto.expiresIn > 0) {
+        final expiryDate = DateTime.now().add(Duration(seconds: dto.expiresIn));
+        resolvedExpiresAt = expiryDate.toIso8601String();
+      }
+
       await _tokenStorage.saveTokens(
         accessToken: dto.accessToken,
         refreshToken: dto.refreshToken,
-        expiresAt: dto.expiresAt,
+        expiresAt: resolvedExpiresAt,
       );
 
       return dto.toEntity();

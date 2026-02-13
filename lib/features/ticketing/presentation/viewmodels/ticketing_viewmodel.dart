@@ -4,6 +4,7 @@ import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models
 import 'package:ticket_platform_mobile/features/ticketing/presentation/viewmodels/ticketing_state.dart';
 import 'package:ticket_platform_mobile/features/wishlist/domain/usecases/toggle_favorite_usecase.dart';
 import 'package:ticket_platform_mobile/features/wishlist/presentation/providers/wishlist_providers_di.dart';
+import 'package:ticket_platform_mobile/features/wishlist/presentation/viewmodels/wishlist_viewmodel.dart';
 
 part 'ticketing_viewmodel.g.dart';
 
@@ -87,6 +88,8 @@ class TicketingViewModel extends _$TicketingViewModel {
           ),
         ),
       );
+
+      ref.invalidate(wishlistViewModelProvider);
     } catch (e) {
       // 실패 시 원래 상태로 롤백
       state = AsyncValue.data(currentState);

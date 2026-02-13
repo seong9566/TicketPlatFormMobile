@@ -502,7 +502,7 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
       actions: [
         IconButton(
           icon: const Icon(Icons.more_vert, color: AppColors.textPrimary),
-          onPressed: () => _showMenuBottomSheet(),
+          onPressed: () => _showMenuBottomSheet(chatRoomAsync.value),
         ),
       ],
       centerTitle: true,
@@ -529,14 +529,29 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
     );
   }
 
-  void _showMenuBottomSheet() {
+  void _showMenuBottomSheet(ChatRoomDetailUiModel? room) {
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) =>
-          ChatRoomMenuBottomSheet(onLeaveRoom: _handleLeaveRoom),
+      builder: (context) => ChatRoomMenuBottomSheet(
+        onLeaveRoom: _handleLeaveRoom,
+        onReportUser: () => _handleDisputeFromChat(room),
+      ),
+    );
+  }
+
+  void _handleDisputeFromChat(ChatRoomDetailUiModel? room) {
+    final transactionId = room?.transaction?.transactionId;
+    if (transactionId == null) {
+      _showErrorSnackBar('신고 가능한 거래 정보가 없습니다.');
+      return;
+    }
+
+    context.pushNamed(
+      AppRouterPath.disputeCreate.name,
+      pathParameters: {'transactionId': transactionId.toString()},
     );
   }
 

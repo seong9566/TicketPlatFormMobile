@@ -71,4 +71,12 @@ class ApiEndpoint {
   static const String notificationsUnreadCount =
       '/api/notifications/unread-count';
   static String notificationRead(int id) => '/api/notifications/$id/read';
+
+  // Dispute
+  static const String disputes = '/api/disputes';
+  static String disputeDetail(int disputeId) => '/api/disputes/$disputeId';
+  static String disputeEvidence(int disputeId) =>
+      '/api/disputes/$disputeId/evidence';
+  static String disputeCancel(int disputeId) =>
+      '/api/disputes/$disputeId/cancel';
 }

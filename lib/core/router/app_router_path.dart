@@ -58,4 +58,7 @@ class AppRouterPath {
   static const imageViewer = _Route('/image_viewer', 'imageViewer');
   static const payment = _Route('/payment', 'payment');
   static const paymentFinal = _Route('/payment/final', 'paymentFinal');
+  static const disputeList = _Route('/disputes', 'disputeList');
+  static const disputeCreate = _Route('/disputes/create', 'disputeCreate');
+  static const disputeDetail = _Route('/disputes/detail', 'disputeDetail');
 }

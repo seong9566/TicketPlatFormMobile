@@ -55,6 +55,7 @@ abstract class TicketingTicketEntity with _$TicketingTicketEntity {
     String? row,
     required int price,
     required int originalPrice,
+    required int totalPrice,
     bool? isConsecutive,
     int? tradeMethodId,
     String? tradeMethodName,

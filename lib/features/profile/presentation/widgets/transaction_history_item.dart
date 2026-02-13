@@ -168,6 +168,22 @@ class TransactionHistoryItem extends StatelessWidget {
               ),
               child: Row(
                 children: [
+                  if (type == TransactionType.purchases)
+                    IconButton(
+                      onPressed: () {
+                        context.pushNamed(
+                          AppRouterPath.disputeCreate.name,
+                          pathParameters: {
+                            'transactionId': item.transactionId.toString(),
+                          },
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.gavel_outlined,
+                        size: 18,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12,

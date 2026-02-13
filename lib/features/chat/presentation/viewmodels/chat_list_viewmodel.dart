@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ticket_platform_mobile/core/storage/token_storage.dart';
 import 'package:ticket_platform_mobile/core/utils/date_format_util.dart';
 import 'package:ticket_platform_mobile/core/utils/logger.dart';
-import 'package:ticket_platform_mobile/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:ticket_platform_mobile/core/network/dio_provider.dart';
 import 'package:ticket_platform_mobile/features/chat/data/datasources/chat_event_bus.dart';
 import 'package:ticket_platform_mobile/features/chat/data/datasources/chat_signalr_data_source.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/message_entity.dart';
@@ -377,6 +377,7 @@ class ChatListViewModel extends _$ChatListViewModel {
   /// SignalR 연결
   /// - 채팅 목록 화면 진입 시 자동 연결
   /// - 이미 연결되어 있으면 재연결하지 않음
+  /// - 토큰 갱신은 TokenRefreshService를 통해 중앙화
   Future<void> _connectSignalR() async {
     try {
       final signalR = ref.read(chatSignalRDataSourceProvider);
@@ -398,9 +399,9 @@ class ChatListViewModel extends _$ChatListViewModel {
         return;
       }
 
-      // 토큰 만료 확인 및 갱신
+      // 토큰 만료 확인 및 갱신 (TokenRefreshService 사용)
       final expiresAt = await tokenStorage.getExpiresAt();
-      if (expiresAt != null) {
+      if (expiresAt != null && expiresAt.isNotEmpty) {
         try {
           final expiryDate = DateTime.parse(expiresAt);
           final now = DateTime.now();
@@ -412,11 +413,10 @@ class ChatListViewModel extends _$ChatListViewModel {
               '🔄 Token expired or expiring soon, refreshing before SignalR connection...',
             );
 
-            final authRepo = ref.read(authRepositoryProvider);
-            final refreshSuccess = await authRepo.refreshToken();
+            final refreshService = ref.read(tokenRefreshServiceProvider);
+            final refreshSuccess = await refreshService.refresh();
 
             if (refreshSuccess) {
-              // 갱신된 토큰 다시 가져오기
               accessToken = await tokenStorage.getAccessToken();
               if (accessToken == null || accessToken.isEmpty) {
                 AppLogger.e('❌ Token refresh succeeded but new token is null');

@@ -6,7 +6,9 @@ part 'ticketing_ticket_ui_model.freezed.dart';
 /// 티켓 정보 UI 모델
 /// gradeName(seatGradeName) : 좌석 등급 (예: VIP석, R석)
 /// seatInfo : 구역 + 열 조합 (예: "A구역 2열")
-/// price : 티켓 가격
+/// price : 1장당 판매가(단가)
+/// quantity : 등록 수량
+/// totalPrice : 총 판매가
 /// originalPrice : 원가격
 /// tags : 티켓 특이사항 (features의 name 리스트)
 /// seller : 판매자 정보
@@ -23,6 +25,8 @@ abstract class TicketingTicketUiModel with _$TicketingTicketUiModel {
     required String gradeName, // seatGradeName
     required String? seatInfo, // area + row 조합
     required int price,
+    required int quantity,
+    required int totalPrice,
     required int originalPrice,
     required List<String> tags, // features의 name들
     required TicketingSellerUiModel seller,
@@ -50,6 +54,8 @@ abstract class TicketingTicketUiModel with _$TicketingTicketUiModel {
       gradeName: entity.seatGradeName ?? '일반',
       seatInfo: seatInfo.isNotEmpty ? seatInfo : null,
       price: entity.price,
+      quantity: entity.quantity,
+      totalPrice: entity.totalPrice,
       originalPrice: entity.originalPrice,
       tags: entity.features?.map((f) => f.name).toList() ?? [],
       seller: TicketingSellerUiModel.fromEntity(entity.seller),

@@ -42,7 +42,7 @@ class ChatRoomMenuBottomSheet extends StatelessWidget {
             const Divider(height: 1),
             _MenuItem(
               icon: Icons.report_outlined,
-              title: '사용자 신고',
+              title: '신고하기',
               onTap: () {
                 Navigator.pop(context);
                 if (onReportUser != null) {

@@ -27,6 +27,9 @@ import 'package:ticket_platform_mobile/features/notification/presentation/views/
 import 'package:ticket_platform_mobile/features/payment/presentation/views/payment_view.dart';
 import 'package:ticket_platform_mobile/features/payment/presentation/views/payment_final_view.dart';
 import 'package:ticket_platform_mobile/features/payment/domain/entities/payment_entities.dart';
+import 'package:ticket_platform_mobile/features/dispute/presentation/views/create_dispute_view.dart';
+import 'package:ticket_platform_mobile/features/dispute/presentation/views/dispute_detail_view.dart';
+import 'package:ticket_platform_mobile/features/dispute/presentation/views/dispute_list_view.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/ui_models/my_profile_ui_model.dart';
 import 'package:ticket_platform_mobile/shared/widgets/full_screen_image_viewer.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
@@ -286,6 +289,24 @@ GoRouter goRouter(Ref ref) {
             frontendErrorMessage: extra['frontendErrorMessage'] as String?,
           );
         },
+      ),
+      GoRoute(
+        path: AppRouterPath.disputeList.path,
+        name: AppRouterPath.disputeList.name,
+        builder: (context, state) => const DisputeListView(),
+      ),
+      GoRoute(
+        path: '${AppRouterPath.disputeCreate.path}/:transactionId',
+        name: AppRouterPath.disputeCreate.name,
+        builder: (context, state) => CreateDisputeView(
+          transactionId: state.pathParameters['transactionId'] ?? '0',
+        ),
+      ),
+      GoRoute(
+        path: '${AppRouterPath.disputeDetail.path}/:id',
+        name: AppRouterPath.disputeDetail.name,
+        builder: (context, state) =>
+            DisputeDetailView(disputeId: state.pathParameters['id'] ?? '0'),
       ),
     ],
   );
