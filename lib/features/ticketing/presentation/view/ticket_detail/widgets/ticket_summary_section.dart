@@ -41,8 +41,14 @@ class TicketSummarySection extends StatelessWidget {
           _buildSummaryRow('수량', detail.ticketCountInfo),
           const SizedBox(height: AppSpacing.sm),
           _buildSummaryRow(
-            '가격',
+            '1장당 가격',
             '${NumberFormatUtil.formatNumber(detail.price)}원',
+            valueColor: AppColors.textSecondary,
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          _buildSummaryRow(
+            '총 가격',
+            '${NumberFormatUtil.formatNumber(detail.totalPrice)}원',
             valueColor: AppColors.textPrimary,
             isBold: true,
           ),

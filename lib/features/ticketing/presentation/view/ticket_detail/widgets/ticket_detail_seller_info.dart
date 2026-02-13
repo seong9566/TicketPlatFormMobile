@@ -7,8 +7,13 @@ import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models
 
 class TicketDetailSellerInfo extends StatelessWidget {
   final TicketingSellerUiModel seller;
+  final VoidCallback? onReportTap;
 
-  const TicketDetailSellerInfo({super.key, required this.seller});
+  const TicketDetailSellerInfo({
+    super.key,
+    required this.seller,
+    this.onReportTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -118,6 +123,36 @@ class TicketDetailSellerInfo extends StatelessWidget {
             ],
           ),
         ),
+        if (onReportTap != null) ...[
+          const SizedBox(height: AppSpacing.sm),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: GestureDetector(
+                onTap: onReportTap,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.report_problem_outlined,
+                      size: 14,
+                      color: AppColors.textTertiary,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      '이 게시글 신고하기',
+                      style: AppTextStyles.caption.copyWith(
+                        color: AppColors.textTertiary,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ],
     );
   }
