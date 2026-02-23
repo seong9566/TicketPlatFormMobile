@@ -3,31 +3,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ticket_platform_mobile/core/enums/category.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
+import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/viewmodels/home_viewmodel.dart';
-import 'package:ticket_platform_mobile/features/home/presentation/widgets/home_banner_carousel.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/widgets/home_event_row.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/widgets/home_common_widgets.dart';
+import 'package:ticket_platform_mobile/features/home/presentation/widgets/home_deadline_deal_slider.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/widgets/popular_event_list.dart';
 import 'package:ticket_platform_mobile/features/home/presentation/widgets/recommended_ticket_list.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/viewmodels/chat_list_viewmodel.dart';
 
-class HomeView extends ConsumerStatefulWidget {
+class HomeView extends ConsumerWidget {
   const HomeView({super.key});
-
-  @override
-  ConsumerState<HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends ConsumerState<HomeView> {
-  final _bannerController = PageController();
-
-  final _banners = const [
-    'Summer Rock Festival',
-    'Jazz Night Downtown',
-    'Indie Music Parade',
-  ];
 
   final _events = const [
     HomeEvent(
@@ -44,17 +32,13 @@ class _HomeViewState extends ConsumerState<HomeView> {
     HomeEvent(name: '전시', icon: Icons.palette_outlined, type: Category.etc),
   ];
 
-  int _currentBanner = 0;
-
   @override
-  void dispose() {
-    _bannerController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final homeState = ref.watch(homeViewModelProvider);
+    final homeData = homeState.maybeWhen(
+      data: (data) => data,
+      orElse: () => null,
+    );
 
     // ChatListViewModel 초기화 → SignalR 연결 보장
     ref.watch(chatListViewModelProvider);
@@ -70,15 +54,13 @@ class _HomeViewState extends ConsumerState<HomeView> {
               children: [
                 const SizedBox(height: AppSpacing.md),
                 const HomeHeader(),
-                const SizedBox(height: AppSpacing.md),
-                HomeBannerCarousel(
-                  controller: _bannerController,
-                  banners: _banners,
-                  onPageChanged: (index) =>
-                      setState(() => _currentBanner = index),
-                  currentIndex: _currentBanner,
-                ),
-                const SizedBox(height: AppSpacing.lg),
+                if (homeData != null && homeData.deadlineDeals.isNotEmpty) ...[
+                  const SizedBox(height: AppSpacing.md),
+                  const HomeSectionHeader(title: '🔥 마감 임박 핫딜'),
+                  const SizedBox(height: AppSpacing.md),
+                  HomeDeadlineDealSlider(deals: homeData.deadlineDeals),
+                  const SizedBox(height: AppSpacing.lg),
+                ],
                 HomeEventRow(events: _events),
                 const SizedBox(height: AppSpacing.lg),
                 homeState.when(
@@ -98,12 +80,12 @@ class _HomeViewState extends ConsumerState<HomeView> {
                               Text(
                                 '더보기',
                                 style: AppTextStyles.body2.copyWith(
-                                  color: const Color(0xFF94A3B8),
+                                  color: AppColors.textTertiary,
                                 ),
                               ),
                               const Icon(
                                 Icons.chevron_right,
-                                color: Color(0xFF94A3B8),
+                                color: AppColors.textTertiary,
                                 size: 18,
                               ),
                             ],
@@ -145,7 +127,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push(AppRouterPath.sellTicketCategory.path),
-        backgroundColor: const Color(0xFF22C55E),
+        backgroundColor: AppColors.primary,
         elevation: 4,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         child: const Icon(Icons.add, color: Colors.white, size: 36),

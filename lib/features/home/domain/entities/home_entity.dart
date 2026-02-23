@@ -5,9 +5,27 @@ part 'home_entity.freezed.dart';
 @freezed
 abstract class HomeEntity with _$HomeEntity {
   const factory HomeEntity({
+    required List<DeadlineDealEntity> deadlineDeals,
     required List<PopularEventEntity> popularEvents,
     required List<RecommendedEventEntity> recommendedEvents,
   }) = _HomeEntity;
+}
+
+@freezed
+abstract class DeadlineDealEntity with _$DeadlineDealEntity {
+  const factory DeadlineDealEntity({
+    required int eventId,
+    required String eventTitle,
+    required String eventDate,
+    required String venue,
+    required int daysLeft,
+    required int minTicketPrice,
+    required int originalMinTicketPrice,
+    required int ticketDiscountRate,
+    String? posterImageUrl,
+    required int availableTicketCount,
+    required int categoryId,
+  }) = _DeadlineDealEntity;
 }
 
 @freezed

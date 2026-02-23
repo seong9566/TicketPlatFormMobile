@@ -7,6 +7,11 @@ part of 'home_resp_dto.dart';
 // **************************************************************************
 
 _HomeRespDto _$HomeRespDtoFromJson(Map<String, dynamic> json) => _HomeRespDto(
+  deadlineDeals:
+      (json['deadlineDeals'] as List<dynamic>?)
+          ?.map((e) => DeadlineDealDto.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const <DeadlineDealDto>[],
   popularEvents: (json['popularEvents'] as List<dynamic>)
       .map((e) => PopularEventDto.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -17,8 +22,39 @@ _HomeRespDto _$HomeRespDtoFromJson(Map<String, dynamic> json) => _HomeRespDto(
 
 Map<String, dynamic> _$HomeRespDtoToJson(_HomeRespDto instance) =>
     <String, dynamic>{
+      'deadlineDeals': instance.deadlineDeals,
       'popularEvents': instance.popularEvents,
       'recommendedEvents': instance.recommendedEvents,
+    };
+
+_DeadlineDealDto _$DeadlineDealDtoFromJson(Map<String, dynamic> json) =>
+    _DeadlineDealDto(
+      eventId: (json['eventId'] as num).toInt(),
+      eventTitle: json['eventTitle'] as String,
+      eventDate: json['eventDate'] as String,
+      venue: json['venue'] as String,
+      daysLeft: (json['daysLeft'] as num).toInt(),
+      minTicketPrice: (json['minTicketPrice'] as num).toInt(),
+      originalMinTicketPrice: (json['originalMinTicketPrice'] as num).toInt(),
+      ticketDiscountRate: (json['ticketDiscountRate'] as num).toInt(),
+      posterImageUrl: json['posterImageUrl'] as String?,
+      availableTicketCount: (json['availableTicketCount'] as num).toInt(),
+      categoryId: (json['categoryId'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$DeadlineDealDtoToJson(_DeadlineDealDto instance) =>
+    <String, dynamic>{
+      'eventId': instance.eventId,
+      'eventTitle': instance.eventTitle,
+      'eventDate': instance.eventDate,
+      'venue': instance.venue,
+      'daysLeft': instance.daysLeft,
+      'minTicketPrice': instance.minTicketPrice,
+      'originalMinTicketPrice': instance.originalMinTicketPrice,
+      'ticketDiscountRate': instance.ticketDiscountRate,
+      'posterImageUrl': instance.posterImageUrl,
+      'availableTicketCount': instance.availableTicketCount,
+      'categoryId': instance.categoryId,
     };
 
 _PopularEventDto _$PopularEventDtoFromJson(Map<String, dynamic> json) =>

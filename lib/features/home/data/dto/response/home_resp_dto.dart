@@ -7,6 +7,7 @@ part 'home_resp_dto.g.dart';
 @freezed
 abstract class HomeRespDto with _$HomeRespDto {
   const factory HomeRespDto({
+    @Default(<DeadlineDealDto>[]) List<DeadlineDealDto> deadlineDeals,
     required List<PopularEventDto> popularEvents,
     required List<RecommendedEventDto> recommendedEvents,
   }) = _HomeRespDto;
@@ -17,8 +18,45 @@ abstract class HomeRespDto with _$HomeRespDto {
 
 extension HomeRespDtoX on HomeRespDto {
   HomeEntity toEntity() => HomeEntity(
+    deadlineDeals: deadlineDeals.map((e) => e.toEntity()).toList(),
     popularEvents: popularEvents.map((e) => e.toEntity()).toList(),
     recommendedEvents: recommendedEvents.map((e) => e.toEntity()).toList(),
+  );
+}
+
+@freezed
+abstract class DeadlineDealDto with _$DeadlineDealDto {
+  const factory DeadlineDealDto({
+    required int eventId,
+    required String eventTitle,
+    required String eventDate,
+    required String venue,
+    required int daysLeft,
+    required int minTicketPrice,
+    required int originalMinTicketPrice,
+    required int ticketDiscountRate,
+    String? posterImageUrl,
+    required int availableTicketCount,
+    required int categoryId,
+  }) = _DeadlineDealDto;
+
+  factory DeadlineDealDto.fromJson(Map<String, dynamic> json) =>
+      _$DeadlineDealDtoFromJson(json);
+}
+
+extension DeadlineDealDtoX on DeadlineDealDto {
+  DeadlineDealEntity toEntity() => DeadlineDealEntity(
+    eventId: eventId,
+    eventTitle: eventTitle,
+    eventDate: eventDate,
+    venue: venue,
+    daysLeft: daysLeft,
+    minTicketPrice: minTicketPrice,
+    originalMinTicketPrice: originalMinTicketPrice,
+    ticketDiscountRate: ticketDiscountRate,
+    posterImageUrl: posterImageUrl,
+    availableTicketCount: availableTicketCount,
+    categoryId: categoryId,
   );
 }
 

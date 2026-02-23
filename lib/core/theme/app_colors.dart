@@ -71,6 +71,10 @@ class AppColors {
 
   // Ticket
   static const ticketThumbnailBackground = Color(0xFF111827);
+  static const deadlineBadgeDday = Color(0xFFEF4444);
+  static const deadlineBadgeD1 = Color(0xFFF97316);
+  static const deadlineBadgeD2 = Color(0xFFEAB308);
+  static const deadlineBadgeD3 = Color(0xFF3B82F6);
 
   // Disabled
   static const disabled = Color(0xFFD1D5DB);

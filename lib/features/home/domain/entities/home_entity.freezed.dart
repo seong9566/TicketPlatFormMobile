@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$HomeEntity {
 
- List<PopularEventEntity> get popularEvents; List<RecommendedEventEntity> get recommendedEvents;
+ List<DeadlineDealEntity> get deadlineDeals; List<PopularEventEntity> get popularEvents; List<RecommendedEventEntity> get recommendedEvents;
 /// Create a copy of HomeEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $HomeEntityCopyWith<HomeEntity> get copyWith => _$HomeEntityCopyWithImpl<HomeEnt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeEntity&&const DeepCollectionEquality().equals(other.popularEvents, popularEvents)&&const DeepCollectionEquality().equals(other.recommendedEvents, recommendedEvents));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeEntity&&const DeepCollectionEquality().equals(other.deadlineDeals, deadlineDeals)&&const DeepCollectionEquality().equals(other.popularEvents, popularEvents)&&const DeepCollectionEquality().equals(other.recommendedEvents, recommendedEvents));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(popularEvents),const DeepCollectionEquality().hash(recommendedEvents));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(deadlineDeals),const DeepCollectionEquality().hash(popularEvents),const DeepCollectionEquality().hash(recommendedEvents));
 
 @override
 String toString() {
-  return 'HomeEntity(popularEvents: $popularEvents, recommendedEvents: $recommendedEvents)';
+  return 'HomeEntity(deadlineDeals: $deadlineDeals, popularEvents: $popularEvents, recommendedEvents: $recommendedEvents)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $HomeEntityCopyWith<$Res>  {
   factory $HomeEntityCopyWith(HomeEntity value, $Res Function(HomeEntity) _then) = _$HomeEntityCopyWithImpl;
 @useResult
 $Res call({
- List<PopularEventEntity> popularEvents, List<RecommendedEventEntity> recommendedEvents
+ List<DeadlineDealEntity> deadlineDeals, List<PopularEventEntity> popularEvents, List<RecommendedEventEntity> recommendedEvents
 });
 
 
@@ -62,9 +62,10 @@ class _$HomeEntityCopyWithImpl<$Res>
 
 /// Create a copy of HomeEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? popularEvents = null,Object? recommendedEvents = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? deadlineDeals = null,Object? popularEvents = null,Object? recommendedEvents = null,}) {
   return _then(_self.copyWith(
-popularEvents: null == popularEvents ? _self.popularEvents : popularEvents // ignore: cast_nullable_to_non_nullable
+deadlineDeals: null == deadlineDeals ? _self.deadlineDeals : deadlineDeals // ignore: cast_nullable_to_non_nullable
+as List<DeadlineDealEntity>,popularEvents: null == popularEvents ? _self.popularEvents : popularEvents // ignore: cast_nullable_to_non_nullable
 as List<PopularEventEntity>,recommendedEvents: null == recommendedEvents ? _self.recommendedEvents : recommendedEvents // ignore: cast_nullable_to_non_nullable
 as List<RecommendedEventEntity>,
   ));
@@ -151,10 +152,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<PopularEventEntity> popularEvents,  List<RecommendedEventEntity> recommendedEvents)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<DeadlineDealEntity> deadlineDeals,  List<PopularEventEntity> popularEvents,  List<RecommendedEventEntity> recommendedEvents)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HomeEntity() when $default != null:
-return $default(_that.popularEvents,_that.recommendedEvents);case _:
+return $default(_that.deadlineDeals,_that.popularEvents,_that.recommendedEvents);case _:
   return orElse();
 
 }
@@ -172,10 +173,10 @@ return $default(_that.popularEvents,_that.recommendedEvents);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<PopularEventEntity> popularEvents,  List<RecommendedEventEntity> recommendedEvents)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<DeadlineDealEntity> deadlineDeals,  List<PopularEventEntity> popularEvents,  List<RecommendedEventEntity> recommendedEvents)  $default,) {final _that = this;
 switch (_that) {
 case _HomeEntity():
-return $default(_that.popularEvents,_that.recommendedEvents);case _:
+return $default(_that.deadlineDeals,_that.popularEvents,_that.recommendedEvents);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -192,10 +193,10 @@ return $default(_that.popularEvents,_that.recommendedEvents);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<PopularEventEntity> popularEvents,  List<RecommendedEventEntity> recommendedEvents)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<DeadlineDealEntity> deadlineDeals,  List<PopularEventEntity> popularEvents,  List<RecommendedEventEntity> recommendedEvents)?  $default,) {final _that = this;
 switch (_that) {
 case _HomeEntity() when $default != null:
-return $default(_that.popularEvents,_that.recommendedEvents);case _:
+return $default(_that.deadlineDeals,_that.popularEvents,_that.recommendedEvents);case _:
   return null;
 
 }
@@ -207,8 +208,15 @@ return $default(_that.popularEvents,_that.recommendedEvents);case _:
 
 
 class _HomeEntity implements HomeEntity {
-  const _HomeEntity({required final  List<PopularEventEntity> popularEvents, required final  List<RecommendedEventEntity> recommendedEvents}): _popularEvents = popularEvents,_recommendedEvents = recommendedEvents;
+  const _HomeEntity({required final  List<DeadlineDealEntity> deadlineDeals, required final  List<PopularEventEntity> popularEvents, required final  List<RecommendedEventEntity> recommendedEvents}): _deadlineDeals = deadlineDeals,_popularEvents = popularEvents,_recommendedEvents = recommendedEvents;
   
+
+ final  List<DeadlineDealEntity> _deadlineDeals;
+@override List<DeadlineDealEntity> get deadlineDeals {
+  if (_deadlineDeals is EqualUnmodifiableListView) return _deadlineDeals;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_deadlineDeals);
+}
 
  final  List<PopularEventEntity> _popularEvents;
 @override List<PopularEventEntity> get popularEvents {
@@ -235,16 +243,16 @@ _$HomeEntityCopyWith<_HomeEntity> get copyWith => __$HomeEntityCopyWithImpl<_Hom
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeEntity&&const DeepCollectionEquality().equals(other._popularEvents, _popularEvents)&&const DeepCollectionEquality().equals(other._recommendedEvents, _recommendedEvents));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeEntity&&const DeepCollectionEquality().equals(other._deadlineDeals, _deadlineDeals)&&const DeepCollectionEquality().equals(other._popularEvents, _popularEvents)&&const DeepCollectionEquality().equals(other._recommendedEvents, _recommendedEvents));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_popularEvents),const DeepCollectionEquality().hash(_recommendedEvents));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_deadlineDeals),const DeepCollectionEquality().hash(_popularEvents),const DeepCollectionEquality().hash(_recommendedEvents));
 
 @override
 String toString() {
-  return 'HomeEntity(popularEvents: $popularEvents, recommendedEvents: $recommendedEvents)';
+  return 'HomeEntity(deadlineDeals: $deadlineDeals, popularEvents: $popularEvents, recommendedEvents: $recommendedEvents)';
 }
 
 
@@ -255,7 +263,7 @@ abstract mixin class _$HomeEntityCopyWith<$Res> implements $HomeEntityCopyWith<$
   factory _$HomeEntityCopyWith(_HomeEntity value, $Res Function(_HomeEntity) _then) = __$HomeEntityCopyWithImpl;
 @override @useResult
 $Res call({
- List<PopularEventEntity> popularEvents, List<RecommendedEventEntity> recommendedEvents
+ List<DeadlineDealEntity> deadlineDeals, List<PopularEventEntity> popularEvents, List<RecommendedEventEntity> recommendedEvents
 });
 
 
@@ -272,11 +280,299 @@ class __$HomeEntityCopyWithImpl<$Res>
 
 /// Create a copy of HomeEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? popularEvents = null,Object? recommendedEvents = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? deadlineDeals = null,Object? popularEvents = null,Object? recommendedEvents = null,}) {
   return _then(_HomeEntity(
-popularEvents: null == popularEvents ? _self._popularEvents : popularEvents // ignore: cast_nullable_to_non_nullable
+deadlineDeals: null == deadlineDeals ? _self._deadlineDeals : deadlineDeals // ignore: cast_nullable_to_non_nullable
+as List<DeadlineDealEntity>,popularEvents: null == popularEvents ? _self._popularEvents : popularEvents // ignore: cast_nullable_to_non_nullable
 as List<PopularEventEntity>,recommendedEvents: null == recommendedEvents ? _self._recommendedEvents : recommendedEvents // ignore: cast_nullable_to_non_nullable
 as List<RecommendedEventEntity>,
+  ));
+}
+
+
+}
+
+/// @nodoc
+mixin _$DeadlineDealEntity {
+
+ int get eventId; String get eventTitle; String get eventDate; String get venue; int get daysLeft; int get minTicketPrice; int get originalMinTicketPrice; int get ticketDiscountRate; String? get posterImageUrl; int get availableTicketCount; int get categoryId;
+/// Create a copy of DeadlineDealEntity
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DeadlineDealEntityCopyWith<DeadlineDealEntity> get copyWith => _$DeadlineDealEntityCopyWithImpl<DeadlineDealEntity>(this as DeadlineDealEntity, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeadlineDealEntity&&(identical(other.eventId, eventId) || other.eventId == eventId)&&(identical(other.eventTitle, eventTitle) || other.eventTitle == eventTitle)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.venue, venue) || other.venue == venue)&&(identical(other.daysLeft, daysLeft) || other.daysLeft == daysLeft)&&(identical(other.minTicketPrice, minTicketPrice) || other.minTicketPrice == minTicketPrice)&&(identical(other.originalMinTicketPrice, originalMinTicketPrice) || other.originalMinTicketPrice == originalMinTicketPrice)&&(identical(other.ticketDiscountRate, ticketDiscountRate) || other.ticketDiscountRate == ticketDiscountRate)&&(identical(other.posterImageUrl, posterImageUrl) || other.posterImageUrl == posterImageUrl)&&(identical(other.availableTicketCount, availableTicketCount) || other.availableTicketCount == availableTicketCount)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,eventId,eventTitle,eventDate,venue,daysLeft,minTicketPrice,originalMinTicketPrice,ticketDiscountRate,posterImageUrl,availableTicketCount,categoryId);
+
+@override
+String toString() {
+  return 'DeadlineDealEntity(eventId: $eventId, eventTitle: $eventTitle, eventDate: $eventDate, venue: $venue, daysLeft: $daysLeft, minTicketPrice: $minTicketPrice, originalMinTicketPrice: $originalMinTicketPrice, ticketDiscountRate: $ticketDiscountRate, posterImageUrl: $posterImageUrl, availableTicketCount: $availableTicketCount, categoryId: $categoryId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DeadlineDealEntityCopyWith<$Res>  {
+  factory $DeadlineDealEntityCopyWith(DeadlineDealEntity value, $Res Function(DeadlineDealEntity) _then) = _$DeadlineDealEntityCopyWithImpl;
+@useResult
+$Res call({
+ int eventId, String eventTitle, String eventDate, String venue, int daysLeft, int minTicketPrice, int originalMinTicketPrice, int ticketDiscountRate, String? posterImageUrl, int availableTicketCount, int categoryId
+});
+
+
+
+
+}
+/// @nodoc
+class _$DeadlineDealEntityCopyWithImpl<$Res>
+    implements $DeadlineDealEntityCopyWith<$Res> {
+  _$DeadlineDealEntityCopyWithImpl(this._self, this._then);
+
+  final DeadlineDealEntity _self;
+  final $Res Function(DeadlineDealEntity) _then;
+
+/// Create a copy of DeadlineDealEntity
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? eventId = null,Object? eventTitle = null,Object? eventDate = null,Object? venue = null,Object? daysLeft = null,Object? minTicketPrice = null,Object? originalMinTicketPrice = null,Object? ticketDiscountRate = null,Object? posterImageUrl = freezed,Object? availableTicketCount = null,Object? categoryId = null,}) {
+  return _then(_self.copyWith(
+eventId: null == eventId ? _self.eventId : eventId // ignore: cast_nullable_to_non_nullable
+as int,eventTitle: null == eventTitle ? _self.eventTitle : eventTitle // ignore: cast_nullable_to_non_nullable
+as String,eventDate: null == eventDate ? _self.eventDate : eventDate // ignore: cast_nullable_to_non_nullable
+as String,venue: null == venue ? _self.venue : venue // ignore: cast_nullable_to_non_nullable
+as String,daysLeft: null == daysLeft ? _self.daysLeft : daysLeft // ignore: cast_nullable_to_non_nullable
+as int,minTicketPrice: null == minTicketPrice ? _self.minTicketPrice : minTicketPrice // ignore: cast_nullable_to_non_nullable
+as int,originalMinTicketPrice: null == originalMinTicketPrice ? _self.originalMinTicketPrice : originalMinTicketPrice // ignore: cast_nullable_to_non_nullable
+as int,ticketDiscountRate: null == ticketDiscountRate ? _self.ticketDiscountRate : ticketDiscountRate // ignore: cast_nullable_to_non_nullable
+as int,posterImageUrl: freezed == posterImageUrl ? _self.posterImageUrl : posterImageUrl // ignore: cast_nullable_to_non_nullable
+as String?,availableTicketCount: null == availableTicketCount ? _self.availableTicketCount : availableTicketCount // ignore: cast_nullable_to_non_nullable
+as int,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [DeadlineDealEntity].
+extension DeadlineDealEntityPatterns on DeadlineDealEntity {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _DeadlineDealEntity value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _DeadlineDealEntity() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _DeadlineDealEntity value)  $default,){
+final _that = this;
+switch (_that) {
+case _DeadlineDealEntity():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _DeadlineDealEntity value)?  $default,){
+final _that = this;
+switch (_that) {
+case _DeadlineDealEntity() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int eventId,  String eventTitle,  String eventDate,  String venue,  int daysLeft,  int minTicketPrice,  int originalMinTicketPrice,  int ticketDiscountRate,  String? posterImageUrl,  int availableTicketCount,  int categoryId)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _DeadlineDealEntity() when $default != null:
+return $default(_that.eventId,_that.eventTitle,_that.eventDate,_that.venue,_that.daysLeft,_that.minTicketPrice,_that.originalMinTicketPrice,_that.ticketDiscountRate,_that.posterImageUrl,_that.availableTicketCount,_that.categoryId);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int eventId,  String eventTitle,  String eventDate,  String venue,  int daysLeft,  int minTicketPrice,  int originalMinTicketPrice,  int ticketDiscountRate,  String? posterImageUrl,  int availableTicketCount,  int categoryId)  $default,) {final _that = this;
+switch (_that) {
+case _DeadlineDealEntity():
+return $default(_that.eventId,_that.eventTitle,_that.eventDate,_that.venue,_that.daysLeft,_that.minTicketPrice,_that.originalMinTicketPrice,_that.ticketDiscountRate,_that.posterImageUrl,_that.availableTicketCount,_that.categoryId);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int eventId,  String eventTitle,  String eventDate,  String venue,  int daysLeft,  int minTicketPrice,  int originalMinTicketPrice,  int ticketDiscountRate,  String? posterImageUrl,  int availableTicketCount,  int categoryId)?  $default,) {final _that = this;
+switch (_that) {
+case _DeadlineDealEntity() when $default != null:
+return $default(_that.eventId,_that.eventTitle,_that.eventDate,_that.venue,_that.daysLeft,_that.minTicketPrice,_that.originalMinTicketPrice,_that.ticketDiscountRate,_that.posterImageUrl,_that.availableTicketCount,_that.categoryId);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _DeadlineDealEntity implements DeadlineDealEntity {
+  const _DeadlineDealEntity({required this.eventId, required this.eventTitle, required this.eventDate, required this.venue, required this.daysLeft, required this.minTicketPrice, required this.originalMinTicketPrice, required this.ticketDiscountRate, this.posterImageUrl, required this.availableTicketCount, required this.categoryId});
+  
+
+@override final  int eventId;
+@override final  String eventTitle;
+@override final  String eventDate;
+@override final  String venue;
+@override final  int daysLeft;
+@override final  int minTicketPrice;
+@override final  int originalMinTicketPrice;
+@override final  int ticketDiscountRate;
+@override final  String? posterImageUrl;
+@override final  int availableTicketCount;
+@override final  int categoryId;
+
+/// Create a copy of DeadlineDealEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$DeadlineDealEntityCopyWith<_DeadlineDealEntity> get copyWith => __$DeadlineDealEntityCopyWithImpl<_DeadlineDealEntity>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DeadlineDealEntity&&(identical(other.eventId, eventId) || other.eventId == eventId)&&(identical(other.eventTitle, eventTitle) || other.eventTitle == eventTitle)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.venue, venue) || other.venue == venue)&&(identical(other.daysLeft, daysLeft) || other.daysLeft == daysLeft)&&(identical(other.minTicketPrice, minTicketPrice) || other.minTicketPrice == minTicketPrice)&&(identical(other.originalMinTicketPrice, originalMinTicketPrice) || other.originalMinTicketPrice == originalMinTicketPrice)&&(identical(other.ticketDiscountRate, ticketDiscountRate) || other.ticketDiscountRate == ticketDiscountRate)&&(identical(other.posterImageUrl, posterImageUrl) || other.posterImageUrl == posterImageUrl)&&(identical(other.availableTicketCount, availableTicketCount) || other.availableTicketCount == availableTicketCount)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,eventId,eventTitle,eventDate,venue,daysLeft,minTicketPrice,originalMinTicketPrice,ticketDiscountRate,posterImageUrl,availableTicketCount,categoryId);
+
+@override
+String toString() {
+  return 'DeadlineDealEntity(eventId: $eventId, eventTitle: $eventTitle, eventDate: $eventDate, venue: $venue, daysLeft: $daysLeft, minTicketPrice: $minTicketPrice, originalMinTicketPrice: $originalMinTicketPrice, ticketDiscountRate: $ticketDiscountRate, posterImageUrl: $posterImageUrl, availableTicketCount: $availableTicketCount, categoryId: $categoryId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$DeadlineDealEntityCopyWith<$Res> implements $DeadlineDealEntityCopyWith<$Res> {
+  factory _$DeadlineDealEntityCopyWith(_DeadlineDealEntity value, $Res Function(_DeadlineDealEntity) _then) = __$DeadlineDealEntityCopyWithImpl;
+@override @useResult
+$Res call({
+ int eventId, String eventTitle, String eventDate, String venue, int daysLeft, int minTicketPrice, int originalMinTicketPrice, int ticketDiscountRate, String? posterImageUrl, int availableTicketCount, int categoryId
+});
+
+
+
+
+}
+/// @nodoc
+class __$DeadlineDealEntityCopyWithImpl<$Res>
+    implements _$DeadlineDealEntityCopyWith<$Res> {
+  __$DeadlineDealEntityCopyWithImpl(this._self, this._then);
+
+  final _DeadlineDealEntity _self;
+  final $Res Function(_DeadlineDealEntity) _then;
+
+/// Create a copy of DeadlineDealEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? eventId = null,Object? eventTitle = null,Object? eventDate = null,Object? venue = null,Object? daysLeft = null,Object? minTicketPrice = null,Object? originalMinTicketPrice = null,Object? ticketDiscountRate = null,Object? posterImageUrl = freezed,Object? availableTicketCount = null,Object? categoryId = null,}) {
+  return _then(_DeadlineDealEntity(
+eventId: null == eventId ? _self.eventId : eventId // ignore: cast_nullable_to_non_nullable
+as int,eventTitle: null == eventTitle ? _self.eventTitle : eventTitle // ignore: cast_nullable_to_non_nullable
+as String,eventDate: null == eventDate ? _self.eventDate : eventDate // ignore: cast_nullable_to_non_nullable
+as String,venue: null == venue ? _self.venue : venue // ignore: cast_nullable_to_non_nullable
+as String,daysLeft: null == daysLeft ? _self.daysLeft : daysLeft // ignore: cast_nullable_to_non_nullable
+as int,minTicketPrice: null == minTicketPrice ? _self.minTicketPrice : minTicketPrice // ignore: cast_nullable_to_non_nullable
+as int,originalMinTicketPrice: null == originalMinTicketPrice ? _self.originalMinTicketPrice : originalMinTicketPrice // ignore: cast_nullable_to_non_nullable
+as int,ticketDiscountRate: null == ticketDiscountRate ? _self.ticketDiscountRate : ticketDiscountRate // ignore: cast_nullable_to_non_nullable
+as int,posterImageUrl: freezed == posterImageUrl ? _self.posterImageUrl : posterImageUrl // ignore: cast_nullable_to_non_nullable
+as String?,availableTicketCount: null == availableTicketCount ? _self.availableTicketCount : availableTicketCount // ignore: cast_nullable_to_non_nullable
+as int,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
