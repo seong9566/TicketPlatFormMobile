@@ -10,7 +10,7 @@ class EventSearchBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      padding: EdgeInsets.symmetric(horizontal: AppSpacing.md),
       child: AppSearchBar(showBackIcon: false, hintText: '공연명, 장소로 검색'),
     );
   }

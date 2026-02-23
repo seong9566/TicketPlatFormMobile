@@ -16,25 +16,13 @@ class TicketingHeaderSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: AppColors.background,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.lg,
-        vertical: AppSpacing.lg,
-      ),
+      decoration: const BoxDecoration(color: AppColors.background),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildThumbnail(),
-          const SizedBox(width: AppSpacing.lg),
+          const SizedBox(width: AppSpacing.md),
           Expanded(child: _buildDetails()),
         ],
       ),
@@ -57,7 +45,7 @@ class TicketingHeaderSection extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppRadius.md),
         child: CachedNetworkImage(
           imageUrl: ticketingInfo?.imageUrl ?? '',
-          width: 84,
+          width: 110,
           height: 110,
           fit: BoxFit.cover,
           placeholder: (context, url) => Container(
@@ -103,7 +91,7 @@ class TicketingHeaderSection extends StatelessWidget {
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
         ),
-        const SizedBox(height: AppSpacing.md),
+        const SizedBox(height: AppSpacing.sm),
         _buildInfoRow(
           Icons.calendar_today,
           ticketingInfo != null

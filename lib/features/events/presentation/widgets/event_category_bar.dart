@@ -44,7 +44,7 @@ class EventCategoryBar extends ConsumerWidget {
       margin: const EdgeInsets.only(bottom: AppSpacing.sm),
       child: ListView.separated(
         shrinkWrap: true,
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
         scrollDirection: Axis.horizontal,
         itemCount: categories.length,
         separatorBuilder: (context, index) => const SizedBox(width: 8),

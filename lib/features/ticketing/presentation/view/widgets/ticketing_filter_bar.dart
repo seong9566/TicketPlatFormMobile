@@ -38,7 +38,10 @@ class TicketingFilterBar extends StatelessWidget {
             height: 44.0,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.xs,
+              ),
               itemCount: grades.length,
               itemBuilder: (context, index) {
                 final grade = grades[index];
@@ -57,7 +60,6 @@ class TicketingFilterBar extends StatelessWidget {
             sortBy: sortBy,
             onSortTap: onSortTap,
           ),
-          const Divider(height: 1, color: AppColors.border),
         ],
       ),
     );

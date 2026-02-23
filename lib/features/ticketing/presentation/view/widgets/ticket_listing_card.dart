@@ -22,22 +22,34 @@ class TicketListingCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.lg,
-          vertical: AppSpacing.md,
-        ),
-        decoration: const BoxDecoration(
-          color: AppColors.card,
-          border: Border(bottom: BorderSide(color: AppColors.border, width: 1)),
-        ),
+        decoration: const BoxDecoration(color: AppColors.card),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildHeaderSection(),
-            const SizedBox(height: AppSpacing.md),
-            _buildFeatureSection(),
-            const SizedBox(height: AppSpacing.lg),
-            _buildPriceSection(),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.md,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildHeaderSection(),
+                  const SizedBox(height: AppSpacing.sm),
+                  _buildFeatureSection(),
+                  const SizedBox(height: AppSpacing.md),
+                  _buildPriceSection(),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+              child: const Divider(
+                height: 1,
+                thickness: 1,
+                color: AppColors.border,
+              ),
+            ),
           ],
         ),
       ),
@@ -53,10 +65,7 @@ class TicketListingCard extends StatelessWidget {
           children: [
             // 좌석 등급
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.sm,
-                vertical: 4,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
               decoration: BoxDecoration(
                 color: AppColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(4),

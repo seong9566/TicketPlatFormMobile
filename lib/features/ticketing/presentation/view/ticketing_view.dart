@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
+import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticket_listing_card.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/widgets/ticketing_filter_header_delegate.dart';
@@ -55,10 +56,27 @@ class TicketingView extends ConsumerWidget {
           return SafeArea(
             child: CustomScrollView(
               slivers: [
+                SliverToBoxAdapter(child: SizedBox(height: AppSpacing.md)),
                 // 공연 정보
                 SliverToBoxAdapter(
                   child: TicketingHeaderSection(ticketingInfo: info),
                 ),
+                SliverToBoxAdapter(child: SizedBox(height: AppSpacing.md)),
+                // 구분선
+                SliverToBoxAdapter(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.md,
+                    ),
+                    child: const Divider(
+                      height: 1,
+                      thickness: 1,
+                      color: AppColors.border,
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sm)),
+                // 필터 정보
                 _buildStickyFilter(
                   performanceId,
                   state,
@@ -162,26 +180,23 @@ class TicketingView extends ConsumerWidget {
       );
     }
 
-    return SliverPadding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      sliver: SliverList(
-        delegate: SliverChildBuilderDelegate((context, index) {
-          final ticket = tickets[index];
-          return TicketListingCard(
-            ticket: ticket,
-            onTap: () {
-              context.push(
-                '${AppRouterPath.ticketDetail.path}/${ticket.ticketId}',
-              );
-            },
-            onFavoriteTap: () {
-              ref
-                  .read(ticketingViewModelProvider(performanceId).notifier)
-                  .toggleFavorite(ticket.ticketId);
-            },
-          );
-        }, childCount: tickets.length),
-      ),
+    return SliverList(
+      delegate: SliverChildBuilderDelegate((context, index) {
+        final ticket = tickets[index];
+        return TicketListingCard(
+          ticket: ticket,
+          onTap: () {
+            context.push(
+              '${AppRouterPath.ticketDetail.path}/${ticket.ticketId}',
+            );
+          },
+          onFavoriteTap: () {
+            ref
+                .read(ticketingViewModelProvider(performanceId).notifier)
+                .toggleFavorite(ticket.ticketId);
+          },
+        );
+      }, childCount: tickets.length),
     );
   }
 

@@ -133,7 +133,7 @@ class EventsView extends ConsumerWidget {
                       key: ValueKey(state.selectedCategory),
                       child: ListView.separated(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: AppSpacing.lg,
+                          horizontal: AppSpacing.md,
                           vertical: AppSpacing.md,
                         ),
                         itemCount: events.length,
