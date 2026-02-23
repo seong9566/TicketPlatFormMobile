@@ -40,15 +40,26 @@ Dio dio(Ref ref) {
     ),
   );
 
+  // 세션 만료 처리 중복 실행 방지 플래그
+  var isHandlingExpiry = false;
   dio.interceptors.addAll([
     ApiInterceptor(
       tokenStorage: ref.read(tokenStorageProvider),
       tokenRefreshService: ref.read(tokenRefreshServiceProvider),
       onTokenExpired: () async {
-        AppLogger.w('Token expired. Redirecting to login.');
-        // 세션 만료 시 모든 정보 삭제 후 로그인 화면으로 강제 이동
-        await ref.read(tokenStorageProvider).clearTokens();
-        ref.read(goRouterProvider).go(AppRouterPath.login.path);
+        // 이미 세션 만료 처리 중이면 무시 (다수의 401이 동시에 올 때 중복 방지)
+        if (isHandlingExpiry) {
+          AppLogger.w('⚠️ [ApiInterceptor] 세션 만료 처리 중복 호출 무시');
+          return;
+        }
+        isHandlingExpiry = true;
+        try {
+          AppLogger.w('Token expired. Redirecting to login.');
+          await ref.read(tokenStorageProvider).clearTokens();
+          ref.read(goRouterProvider).go(AppRouterPath.login.path);
+        } finally {
+          isHandlingExpiry = false;
+        }
       },
     ),
     ApiLogInterceptor(),
