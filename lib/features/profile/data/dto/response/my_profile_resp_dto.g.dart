@@ -16,6 +16,8 @@ _MyProfileRespDto _$MyProfileRespDtoFromJson(Map<String, dynamic> json) =>
       bio: json['bio'] as String?,
       mannerTemperature: (json['mannerTemperature'] as num?)?.toDouble(),
       totalTradeCount: (json['totalTradeCount'] as num?)?.toInt(),
+      averageRating: (json['averageRating'] as num?)?.toDouble(),
+      reviewCount: (json['reviewCount'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$MyProfileRespDtoToJson(_MyProfileRespDto instance) =>
@@ -28,4 +30,6 @@ Map<String, dynamic> _$MyProfileRespDtoToJson(_MyProfileRespDto instance) =>
       'bio': instance.bio,
       'mannerTemperature': instance.mannerTemperature,
       'totalTradeCount': instance.totalTradeCount,
+      'averageRating': instance.averageRating,
+      'reviewCount': instance.reviewCount,
     };

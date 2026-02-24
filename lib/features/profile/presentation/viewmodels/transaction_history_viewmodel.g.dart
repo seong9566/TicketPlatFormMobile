@@ -57,7 +57,7 @@ final class TransactionHistoryViewModelProvider
 }
 
 String _$transactionHistoryViewModelHash() =>
-    r'4d890f2710aa119434c5e4610cd80b819e479d2d';
+    r'2795fd876cdf14337e83df67ce5c4c36ecb09211';
 
 final class TransactionHistoryViewModelFamily extends $Family
     with

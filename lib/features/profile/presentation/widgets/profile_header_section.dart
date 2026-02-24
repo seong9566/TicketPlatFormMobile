@@ -135,11 +135,15 @@ class ProfileHeaderSection extends ConsumerWidget {
     );
   }
 
-  Widget _buildInfoChip({required IconData icon, required String text}) {
+  Widget _buildInfoChip({
+    required IconData icon,
+    required String text,
+    Color iconColor = AppColors.textSecondary,
+  }) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 14, color: AppColors.textSecondary),
+        Icon(icon, size: 14, color: iconColor),
         const SizedBox(width: 4),
         Text(
           text,

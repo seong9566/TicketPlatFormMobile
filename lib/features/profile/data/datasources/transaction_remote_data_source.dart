@@ -10,10 +10,6 @@ import 'package:ticket_platform_mobile/features/profile/data/dto/response/transa
 part 'transaction_remote_data_source.g.dart';
 
 abstract class TransactionRemoteDataSource {
-  Future<BaseResponse<TransactionListRespDto>> getSalesHistory(
-    TransactionHistoryReqDto reqDto,
-  );
-
   Future<BaseResponse<TransactionListRespDto>> getPurchasesHistory(
     TransactionHistoryReqDto reqDto,
   );
@@ -23,22 +19,6 @@ class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
   final Dio _dio;
 
   TransactionRemoteDataSourceImpl(this._dio);
-
-  @override
-  Future<BaseResponse<TransactionListRespDto>> getSalesHistory(
-    TransactionHistoryReqDto reqDto,
-  ) async {
-    return safeApiCall<TransactionListRespDto>(
-      apiCall: (options) => _dio.get(
-        ApiEndpoint.salesHistory,
-        queryParameters: reqDto.toMap(),
-        options: options,
-      ),
-      apiName: 'getSalesHistory',
-      dataParser: (json) =>
-          TransactionListRespDto.fromJson(json as Map<String, dynamic>),
-    );
-  }
 
   @override
   Future<BaseResponse<TransactionListRespDto>> getPurchasesHistory(

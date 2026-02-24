@@ -202,54 +202,6 @@ final class RefreshProfileImageUsecaseProvider
 String _$refreshProfileImageUsecaseHash() =>
     r'30c192325f154031c3ab3a95b53341752ddc7ef7';
 
-@ProviderFor(getSalesHistoryUsecase)
-const getSalesHistoryUsecaseProvider = GetSalesHistoryUsecaseProvider._();
-
-final class GetSalesHistoryUsecaseProvider
-    extends
-        $FunctionalProvider<
-          GetSalesHistoryUsecase,
-          GetSalesHistoryUsecase,
-          GetSalesHistoryUsecase
-        >
-    with $Provider<GetSalesHistoryUsecase> {
-  const GetSalesHistoryUsecaseProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'getSalesHistoryUsecaseProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$getSalesHistoryUsecaseHash();
-
-  @$internal
-  @override
-  $ProviderElement<GetSalesHistoryUsecase> $createElement(
-    $ProviderPointer pointer,
-  ) => $ProviderElement(pointer);
-
-  @override
-  GetSalesHistoryUsecase create(Ref ref) {
-    return getSalesHistoryUsecase(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(GetSalesHistoryUsecase value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<GetSalesHistoryUsecase>(value),
-    );
-  }
-}
-
-String _$getSalesHistoryUsecaseHash() =>
-    r'13f74202499703370074026d309d3f0d8a5eef4f';
-
 @ProviderFor(getPurchasesHistoryUsecase)
 const getPurchasesHistoryUsecaseProvider =
     GetPurchasesHistoryUsecaseProvider._();

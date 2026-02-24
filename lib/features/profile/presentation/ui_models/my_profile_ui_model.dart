@@ -14,6 +14,8 @@ abstract class MyProfileUiModel with _$MyProfileUiModel {
     String? bio,
     required String mannerTemperatureText,
     required String totalTradeCountText,
+    double? averageRating,
+    @Default(0) int reviewCount,
   }) = _MyProfileUiModel;
 
   factory MyProfileUiModel.fromEntity(MyProfileEntity entity) {
@@ -26,6 +28,8 @@ abstract class MyProfileUiModel with _$MyProfileUiModel {
       bio: entity.bio,
       mannerTemperatureText: '${entity.mannerTemperature.toStringAsFixed(1)}°C',
       totalTradeCountText: '${entity.totalTradeCount}회',
+      averageRating: entity.averageRating,
+      reviewCount: entity.reviewCount,
     );
   }
 }

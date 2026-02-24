@@ -105,8 +105,7 @@ class ProfileView extends ConsumerWidget {
                   icon: Icons.receipt_long,
                   title: '판매 내역',
                   onTap: () => context.pushNamed(
-                    AppRouterPath.transactionHistory.name,
-                    pathParameters: {'initialIndex': '1'},
+                    AppRouterPath.salesDashboard.name,
                   ),
                 ),
                 ProfileMenuTile(

@@ -14,28 +14,6 @@ class TransactionHistoryRepositoryImpl implements TransactionHistoryRepository {
   TransactionHistoryRepositoryImpl(this._remoteDataSource);
 
   @override
-  Future<TransactionListEntity> getSalesHistory({
-    String? status,
-    String? period,
-    String? sortBy,
-    String? cursor,
-    int? limit,
-  }) async {
-    final reqDto = TransactionHistoryReqDto(
-      status: status,
-      period: period,
-      sortBy: sortBy,
-      cursor: cursor,
-      limit: limit,
-    );
-    final response = await _remoteDataSource.getSalesHistory(reqDto);
-    return response.mapOrThrow(
-      (dto) => dto.toEntity(),
-      errorMessage: '판매 내역을 불러올 수 없습니다.',
-    );
-  }
-
-  @override
   Future<TransactionListEntity> getPurchasesHistory({
     String? status,
     String? period,

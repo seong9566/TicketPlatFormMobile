@@ -103,7 +103,7 @@ class TransactionHistoryItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          type == TransactionType.purchases ? '구매 내역' : '판매 내역',
+                          '구매 내역',
                           style: AppTextStyles.caption.copyWith(
                             color: AppColors.textSecondary,
                           ),

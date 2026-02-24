@@ -7,34 +7,10 @@ import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/
 import 'package:ticket_platform_mobile/features/profile/presentation/widgets/transaction_history_item.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/widgets/transaction_filter_bottom_sheet.dart';
 
-class TransactionHistoryView extends StatefulWidget {
+class TransactionHistoryView extends StatelessWidget {
   final int initialIndex;
 
   const TransactionHistoryView({super.key, this.initialIndex = 0});
-
-  @override
-  State<TransactionHistoryView> createState() => _TransactionHistoryViewState();
-}
-
-class _TransactionHistoryViewState extends State<TransactionHistoryView>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(
-      length: 2,
-      vsync: this,
-      initialIndex: widget.initialIndex,
-    );
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,34 +38,7 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView>
             title: const Text('거래 내역', style: AppTextStyles.body1),
             centerTitle: true,
           ),
-          body: Column(
-            children: [
-              Container(
-                color: AppColors.background,
-                child: TabBar(
-                  controller: _tabController,
-                  labelColor: AppColors.textPrimary,
-                  unselectedLabelColor: AppColors.textSecondary,
-                  labelStyle: AppTextStyles.body2,
-                  indicatorColor: AppColors.primary,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  tabs: const [
-                    Tab(text: '구매 내역'),
-                    Tab(text: '판매 내역'),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: const [
-                    TransactionHistoryList(type: TransactionType.purchases),
-                    TransactionHistoryList(type: TransactionType.sales),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          body: const TransactionHistoryList(type: TransactionType.purchases),
         ),
       ),
     );
@@ -229,9 +178,7 @@ class _TransactionHistoryListState
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        widget.type == TransactionType.purchases
-                            ? '구매 내역이 없습니다.'
-                            : '판매 내역이 없습니다.',
+                        '구매 내역이 없습니다.',
                         style: AppTextStyles.body2.copyWith(
                           color: AppColors.textSecondary,
                         ),

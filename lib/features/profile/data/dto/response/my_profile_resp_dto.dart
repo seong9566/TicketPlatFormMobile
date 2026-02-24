@@ -15,6 +15,8 @@ abstract class MyProfileRespDto with _$MyProfileRespDto {
     String? bio,
     double? mannerTemperature,
     int? totalTradeCount,
+    double? averageRating,
+    @Default(0) int reviewCount,
   }) = _MyProfileRespDto;
 
   factory MyProfileRespDto.fromJson(Map<String, dynamic> json) =>
@@ -31,5 +33,7 @@ extension MyProfileRespDtoX on MyProfileRespDto {
     bio: bio,
     mannerTemperature: mannerTemperature ?? 36.5,
     totalTradeCount: totalTradeCount ?? 0,
+    averageRating: averageRating,
+    reviewCount: reviewCount,
   );
 }

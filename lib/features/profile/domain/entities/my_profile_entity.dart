@@ -13,5 +13,7 @@ abstract class MyProfileEntity with _$MyProfileEntity {
     String? bio,
     required double mannerTemperature,
     required int totalTradeCount,
+    double? averageRating,
+    required int reviewCount,
   }) = _MyProfileEntity;
 }

@@ -8,7 +8,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'transaction_history_viewmodel.freezed.dart';
 part 'transaction_history_viewmodel.g.dart';
 
-enum TransactionType { sales, purchases }
+enum TransactionType { purchases }
 
 @freezed
 abstract class TransactionHistoryState with _$TransactionHistoryState {
@@ -27,11 +27,8 @@ abstract class TransactionHistoryState with _$TransactionHistoryState {
 
 @riverpod
 class TransactionHistoryViewModel extends _$TransactionHistoryViewModel {
-  late final TransactionType _type;
-
   @override
   Future<TransactionHistoryState> build(TransactionType type) async {
-    _type = type;
     return _fetchTransactions();
   }
 
@@ -89,25 +86,14 @@ class TransactionHistoryViewModel extends _$TransactionHistoryViewModel {
     String? period,
     String? sortBy,
   }) async {
-    if (_type == TransactionType.sales) {
-      final usecase = ref.read(getSalesHistoryUsecaseProvider);
-      return usecase.call(
-        cursor: cursor,
-        limit: limit,
-        status: status,
-        period: period,
-        sortBy: sortBy,
-      );
-    } else {
-      final usecase = ref.read(getPurchasesHistoryUsecaseProvider);
-      return usecase.call(
-        cursor: cursor,
-        limit: limit,
-        status: status,
-        period: period,
-        sortBy: sortBy,
-      );
-    }
+    final usecase = ref.read(getPurchasesHistoryUsecaseProvider);
+    return usecase.call(
+      cursor: cursor,
+      limit: limit,
+      status: status,
+      period: period,
+      sortBy: sortBy,
+    );
   }
 
   Future<void> loadMore() async {
