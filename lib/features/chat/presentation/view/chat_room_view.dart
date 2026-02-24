@@ -7,13 +7,16 @@ import 'package:image_picker/image_picker.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
+import 'package:ticket_platform_mobile/features/chat/domain/entities/message_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/transaction_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/ui_models/chat_room_ui_model.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/viewmodels/chat_list_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/viewmodels/chat_room_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_message_list.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_room_action_bar.dart';
+import 'package:ticket_platform_mobile/features/home/presentation/views/main_tab_view.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/profile_viewmodel.dart';
+import 'package:ticket_platform_mobile/features/reputation/presentation/views/reputation_write_view.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_room_ticket_header.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_input_bar.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_room_menu_bottom_sheet.dart';
@@ -21,6 +24,7 @@ import 'package:ticket_platform_mobile/features/chat/presentation/widgets/quanti
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ticket_platform_mobile/features/payment/presentation/viewmodels/payment_viewmodel.dart';
+import 'package:ticket_platform_mobile/shared/widgets/app_dialog.dart';
 
 class ChatRoomView extends ConsumerStatefulWidget {
   final String chatRoomId;
@@ -42,6 +46,9 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
   Timer? _typingDebounceTimer;
   bool _isTyping = false;
   final List<File> _selectedImages = [];
+  bool _reviewPromptRequested = false;
+  bool _isReviewPromptShowing = false;
+  final Set<int> _handledReviewPromptTransactionIds = <int>{};
 
   int get roomId => int.parse(widget.chatRoomId);
 
@@ -188,15 +195,9 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
     await paymentViewModel.requestPayment(
       transactionId: transaction.transactionId,
       amount: transaction.amount,
-      orderName:
-          "${ticketInfo.title} ${ticketInfo.location} ${ticketInfo.seatInfo} ${ticketInfo.dateTime}",
+      orderName: ticketInfo.title,
       customerName: profile?.nickname ?? '구매자',
       customerEmail: profile?.email ?? 'customer@example.com',
-      eventTitle: ticketInfo.title,
-      eventDate: ticketInfo.dateTime,
-      seatInfo: ticketInfo.seatInfo,
-      ticketImageUrl: ticketInfo.thumbnailUrl,
-      venueName: ticketInfo.location,
       roomId: roomId,
     );
     final paymentState = ref.read(paymentViewModelProvider);
@@ -269,84 +270,186 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
   }
 
   void _showConfirmPurchaseDialog(ChatRoomDetailUiModel chatRoom) {
-    showDialog(
+    AppDialog.showConfirm(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('구매 확정'),
-        content: const Text('구매를 확정하시겠습니까? 확정 후에는 취소할 수 없습니다.'),
-        actions: [
-          TextButton(onPressed: () => context.pop(), child: const Text('취소')),
-          ElevatedButton(
-            onPressed: () async {
-              context.pop();
-              if (chatRoom.transaction != null) {
-                await ref
-                    .read(chatRoomViewModelProvider(roomId).notifier)
-                    .confirmPurchase(chatRoom.transaction!.transactionId);
-              }
-            },
-            child: const Text('확정'),
-          ),
-        ],
-      ),
+      title: '구매 확정',
+      content: '구매를 확정하시겠습니까?\n확정 후에는 취소할 수 없습니다.',
+      confirmText: '확정',
+      cancelText: '취소',
+      onConfirm: () async {
+        if (chatRoom.transaction != null) {
+          _reviewPromptRequested = true;
+
+          final success = await ref
+              .read(chatRoomViewModelProvider(roomId).notifier)
+              .confirmPurchase(chatRoom.transaction!.transactionId);
+
+          if (!success) {
+            _reviewPromptRequested = false;
+            _showErrorSnackBar('구매 확정에 실패했습니다. 잠시 후 다시 시도해주세요.');
+            return;
+          }
+
+          final latest = ref.read(chatRoomViewModelProvider(roomId)).value;
+          if (latest != null) {
+            unawaited(_tryPromptReviewWrite(latest));
+          }
+        }
+      },
     );
   }
 
-  void _showCancelTransactionDialog(ChatRoomDetailUiModel chatRoom) {
-    showDialog(
-      context: context,
-      builder: (dialogContext) {
-        // Dialog 내부에서 TextEditingController 생성
-        final reasonController = TextEditingController();
+  bool _hasPurchaseConfirmedMessage(ChatRoomDetailUiModel chatRoom) {
+    return chatRoom.messages.any(
+      (msg) => msg.type == MessageType.purchaseConfirmed,
+    );
+  }
 
+  Future<void> _tryPromptReviewWrite(ChatRoomDetailUiModel chatRoom) async {
+    if (!_reviewPromptRequested || _isReviewPromptShowing || !mounted) {
+      return;
+    }
+
+    final transactionId = chatRoom.transaction?.transactionId;
+    if (transactionId == null ||
+        _handledReviewPromptTransactionIds.contains(transactionId)) {
+      return;
+    }
+
+    final myUserId = ref.read(profileViewModelProvider).value?.profile?.userId;
+    final isBuyer = myUserId == chatRoom.buyer.userId;
+    final canPrompt =
+        isBuyer &&
+        chatRoom.canWriteReview &&
+        !chatRoom.hasReviewedSeller &&
+        _hasPurchaseConfirmedMessage(chatRoom);
+
+    if (!canPrompt) {
+      return;
+    }
+
+    _reviewPromptRequested = false;
+    _handledReviewPromptTransactionIds.add(transactionId);
+    _isReviewPromptShowing = true;
+
+    final shouldWriteReview = await showDialog<bool>(
+      context: context,
+      builder: (context) {
         return AlertDialog(
-          title: const Text('거래 취소'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text('거래를 취소하시겠습니까?'),
-              const SizedBox(height: 16),
-              TextField(
-                controller: reasonController,
-                decoration: const InputDecoration(
-                  labelText: '취소 사유',
-                  hintText: '취소 사유를 입력해주세요',
-                  border: OutlineInputBorder(),
-                ),
-                maxLines: 2,
-              ),
-            ],
+          title: const Text('리뷰를 남겨주세요'),
+          content: const Text(
+            '구매 확정이 완료됐어요.\n'
+            '지금 리뷰를 남기면 다른 사용자에게 큰 도움이 됩니다.',
           ),
           actions: [
             TextButton(
-              onPressed: () {
-                reasonController.dispose();
-                Navigator.of(dialogContext).pop();
-              },
-              child: const Text('닫기'),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.destructive,
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(
+                '나중에',
+                style: AppTextStyles.body2.copyWith(
+                  color: AppColors.textSecondary,
+                ),
               ),
-              onPressed: () async {
-                final reason = reasonController.text.trim();
-                reasonController.dispose();
-                Navigator.of(dialogContext).pop();
-
-                if (chatRoom.transaction != null) {
-                  await ref
-                      .read(chatRoomViewModelProvider(roomId).notifier)
-                      .cancelTransaction(
-                        chatRoom.transaction!.transactionId,
-                        reason,
-                      );
-                }
-              },
-              child: const Text('취소'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: Text(
+                '리뷰 작성',
+                style: AppTextStyles.body2.copyWith(
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
             ),
           ],
         );
+      },
+    );
+
+    _isReviewPromptShowing = false;
+
+    if (!mounted || shouldWriteReview != true) {
+      return;
+    }
+
+    final result = await Navigator.of(context).push<bool>(
+      MaterialPageRoute(
+        builder: (_) => ReputationWriteView(
+          transactionId: transactionId,
+          sellerNickname: chatRoom.seller.nickname,
+          onSuccess: () {
+            ref
+                .read(chatRoomViewModelProvider(roomId).notifier)
+                .markReviewedSeller();
+          },
+        ),
+      ),
+    );
+
+    if (!mounted || result != true) {
+      return;
+    }
+
+    ref.read(currentTabIndexProvider.notifier).setIndex(1);
+    context.goNamed(AppRouterPath.home.name);
+  }
+
+  void _showCancelTransactionDialog(ChatRoomDetailUiModel chatRoom) {
+    final reasonController = TextEditingController();
+
+    AppDialog.showDelete(
+      context: context,
+      title: '거래 취소',
+      contentWidget: Column(
+        children: [
+          const Text(
+            '거래를 취소하시겠습니까?',
+            style: TextStyle(
+              color: AppColors.textSecondary,
+              fontSize: 14,
+              height: 1.5,
+            ),
+          ),
+          const SizedBox(height: 16),
+          TextField(
+            controller: reasonController,
+            decoration: InputDecoration(
+              hintText: '취소 사유를 입력해주세요',
+              hintStyle: const TextStyle(color: AppColors.textTertiary),
+              filled: true,
+              fillColor: AppColors.scaffoldBackground,
+              contentPadding: const EdgeInsets.all(12),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: const BorderSide(color: AppColors.border),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: const BorderSide(color: AppColors.border),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: const BorderSide(color: AppColors.primary),
+              ),
+            ),
+            maxLines: 2,
+          ),
+        ],
+      ),
+      confirmText: '취소하기',
+      cancelText: '닫기',
+      onConfirm: () async {
+        final reason = reasonController.text.trim();
+        reasonController.dispose();
+
+        if (chatRoom.transaction != null) {
+          await ref
+              .read(chatRoomViewModelProvider(roomId).notifier)
+              .cancelTransaction(chatRoom.transaction!.transactionId, reason);
+        }
+      },
+      onCancel: () {
+        reasonController.dispose();
       },
     );
   }
@@ -354,6 +457,17 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
   @override
   Widget build(BuildContext context) {
     final chatRoomAsync = ref.watch(chatRoomViewModelProvider(roomId));
+
+    ref.listen<AsyncValue<ChatRoomDetailUiModel>>(
+      chatRoomViewModelProvider(roomId),
+      (previous, next) {
+        final chatRoom = next.value;
+        if (chatRoom == null) {
+          return;
+        }
+        unawaited(_tryPromptReviewWrite(chatRoom));
+      },
+    );
 
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {

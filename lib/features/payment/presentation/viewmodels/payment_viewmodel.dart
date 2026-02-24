@@ -32,11 +32,6 @@ class PaymentViewModel extends _$PaymentViewModel {
     required String orderName,
     required String customerName,
     required String customerEmail,
-    String? eventTitle,
-    String? eventDate,
-    String? seatInfo,
-    String? ticketImageUrl,
-    String? venueName,
     int? roomId,
   }) async {
     state = state.copyWith(isLoading: true, errorMessage: null, roomId: roomId);
@@ -47,11 +42,6 @@ class PaymentViewModel extends _$PaymentViewModel {
         orderName: orderName,
         customerName: customerName,
         customerEmail: customerEmail,
-        eventTitle: eventTitle,
-        eventDate: eventDate,
-        seatInfo: seatInfo,
-        ticketImageUrl: ticketImageUrl,
-        venueName: venueName,
       );
       final result = await ref.read(requestPaymentUseCaseProvider).call(params);
 

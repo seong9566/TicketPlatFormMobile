@@ -81,6 +81,8 @@ class ChatRoomDetailUiModel {
   final bool canRequestPayment;
   final bool canConfirmPurchase;
   final bool canCancelTransaction;
+  final bool canWriteReview;
+  final bool hasReviewedSeller;
   final List<MessageUiModel> messages;
 
   ChatRoomDetailUiModel({
@@ -95,6 +97,8 @@ class ChatRoomDetailUiModel {
     required this.canRequestPayment,
     required this.canConfirmPurchase,
     required this.canCancelTransaction,
+    required this.canWriteReview,
+    required this.hasReviewedSeller,
     required this.messages,
   });
 
@@ -113,6 +117,8 @@ class ChatRoomDetailUiModel {
       canRequestPayment: entity.canRequestPayment,
       canConfirmPurchase: entity.canConfirmPurchase,
       canCancelTransaction: entity.canCancelTransaction,
+      canWriteReview: entity.canWriteReview,
+      hasReviewedSeller: entity.hasReviewedSeller,
       messages: entity.messages.map(MessageUiModel.fromEntity).toList(),
     );
   }
@@ -129,6 +135,8 @@ class ChatRoomDetailUiModel {
     bool? canRequestPayment,
     bool? canConfirmPurchase,
     bool? canCancelTransaction,
+    bool? canWriteReview,
+    bool? hasReviewedSeller,
     List<MessageUiModel>? messages,
   }) {
     return ChatRoomDetailUiModel(
@@ -143,6 +151,8 @@ class ChatRoomDetailUiModel {
       canRequestPayment: canRequestPayment ?? this.canRequestPayment,
       canConfirmPurchase: canConfirmPurchase ?? this.canConfirmPurchase,
       canCancelTransaction: canCancelTransaction ?? this.canCancelTransaction,
+      canWriteReview: canWriteReview ?? this.canWriteReview,
+      hasReviewedSeller: hasReviewedSeller ?? this.hasReviewedSeller,
       messages: messages ?? this.messages,
     );
   }

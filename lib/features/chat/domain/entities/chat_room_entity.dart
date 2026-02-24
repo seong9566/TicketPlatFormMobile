@@ -20,6 +20,8 @@ abstract class ChatRoomEntity with _$ChatRoomEntity {
     required bool canRequestPayment,
     required bool canConfirmPurchase,
     required bool canCancelTransaction,
+    required bool canWriteReview,
+    required bool hasReviewedSeller,
     required List<MessageEntity> messages,
   }) = _ChatRoomEntity;
 }

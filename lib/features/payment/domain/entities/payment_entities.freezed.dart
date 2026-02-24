@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PaymentRequestEntity {
 
- String get orderId; int get amount; String get orderName; String? get customerName; String? get customerEmail; String get successUrl; String get failUrl; String get clientKey; String? get eventTitle; String? get eventDate; String? get seatInfo; String? get ticketImageUrl; String? get venueName;
+ String get orderId; int get amount; String get orderName; String? get customerName; String? get customerEmail; String get successUrl; String get failUrl; String get clientKey; PaymentTicketInfoEntity? get ticketInfo; PaymentEventInfoEntity? get eventInfo;
 /// Create a copy of PaymentRequestEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $PaymentRequestEntityCopyWith<PaymentRequestEntity> get copyWith => _$PaymentReq
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaymentRequestEntity&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.orderName, orderName) || other.orderName == orderName)&&(identical(other.customerName, customerName) || other.customerName == customerName)&&(identical(other.customerEmail, customerEmail) || other.customerEmail == customerEmail)&&(identical(other.successUrl, successUrl) || other.successUrl == successUrl)&&(identical(other.failUrl, failUrl) || other.failUrl == failUrl)&&(identical(other.clientKey, clientKey) || other.clientKey == clientKey)&&(identical(other.eventTitle, eventTitle) || other.eventTitle == eventTitle)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.ticketImageUrl, ticketImageUrl) || other.ticketImageUrl == ticketImageUrl)&&(identical(other.venueName, venueName) || other.venueName == venueName));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaymentRequestEntity&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.orderName, orderName) || other.orderName == orderName)&&(identical(other.customerName, customerName) || other.customerName == customerName)&&(identical(other.customerEmail, customerEmail) || other.customerEmail == customerEmail)&&(identical(other.successUrl, successUrl) || other.successUrl == successUrl)&&(identical(other.failUrl, failUrl) || other.failUrl == failUrl)&&(identical(other.clientKey, clientKey) || other.clientKey == clientKey)&&(identical(other.ticketInfo, ticketInfo) || other.ticketInfo == ticketInfo)&&(identical(other.eventInfo, eventInfo) || other.eventInfo == eventInfo));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,orderId,amount,orderName,customerName,customerEmail,successUrl,failUrl,clientKey,eventTitle,eventDate,seatInfo,ticketImageUrl,venueName);
+int get hashCode => Object.hash(runtimeType,orderId,amount,orderName,customerName,customerEmail,successUrl,failUrl,clientKey,ticketInfo,eventInfo);
 
 @override
 String toString() {
-  return 'PaymentRequestEntity(orderId: $orderId, amount: $amount, orderName: $orderName, customerName: $customerName, customerEmail: $customerEmail, successUrl: $successUrl, failUrl: $failUrl, clientKey: $clientKey, eventTitle: $eventTitle, eventDate: $eventDate, seatInfo: $seatInfo, ticketImageUrl: $ticketImageUrl, venueName: $venueName)';
+  return 'PaymentRequestEntity(orderId: $orderId, amount: $amount, orderName: $orderName, customerName: $customerName, customerEmail: $customerEmail, successUrl: $successUrl, failUrl: $failUrl, clientKey: $clientKey, ticketInfo: $ticketInfo, eventInfo: $eventInfo)';
 }
 
 
@@ -45,11 +45,11 @@ abstract mixin class $PaymentRequestEntityCopyWith<$Res>  {
   factory $PaymentRequestEntityCopyWith(PaymentRequestEntity value, $Res Function(PaymentRequestEntity) _then) = _$PaymentRequestEntityCopyWithImpl;
 @useResult
 $Res call({
- String orderId, int amount, String orderName, String? customerName, String? customerEmail, String successUrl, String failUrl, String clientKey, String? eventTitle, String? eventDate, String? seatInfo, String? ticketImageUrl, String? venueName
+ String orderId, int amount, String orderName, String? customerName, String? customerEmail, String successUrl, String failUrl, String clientKey, PaymentTicketInfoEntity? ticketInfo, PaymentEventInfoEntity? eventInfo
 });
 
 
-
+$PaymentTicketInfoEntityCopyWith<$Res>? get ticketInfo;$PaymentEventInfoEntityCopyWith<$Res>? get eventInfo;
 
 }
 /// @nodoc
@@ -62,7 +62,7 @@ class _$PaymentRequestEntityCopyWithImpl<$Res>
 
 /// Create a copy of PaymentRequestEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? orderId = null,Object? amount = null,Object? orderName = null,Object? customerName = freezed,Object? customerEmail = freezed,Object? successUrl = null,Object? failUrl = null,Object? clientKey = null,Object? eventTitle = freezed,Object? eventDate = freezed,Object? seatInfo = freezed,Object? ticketImageUrl = freezed,Object? venueName = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? orderId = null,Object? amount = null,Object? orderName = null,Object? customerName = freezed,Object? customerEmail = freezed,Object? successUrl = null,Object? failUrl = null,Object? clientKey = null,Object? ticketInfo = freezed,Object? eventInfo = freezed,}) {
   return _then(_self.copyWith(
 orderId: null == orderId ? _self.orderId : orderId // ignore: cast_nullable_to_non_nullable
 as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
@@ -72,15 +72,36 @@ as String?,customerEmail: freezed == customerEmail ? _self.customerEmail : custo
 as String?,successUrl: null == successUrl ? _self.successUrl : successUrl // ignore: cast_nullable_to_non_nullable
 as String,failUrl: null == failUrl ? _self.failUrl : failUrl // ignore: cast_nullable_to_non_nullable
 as String,clientKey: null == clientKey ? _self.clientKey : clientKey // ignore: cast_nullable_to_non_nullable
-as String,eventTitle: freezed == eventTitle ? _self.eventTitle : eventTitle // ignore: cast_nullable_to_non_nullable
-as String?,eventDate: freezed == eventDate ? _self.eventDate : eventDate // ignore: cast_nullable_to_non_nullable
-as String?,seatInfo: freezed == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
-as String?,ticketImageUrl: freezed == ticketImageUrl ? _self.ticketImageUrl : ticketImageUrl // ignore: cast_nullable_to_non_nullable
-as String?,venueName: freezed == venueName ? _self.venueName : venueName // ignore: cast_nullable_to_non_nullable
-as String?,
+as String,ticketInfo: freezed == ticketInfo ? _self.ticketInfo : ticketInfo // ignore: cast_nullable_to_non_nullable
+as PaymentTicketInfoEntity?,eventInfo: freezed == eventInfo ? _self.eventInfo : eventInfo // ignore: cast_nullable_to_non_nullable
+as PaymentEventInfoEntity?,
   ));
 }
+/// Create a copy of PaymentRequestEntity
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PaymentTicketInfoEntityCopyWith<$Res>? get ticketInfo {
+    if (_self.ticketInfo == null) {
+    return null;
+  }
 
+  return $PaymentTicketInfoEntityCopyWith<$Res>(_self.ticketInfo!, (value) {
+    return _then(_self.copyWith(ticketInfo: value));
+  });
+}/// Create a copy of PaymentRequestEntity
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PaymentEventInfoEntityCopyWith<$Res>? get eventInfo {
+    if (_self.eventInfo == null) {
+    return null;
+  }
+
+  return $PaymentEventInfoEntityCopyWith<$Res>(_self.eventInfo!, (value) {
+    return _then(_self.copyWith(eventInfo: value));
+  });
+}
 }
 
 
@@ -162,10 +183,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String orderId,  int amount,  String orderName,  String? customerName,  String? customerEmail,  String successUrl,  String failUrl,  String clientKey,  String? eventTitle,  String? eventDate,  String? seatInfo,  String? ticketImageUrl,  String? venueName)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String orderId,  int amount,  String orderName,  String? customerName,  String? customerEmail,  String successUrl,  String failUrl,  String clientKey,  PaymentTicketInfoEntity? ticketInfo,  PaymentEventInfoEntity? eventInfo)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PaymentRequestEntity() when $default != null:
-return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_that.customerEmail,_that.successUrl,_that.failUrl,_that.clientKey,_that.eventTitle,_that.eventDate,_that.seatInfo,_that.ticketImageUrl,_that.venueName);case _:
+return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_that.customerEmail,_that.successUrl,_that.failUrl,_that.clientKey,_that.ticketInfo,_that.eventInfo);case _:
   return orElse();
 
 }
@@ -183,10 +204,10 @@ return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String orderId,  int amount,  String orderName,  String? customerName,  String? customerEmail,  String successUrl,  String failUrl,  String clientKey,  String? eventTitle,  String? eventDate,  String? seatInfo,  String? ticketImageUrl,  String? venueName)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String orderId,  int amount,  String orderName,  String? customerName,  String? customerEmail,  String successUrl,  String failUrl,  String clientKey,  PaymentTicketInfoEntity? ticketInfo,  PaymentEventInfoEntity? eventInfo)  $default,) {final _that = this;
 switch (_that) {
 case _PaymentRequestEntity():
-return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_that.customerEmail,_that.successUrl,_that.failUrl,_that.clientKey,_that.eventTitle,_that.eventDate,_that.seatInfo,_that.ticketImageUrl,_that.venueName);case _:
+return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_that.customerEmail,_that.successUrl,_that.failUrl,_that.clientKey,_that.ticketInfo,_that.eventInfo);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -203,10 +224,10 @@ return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String orderId,  int amount,  String orderName,  String? customerName,  String? customerEmail,  String successUrl,  String failUrl,  String clientKey,  String? eventTitle,  String? eventDate,  String? seatInfo,  String? ticketImageUrl,  String? venueName)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String orderId,  int amount,  String orderName,  String? customerName,  String? customerEmail,  String successUrl,  String failUrl,  String clientKey,  PaymentTicketInfoEntity? ticketInfo,  PaymentEventInfoEntity? eventInfo)?  $default,) {final _that = this;
 switch (_that) {
 case _PaymentRequestEntity() when $default != null:
-return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_that.customerEmail,_that.successUrl,_that.failUrl,_that.clientKey,_that.eventTitle,_that.eventDate,_that.seatInfo,_that.ticketImageUrl,_that.venueName);case _:
+return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_that.customerEmail,_that.successUrl,_that.failUrl,_that.clientKey,_that.ticketInfo,_that.eventInfo);case _:
   return null;
 
 }
@@ -218,7 +239,7 @@ return $default(_that.orderId,_that.amount,_that.orderName,_that.customerName,_t
 
 
 class _PaymentRequestEntity implements PaymentRequestEntity {
-  const _PaymentRequestEntity({required this.orderId, required this.amount, required this.orderName, this.customerName, this.customerEmail, required this.successUrl, required this.failUrl, required this.clientKey, this.eventTitle, this.eventDate, this.seatInfo, this.ticketImageUrl, this.venueName});
+  const _PaymentRequestEntity({required this.orderId, required this.amount, required this.orderName, this.customerName, this.customerEmail, required this.successUrl, required this.failUrl, required this.clientKey, this.ticketInfo, this.eventInfo});
   
 
 @override final  String orderId;
@@ -229,11 +250,8 @@ class _PaymentRequestEntity implements PaymentRequestEntity {
 @override final  String successUrl;
 @override final  String failUrl;
 @override final  String clientKey;
-@override final  String? eventTitle;
-@override final  String? eventDate;
-@override final  String? seatInfo;
-@override final  String? ticketImageUrl;
-@override final  String? venueName;
+@override final  PaymentTicketInfoEntity? ticketInfo;
+@override final  PaymentEventInfoEntity? eventInfo;
 
 /// Create a copy of PaymentRequestEntity
 /// with the given fields replaced by the non-null parameter values.
@@ -245,16 +263,16 @@ _$PaymentRequestEntityCopyWith<_PaymentRequestEntity> get copyWith => __$Payment
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaymentRequestEntity&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.orderName, orderName) || other.orderName == orderName)&&(identical(other.customerName, customerName) || other.customerName == customerName)&&(identical(other.customerEmail, customerEmail) || other.customerEmail == customerEmail)&&(identical(other.successUrl, successUrl) || other.successUrl == successUrl)&&(identical(other.failUrl, failUrl) || other.failUrl == failUrl)&&(identical(other.clientKey, clientKey) || other.clientKey == clientKey)&&(identical(other.eventTitle, eventTitle) || other.eventTitle == eventTitle)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.ticketImageUrl, ticketImageUrl) || other.ticketImageUrl == ticketImageUrl)&&(identical(other.venueName, venueName) || other.venueName == venueName));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaymentRequestEntity&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.orderName, orderName) || other.orderName == orderName)&&(identical(other.customerName, customerName) || other.customerName == customerName)&&(identical(other.customerEmail, customerEmail) || other.customerEmail == customerEmail)&&(identical(other.successUrl, successUrl) || other.successUrl == successUrl)&&(identical(other.failUrl, failUrl) || other.failUrl == failUrl)&&(identical(other.clientKey, clientKey) || other.clientKey == clientKey)&&(identical(other.ticketInfo, ticketInfo) || other.ticketInfo == ticketInfo)&&(identical(other.eventInfo, eventInfo) || other.eventInfo == eventInfo));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,orderId,amount,orderName,customerName,customerEmail,successUrl,failUrl,clientKey,eventTitle,eventDate,seatInfo,ticketImageUrl,venueName);
+int get hashCode => Object.hash(runtimeType,orderId,amount,orderName,customerName,customerEmail,successUrl,failUrl,clientKey,ticketInfo,eventInfo);
 
 @override
 String toString() {
-  return 'PaymentRequestEntity(orderId: $orderId, amount: $amount, orderName: $orderName, customerName: $customerName, customerEmail: $customerEmail, successUrl: $successUrl, failUrl: $failUrl, clientKey: $clientKey, eventTitle: $eventTitle, eventDate: $eventDate, seatInfo: $seatInfo, ticketImageUrl: $ticketImageUrl, venueName: $venueName)';
+  return 'PaymentRequestEntity(orderId: $orderId, amount: $amount, orderName: $orderName, customerName: $customerName, customerEmail: $customerEmail, successUrl: $successUrl, failUrl: $failUrl, clientKey: $clientKey, ticketInfo: $ticketInfo, eventInfo: $eventInfo)';
 }
 
 
@@ -265,11 +283,11 @@ abstract mixin class _$PaymentRequestEntityCopyWith<$Res> implements $PaymentReq
   factory _$PaymentRequestEntityCopyWith(_PaymentRequestEntity value, $Res Function(_PaymentRequestEntity) _then) = __$PaymentRequestEntityCopyWithImpl;
 @override @useResult
 $Res call({
- String orderId, int amount, String orderName, String? customerName, String? customerEmail, String successUrl, String failUrl, String clientKey, String? eventTitle, String? eventDate, String? seatInfo, String? ticketImageUrl, String? venueName
+ String orderId, int amount, String orderName, String? customerName, String? customerEmail, String successUrl, String failUrl, String clientKey, PaymentTicketInfoEntity? ticketInfo, PaymentEventInfoEntity? eventInfo
 });
 
 
-
+@override $PaymentTicketInfoEntityCopyWith<$Res>? get ticketInfo;@override $PaymentEventInfoEntityCopyWith<$Res>? get eventInfo;
 
 }
 /// @nodoc
@@ -282,7 +300,7 @@ class __$PaymentRequestEntityCopyWithImpl<$Res>
 
 /// Create a copy of PaymentRequestEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? orderId = null,Object? amount = null,Object? orderName = null,Object? customerName = freezed,Object? customerEmail = freezed,Object? successUrl = null,Object? failUrl = null,Object? clientKey = null,Object? eventTitle = freezed,Object? eventDate = freezed,Object? seatInfo = freezed,Object? ticketImageUrl = freezed,Object? venueName = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? orderId = null,Object? amount = null,Object? orderName = null,Object? customerName = freezed,Object? customerEmail = freezed,Object? successUrl = null,Object? failUrl = null,Object? clientKey = null,Object? ticketInfo = freezed,Object? eventInfo = freezed,}) {
   return _then(_PaymentRequestEntity(
 orderId: null == orderId ? _self.orderId : orderId // ignore: cast_nullable_to_non_nullable
 as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
@@ -292,10 +310,569 @@ as String?,customerEmail: freezed == customerEmail ? _self.customerEmail : custo
 as String?,successUrl: null == successUrl ? _self.successUrl : successUrl // ignore: cast_nullable_to_non_nullable
 as String,failUrl: null == failUrl ? _self.failUrl : failUrl // ignore: cast_nullable_to_non_nullable
 as String,clientKey: null == clientKey ? _self.clientKey : clientKey // ignore: cast_nullable_to_non_nullable
-as String,eventTitle: freezed == eventTitle ? _self.eventTitle : eventTitle // ignore: cast_nullable_to_non_nullable
-as String?,eventDate: freezed == eventDate ? _self.eventDate : eventDate // ignore: cast_nullable_to_non_nullable
+as String,ticketInfo: freezed == ticketInfo ? _self.ticketInfo : ticketInfo // ignore: cast_nullable_to_non_nullable
+as PaymentTicketInfoEntity?,eventInfo: freezed == eventInfo ? _self.eventInfo : eventInfo // ignore: cast_nullable_to_non_nullable
+as PaymentEventInfoEntity?,
+  ));
+}
+
+/// Create a copy of PaymentRequestEntity
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PaymentTicketInfoEntityCopyWith<$Res>? get ticketInfo {
+    if (_self.ticketInfo == null) {
+    return null;
+  }
+
+  return $PaymentTicketInfoEntityCopyWith<$Res>(_self.ticketInfo!, (value) {
+    return _then(_self.copyWith(ticketInfo: value));
+  });
+}/// Create a copy of PaymentRequestEntity
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PaymentEventInfoEntityCopyWith<$Res>? get eventInfo {
+    if (_self.eventInfo == null) {
+    return null;
+  }
+
+  return $PaymentEventInfoEntityCopyWith<$Res>(_self.eventInfo!, (value) {
+    return _then(_self.copyWith(eventInfo: value));
+  });
+}
+}
+
+/// @nodoc
+mixin _$PaymentTicketInfoEntity {
+
+ int? get ticketId; String? get thumbnailUrl; String? get seatInfo; int? get quantity; int? get unitPrice; int? get totalAmount;
+/// Create a copy of PaymentTicketInfoEntity
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$PaymentTicketInfoEntityCopyWith<PaymentTicketInfoEntity> get copyWith => _$PaymentTicketInfoEntityCopyWithImpl<PaymentTicketInfoEntity>(this as PaymentTicketInfoEntity, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaymentTicketInfoEntity&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.thumbnailUrl, thumbnailUrl) || other.thumbnailUrl == thumbnailUrl)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.unitPrice, unitPrice) || other.unitPrice == unitPrice)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,ticketId,thumbnailUrl,seatInfo,quantity,unitPrice,totalAmount);
+
+@override
+String toString() {
+  return 'PaymentTicketInfoEntity(ticketId: $ticketId, thumbnailUrl: $thumbnailUrl, seatInfo: $seatInfo, quantity: $quantity, unitPrice: $unitPrice, totalAmount: $totalAmount)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $PaymentTicketInfoEntityCopyWith<$Res>  {
+  factory $PaymentTicketInfoEntityCopyWith(PaymentTicketInfoEntity value, $Res Function(PaymentTicketInfoEntity) _then) = _$PaymentTicketInfoEntityCopyWithImpl;
+@useResult
+$Res call({
+ int? ticketId, String? thumbnailUrl, String? seatInfo, int? quantity, int? unitPrice, int? totalAmount
+});
+
+
+
+
+}
+/// @nodoc
+class _$PaymentTicketInfoEntityCopyWithImpl<$Res>
+    implements $PaymentTicketInfoEntityCopyWith<$Res> {
+  _$PaymentTicketInfoEntityCopyWithImpl(this._self, this._then);
+
+  final PaymentTicketInfoEntity _self;
+  final $Res Function(PaymentTicketInfoEntity) _then;
+
+/// Create a copy of PaymentTicketInfoEntity
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? ticketId = freezed,Object? thumbnailUrl = freezed,Object? seatInfo = freezed,Object? quantity = freezed,Object? unitPrice = freezed,Object? totalAmount = freezed,}) {
+  return _then(_self.copyWith(
+ticketId: freezed == ticketId ? _self.ticketId : ticketId // ignore: cast_nullable_to_non_nullable
+as int?,thumbnailUrl: freezed == thumbnailUrl ? _self.thumbnailUrl : thumbnailUrl // ignore: cast_nullable_to_non_nullable
 as String?,seatInfo: freezed == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
-as String?,ticketImageUrl: freezed == ticketImageUrl ? _self.ticketImageUrl : ticketImageUrl // ignore: cast_nullable_to_non_nullable
+as String?,quantity: freezed == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
+as int?,unitPrice: freezed == unitPrice ? _self.unitPrice : unitPrice // ignore: cast_nullable_to_non_nullable
+as int?,totalAmount: freezed == totalAmount ? _self.totalAmount : totalAmount // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [PaymentTicketInfoEntity].
+extension PaymentTicketInfoEntityPatterns on PaymentTicketInfoEntity {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PaymentTicketInfoEntity value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _PaymentTicketInfoEntity() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PaymentTicketInfoEntity value)  $default,){
+final _that = this;
+switch (_that) {
+case _PaymentTicketInfoEntity():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PaymentTicketInfoEntity value)?  $default,){
+final _that = this;
+switch (_that) {
+case _PaymentTicketInfoEntity() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? ticketId,  String? thumbnailUrl,  String? seatInfo,  int? quantity,  int? unitPrice,  int? totalAmount)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _PaymentTicketInfoEntity() when $default != null:
+return $default(_that.ticketId,_that.thumbnailUrl,_that.seatInfo,_that.quantity,_that.unitPrice,_that.totalAmount);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? ticketId,  String? thumbnailUrl,  String? seatInfo,  int? quantity,  int? unitPrice,  int? totalAmount)  $default,) {final _that = this;
+switch (_that) {
+case _PaymentTicketInfoEntity():
+return $default(_that.ticketId,_that.thumbnailUrl,_that.seatInfo,_that.quantity,_that.unitPrice,_that.totalAmount);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? ticketId,  String? thumbnailUrl,  String? seatInfo,  int? quantity,  int? unitPrice,  int? totalAmount)?  $default,) {final _that = this;
+switch (_that) {
+case _PaymentTicketInfoEntity() when $default != null:
+return $default(_that.ticketId,_that.thumbnailUrl,_that.seatInfo,_that.quantity,_that.unitPrice,_that.totalAmount);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _PaymentTicketInfoEntity implements PaymentTicketInfoEntity {
+  const _PaymentTicketInfoEntity({this.ticketId, this.thumbnailUrl, this.seatInfo, this.quantity, this.unitPrice, this.totalAmount});
+  
+
+@override final  int? ticketId;
+@override final  String? thumbnailUrl;
+@override final  String? seatInfo;
+@override final  int? quantity;
+@override final  int? unitPrice;
+@override final  int? totalAmount;
+
+/// Create a copy of PaymentTicketInfoEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$PaymentTicketInfoEntityCopyWith<_PaymentTicketInfoEntity> get copyWith => __$PaymentTicketInfoEntityCopyWithImpl<_PaymentTicketInfoEntity>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaymentTicketInfoEntity&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.thumbnailUrl, thumbnailUrl) || other.thumbnailUrl == thumbnailUrl)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.unitPrice, unitPrice) || other.unitPrice == unitPrice)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,ticketId,thumbnailUrl,seatInfo,quantity,unitPrice,totalAmount);
+
+@override
+String toString() {
+  return 'PaymentTicketInfoEntity(ticketId: $ticketId, thumbnailUrl: $thumbnailUrl, seatInfo: $seatInfo, quantity: $quantity, unitPrice: $unitPrice, totalAmount: $totalAmount)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$PaymentTicketInfoEntityCopyWith<$Res> implements $PaymentTicketInfoEntityCopyWith<$Res> {
+  factory _$PaymentTicketInfoEntityCopyWith(_PaymentTicketInfoEntity value, $Res Function(_PaymentTicketInfoEntity) _then) = __$PaymentTicketInfoEntityCopyWithImpl;
+@override @useResult
+$Res call({
+ int? ticketId, String? thumbnailUrl, String? seatInfo, int? quantity, int? unitPrice, int? totalAmount
+});
+
+
+
+
+}
+/// @nodoc
+class __$PaymentTicketInfoEntityCopyWithImpl<$Res>
+    implements _$PaymentTicketInfoEntityCopyWith<$Res> {
+  __$PaymentTicketInfoEntityCopyWithImpl(this._self, this._then);
+
+  final _PaymentTicketInfoEntity _self;
+  final $Res Function(_PaymentTicketInfoEntity) _then;
+
+/// Create a copy of PaymentTicketInfoEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? ticketId = freezed,Object? thumbnailUrl = freezed,Object? seatInfo = freezed,Object? quantity = freezed,Object? unitPrice = freezed,Object? totalAmount = freezed,}) {
+  return _then(_PaymentTicketInfoEntity(
+ticketId: freezed == ticketId ? _self.ticketId : ticketId // ignore: cast_nullable_to_non_nullable
+as int?,thumbnailUrl: freezed == thumbnailUrl ? _self.thumbnailUrl : thumbnailUrl // ignore: cast_nullable_to_non_nullable
+as String?,seatInfo: freezed == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
+as String?,quantity: freezed == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
+as int?,unitPrice: freezed == unitPrice ? _self.unitPrice : unitPrice // ignore: cast_nullable_to_non_nullable
+as int?,totalAmount: freezed == totalAmount ? _self.totalAmount : totalAmount // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+mixin _$PaymentEventInfoEntity {
+
+ int? get eventId; String? get title; String? get eventDateTime; String? get venueName;
+/// Create a copy of PaymentEventInfoEntity
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$PaymentEventInfoEntityCopyWith<PaymentEventInfoEntity> get copyWith => _$PaymentEventInfoEntityCopyWithImpl<PaymentEventInfoEntity>(this as PaymentEventInfoEntity, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaymentEventInfoEntity&&(identical(other.eventId, eventId) || other.eventId == eventId)&&(identical(other.title, title) || other.title == title)&&(identical(other.eventDateTime, eventDateTime) || other.eventDateTime == eventDateTime)&&(identical(other.venueName, venueName) || other.venueName == venueName));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,eventId,title,eventDateTime,venueName);
+
+@override
+String toString() {
+  return 'PaymentEventInfoEntity(eventId: $eventId, title: $title, eventDateTime: $eventDateTime, venueName: $venueName)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $PaymentEventInfoEntityCopyWith<$Res>  {
+  factory $PaymentEventInfoEntityCopyWith(PaymentEventInfoEntity value, $Res Function(PaymentEventInfoEntity) _then) = _$PaymentEventInfoEntityCopyWithImpl;
+@useResult
+$Res call({
+ int? eventId, String? title, String? eventDateTime, String? venueName
+});
+
+
+
+
+}
+/// @nodoc
+class _$PaymentEventInfoEntityCopyWithImpl<$Res>
+    implements $PaymentEventInfoEntityCopyWith<$Res> {
+  _$PaymentEventInfoEntityCopyWithImpl(this._self, this._then);
+
+  final PaymentEventInfoEntity _self;
+  final $Res Function(PaymentEventInfoEntity) _then;
+
+/// Create a copy of PaymentEventInfoEntity
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? eventId = freezed,Object? title = freezed,Object? eventDateTime = freezed,Object? venueName = freezed,}) {
+  return _then(_self.copyWith(
+eventId: freezed == eventId ? _self.eventId : eventId // ignore: cast_nullable_to_non_nullable
+as int?,title: freezed == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String?,eventDateTime: freezed == eventDateTime ? _self.eventDateTime : eventDateTime // ignore: cast_nullable_to_non_nullable
+as String?,venueName: freezed == venueName ? _self.venueName : venueName // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [PaymentEventInfoEntity].
+extension PaymentEventInfoEntityPatterns on PaymentEventInfoEntity {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PaymentEventInfoEntity value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _PaymentEventInfoEntity() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PaymentEventInfoEntity value)  $default,){
+final _that = this;
+switch (_that) {
+case _PaymentEventInfoEntity():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PaymentEventInfoEntity value)?  $default,){
+final _that = this;
+switch (_that) {
+case _PaymentEventInfoEntity() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? eventId,  String? title,  String? eventDateTime,  String? venueName)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _PaymentEventInfoEntity() when $default != null:
+return $default(_that.eventId,_that.title,_that.eventDateTime,_that.venueName);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? eventId,  String? title,  String? eventDateTime,  String? venueName)  $default,) {final _that = this;
+switch (_that) {
+case _PaymentEventInfoEntity():
+return $default(_that.eventId,_that.title,_that.eventDateTime,_that.venueName);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? eventId,  String? title,  String? eventDateTime,  String? venueName)?  $default,) {final _that = this;
+switch (_that) {
+case _PaymentEventInfoEntity() when $default != null:
+return $default(_that.eventId,_that.title,_that.eventDateTime,_that.venueName);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _PaymentEventInfoEntity implements PaymentEventInfoEntity {
+  const _PaymentEventInfoEntity({this.eventId, this.title, this.eventDateTime, this.venueName});
+  
+
+@override final  int? eventId;
+@override final  String? title;
+@override final  String? eventDateTime;
+@override final  String? venueName;
+
+/// Create a copy of PaymentEventInfoEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$PaymentEventInfoEntityCopyWith<_PaymentEventInfoEntity> get copyWith => __$PaymentEventInfoEntityCopyWithImpl<_PaymentEventInfoEntity>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaymentEventInfoEntity&&(identical(other.eventId, eventId) || other.eventId == eventId)&&(identical(other.title, title) || other.title == title)&&(identical(other.eventDateTime, eventDateTime) || other.eventDateTime == eventDateTime)&&(identical(other.venueName, venueName) || other.venueName == venueName));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,eventId,title,eventDateTime,venueName);
+
+@override
+String toString() {
+  return 'PaymentEventInfoEntity(eventId: $eventId, title: $title, eventDateTime: $eventDateTime, venueName: $venueName)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$PaymentEventInfoEntityCopyWith<$Res> implements $PaymentEventInfoEntityCopyWith<$Res> {
+  factory _$PaymentEventInfoEntityCopyWith(_PaymentEventInfoEntity value, $Res Function(_PaymentEventInfoEntity) _then) = __$PaymentEventInfoEntityCopyWithImpl;
+@override @useResult
+$Res call({
+ int? eventId, String? title, String? eventDateTime, String? venueName
+});
+
+
+
+
+}
+/// @nodoc
+class __$PaymentEventInfoEntityCopyWithImpl<$Res>
+    implements _$PaymentEventInfoEntityCopyWith<$Res> {
+  __$PaymentEventInfoEntityCopyWithImpl(this._self, this._then);
+
+  final _PaymentEventInfoEntity _self;
+  final $Res Function(_PaymentEventInfoEntity) _then;
+
+/// Create a copy of PaymentEventInfoEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? eventId = freezed,Object? title = freezed,Object? eventDateTime = freezed,Object? venueName = freezed,}) {
+  return _then(_PaymentEventInfoEntity(
+eventId: freezed == eventId ? _self.eventId : eventId // ignore: cast_nullable_to_non_nullable
+as int?,title: freezed == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String?,eventDateTime: freezed == eventDateTime ? _self.eventDateTime : eventDateTime // ignore: cast_nullable_to_non_nullable
 as String?,venueName: freezed == venueName ? _self.venueName : venueName // ignore: cast_nullable_to_non_nullable
 as String?,
   ));

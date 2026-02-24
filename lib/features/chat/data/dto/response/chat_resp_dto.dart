@@ -38,6 +38,8 @@ abstract class ChatRoomRespDto with _$ChatRoomRespDto {
     required bool canRequestPayment,
     required bool canConfirmPurchase,
     required bool canCancelTransaction,
+    @Default(false) bool canWriteReview,
+    @Default(false) bool hasReviewedSeller,
     required List<MessageDto> messages,
   }) = _ChatRoomRespDto;
 
@@ -59,6 +61,8 @@ extension ChatRoomRespDtoX on ChatRoomRespDto {
       canRequestPayment: canRequestPayment,
       canConfirmPurchase: canConfirmPurchase,
       canCancelTransaction: canCancelTransaction,
+      canWriteReview: canWriteReview,
+      hasReviewedSeller: hasReviewedSeller,
       messages: messages.map((m) => m.toEntity()).toList(),
     );
   }

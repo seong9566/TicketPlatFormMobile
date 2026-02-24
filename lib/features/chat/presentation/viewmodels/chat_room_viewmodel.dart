@@ -550,6 +550,17 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
     }
   }
 
+  void markReviewedSeller() {
+    final current = state.value;
+    if (current == null) {
+      return;
+    }
+
+    state = AsyncValue.data(
+      current.copyWith(canWriteReview: false, hasReviewedSeller: true),
+    );
+  }
+
   void sendTypingIndicator() {
     final current = state.value;
     if (current == null) return;

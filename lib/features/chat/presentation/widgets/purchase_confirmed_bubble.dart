@@ -9,6 +9,9 @@ class PurchaseConfirmedBubble extends StatelessWidget {
   final TicketInfoUiModel ticket;
   final TransactionUiModel? transaction;
   final bool isBuyer;
+  final bool canWriteReview;
+  final bool hasReviewedSeller;
+  final VoidCallback? onWriteReview;
 
   const PurchaseConfirmedBubble({
     super.key,
@@ -16,6 +19,9 @@ class PurchaseConfirmedBubble extends StatelessWidget {
     required this.ticket,
     this.transaction,
     required this.isBuyer,
+    this.canWriteReview = false,
+    this.hasReviewedSeller = false,
+    this.onWriteReview,
   });
 
   @override
@@ -96,6 +102,44 @@ class PurchaseConfirmedBubble extends StatelessWidget {
                 _buildInfoItem('결제 금액', amountText),
                 _buildInfoItem('티켓 개수', ticketCountText),
                 _buildInfoItem('좌석 정보', seatInfoText),
+                if (isBuyer) ...[
+                  const SizedBox(height: AppSpacing.md),
+                  if (canWriteReview && !hasReviewedSeller)
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        onPressed: onWriteReview,
+                        icon: const Icon(Icons.rate_review_outlined, size: 18),
+                        label: Text(
+                          '리뷰 작성하기',
+                          style: AppTextStyles.body2.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
+                    )
+                  else if (hasReviewedSeller)
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        '리뷰 완료 ✓',
+                        style: AppTextStyles.caption.copyWith(
+                          color: AppColors.textSecondary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                ],
               ],
             ),
           ),

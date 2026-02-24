@@ -13,12 +13,31 @@ abstract class PaymentRequestEntity with _$PaymentRequestEntity {
     required String successUrl,
     required String failUrl,
     required String clientKey,
-    String? eventTitle,
-    String? eventDate,
-    String? seatInfo,
-    String? ticketImageUrl,
-    String? venueName,
+    PaymentTicketInfoEntity? ticketInfo,
+    PaymentEventInfoEntity? eventInfo,
   }) = _PaymentRequestEntity;
+}
+
+@freezed
+abstract class PaymentTicketInfoEntity with _$PaymentTicketInfoEntity {
+  const factory PaymentTicketInfoEntity({
+    int? ticketId,
+    String? thumbnailUrl,
+    String? seatInfo,
+    int? quantity,
+    int? unitPrice,
+    int? totalAmount,
+  }) = _PaymentTicketInfoEntity;
+}
+
+@freezed
+abstract class PaymentEventInfoEntity with _$PaymentEventInfoEntity {
+  const factory PaymentEventInfoEntity({
+    int? eventId,
+    String? title,
+    String? eventDateTime,
+    String? venueName,
+  }) = _PaymentEventInfoEntity;
 }
 
 @freezed

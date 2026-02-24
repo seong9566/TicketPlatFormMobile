@@ -14,6 +14,7 @@ import 'package:ticket_platform_mobile/core/constants/app_constants.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/payment_success_bubble.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/purchase_confirmed_bubble.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/profile_viewmodel.dart';
+import 'package:ticket_platform_mobile/features/reputation/presentation/views/reputation_write_view.dart';
 
 class ChatBubble extends ConsumerWidget {
   final MessageUiModel message;
@@ -121,6 +122,32 @@ class ChatBubble extends ConsumerWidget {
                   ticket: chatRoom.ticket,
                   transaction: chatRoom.transaction,
                   isBuyer: isBuyer,
+                  canWriteReview: chatRoom.canWriteReview,
+                  hasReviewedSeller: chatRoom.hasReviewedSeller,
+                  onWriteReview: () async {
+                    final transactionId = chatRoom.transaction?.transactionId;
+                    if (transactionId == null) {
+                      return;
+                    }
+
+                    await Navigator.of(context).push<bool>(
+                      MaterialPageRoute(
+                        builder: (_) => ReputationWriteView(
+                          transactionId: transactionId,
+                          sellerNickname: chatRoom.seller.nickname,
+                          onSuccess: () {
+                            ref
+                                .read(
+                                  chatRoomViewModelProvider(
+                                    message.roomId,
+                                  ).notifier,
+                                )
+                                .markReviewedSeller();
+                          },
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 4),
                 Padding(

@@ -281,7 +281,7 @@ as String?,
 /// @nodoc
 mixin _$ChatRoomRespDto {
 
- int get roomId; TicketInfoDto get ticket; UserProfileDto get buyer; UserProfileDto get seller; String get statusCode; String get statusName; TransactionDto? get transaction; bool get canSendMessage; bool get canRequestPayment; bool get canConfirmPurchase; bool get canCancelTransaction; List<MessageDto> get messages;
+ int get roomId; TicketInfoDto get ticket; UserProfileDto get buyer; UserProfileDto get seller; String get statusCode; String get statusName; TransactionDto? get transaction; bool get canSendMessage; bool get canRequestPayment; bool get canConfirmPurchase; bool get canCancelTransaction; bool get canWriteReview; bool get hasReviewedSeller; List<MessageDto> get messages;
 /// Create a copy of ChatRoomRespDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -294,16 +294,16 @@ $ChatRoomRespDtoCopyWith<ChatRoomRespDto> get copyWith => _$ChatRoomRespDtoCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatRoomRespDto&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.ticket, ticket) || other.ticket == ticket)&&(identical(other.buyer, buyer) || other.buyer == buyer)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.statusName, statusName) || other.statusName == statusName)&&(identical(other.transaction, transaction) || other.transaction == transaction)&&(identical(other.canSendMessage, canSendMessage) || other.canSendMessage == canSendMessage)&&(identical(other.canRequestPayment, canRequestPayment) || other.canRequestPayment == canRequestPayment)&&(identical(other.canConfirmPurchase, canConfirmPurchase) || other.canConfirmPurchase == canConfirmPurchase)&&(identical(other.canCancelTransaction, canCancelTransaction) || other.canCancelTransaction == canCancelTransaction)&&const DeepCollectionEquality().equals(other.messages, messages));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatRoomRespDto&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.ticket, ticket) || other.ticket == ticket)&&(identical(other.buyer, buyer) || other.buyer == buyer)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.statusName, statusName) || other.statusName == statusName)&&(identical(other.transaction, transaction) || other.transaction == transaction)&&(identical(other.canSendMessage, canSendMessage) || other.canSendMessage == canSendMessage)&&(identical(other.canRequestPayment, canRequestPayment) || other.canRequestPayment == canRequestPayment)&&(identical(other.canConfirmPurchase, canConfirmPurchase) || other.canConfirmPurchase == canConfirmPurchase)&&(identical(other.canCancelTransaction, canCancelTransaction) || other.canCancelTransaction == canCancelTransaction)&&(identical(other.canWriteReview, canWriteReview) || other.canWriteReview == canWriteReview)&&(identical(other.hasReviewedSeller, hasReviewedSeller) || other.hasReviewedSeller == hasReviewedSeller)&&const DeepCollectionEquality().equals(other.messages, messages));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,roomId,ticket,buyer,seller,statusCode,statusName,transaction,canSendMessage,canRequestPayment,canConfirmPurchase,canCancelTransaction,const DeepCollectionEquality().hash(messages));
+int get hashCode => Object.hash(runtimeType,roomId,ticket,buyer,seller,statusCode,statusName,transaction,canSendMessage,canRequestPayment,canConfirmPurchase,canCancelTransaction,canWriteReview,hasReviewedSeller,const DeepCollectionEquality().hash(messages));
 
 @override
 String toString() {
-  return 'ChatRoomRespDto(roomId: $roomId, ticket: $ticket, buyer: $buyer, seller: $seller, statusCode: $statusCode, statusName: $statusName, transaction: $transaction, canSendMessage: $canSendMessage, canRequestPayment: $canRequestPayment, canConfirmPurchase: $canConfirmPurchase, canCancelTransaction: $canCancelTransaction, messages: $messages)';
+  return 'ChatRoomRespDto(roomId: $roomId, ticket: $ticket, buyer: $buyer, seller: $seller, statusCode: $statusCode, statusName: $statusName, transaction: $transaction, canSendMessage: $canSendMessage, canRequestPayment: $canRequestPayment, canConfirmPurchase: $canConfirmPurchase, canCancelTransaction: $canCancelTransaction, canWriteReview: $canWriteReview, hasReviewedSeller: $hasReviewedSeller, messages: $messages)';
 }
 
 
@@ -314,7 +314,7 @@ abstract mixin class $ChatRoomRespDtoCopyWith<$Res>  {
   factory $ChatRoomRespDtoCopyWith(ChatRoomRespDto value, $Res Function(ChatRoomRespDto) _then) = _$ChatRoomRespDtoCopyWithImpl;
 @useResult
 $Res call({
- int roomId, TicketInfoDto ticket, UserProfileDto buyer, UserProfileDto seller, String statusCode, String statusName, TransactionDto? transaction, bool canSendMessage, bool canRequestPayment, bool canConfirmPurchase, bool canCancelTransaction, List<MessageDto> messages
+ int roomId, TicketInfoDto ticket, UserProfileDto buyer, UserProfileDto seller, String statusCode, String statusName, TransactionDto? transaction, bool canSendMessage, bool canRequestPayment, bool canConfirmPurchase, bool canCancelTransaction, bool canWriteReview, bool hasReviewedSeller, List<MessageDto> messages
 });
 
 
@@ -331,7 +331,7 @@ class _$ChatRoomRespDtoCopyWithImpl<$Res>
 
 /// Create a copy of ChatRoomRespDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? roomId = null,Object? ticket = null,Object? buyer = null,Object? seller = null,Object? statusCode = null,Object? statusName = null,Object? transaction = freezed,Object? canSendMessage = null,Object? canRequestPayment = null,Object? canConfirmPurchase = null,Object? canCancelTransaction = null,Object? messages = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? roomId = null,Object? ticket = null,Object? buyer = null,Object? seller = null,Object? statusCode = null,Object? statusName = null,Object? transaction = freezed,Object? canSendMessage = null,Object? canRequestPayment = null,Object? canConfirmPurchase = null,Object? canCancelTransaction = null,Object? canWriteReview = null,Object? hasReviewedSeller = null,Object? messages = null,}) {
   return _then(_self.copyWith(
 roomId: null == roomId ? _self.roomId : roomId // ignore: cast_nullable_to_non_nullable
 as int,ticket: null == ticket ? _self.ticket : ticket // ignore: cast_nullable_to_non_nullable
@@ -344,6 +344,8 @@ as TransactionDto?,canSendMessage: null == canSendMessage ? _self.canSendMessage
 as bool,canRequestPayment: null == canRequestPayment ? _self.canRequestPayment : canRequestPayment // ignore: cast_nullable_to_non_nullable
 as bool,canConfirmPurchase: null == canConfirmPurchase ? _self.canConfirmPurchase : canConfirmPurchase // ignore: cast_nullable_to_non_nullable
 as bool,canCancelTransaction: null == canCancelTransaction ? _self.canCancelTransaction : canCancelTransaction // ignore: cast_nullable_to_non_nullable
+as bool,canWriteReview: null == canWriteReview ? _self.canWriteReview : canWriteReview // ignore: cast_nullable_to_non_nullable
+as bool,hasReviewedSeller: null == hasReviewedSeller ? _self.hasReviewedSeller : hasReviewedSeller // ignore: cast_nullable_to_non_nullable
 as bool,messages: null == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
 as List<MessageDto>,
   ));
@@ -469,10 +471,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int roomId,  TicketInfoDto ticket,  UserProfileDto buyer,  UserProfileDto seller,  String statusCode,  String statusName,  TransactionDto? transaction,  bool canSendMessage,  bool canRequestPayment,  bool canConfirmPurchase,  bool canCancelTransaction,  List<MessageDto> messages)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int roomId,  TicketInfoDto ticket,  UserProfileDto buyer,  UserProfileDto seller,  String statusCode,  String statusName,  TransactionDto? transaction,  bool canSendMessage,  bool canRequestPayment,  bool canConfirmPurchase,  bool canCancelTransaction,  bool canWriteReview,  bool hasReviewedSeller,  List<MessageDto> messages)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChatRoomRespDto() when $default != null:
-return $default(_that.roomId,_that.ticket,_that.buyer,_that.seller,_that.statusCode,_that.statusName,_that.transaction,_that.canSendMessage,_that.canRequestPayment,_that.canConfirmPurchase,_that.canCancelTransaction,_that.messages);case _:
+return $default(_that.roomId,_that.ticket,_that.buyer,_that.seller,_that.statusCode,_that.statusName,_that.transaction,_that.canSendMessage,_that.canRequestPayment,_that.canConfirmPurchase,_that.canCancelTransaction,_that.canWriteReview,_that.hasReviewedSeller,_that.messages);case _:
   return orElse();
 
 }
@@ -490,10 +492,10 @@ return $default(_that.roomId,_that.ticket,_that.buyer,_that.seller,_that.statusC
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int roomId,  TicketInfoDto ticket,  UserProfileDto buyer,  UserProfileDto seller,  String statusCode,  String statusName,  TransactionDto? transaction,  bool canSendMessage,  bool canRequestPayment,  bool canConfirmPurchase,  bool canCancelTransaction,  List<MessageDto> messages)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int roomId,  TicketInfoDto ticket,  UserProfileDto buyer,  UserProfileDto seller,  String statusCode,  String statusName,  TransactionDto? transaction,  bool canSendMessage,  bool canRequestPayment,  bool canConfirmPurchase,  bool canCancelTransaction,  bool canWriteReview,  bool hasReviewedSeller,  List<MessageDto> messages)  $default,) {final _that = this;
 switch (_that) {
 case _ChatRoomRespDto():
-return $default(_that.roomId,_that.ticket,_that.buyer,_that.seller,_that.statusCode,_that.statusName,_that.transaction,_that.canSendMessage,_that.canRequestPayment,_that.canConfirmPurchase,_that.canCancelTransaction,_that.messages);case _:
+return $default(_that.roomId,_that.ticket,_that.buyer,_that.seller,_that.statusCode,_that.statusName,_that.transaction,_that.canSendMessage,_that.canRequestPayment,_that.canConfirmPurchase,_that.canCancelTransaction,_that.canWriteReview,_that.hasReviewedSeller,_that.messages);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -510,10 +512,10 @@ return $default(_that.roomId,_that.ticket,_that.buyer,_that.seller,_that.statusC
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int roomId,  TicketInfoDto ticket,  UserProfileDto buyer,  UserProfileDto seller,  String statusCode,  String statusName,  TransactionDto? transaction,  bool canSendMessage,  bool canRequestPayment,  bool canConfirmPurchase,  bool canCancelTransaction,  List<MessageDto> messages)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int roomId,  TicketInfoDto ticket,  UserProfileDto buyer,  UserProfileDto seller,  String statusCode,  String statusName,  TransactionDto? transaction,  bool canSendMessage,  bool canRequestPayment,  bool canConfirmPurchase,  bool canCancelTransaction,  bool canWriteReview,  bool hasReviewedSeller,  List<MessageDto> messages)?  $default,) {final _that = this;
 switch (_that) {
 case _ChatRoomRespDto() when $default != null:
-return $default(_that.roomId,_that.ticket,_that.buyer,_that.seller,_that.statusCode,_that.statusName,_that.transaction,_that.canSendMessage,_that.canRequestPayment,_that.canConfirmPurchase,_that.canCancelTransaction,_that.messages);case _:
+return $default(_that.roomId,_that.ticket,_that.buyer,_that.seller,_that.statusCode,_that.statusName,_that.transaction,_that.canSendMessage,_that.canRequestPayment,_that.canConfirmPurchase,_that.canCancelTransaction,_that.canWriteReview,_that.hasReviewedSeller,_that.messages);case _:
   return null;
 
 }
@@ -525,7 +527,7 @@ return $default(_that.roomId,_that.ticket,_that.buyer,_that.seller,_that.statusC
 @JsonSerializable()
 
 class _ChatRoomRespDto implements ChatRoomRespDto {
-  const _ChatRoomRespDto({required this.roomId, required this.ticket, required this.buyer, required this.seller, required this.statusCode, required this.statusName, this.transaction, required this.canSendMessage, required this.canRequestPayment, required this.canConfirmPurchase, required this.canCancelTransaction, required final  List<MessageDto> messages}): _messages = messages;
+  const _ChatRoomRespDto({required this.roomId, required this.ticket, required this.buyer, required this.seller, required this.statusCode, required this.statusName, this.transaction, required this.canSendMessage, required this.canRequestPayment, required this.canConfirmPurchase, required this.canCancelTransaction, this.canWriteReview = false, this.hasReviewedSeller = false, required final  List<MessageDto> messages}): _messages = messages;
   factory _ChatRoomRespDto.fromJson(Map<String, dynamic> json) => _$ChatRoomRespDtoFromJson(json);
 
 @override final  int roomId;
@@ -539,6 +541,8 @@ class _ChatRoomRespDto implements ChatRoomRespDto {
 @override final  bool canRequestPayment;
 @override final  bool canConfirmPurchase;
 @override final  bool canCancelTransaction;
+@override@JsonKey() final  bool canWriteReview;
+@override@JsonKey() final  bool hasReviewedSeller;
  final  List<MessageDto> _messages;
 @override List<MessageDto> get messages {
   if (_messages is EqualUnmodifiableListView) return _messages;
@@ -560,16 +564,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatRoomRespDto&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.ticket, ticket) || other.ticket == ticket)&&(identical(other.buyer, buyer) || other.buyer == buyer)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.statusName, statusName) || other.statusName == statusName)&&(identical(other.transaction, transaction) || other.transaction == transaction)&&(identical(other.canSendMessage, canSendMessage) || other.canSendMessage == canSendMessage)&&(identical(other.canRequestPayment, canRequestPayment) || other.canRequestPayment == canRequestPayment)&&(identical(other.canConfirmPurchase, canConfirmPurchase) || other.canConfirmPurchase == canConfirmPurchase)&&(identical(other.canCancelTransaction, canCancelTransaction) || other.canCancelTransaction == canCancelTransaction)&&const DeepCollectionEquality().equals(other._messages, _messages));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatRoomRespDto&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.ticket, ticket) || other.ticket == ticket)&&(identical(other.buyer, buyer) || other.buyer == buyer)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.statusName, statusName) || other.statusName == statusName)&&(identical(other.transaction, transaction) || other.transaction == transaction)&&(identical(other.canSendMessage, canSendMessage) || other.canSendMessage == canSendMessage)&&(identical(other.canRequestPayment, canRequestPayment) || other.canRequestPayment == canRequestPayment)&&(identical(other.canConfirmPurchase, canConfirmPurchase) || other.canConfirmPurchase == canConfirmPurchase)&&(identical(other.canCancelTransaction, canCancelTransaction) || other.canCancelTransaction == canCancelTransaction)&&(identical(other.canWriteReview, canWriteReview) || other.canWriteReview == canWriteReview)&&(identical(other.hasReviewedSeller, hasReviewedSeller) || other.hasReviewedSeller == hasReviewedSeller)&&const DeepCollectionEquality().equals(other._messages, _messages));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,roomId,ticket,buyer,seller,statusCode,statusName,transaction,canSendMessage,canRequestPayment,canConfirmPurchase,canCancelTransaction,const DeepCollectionEquality().hash(_messages));
+int get hashCode => Object.hash(runtimeType,roomId,ticket,buyer,seller,statusCode,statusName,transaction,canSendMessage,canRequestPayment,canConfirmPurchase,canCancelTransaction,canWriteReview,hasReviewedSeller,const DeepCollectionEquality().hash(_messages));
 
 @override
 String toString() {
-  return 'ChatRoomRespDto(roomId: $roomId, ticket: $ticket, buyer: $buyer, seller: $seller, statusCode: $statusCode, statusName: $statusName, transaction: $transaction, canSendMessage: $canSendMessage, canRequestPayment: $canRequestPayment, canConfirmPurchase: $canConfirmPurchase, canCancelTransaction: $canCancelTransaction, messages: $messages)';
+  return 'ChatRoomRespDto(roomId: $roomId, ticket: $ticket, buyer: $buyer, seller: $seller, statusCode: $statusCode, statusName: $statusName, transaction: $transaction, canSendMessage: $canSendMessage, canRequestPayment: $canRequestPayment, canConfirmPurchase: $canConfirmPurchase, canCancelTransaction: $canCancelTransaction, canWriteReview: $canWriteReview, hasReviewedSeller: $hasReviewedSeller, messages: $messages)';
 }
 
 
@@ -580,7 +584,7 @@ abstract mixin class _$ChatRoomRespDtoCopyWith<$Res> implements $ChatRoomRespDto
   factory _$ChatRoomRespDtoCopyWith(_ChatRoomRespDto value, $Res Function(_ChatRoomRespDto) _then) = __$ChatRoomRespDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int roomId, TicketInfoDto ticket, UserProfileDto buyer, UserProfileDto seller, String statusCode, String statusName, TransactionDto? transaction, bool canSendMessage, bool canRequestPayment, bool canConfirmPurchase, bool canCancelTransaction, List<MessageDto> messages
+ int roomId, TicketInfoDto ticket, UserProfileDto buyer, UserProfileDto seller, String statusCode, String statusName, TransactionDto? transaction, bool canSendMessage, bool canRequestPayment, bool canConfirmPurchase, bool canCancelTransaction, bool canWriteReview, bool hasReviewedSeller, List<MessageDto> messages
 });
 
 
@@ -597,7 +601,7 @@ class __$ChatRoomRespDtoCopyWithImpl<$Res>
 
 /// Create a copy of ChatRoomRespDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? roomId = null,Object? ticket = null,Object? buyer = null,Object? seller = null,Object? statusCode = null,Object? statusName = null,Object? transaction = freezed,Object? canSendMessage = null,Object? canRequestPayment = null,Object? canConfirmPurchase = null,Object? canCancelTransaction = null,Object? messages = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? roomId = null,Object? ticket = null,Object? buyer = null,Object? seller = null,Object? statusCode = null,Object? statusName = null,Object? transaction = freezed,Object? canSendMessage = null,Object? canRequestPayment = null,Object? canConfirmPurchase = null,Object? canCancelTransaction = null,Object? canWriteReview = null,Object? hasReviewedSeller = null,Object? messages = null,}) {
   return _then(_ChatRoomRespDto(
 roomId: null == roomId ? _self.roomId : roomId // ignore: cast_nullable_to_non_nullable
 as int,ticket: null == ticket ? _self.ticket : ticket // ignore: cast_nullable_to_non_nullable
@@ -610,6 +614,8 @@ as TransactionDto?,canSendMessage: null == canSendMessage ? _self.canSendMessage
 as bool,canRequestPayment: null == canRequestPayment ? _self.canRequestPayment : canRequestPayment // ignore: cast_nullable_to_non_nullable
 as bool,canConfirmPurchase: null == canConfirmPurchase ? _self.canConfirmPurchase : canConfirmPurchase // ignore: cast_nullable_to_non_nullable
 as bool,canCancelTransaction: null == canCancelTransaction ? _self.canCancelTransaction : canCancelTransaction // ignore: cast_nullable_to_non_nullable
+as bool,canWriteReview: null == canWriteReview ? _self.canWriteReview : canWriteReview // ignore: cast_nullable_to_non_nullable
+as bool,hasReviewedSeller: null == hasReviewedSeller ? _self.hasReviewedSeller : hasReviewedSeller // ignore: cast_nullable_to_non_nullable
 as bool,messages: null == messages ? _self._messages : messages // ignore: cast_nullable_to_non_nullable
 as List<MessageDto>,
   ));

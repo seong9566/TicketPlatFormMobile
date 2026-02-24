@@ -32,6 +32,8 @@ _ChatRoomRespDto _$ChatRoomRespDtoFromJson(Map<String, dynamic> json) =>
       canRequestPayment: json['canRequestPayment'] as bool,
       canConfirmPurchase: json['canConfirmPurchase'] as bool,
       canCancelTransaction: json['canCancelTransaction'] as bool,
+      canWriteReview: json['canWriteReview'] as bool? ?? false,
+      hasReviewedSeller: json['hasReviewedSeller'] as bool? ?? false,
       messages: (json['messages'] as List<dynamic>)
           .map((e) => MessageDto.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -50,6 +52,8 @@ Map<String, dynamic> _$ChatRoomRespDtoToJson(_ChatRoomRespDto instance) =>
       'canRequestPayment': instance.canRequestPayment,
       'canConfirmPurchase': instance.canConfirmPurchase,
       'canCancelTransaction': instance.canCancelTransaction,
+      'canWriteReview': instance.canWriteReview,
+      'hasReviewedSeller': instance.hasReviewedSeller,
       'messages': instance.messages,
     };
 

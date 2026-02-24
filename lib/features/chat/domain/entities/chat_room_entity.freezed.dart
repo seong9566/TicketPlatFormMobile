@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ChatRoomEntity {
 
- int get roomId; TicketInfoEntity get ticket; UserProfileEntity get buyer; UserProfileEntity get seller; String get statusCode; String get statusName; TransactionEntity? get transaction; bool get canSendMessage; bool get canRequestPayment; bool get canConfirmPurchase; bool get canCancelTransaction; List<MessageEntity> get messages;
+ int get roomId; TicketInfoEntity get ticket; UserProfileEntity get buyer; UserProfileEntity get seller; String get statusCode; String get statusName; TransactionEntity? get transaction; bool get canSendMessage; bool get canRequestPayment; bool get canConfirmPurchase; bool get canCancelTransaction; bool get canWriteReview; bool get hasReviewedSeller; List<MessageEntity> get messages;
 /// Create a copy of ChatRoomEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $ChatRoomEntityCopyWith<ChatRoomEntity> get copyWith => _$ChatRoomEntityCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatRoomEntity&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.ticket, ticket) || other.ticket == ticket)&&(identical(other.buyer, buyer) || other.buyer == buyer)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.statusName, statusName) || other.statusName == statusName)&&(identical(other.transaction, transaction) || other.transaction == transaction)&&(identical(other.canSendMessage, canSendMessage) || other.canSendMessage == canSendMessage)&&(identical(other.canRequestPayment, canRequestPayment) || other.canRequestPayment == canRequestPayment)&&(identical(other.canConfirmPurchase, canConfirmPurchase) || other.canConfirmPurchase == canConfirmPurchase)&&(identical(other.canCancelTransaction, canCancelTransaction) || other.canCancelTransaction == canCancelTransaction)&&const DeepCollectionEquality().equals(other.messages, messages));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatRoomEntity&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.ticket, ticket) || other.ticket == ticket)&&(identical(other.buyer, buyer) || other.buyer == buyer)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.statusName, statusName) || other.statusName == statusName)&&(identical(other.transaction, transaction) || other.transaction == transaction)&&(identical(other.canSendMessage, canSendMessage) || other.canSendMessage == canSendMessage)&&(identical(other.canRequestPayment, canRequestPayment) || other.canRequestPayment == canRequestPayment)&&(identical(other.canConfirmPurchase, canConfirmPurchase) || other.canConfirmPurchase == canConfirmPurchase)&&(identical(other.canCancelTransaction, canCancelTransaction) || other.canCancelTransaction == canCancelTransaction)&&(identical(other.canWriteReview, canWriteReview) || other.canWriteReview == canWriteReview)&&(identical(other.hasReviewedSeller, hasReviewedSeller) || other.hasReviewedSeller == hasReviewedSeller)&&const DeepCollectionEquality().equals(other.messages, messages));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,roomId,ticket,buyer,seller,statusCode,statusName,transaction,canSendMessage,canRequestPayment,canConfirmPurchase,canCancelTransaction,const DeepCollectionEquality().hash(messages));
+int get hashCode => Object.hash(runtimeType,roomId,ticket,buyer,seller,statusCode,statusName,transaction,canSendMessage,canRequestPayment,canConfirmPurchase,canCancelTransaction,canWriteReview,hasReviewedSeller,const DeepCollectionEquality().hash(messages));
 
 @override
 String toString() {
-  return 'ChatRoomEntity(roomId: $roomId, ticket: $ticket, buyer: $buyer, seller: $seller, statusCode: $statusCode, statusName: $statusName, transaction: $transaction, canSendMessage: $canSendMessage, canRequestPayment: $canRequestPayment, canConfirmPurchase: $canConfirmPurchase, canCancelTransaction: $canCancelTransaction, messages: $messages)';
+  return 'ChatRoomEntity(roomId: $roomId, ticket: $ticket, buyer: $buyer, seller: $seller, statusCode: $statusCode, statusName: $statusName, transaction: $transaction, canSendMessage: $canSendMessage, canRequestPayment: $canRequestPayment, canConfirmPurchase: $canConfirmPurchase, canCancelTransaction: $canCancelTransaction, canWriteReview: $canWriteReview, hasReviewedSeller: $hasReviewedSeller, messages: $messages)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $ChatRoomEntityCopyWith<$Res>  {
   factory $ChatRoomEntityCopyWith(ChatRoomEntity value, $Res Function(ChatRoomEntity) _then) = _$ChatRoomEntityCopyWithImpl;
 @useResult
 $Res call({
- int roomId, TicketInfoEntity ticket, UserProfileEntity buyer, UserProfileEntity seller, String statusCode, String statusName, TransactionEntity? transaction, bool canSendMessage, bool canRequestPayment, bool canConfirmPurchase, bool canCancelTransaction, List<MessageEntity> messages
+ int roomId, TicketInfoEntity ticket, UserProfileEntity buyer, UserProfileEntity seller, String statusCode, String statusName, TransactionEntity? transaction, bool canSendMessage, bool canRequestPayment, bool canConfirmPurchase, bool canCancelTransaction, bool canWriteReview, bool hasReviewedSeller, List<MessageEntity> messages
 });
 
 
@@ -62,7 +62,7 @@ class _$ChatRoomEntityCopyWithImpl<$Res>
 
 /// Create a copy of ChatRoomEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? roomId = null,Object? ticket = null,Object? buyer = null,Object? seller = null,Object? statusCode = null,Object? statusName = null,Object? transaction = freezed,Object? canSendMessage = null,Object? canRequestPayment = null,Object? canConfirmPurchase = null,Object? canCancelTransaction = null,Object? messages = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? roomId = null,Object? ticket = null,Object? buyer = null,Object? seller = null,Object? statusCode = null,Object? statusName = null,Object? transaction = freezed,Object? canSendMessage = null,Object? canRequestPayment = null,Object? canConfirmPurchase = null,Object? canCancelTransaction = null,Object? canWriteReview = null,Object? hasReviewedSeller = null,Object? messages = null,}) {
   return _then(_self.copyWith(
 roomId: null == roomId ? _self.roomId : roomId // ignore: cast_nullable_to_non_nullable
 as int,ticket: null == ticket ? _self.ticket : ticket // ignore: cast_nullable_to_non_nullable
@@ -75,6 +75,8 @@ as TransactionEntity?,canSendMessage: null == canSendMessage ? _self.canSendMess
 as bool,canRequestPayment: null == canRequestPayment ? _self.canRequestPayment : canRequestPayment // ignore: cast_nullable_to_non_nullable
 as bool,canConfirmPurchase: null == canConfirmPurchase ? _self.canConfirmPurchase : canConfirmPurchase // ignore: cast_nullable_to_non_nullable
 as bool,canCancelTransaction: null == canCancelTransaction ? _self.canCancelTransaction : canCancelTransaction // ignore: cast_nullable_to_non_nullable
+as bool,canWriteReview: null == canWriteReview ? _self.canWriteReview : canWriteReview // ignore: cast_nullable_to_non_nullable
+as bool,hasReviewedSeller: null == hasReviewedSeller ? _self.hasReviewedSeller : hasReviewedSeller // ignore: cast_nullable_to_non_nullable
 as bool,messages: null == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
 as List<MessageEntity>,
   ));
@@ -200,10 +202,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int roomId,  TicketInfoEntity ticket,  UserProfileEntity buyer,  UserProfileEntity seller,  String statusCode,  String statusName,  TransactionEntity? transaction,  bool canSendMessage,  bool canRequestPayment,  bool canConfirmPurchase,  bool canCancelTransaction,  List<MessageEntity> messages)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int roomId,  TicketInfoEntity ticket,  UserProfileEntity buyer,  UserProfileEntity seller,  String statusCode,  String statusName,  TransactionEntity? transaction,  bool canSendMessage,  bool canRequestPayment,  bool canConfirmPurchase,  bool canCancelTransaction,  bool canWriteReview,  bool hasReviewedSeller,  List<MessageEntity> messages)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChatRoomEntity() when $default != null:
-return $default(_that.roomId,_that.ticket,_that.buyer,_that.seller,_that.statusCode,_that.statusName,_that.transaction,_that.canSendMessage,_that.canRequestPayment,_that.canConfirmPurchase,_that.canCancelTransaction,_that.messages);case _:
+return $default(_that.roomId,_that.ticket,_that.buyer,_that.seller,_that.statusCode,_that.statusName,_that.transaction,_that.canSendMessage,_that.canRequestPayment,_that.canConfirmPurchase,_that.canCancelTransaction,_that.canWriteReview,_that.hasReviewedSeller,_that.messages);case _:
   return orElse();
 
 }
@@ -221,10 +223,10 @@ return $default(_that.roomId,_that.ticket,_that.buyer,_that.seller,_that.statusC
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int roomId,  TicketInfoEntity ticket,  UserProfileEntity buyer,  UserProfileEntity seller,  String statusCode,  String statusName,  TransactionEntity? transaction,  bool canSendMessage,  bool canRequestPayment,  bool canConfirmPurchase,  bool canCancelTransaction,  List<MessageEntity> messages)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int roomId,  TicketInfoEntity ticket,  UserProfileEntity buyer,  UserProfileEntity seller,  String statusCode,  String statusName,  TransactionEntity? transaction,  bool canSendMessage,  bool canRequestPayment,  bool canConfirmPurchase,  bool canCancelTransaction,  bool canWriteReview,  bool hasReviewedSeller,  List<MessageEntity> messages)  $default,) {final _that = this;
 switch (_that) {
 case _ChatRoomEntity():
-return $default(_that.roomId,_that.ticket,_that.buyer,_that.seller,_that.statusCode,_that.statusName,_that.transaction,_that.canSendMessage,_that.canRequestPayment,_that.canConfirmPurchase,_that.canCancelTransaction,_that.messages);case _:
+return $default(_that.roomId,_that.ticket,_that.buyer,_that.seller,_that.statusCode,_that.statusName,_that.transaction,_that.canSendMessage,_that.canRequestPayment,_that.canConfirmPurchase,_that.canCancelTransaction,_that.canWriteReview,_that.hasReviewedSeller,_that.messages);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -241,10 +243,10 @@ return $default(_that.roomId,_that.ticket,_that.buyer,_that.seller,_that.statusC
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int roomId,  TicketInfoEntity ticket,  UserProfileEntity buyer,  UserProfileEntity seller,  String statusCode,  String statusName,  TransactionEntity? transaction,  bool canSendMessage,  bool canRequestPayment,  bool canConfirmPurchase,  bool canCancelTransaction,  List<MessageEntity> messages)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int roomId,  TicketInfoEntity ticket,  UserProfileEntity buyer,  UserProfileEntity seller,  String statusCode,  String statusName,  TransactionEntity? transaction,  bool canSendMessage,  bool canRequestPayment,  bool canConfirmPurchase,  bool canCancelTransaction,  bool canWriteReview,  bool hasReviewedSeller,  List<MessageEntity> messages)?  $default,) {final _that = this;
 switch (_that) {
 case _ChatRoomEntity() when $default != null:
-return $default(_that.roomId,_that.ticket,_that.buyer,_that.seller,_that.statusCode,_that.statusName,_that.transaction,_that.canSendMessage,_that.canRequestPayment,_that.canConfirmPurchase,_that.canCancelTransaction,_that.messages);case _:
+return $default(_that.roomId,_that.ticket,_that.buyer,_that.seller,_that.statusCode,_that.statusName,_that.transaction,_that.canSendMessage,_that.canRequestPayment,_that.canConfirmPurchase,_that.canCancelTransaction,_that.canWriteReview,_that.hasReviewedSeller,_that.messages);case _:
   return null;
 
 }
@@ -256,7 +258,7 @@ return $default(_that.roomId,_that.ticket,_that.buyer,_that.seller,_that.statusC
 
 
 class _ChatRoomEntity implements ChatRoomEntity {
-  const _ChatRoomEntity({required this.roomId, required this.ticket, required this.buyer, required this.seller, required this.statusCode, required this.statusName, this.transaction, required this.canSendMessage, required this.canRequestPayment, required this.canConfirmPurchase, required this.canCancelTransaction, required final  List<MessageEntity> messages}): _messages = messages;
+  const _ChatRoomEntity({required this.roomId, required this.ticket, required this.buyer, required this.seller, required this.statusCode, required this.statusName, this.transaction, required this.canSendMessage, required this.canRequestPayment, required this.canConfirmPurchase, required this.canCancelTransaction, required this.canWriteReview, required this.hasReviewedSeller, required final  List<MessageEntity> messages}): _messages = messages;
   
 
 @override final  int roomId;
@@ -270,6 +272,8 @@ class _ChatRoomEntity implements ChatRoomEntity {
 @override final  bool canRequestPayment;
 @override final  bool canConfirmPurchase;
 @override final  bool canCancelTransaction;
+@override final  bool canWriteReview;
+@override final  bool hasReviewedSeller;
  final  List<MessageEntity> _messages;
 @override List<MessageEntity> get messages {
   if (_messages is EqualUnmodifiableListView) return _messages;
@@ -288,16 +292,16 @@ _$ChatRoomEntityCopyWith<_ChatRoomEntity> get copyWith => __$ChatRoomEntityCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatRoomEntity&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.ticket, ticket) || other.ticket == ticket)&&(identical(other.buyer, buyer) || other.buyer == buyer)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.statusName, statusName) || other.statusName == statusName)&&(identical(other.transaction, transaction) || other.transaction == transaction)&&(identical(other.canSendMessage, canSendMessage) || other.canSendMessage == canSendMessage)&&(identical(other.canRequestPayment, canRequestPayment) || other.canRequestPayment == canRequestPayment)&&(identical(other.canConfirmPurchase, canConfirmPurchase) || other.canConfirmPurchase == canConfirmPurchase)&&(identical(other.canCancelTransaction, canCancelTransaction) || other.canCancelTransaction == canCancelTransaction)&&const DeepCollectionEquality().equals(other._messages, _messages));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatRoomEntity&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.ticket, ticket) || other.ticket == ticket)&&(identical(other.buyer, buyer) || other.buyer == buyer)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.statusName, statusName) || other.statusName == statusName)&&(identical(other.transaction, transaction) || other.transaction == transaction)&&(identical(other.canSendMessage, canSendMessage) || other.canSendMessage == canSendMessage)&&(identical(other.canRequestPayment, canRequestPayment) || other.canRequestPayment == canRequestPayment)&&(identical(other.canConfirmPurchase, canConfirmPurchase) || other.canConfirmPurchase == canConfirmPurchase)&&(identical(other.canCancelTransaction, canCancelTransaction) || other.canCancelTransaction == canCancelTransaction)&&(identical(other.canWriteReview, canWriteReview) || other.canWriteReview == canWriteReview)&&(identical(other.hasReviewedSeller, hasReviewedSeller) || other.hasReviewedSeller == hasReviewedSeller)&&const DeepCollectionEquality().equals(other._messages, _messages));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,roomId,ticket,buyer,seller,statusCode,statusName,transaction,canSendMessage,canRequestPayment,canConfirmPurchase,canCancelTransaction,const DeepCollectionEquality().hash(_messages));
+int get hashCode => Object.hash(runtimeType,roomId,ticket,buyer,seller,statusCode,statusName,transaction,canSendMessage,canRequestPayment,canConfirmPurchase,canCancelTransaction,canWriteReview,hasReviewedSeller,const DeepCollectionEquality().hash(_messages));
 
 @override
 String toString() {
-  return 'ChatRoomEntity(roomId: $roomId, ticket: $ticket, buyer: $buyer, seller: $seller, statusCode: $statusCode, statusName: $statusName, transaction: $transaction, canSendMessage: $canSendMessage, canRequestPayment: $canRequestPayment, canConfirmPurchase: $canConfirmPurchase, canCancelTransaction: $canCancelTransaction, messages: $messages)';
+  return 'ChatRoomEntity(roomId: $roomId, ticket: $ticket, buyer: $buyer, seller: $seller, statusCode: $statusCode, statusName: $statusName, transaction: $transaction, canSendMessage: $canSendMessage, canRequestPayment: $canRequestPayment, canConfirmPurchase: $canConfirmPurchase, canCancelTransaction: $canCancelTransaction, canWriteReview: $canWriteReview, hasReviewedSeller: $hasReviewedSeller, messages: $messages)';
 }
 
 
@@ -308,7 +312,7 @@ abstract mixin class _$ChatRoomEntityCopyWith<$Res> implements $ChatRoomEntityCo
   factory _$ChatRoomEntityCopyWith(_ChatRoomEntity value, $Res Function(_ChatRoomEntity) _then) = __$ChatRoomEntityCopyWithImpl;
 @override @useResult
 $Res call({
- int roomId, TicketInfoEntity ticket, UserProfileEntity buyer, UserProfileEntity seller, String statusCode, String statusName, TransactionEntity? transaction, bool canSendMessage, bool canRequestPayment, bool canConfirmPurchase, bool canCancelTransaction, List<MessageEntity> messages
+ int roomId, TicketInfoEntity ticket, UserProfileEntity buyer, UserProfileEntity seller, String statusCode, String statusName, TransactionEntity? transaction, bool canSendMessage, bool canRequestPayment, bool canConfirmPurchase, bool canCancelTransaction, bool canWriteReview, bool hasReviewedSeller, List<MessageEntity> messages
 });
 
 
@@ -325,7 +329,7 @@ class __$ChatRoomEntityCopyWithImpl<$Res>
 
 /// Create a copy of ChatRoomEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? roomId = null,Object? ticket = null,Object? buyer = null,Object? seller = null,Object? statusCode = null,Object? statusName = null,Object? transaction = freezed,Object? canSendMessage = null,Object? canRequestPayment = null,Object? canConfirmPurchase = null,Object? canCancelTransaction = null,Object? messages = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? roomId = null,Object? ticket = null,Object? buyer = null,Object? seller = null,Object? statusCode = null,Object? statusName = null,Object? transaction = freezed,Object? canSendMessage = null,Object? canRequestPayment = null,Object? canConfirmPurchase = null,Object? canCancelTransaction = null,Object? canWriteReview = null,Object? hasReviewedSeller = null,Object? messages = null,}) {
   return _then(_ChatRoomEntity(
 roomId: null == roomId ? _self.roomId : roomId // ignore: cast_nullable_to_non_nullable
 as int,ticket: null == ticket ? _self.ticket : ticket // ignore: cast_nullable_to_non_nullable
@@ -338,6 +342,8 @@ as TransactionEntity?,canSendMessage: null == canSendMessage ? _self.canSendMess
 as bool,canRequestPayment: null == canRequestPayment ? _self.canRequestPayment : canRequestPayment // ignore: cast_nullable_to_non_nullable
 as bool,canConfirmPurchase: null == canConfirmPurchase ? _self.canConfirmPurchase : canConfirmPurchase // ignore: cast_nullable_to_non_nullable
 as bool,canCancelTransaction: null == canCancelTransaction ? _self.canCancelTransaction : canCancelTransaction // ignore: cast_nullable_to_non_nullable
+as bool,canWriteReview: null == canWriteReview ? _self.canWriteReview : canWriteReview // ignore: cast_nullable_to_non_nullable
+as bool,hasReviewedSeller: null == hasReviewedSeller ? _self.hasReviewedSeller : hasReviewedSeller // ignore: cast_nullable_to_non_nullable
 as bool,messages: null == messages ? _self._messages : messages // ignore: cast_nullable_to_non_nullable
 as List<MessageEntity>,
   ));

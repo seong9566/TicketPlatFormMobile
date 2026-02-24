@@ -15,20 +15,69 @@ abstract class PaymentRequestRespDto with _$PaymentRequestRespDto {
     required String successUrl,
     required String failUrl,
     required String clientKey,
+    PaymentTicketInfoRespDto? ticketInfo,
+    PaymentEventInfoRespDto? eventInfo,
+    String? eventTitle,
+    String? eventDate,
+    String? seatInfo,
+    String? ticketImageUrl,
+    String? venueName,
   }) = _PaymentRequestRespDto;
 
   factory PaymentRequestRespDto.fromJson(Map<String, dynamic> json) =>
       _$PaymentRequestRespDtoFromJson(json);
 }
 
-extension PaymentRequestRespDtoX on PaymentRequestRespDto {
-  PaymentRequestEntity toEntity({
-    String? eventTitle,
-    String? eventDate,
+@freezed
+abstract class PaymentTicketInfoRespDto with _$PaymentTicketInfoRespDto {
+  const factory PaymentTicketInfoRespDto({
+    int? ticketId,
+    String? thumbnailUrl,
     String? seatInfo,
-    String? ticketImageUrl,
+    int? quantity,
+    int? unitPrice,
+    int? totalAmount,
+  }) = _PaymentTicketInfoRespDto;
+
+  factory PaymentTicketInfoRespDto.fromJson(Map<String, dynamic> json) =>
+      _$PaymentTicketInfoRespDtoFromJson(json);
+}
+
+@freezed
+abstract class PaymentEventInfoRespDto with _$PaymentEventInfoRespDto {
+  const factory PaymentEventInfoRespDto({
+    int? eventId,
+    String? title,
+    String? eventDateTime,
     String? venueName,
-  }) {
+  }) = _PaymentEventInfoRespDto;
+
+  factory PaymentEventInfoRespDto.fromJson(Map<String, dynamic> json) =>
+      _$PaymentEventInfoRespDtoFromJson(json);
+}
+
+extension PaymentRequestRespDtoX on PaymentRequestRespDto {
+  PaymentRequestEntity toEntity() {
+    final resolvedTicketInfo =
+        ticketInfo ??
+        ((seatInfo != null || ticketImageUrl != null)
+            ? PaymentTicketInfoRespDto(
+                seatInfo: seatInfo,
+                thumbnailUrl: ticketImageUrl,
+                totalAmount: amount,
+              )
+            : null);
+
+    final resolvedEventInfo =
+        eventInfo ??
+        ((eventTitle != null || eventDate != null || venueName != null)
+            ? PaymentEventInfoRespDto(
+                title: eventTitle,
+                eventDateTime: eventDate,
+                venueName: venueName,
+              )
+            : null);
+
     return PaymentRequestEntity(
       orderId: orderId,
       amount: amount,
@@ -38,10 +87,31 @@ extension PaymentRequestRespDtoX on PaymentRequestRespDto {
       successUrl: successUrl,
       failUrl: failUrl,
       clientKey: clientKey,
-      eventTitle: eventTitle,
-      eventDate: eventDate,
+      ticketInfo: resolvedTicketInfo?.toEntity(),
+      eventInfo: resolvedEventInfo?.toEntity(),
+    );
+  }
+}
+
+extension PaymentTicketInfoRespDtoX on PaymentTicketInfoRespDto {
+  PaymentTicketInfoEntity toEntity() {
+    return PaymentTicketInfoEntity(
+      ticketId: ticketId,
+      thumbnailUrl: thumbnailUrl,
       seatInfo: seatInfo,
-      ticketImageUrl: ticketImageUrl,
+      quantity: quantity,
+      unitPrice: unitPrice,
+      totalAmount: totalAmount,
+    );
+  }
+}
+
+extension PaymentEventInfoRespDtoX on PaymentEventInfoRespDto {
+  PaymentEventInfoEntity toEntity() {
+    return PaymentEventInfoEntity(
+      eventId: eventId,
+      title: title,
+      eventDateTime: eventDateTime,
       venueName: venueName,
     );
   }

@@ -28,13 +28,7 @@ class PaymentRepositoryImpl implements PaymentRepository {
       );
       final response = await _remoteDataSource.requestPayment(req);
       return response.mapOrThrow(
-        (dto) => dto.toEntity(
-          eventTitle: params.eventTitle,
-          eventDate: params.eventDate,
-          seatInfo: params.seatInfo,
-          ticketImageUrl: params.ticketImageUrl,
-          venueName: params.venueName,
-        ),
+        (dto) => dto.toEntity(),
         errorMessage: '결제 요청 실패',
       );
     } catch (e) {
