@@ -115,7 +115,7 @@ class TicketDetailBottomAction extends ConsumerWidget {
                 onPressed: isMine
                     ? () => context.pushNamed(
                         AppRouterPath.transactionHistory.name,
-                        pathParameters: {'initialIndex': '1'},
+                        pathParameters: {'initialIndex': '0'},
                       )
                     : () => _onChatPressed(context, ref),
                 style: ElevatedButton.styleFrom(

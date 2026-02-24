@@ -157,7 +157,7 @@ class TicketListingCard extends StatelessWidget {
                   textBaseline: TextBaseline.alphabetic,
                   children: [
                     Text(
-                      unitPriceText, // 중요 정보 2
+                      unitPriceText,
                       style: AppTextStyles.heading2.copyWith(
                         color: AppColors.textPrimary,
                         fontSize: 22,
@@ -167,9 +167,16 @@ class TicketListingCard extends StatelessWidget {
                     const SizedBox(width: 2),
                     Text(
                       '원',
-                      style: AppTextStyles.body2.copyWith(
+                      style: AppTextStyles.body1.copyWith(
                         color: AppColors.textPrimary,
                         fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      ' / 장',
+                      style: AppTextStyles.body2.copyWith(
+                        color: AppColors.textTertiary,
+                        fontWeight: FontWeight.normal,
                       ),
                     ),
                   ],
@@ -184,7 +191,7 @@ class TicketListingCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
-                '${ticket.quantity}장',
+                '총 ${ticket.quantity}장',
                 style: AppTextStyles.body2.copyWith(
                   color: AppColors.secondary,
                   fontWeight: FontWeight.bold,
@@ -193,25 +200,25 @@ class TicketListingCard extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: AppSpacing.xs),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              '총 결제 금액',
-              style: AppTextStyles.caption.copyWith(
-                color: AppColors.textSecondary,
-              ),
-            ),
-            Text(
-              '$totalPriceText원',
-              style: AppTextStyles.body1.copyWith(
-                color: AppColors.textPrimary,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
-        ),
+        // const SizedBox(height: AppSpacing.xs),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     Text(
+        //       '총 결제 금액',
+        //       style: AppTextStyles.caption.copyWith(
+        //         color: AppColors.textSecondary,
+        //       ),
+        //     ),
+        //     Text(
+        //       '$totalPriceText원',
+        //       style: AppTextStyles.body1.copyWith(
+        //         color: AppColors.textPrimary,
+        //         fontWeight: FontWeight.w600,
+        //       ),
+        //     ),
+        //   ],
+        // ),
       ],
     );
   }

@@ -45,4 +45,15 @@ class DateFormatUtil {
   static String formatDateTime(DateTime date) {
     return DateFormat('yyyy.MM.dd (E) HH:mm', 'ko').format(date);
   }
+
+  /// 문자열 형태의 날짜 포맷팅 (YYYY.MM.DD (E) HH:mm)
+  static String formatStringDateTime(String? dateTimeString) {
+    if (dateTimeString == null || dateTimeString.trim().isEmpty) return '-';
+    try {
+      final parsed = DateTime.parse(dateTimeString);
+      return formatDateTime(parsed);
+    } catch (e) {
+      return dateTimeString;
+    }
+  }
 }

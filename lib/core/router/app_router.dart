@@ -33,6 +33,8 @@ import 'package:ticket_platform_mobile/features/dispute/presentation/views/dispu
 import 'package:ticket_platform_mobile/features/profile/presentation/ui_models/my_profile_ui_model.dart';
 import 'package:ticket_platform_mobile/shared/widgets/full_screen_image_viewer.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
+import 'package:ticket_platform_mobile/features/sales_dashboard/presentation/views/sales_dashboard_view.dart';
+import 'package:ticket_platform_mobile/features/sales_dashboard/presentation/views/event_ticket_list_view.dart';
 
 part 'app_router.g.dart';
 
@@ -264,16 +266,7 @@ GoRouter goRouter(Ref ref) {
         name: AppRouterPath.payment.name,
         builder: (context, state) {
           final paymentRequest = state.extra as PaymentRequestEntity;
-          return PaymentView(
-            amount: paymentRequest.amount.toDouble(),
-            orderId: paymentRequest.orderId,
-            orderName: paymentRequest.orderName,
-            customerName: paymentRequest.customerName,
-            customerEmail: paymentRequest.customerEmail,
-            successUrl: paymentRequest.successUrl,
-            failUrl: paymentRequest.failUrl,
-            clientKey: paymentRequest.clientKey,
-          );
+          return PaymentView(paymentRequest: paymentRequest);
         },
       ),
       GoRoute(
@@ -307,6 +300,25 @@ GoRouter goRouter(Ref ref) {
         name: AppRouterPath.disputeDetail.name,
         builder: (context, state) =>
             DisputeDetailView(disputeId: state.pathParameters['id'] ?? '0'),
+      ),
+
+      /// 판매 관리 대시보드
+      GoRoute(
+        path: AppRouterPath.salesDashboard.path,
+        name: AppRouterPath.salesDashboard.name,
+        builder: (context, state) => const SalesDashboardView(),
+      ),
+
+      /// 공연별 티켓 상세 목록
+      /// pathParam: eventId (공연 ID)
+      GoRoute(
+        path: '${AppRouterPath.eventTicketList.path}/:eventId',
+        name: AppRouterPath.eventTicketList.name,
+        builder: (context, state) {
+          final eventId =
+              int.tryParse(state.pathParameters['eventId'] ?? '0') ?? 0;
+          return EventTicketListView(eventId: eventId);
+        },
       ),
     ],
   );

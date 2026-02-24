@@ -49,8 +49,12 @@ class ApiEndpoint {
   static const String sellTicketImageRefresh =
       '/api/sell/tickets/images/refresh';
 
+  // Sales Dashboard
+  static const String salesDashboard = '/api/sell/sales-dashboard';
+  static String salesDashboardEventTickets(int eventId) =>
+      '/api/sell/sales-dashboard/$eventId';
+
   // Transactions
-  static const String salesHistory = '/api/transactions/sales';
   static const String purchasesHistory = '/api/transactions/purchases';
 
   // Profile
@@ -79,4 +83,9 @@ class ApiEndpoint {
       '/api/disputes/$disputeId/evidence';
   static String disputeCancel(int disputeId) =>
       '/api/disputes/$disputeId/cancel';
+
+  // Reputation
+  static const String reputations = '/api/reputations';
+  static String reputationCheck(int transactionId) =>
+      '/api/reputations/check/$transactionId';
 }

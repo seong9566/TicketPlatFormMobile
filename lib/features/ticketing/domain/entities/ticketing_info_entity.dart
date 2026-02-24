@@ -94,6 +94,8 @@ abstract class TicketingSellerEntity with _$TicketingSellerEntity {
     String? nickname,
     String? profileImageUrl,
     double? mannerTemperature,
+    double? averageRating,
+    required int reviewCount,
     required int totalTradeCount,
     double? responseRate,
     required bool isSecurePayment,

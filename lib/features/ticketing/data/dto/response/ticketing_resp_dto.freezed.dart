@@ -1253,7 +1253,7 @@ $TicketingEventRespDtoCopyWith<$Res>? get event {
 /// @nodoc
 mixin _$TicketingSellerRespDto {
 
- int get userId; String? get nickname; String? get profileImageUrl; double? get mannerTemperature; int get totalTradeCount; double? get responseRate; bool get isSecurePayment;
+ int get userId; String? get nickname; String? get profileImageUrl; double? get mannerTemperature; double? get averageRating; int get reviewCount; int get totalTradeCount; double? get responseRate; bool get isSecurePayment;
 /// Create a copy of TicketingSellerRespDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1266,16 +1266,16 @@ $TicketingSellerRespDtoCopyWith<TicketingSellerRespDto> get copyWith => _$Ticket
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketingSellerRespDto&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImageUrl, profileImageUrl) || other.profileImageUrl == profileImageUrl)&&(identical(other.mannerTemperature, mannerTemperature) || other.mannerTemperature == mannerTemperature)&&(identical(other.totalTradeCount, totalTradeCount) || other.totalTradeCount == totalTradeCount)&&(identical(other.responseRate, responseRate) || other.responseRate == responseRate)&&(identical(other.isSecurePayment, isSecurePayment) || other.isSecurePayment == isSecurePayment));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketingSellerRespDto&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImageUrl, profileImageUrl) || other.profileImageUrl == profileImageUrl)&&(identical(other.mannerTemperature, mannerTemperature) || other.mannerTemperature == mannerTemperature)&&(identical(other.averageRating, averageRating) || other.averageRating == averageRating)&&(identical(other.reviewCount, reviewCount) || other.reviewCount == reviewCount)&&(identical(other.totalTradeCount, totalTradeCount) || other.totalTradeCount == totalTradeCount)&&(identical(other.responseRate, responseRate) || other.responseRate == responseRate)&&(identical(other.isSecurePayment, isSecurePayment) || other.isSecurePayment == isSecurePayment));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,userId,nickname,profileImageUrl,mannerTemperature,totalTradeCount,responseRate,isSecurePayment);
+int get hashCode => Object.hash(runtimeType,userId,nickname,profileImageUrl,mannerTemperature,averageRating,reviewCount,totalTradeCount,responseRate,isSecurePayment);
 
 @override
 String toString() {
-  return 'TicketingSellerRespDto(userId: $userId, nickname: $nickname, profileImageUrl: $profileImageUrl, mannerTemperature: $mannerTemperature, totalTradeCount: $totalTradeCount, responseRate: $responseRate, isSecurePayment: $isSecurePayment)';
+  return 'TicketingSellerRespDto(userId: $userId, nickname: $nickname, profileImageUrl: $profileImageUrl, mannerTemperature: $mannerTemperature, averageRating: $averageRating, reviewCount: $reviewCount, totalTradeCount: $totalTradeCount, responseRate: $responseRate, isSecurePayment: $isSecurePayment)';
 }
 
 
@@ -1286,7 +1286,7 @@ abstract mixin class $TicketingSellerRespDtoCopyWith<$Res>  {
   factory $TicketingSellerRespDtoCopyWith(TicketingSellerRespDto value, $Res Function(TicketingSellerRespDto) _then) = _$TicketingSellerRespDtoCopyWithImpl;
 @useResult
 $Res call({
- int userId, String? nickname, String? profileImageUrl, double? mannerTemperature, int totalTradeCount, double? responseRate, bool isSecurePayment
+ int userId, String? nickname, String? profileImageUrl, double? mannerTemperature, double? averageRating, int reviewCount, int totalTradeCount, double? responseRate, bool isSecurePayment
 });
 
 
@@ -1303,13 +1303,15 @@ class _$TicketingSellerRespDtoCopyWithImpl<$Res>
 
 /// Create a copy of TicketingSellerRespDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,Object? nickname = freezed,Object? profileImageUrl = freezed,Object? mannerTemperature = freezed,Object? totalTradeCount = null,Object? responseRate = freezed,Object? isSecurePayment = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,Object? nickname = freezed,Object? profileImageUrl = freezed,Object? mannerTemperature = freezed,Object? averageRating = freezed,Object? reviewCount = null,Object? totalTradeCount = null,Object? responseRate = freezed,Object? isSecurePayment = null,}) {
   return _then(_self.copyWith(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as int,nickname: freezed == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
 as String?,profileImageUrl: freezed == profileImageUrl ? _self.profileImageUrl : profileImageUrl // ignore: cast_nullable_to_non_nullable
 as String?,mannerTemperature: freezed == mannerTemperature ? _self.mannerTemperature : mannerTemperature // ignore: cast_nullable_to_non_nullable
-as double?,totalTradeCount: null == totalTradeCount ? _self.totalTradeCount : totalTradeCount // ignore: cast_nullable_to_non_nullable
+as double?,averageRating: freezed == averageRating ? _self.averageRating : averageRating // ignore: cast_nullable_to_non_nullable
+as double?,reviewCount: null == reviewCount ? _self.reviewCount : reviewCount // ignore: cast_nullable_to_non_nullable
+as int,totalTradeCount: null == totalTradeCount ? _self.totalTradeCount : totalTradeCount // ignore: cast_nullable_to_non_nullable
 as int,responseRate: freezed == responseRate ? _self.responseRate : responseRate // ignore: cast_nullable_to_non_nullable
 as double?,isSecurePayment: null == isSecurePayment ? _self.isSecurePayment : isSecurePayment // ignore: cast_nullable_to_non_nullable
 as bool,
@@ -1397,10 +1399,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int userId,  String? nickname,  String? profileImageUrl,  double? mannerTemperature,  int totalTradeCount,  double? responseRate,  bool isSecurePayment)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int userId,  String? nickname,  String? profileImageUrl,  double? mannerTemperature,  double? averageRating,  int reviewCount,  int totalTradeCount,  double? responseRate,  bool isSecurePayment)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TicketingSellerRespDto() when $default != null:
-return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTemperature,_that.totalTradeCount,_that.responseRate,_that.isSecurePayment);case _:
+return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTemperature,_that.averageRating,_that.reviewCount,_that.totalTradeCount,_that.responseRate,_that.isSecurePayment);case _:
   return orElse();
 
 }
@@ -1418,10 +1420,10 @@ return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTe
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int userId,  String? nickname,  String? profileImageUrl,  double? mannerTemperature,  int totalTradeCount,  double? responseRate,  bool isSecurePayment)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int userId,  String? nickname,  String? profileImageUrl,  double? mannerTemperature,  double? averageRating,  int reviewCount,  int totalTradeCount,  double? responseRate,  bool isSecurePayment)  $default,) {final _that = this;
 switch (_that) {
 case _TicketingSellerRespDto():
-return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTemperature,_that.totalTradeCount,_that.responseRate,_that.isSecurePayment);case _:
+return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTemperature,_that.averageRating,_that.reviewCount,_that.totalTradeCount,_that.responseRate,_that.isSecurePayment);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1438,10 +1440,10 @@ return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTe
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int userId,  String? nickname,  String? profileImageUrl,  double? mannerTemperature,  int totalTradeCount,  double? responseRate,  bool isSecurePayment)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int userId,  String? nickname,  String? profileImageUrl,  double? mannerTemperature,  double? averageRating,  int reviewCount,  int totalTradeCount,  double? responseRate,  bool isSecurePayment)?  $default,) {final _that = this;
 switch (_that) {
 case _TicketingSellerRespDto() when $default != null:
-return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTemperature,_that.totalTradeCount,_that.responseRate,_that.isSecurePayment);case _:
+return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTemperature,_that.averageRating,_that.reviewCount,_that.totalTradeCount,_that.responseRate,_that.isSecurePayment);case _:
   return null;
 
 }
@@ -1453,13 +1455,15 @@ return $default(_that.userId,_that.nickname,_that.profileImageUrl,_that.mannerTe
 @JsonSerializable()
 
 class _TicketingSellerRespDto implements TicketingSellerRespDto {
-  const _TicketingSellerRespDto({required this.userId, this.nickname, this.profileImageUrl, this.mannerTemperature, this.totalTradeCount = 0, this.responseRate, this.isSecurePayment = false});
+  const _TicketingSellerRespDto({required this.userId, this.nickname, this.profileImageUrl, this.mannerTemperature, this.averageRating, this.reviewCount = 0, this.totalTradeCount = 0, this.responseRate, this.isSecurePayment = false});
   factory _TicketingSellerRespDto.fromJson(Map<String, dynamic> json) => _$TicketingSellerRespDtoFromJson(json);
 
 @override final  int userId;
 @override final  String? nickname;
 @override final  String? profileImageUrl;
 @override final  double? mannerTemperature;
+@override final  double? averageRating;
+@override@JsonKey() final  int reviewCount;
 @override@JsonKey() final  int totalTradeCount;
 @override final  double? responseRate;
 @override@JsonKey() final  bool isSecurePayment;
@@ -1477,16 +1481,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TicketingSellerRespDto&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImageUrl, profileImageUrl) || other.profileImageUrl == profileImageUrl)&&(identical(other.mannerTemperature, mannerTemperature) || other.mannerTemperature == mannerTemperature)&&(identical(other.totalTradeCount, totalTradeCount) || other.totalTradeCount == totalTradeCount)&&(identical(other.responseRate, responseRate) || other.responseRate == responseRate)&&(identical(other.isSecurePayment, isSecurePayment) || other.isSecurePayment == isSecurePayment));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TicketingSellerRespDto&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImageUrl, profileImageUrl) || other.profileImageUrl == profileImageUrl)&&(identical(other.mannerTemperature, mannerTemperature) || other.mannerTemperature == mannerTemperature)&&(identical(other.averageRating, averageRating) || other.averageRating == averageRating)&&(identical(other.reviewCount, reviewCount) || other.reviewCount == reviewCount)&&(identical(other.totalTradeCount, totalTradeCount) || other.totalTradeCount == totalTradeCount)&&(identical(other.responseRate, responseRate) || other.responseRate == responseRate)&&(identical(other.isSecurePayment, isSecurePayment) || other.isSecurePayment == isSecurePayment));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,userId,nickname,profileImageUrl,mannerTemperature,totalTradeCount,responseRate,isSecurePayment);
+int get hashCode => Object.hash(runtimeType,userId,nickname,profileImageUrl,mannerTemperature,averageRating,reviewCount,totalTradeCount,responseRate,isSecurePayment);
 
 @override
 String toString() {
-  return 'TicketingSellerRespDto(userId: $userId, nickname: $nickname, profileImageUrl: $profileImageUrl, mannerTemperature: $mannerTemperature, totalTradeCount: $totalTradeCount, responseRate: $responseRate, isSecurePayment: $isSecurePayment)';
+  return 'TicketingSellerRespDto(userId: $userId, nickname: $nickname, profileImageUrl: $profileImageUrl, mannerTemperature: $mannerTemperature, averageRating: $averageRating, reviewCount: $reviewCount, totalTradeCount: $totalTradeCount, responseRate: $responseRate, isSecurePayment: $isSecurePayment)';
 }
 
 
@@ -1497,7 +1501,7 @@ abstract mixin class _$TicketingSellerRespDtoCopyWith<$Res> implements $Ticketin
   factory _$TicketingSellerRespDtoCopyWith(_TicketingSellerRespDto value, $Res Function(_TicketingSellerRespDto) _then) = __$TicketingSellerRespDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int userId, String? nickname, String? profileImageUrl, double? mannerTemperature, int totalTradeCount, double? responseRate, bool isSecurePayment
+ int userId, String? nickname, String? profileImageUrl, double? mannerTemperature, double? averageRating, int reviewCount, int totalTradeCount, double? responseRate, bool isSecurePayment
 });
 
 
@@ -1514,13 +1518,15 @@ class __$TicketingSellerRespDtoCopyWithImpl<$Res>
 
 /// Create a copy of TicketingSellerRespDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? nickname = freezed,Object? profileImageUrl = freezed,Object? mannerTemperature = freezed,Object? totalTradeCount = null,Object? responseRate = freezed,Object? isSecurePayment = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? nickname = freezed,Object? profileImageUrl = freezed,Object? mannerTemperature = freezed,Object? averageRating = freezed,Object? reviewCount = null,Object? totalTradeCount = null,Object? responseRate = freezed,Object? isSecurePayment = null,}) {
   return _then(_TicketingSellerRespDto(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as int,nickname: freezed == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
 as String?,profileImageUrl: freezed == profileImageUrl ? _self.profileImageUrl : profileImageUrl // ignore: cast_nullable_to_non_nullable
 as String?,mannerTemperature: freezed == mannerTemperature ? _self.mannerTemperature : mannerTemperature // ignore: cast_nullable_to_non_nullable
-as double?,totalTradeCount: null == totalTradeCount ? _self.totalTradeCount : totalTradeCount // ignore: cast_nullable_to_non_nullable
+as double?,averageRating: freezed == averageRating ? _self.averageRating : averageRating // ignore: cast_nullable_to_non_nullable
+as double?,reviewCount: null == reviewCount ? _self.reviewCount : reviewCount // ignore: cast_nullable_to_non_nullable
+as int,totalTradeCount: null == totalTradeCount ? _self.totalTradeCount : totalTradeCount // ignore: cast_nullable_to_non_nullable
 as int,responseRate: freezed == responseRate ? _self.responseRate : responseRate // ignore: cast_nullable_to_non_nullable
 as double?,isSecurePayment: null == isSecurePayment ? _self.isSecurePayment : isSecurePayment // ignore: cast_nullable_to_non_nullable
 as bool,

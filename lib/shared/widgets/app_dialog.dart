@@ -5,7 +5,8 @@ import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 
 class AppDialog extends StatelessWidget {
   final String title;
-  final String content;
+  final String? content;
+  final Widget? contentWidget;
   final String confirmText;
   final String? cancelText;
   final VoidCallback onConfirm;
@@ -15,18 +16,23 @@ class AppDialog extends StatelessWidget {
   const AppDialog({
     super.key,
     required this.title,
-    required this.content,
+    this.content,
+    this.contentWidget,
     required this.onConfirm,
     this.confirmText = '확인',
     this.cancelText,
     this.onCancel,
     this.isDestructive = false,
-  });
+  }) : assert(
+         content != null || contentWidget != null,
+         'Either content or contentWidget must be provided',
+       );
 
   static Future<void> showAlert({
     required BuildContext context,
     required String title,
-    required String content,
+    String? content,
+    Widget? contentWidget,
     String confirmText = '확인',
     VoidCallback? onConfirm,
     bool barrierDismissible = true,
@@ -37,6 +43,7 @@ class AppDialog extends StatelessWidget {
       builder: (context) => AppDialog(
         title: title,
         content: content,
+        contentWidget: contentWidget,
         confirmText: confirmText,
         onConfirm: () {
           context.pop(context);
@@ -49,7 +56,8 @@ class AppDialog extends StatelessWidget {
   static Future<void> showConfirm({
     required BuildContext context,
     required String title,
-    required String content,
+    String? content,
+    Widget? contentWidget,
     String confirmText = '저장',
     String cancelText = '취소',
     required VoidCallback onConfirm,
@@ -62,6 +70,7 @@ class AppDialog extends StatelessWidget {
       builder: (context) => AppDialog(
         title: title,
         content: content,
+        contentWidget: contentWidget,
         confirmText: confirmText,
         cancelText: cancelText,
         onConfirm: () {
@@ -79,7 +88,8 @@ class AppDialog extends StatelessWidget {
   static Future<void> showDelete({
     required BuildContext context,
     required String title,
-    required String content,
+    String? content,
+    Widget? contentWidget,
     String confirmText = '삭제',
     String cancelText = '취소',
     required VoidCallback onConfirm,
@@ -92,6 +102,7 @@ class AppDialog extends StatelessWidget {
       builder: (context) => AppDialog(
         title: title,
         content: content,
+        contentWidget: contentWidget,
         confirmText: confirmText,
         cancelText: cancelText,
         isDestructive: true,
@@ -150,15 +161,21 @@ class AppDialog extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 16),
-          Text(
-            content,
-            style: AppTextStyles.body2.copyWith(
-              color: AppColors.textSecondary,
-              height: 1.5,
+          if (content != null) ...[
+            const SizedBox(height: 16),
+            Text(
+              content!,
+              style: AppTextStyles.body2.copyWith(
+                color: AppColors.textSecondary,
+                height: 1.5,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
-          ),
+          ],
+          if (contentWidget != null) ...[
+            const SizedBox(height: 16),
+            contentWidget!,
+          ],
           const SizedBox(height: 32),
           _buildActions(context),
         ],

@@ -75,6 +75,7 @@ class AppColors {
   static const deadlineBadgeD1 = Color(0xFFF97316);
   static const deadlineBadgeD2 = Color(0xFFEAB308);
   static const deadlineBadgeD3 = Color(0xFF3B82F6);
+  static const starYellow = Color(0xFFFFC107);
 
   // Disabled
   static const disabled = Color(0xFFD1D5DB);
