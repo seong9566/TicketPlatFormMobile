@@ -6,6 +6,7 @@ import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/notification/presentation/viewmodels/unread_badge_viewmodel.dart';
+import 'package:ticket_platform_mobile/features/bank_account/presentation/viewmodels/bank_account_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/profile_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/widgets/profile_header_section.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/widgets/profile_menu_tile.dart';
@@ -53,6 +54,8 @@ class ProfileView extends ConsumerWidget {
     final asyncState = ref.watch(profileViewModelProvider);
     final profile = asyncState.value?.profile;
     final unreadNotificationCount = ref.watch(unreadBadgeViewModelProvider);
+    final bankAccountState = ref.watch(bankAccountViewModelProvider).value;
+    final bankAccount = bankAccountState?.bankAccount;
     final socialProvider = _resolveSocialProvider(
       profile?.email,
       profile?.provider,
@@ -104,9 +107,8 @@ class ProfileView extends ConsumerWidget {
                 ProfileMenuTile(
                   icon: Icons.receipt_long,
                   title: '판매 내역',
-                  onTap: () => context.pushNamed(
-                    AppRouterPath.salesDashboard.name,
-                  ),
+                  onTap: () =>
+                      context.pushNamed(AppRouterPath.salesDashboard.name),
                 ),
                 ProfileMenuTile(
                   icon: Icons.shopping_bag_outlined,
@@ -153,13 +155,31 @@ class ProfileView extends ConsumerWidget {
             ),
             ProfileSection(
               title: '계정 인증',
-              children: const [
+              children: [
                 ProfileMenuTile(
                   icon: Icons.account_balance_outlined,
                   title: '계좌 인증',
-                  trailingButtonLabel: '인증하기',
+                  trailingText: bankAccount == null
+                      ? '등록하기'
+                      : (bankAccount.verified ? '인증 완료' : '인증하기'),
+                  trailingTextColor: bankAccount == null
+                      ? AppColors.textSecondary
+                      : (bankAccount.verified
+                            ? AppColors.success
+                            : AppColors.warning),
+                  onTap: () {
+                    if (bankAccount == null) {
+                      context.pushNamed(AppRouterPath.bankAccountRegister.name);
+                      return;
+                    }
+                    if (bankAccount.verified) {
+                      context.pushNamed(AppRouterPath.bankAccountDetail.name);
+                    } else {
+                      context.pushNamed(AppRouterPath.bankAccountVerify.name);
+                    }
+                  },
                 ),
-                ProfileMenuTile(
+                const ProfileMenuTile(
                   icon: Icons.phone_iphone,
                   title: '휴대폰 인증',
                   trailingText: '미완료',

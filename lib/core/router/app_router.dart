@@ -35,6 +35,9 @@ import 'package:ticket_platform_mobile/shared/widgets/full_screen_image_viewer.d
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/features/sales_dashboard/presentation/views/sales_dashboard_view.dart';
 import 'package:ticket_platform_mobile/features/sales_dashboard/presentation/views/event_ticket_list_view.dart';
+import 'package:ticket_platform_mobile/features/bank_account/presentation/views/bank_account_register_view.dart';
+import 'package:ticket_platform_mobile/features/bank_account/presentation/views/bank_account_verify_view.dart';
+import 'package:ticket_platform_mobile/features/bank_account/presentation/views/bank_account_detail_view.dart';
 
 part 'app_router.g.dart';
 
@@ -319,6 +322,21 @@ GoRouter goRouter(Ref ref) {
               int.tryParse(state.pathParameters['eventId'] ?? '0') ?? 0;
           return EventTicketListView(eventId: eventId);
         },
+      ),
+      GoRoute(
+        path: AppRouterPath.bankAccountRegister.path,
+        name: AppRouterPath.bankAccountRegister.name,
+        builder: (context, state) => const BankAccountRegisterView(),
+      ),
+      GoRoute(
+        path: AppRouterPath.bankAccountVerify.path,
+        name: AppRouterPath.bankAccountVerify.name,
+        builder: (context, state) => const BankAccountVerifyView(),
+      ),
+      GoRoute(
+        path: AppRouterPath.bankAccountDetail.path,
+        name: AppRouterPath.bankAccountDetail.name,
+        builder: (context, state) => const BankAccountDetailView(),
       ),
     ],
   );

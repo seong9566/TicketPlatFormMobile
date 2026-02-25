@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$EventTicketUiModel {
 
- int get ticketId; String get seatInfo; String get priceText; String get originalPriceText; String get quantityText; String get statusText; Color get statusColor; Color? get statusTextColor; int? get transactionId; String? get thumbnailUrl; String get dateText; String get totalSalesAmountText;
+ int get ticketId; String get seatInfo; String get priceText; String get originalPriceText; String get quantityText; String get statusText; Color get statusColor; Color? get statusTextColor; int? get transactionId; String? get thumbnailUrl; String get dateText; String get totalSalesAmountText; bool get showVerificationGuide;
 /// Create a copy of EventTicketUiModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $EventTicketUiModelCopyWith<EventTicketUiModel> get copyWith => _$EventTicketUiM
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EventTicketUiModel&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.priceText, priceText) || other.priceText == priceText)&&(identical(other.originalPriceText, originalPriceText) || other.originalPriceText == originalPriceText)&&(identical(other.quantityText, quantityText) || other.quantityText == quantityText)&&(identical(other.statusText, statusText) || other.statusText == statusText)&&(identical(other.statusColor, statusColor) || other.statusColor == statusColor)&&(identical(other.statusTextColor, statusTextColor) || other.statusTextColor == statusTextColor)&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.thumbnailUrl, thumbnailUrl) || other.thumbnailUrl == thumbnailUrl)&&(identical(other.dateText, dateText) || other.dateText == dateText)&&(identical(other.totalSalesAmountText, totalSalesAmountText) || other.totalSalesAmountText == totalSalesAmountText));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is EventTicketUiModel&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.priceText, priceText) || other.priceText == priceText)&&(identical(other.originalPriceText, originalPriceText) || other.originalPriceText == originalPriceText)&&(identical(other.quantityText, quantityText) || other.quantityText == quantityText)&&(identical(other.statusText, statusText) || other.statusText == statusText)&&(identical(other.statusColor, statusColor) || other.statusColor == statusColor)&&(identical(other.statusTextColor, statusTextColor) || other.statusTextColor == statusTextColor)&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.thumbnailUrl, thumbnailUrl) || other.thumbnailUrl == thumbnailUrl)&&(identical(other.dateText, dateText) || other.dateText == dateText)&&(identical(other.totalSalesAmountText, totalSalesAmountText) || other.totalSalesAmountText == totalSalesAmountText)&&(identical(other.showVerificationGuide, showVerificationGuide) || other.showVerificationGuide == showVerificationGuide));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,ticketId,seatInfo,priceText,originalPriceText,quantityText,statusText,statusColor,statusTextColor,transactionId,thumbnailUrl,dateText,totalSalesAmountText);
+int get hashCode => Object.hash(runtimeType,ticketId,seatInfo,priceText,originalPriceText,quantityText,statusText,statusColor,statusTextColor,transactionId,thumbnailUrl,dateText,totalSalesAmountText,showVerificationGuide);
 
 @override
 String toString() {
-  return 'EventTicketUiModel(ticketId: $ticketId, seatInfo: $seatInfo, priceText: $priceText, originalPriceText: $originalPriceText, quantityText: $quantityText, statusText: $statusText, statusColor: $statusColor, statusTextColor: $statusTextColor, transactionId: $transactionId, thumbnailUrl: $thumbnailUrl, dateText: $dateText, totalSalesAmountText: $totalSalesAmountText)';
+  return 'EventTicketUiModel(ticketId: $ticketId, seatInfo: $seatInfo, priceText: $priceText, originalPriceText: $originalPriceText, quantityText: $quantityText, statusText: $statusText, statusColor: $statusColor, statusTextColor: $statusTextColor, transactionId: $transactionId, thumbnailUrl: $thumbnailUrl, dateText: $dateText, totalSalesAmountText: $totalSalesAmountText, showVerificationGuide: $showVerificationGuide)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $EventTicketUiModelCopyWith<$Res>  {
   factory $EventTicketUiModelCopyWith(EventTicketUiModel value, $Res Function(EventTicketUiModel) _then) = _$EventTicketUiModelCopyWithImpl;
 @useResult
 $Res call({
- int ticketId, String seatInfo, String priceText, String originalPriceText, String quantityText, String statusText, Color statusColor, Color? statusTextColor, int? transactionId, String? thumbnailUrl, String dateText, String totalSalesAmountText
+ int ticketId, String seatInfo, String priceText, String originalPriceText, String quantityText, String statusText, Color statusColor, Color? statusTextColor, int? transactionId, String? thumbnailUrl, String dateText, String totalSalesAmountText, bool showVerificationGuide
 });
 
 
@@ -62,7 +62,7 @@ class _$EventTicketUiModelCopyWithImpl<$Res>
 
 /// Create a copy of EventTicketUiModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? ticketId = null,Object? seatInfo = null,Object? priceText = null,Object? originalPriceText = null,Object? quantityText = null,Object? statusText = null,Object? statusColor = null,Object? statusTextColor = freezed,Object? transactionId = freezed,Object? thumbnailUrl = freezed,Object? dateText = null,Object? totalSalesAmountText = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? ticketId = null,Object? seatInfo = null,Object? priceText = null,Object? originalPriceText = null,Object? quantityText = null,Object? statusText = null,Object? statusColor = null,Object? statusTextColor = freezed,Object? transactionId = freezed,Object? thumbnailUrl = freezed,Object? dateText = null,Object? totalSalesAmountText = null,Object? showVerificationGuide = null,}) {
   return _then(_self.copyWith(
 ticketId: null == ticketId ? _self.ticketId : ticketId // ignore: cast_nullable_to_non_nullable
 as int,seatInfo: null == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
@@ -76,7 +76,8 @@ as Color?,transactionId: freezed == transactionId ? _self.transactionId : transa
 as int?,thumbnailUrl: freezed == thumbnailUrl ? _self.thumbnailUrl : thumbnailUrl // ignore: cast_nullable_to_non_nullable
 as String?,dateText: null == dateText ? _self.dateText : dateText // ignore: cast_nullable_to_non_nullable
 as String,totalSalesAmountText: null == totalSalesAmountText ? _self.totalSalesAmountText : totalSalesAmountText // ignore: cast_nullable_to_non_nullable
-as String,
+as String,showVerificationGuide: null == showVerificationGuide ? _self.showVerificationGuide : showVerificationGuide // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -161,10 +162,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int ticketId,  String seatInfo,  String priceText,  String originalPriceText,  String quantityText,  String statusText,  Color statusColor,  Color? statusTextColor,  int? transactionId,  String? thumbnailUrl,  String dateText,  String totalSalesAmountText)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int ticketId,  String seatInfo,  String priceText,  String originalPriceText,  String quantityText,  String statusText,  Color statusColor,  Color? statusTextColor,  int? transactionId,  String? thumbnailUrl,  String dateText,  String totalSalesAmountText,  bool showVerificationGuide)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EventTicketUiModel() when $default != null:
-return $default(_that.ticketId,_that.seatInfo,_that.priceText,_that.originalPriceText,_that.quantityText,_that.statusText,_that.statusColor,_that.statusTextColor,_that.transactionId,_that.thumbnailUrl,_that.dateText,_that.totalSalesAmountText);case _:
+return $default(_that.ticketId,_that.seatInfo,_that.priceText,_that.originalPriceText,_that.quantityText,_that.statusText,_that.statusColor,_that.statusTextColor,_that.transactionId,_that.thumbnailUrl,_that.dateText,_that.totalSalesAmountText,_that.showVerificationGuide);case _:
   return orElse();
 
 }
@@ -182,10 +183,10 @@ return $default(_that.ticketId,_that.seatInfo,_that.priceText,_that.originalPric
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int ticketId,  String seatInfo,  String priceText,  String originalPriceText,  String quantityText,  String statusText,  Color statusColor,  Color? statusTextColor,  int? transactionId,  String? thumbnailUrl,  String dateText,  String totalSalesAmountText)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int ticketId,  String seatInfo,  String priceText,  String originalPriceText,  String quantityText,  String statusText,  Color statusColor,  Color? statusTextColor,  int? transactionId,  String? thumbnailUrl,  String dateText,  String totalSalesAmountText,  bool showVerificationGuide)  $default,) {final _that = this;
 switch (_that) {
 case _EventTicketUiModel():
-return $default(_that.ticketId,_that.seatInfo,_that.priceText,_that.originalPriceText,_that.quantityText,_that.statusText,_that.statusColor,_that.statusTextColor,_that.transactionId,_that.thumbnailUrl,_that.dateText,_that.totalSalesAmountText);case _:
+return $default(_that.ticketId,_that.seatInfo,_that.priceText,_that.originalPriceText,_that.quantityText,_that.statusText,_that.statusColor,_that.statusTextColor,_that.transactionId,_that.thumbnailUrl,_that.dateText,_that.totalSalesAmountText,_that.showVerificationGuide);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -202,10 +203,10 @@ return $default(_that.ticketId,_that.seatInfo,_that.priceText,_that.originalPric
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int ticketId,  String seatInfo,  String priceText,  String originalPriceText,  String quantityText,  String statusText,  Color statusColor,  Color? statusTextColor,  int? transactionId,  String? thumbnailUrl,  String dateText,  String totalSalesAmountText)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int ticketId,  String seatInfo,  String priceText,  String originalPriceText,  String quantityText,  String statusText,  Color statusColor,  Color? statusTextColor,  int? transactionId,  String? thumbnailUrl,  String dateText,  String totalSalesAmountText,  bool showVerificationGuide)?  $default,) {final _that = this;
 switch (_that) {
 case _EventTicketUiModel() when $default != null:
-return $default(_that.ticketId,_that.seatInfo,_that.priceText,_that.originalPriceText,_that.quantityText,_that.statusText,_that.statusColor,_that.statusTextColor,_that.transactionId,_that.thumbnailUrl,_that.dateText,_that.totalSalesAmountText);case _:
+return $default(_that.ticketId,_that.seatInfo,_that.priceText,_that.originalPriceText,_that.quantityText,_that.statusText,_that.statusColor,_that.statusTextColor,_that.transactionId,_that.thumbnailUrl,_that.dateText,_that.totalSalesAmountText,_that.showVerificationGuide);case _:
   return null;
 
 }
@@ -217,7 +218,7 @@ return $default(_that.ticketId,_that.seatInfo,_that.priceText,_that.originalPric
 
 
 class _EventTicketUiModel implements EventTicketUiModel {
-  const _EventTicketUiModel({required this.ticketId, required this.seatInfo, required this.priceText, required this.originalPriceText, required this.quantityText, required this.statusText, required this.statusColor, this.statusTextColor, this.transactionId, this.thumbnailUrl, required this.dateText, required this.totalSalesAmountText});
+  const _EventTicketUiModel({required this.ticketId, required this.seatInfo, required this.priceText, required this.originalPriceText, required this.quantityText, required this.statusText, required this.statusColor, this.statusTextColor, this.transactionId, this.thumbnailUrl, required this.dateText, required this.totalSalesAmountText, this.showVerificationGuide = false});
   
 
 @override final  int ticketId;
@@ -232,6 +233,7 @@ class _EventTicketUiModel implements EventTicketUiModel {
 @override final  String? thumbnailUrl;
 @override final  String dateText;
 @override final  String totalSalesAmountText;
+@override@JsonKey() final  bool showVerificationGuide;
 
 /// Create a copy of EventTicketUiModel
 /// with the given fields replaced by the non-null parameter values.
@@ -243,16 +245,16 @@ _$EventTicketUiModelCopyWith<_EventTicketUiModel> get copyWith => __$EventTicket
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventTicketUiModel&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.priceText, priceText) || other.priceText == priceText)&&(identical(other.originalPriceText, originalPriceText) || other.originalPriceText == originalPriceText)&&(identical(other.quantityText, quantityText) || other.quantityText == quantityText)&&(identical(other.statusText, statusText) || other.statusText == statusText)&&(identical(other.statusColor, statusColor) || other.statusColor == statusColor)&&(identical(other.statusTextColor, statusTextColor) || other.statusTextColor == statusTextColor)&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.thumbnailUrl, thumbnailUrl) || other.thumbnailUrl == thumbnailUrl)&&(identical(other.dateText, dateText) || other.dateText == dateText)&&(identical(other.totalSalesAmountText, totalSalesAmountText) || other.totalSalesAmountText == totalSalesAmountText));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventTicketUiModel&&(identical(other.ticketId, ticketId) || other.ticketId == ticketId)&&(identical(other.seatInfo, seatInfo) || other.seatInfo == seatInfo)&&(identical(other.priceText, priceText) || other.priceText == priceText)&&(identical(other.originalPriceText, originalPriceText) || other.originalPriceText == originalPriceText)&&(identical(other.quantityText, quantityText) || other.quantityText == quantityText)&&(identical(other.statusText, statusText) || other.statusText == statusText)&&(identical(other.statusColor, statusColor) || other.statusColor == statusColor)&&(identical(other.statusTextColor, statusTextColor) || other.statusTextColor == statusTextColor)&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.thumbnailUrl, thumbnailUrl) || other.thumbnailUrl == thumbnailUrl)&&(identical(other.dateText, dateText) || other.dateText == dateText)&&(identical(other.totalSalesAmountText, totalSalesAmountText) || other.totalSalesAmountText == totalSalesAmountText)&&(identical(other.showVerificationGuide, showVerificationGuide) || other.showVerificationGuide == showVerificationGuide));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,ticketId,seatInfo,priceText,originalPriceText,quantityText,statusText,statusColor,statusTextColor,transactionId,thumbnailUrl,dateText,totalSalesAmountText);
+int get hashCode => Object.hash(runtimeType,ticketId,seatInfo,priceText,originalPriceText,quantityText,statusText,statusColor,statusTextColor,transactionId,thumbnailUrl,dateText,totalSalesAmountText,showVerificationGuide);
 
 @override
 String toString() {
-  return 'EventTicketUiModel(ticketId: $ticketId, seatInfo: $seatInfo, priceText: $priceText, originalPriceText: $originalPriceText, quantityText: $quantityText, statusText: $statusText, statusColor: $statusColor, statusTextColor: $statusTextColor, transactionId: $transactionId, thumbnailUrl: $thumbnailUrl, dateText: $dateText, totalSalesAmountText: $totalSalesAmountText)';
+  return 'EventTicketUiModel(ticketId: $ticketId, seatInfo: $seatInfo, priceText: $priceText, originalPriceText: $originalPriceText, quantityText: $quantityText, statusText: $statusText, statusColor: $statusColor, statusTextColor: $statusTextColor, transactionId: $transactionId, thumbnailUrl: $thumbnailUrl, dateText: $dateText, totalSalesAmountText: $totalSalesAmountText, showVerificationGuide: $showVerificationGuide)';
 }
 
 
@@ -263,7 +265,7 @@ abstract mixin class _$EventTicketUiModelCopyWith<$Res> implements $EventTicketU
   factory _$EventTicketUiModelCopyWith(_EventTicketUiModel value, $Res Function(_EventTicketUiModel) _then) = __$EventTicketUiModelCopyWithImpl;
 @override @useResult
 $Res call({
- int ticketId, String seatInfo, String priceText, String originalPriceText, String quantityText, String statusText, Color statusColor, Color? statusTextColor, int? transactionId, String? thumbnailUrl, String dateText, String totalSalesAmountText
+ int ticketId, String seatInfo, String priceText, String originalPriceText, String quantityText, String statusText, Color statusColor, Color? statusTextColor, int? transactionId, String? thumbnailUrl, String dateText, String totalSalesAmountText, bool showVerificationGuide
 });
 
 
@@ -280,7 +282,7 @@ class __$EventTicketUiModelCopyWithImpl<$Res>
 
 /// Create a copy of EventTicketUiModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? ticketId = null,Object? seatInfo = null,Object? priceText = null,Object? originalPriceText = null,Object? quantityText = null,Object? statusText = null,Object? statusColor = null,Object? statusTextColor = freezed,Object? transactionId = freezed,Object? thumbnailUrl = freezed,Object? dateText = null,Object? totalSalesAmountText = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? ticketId = null,Object? seatInfo = null,Object? priceText = null,Object? originalPriceText = null,Object? quantityText = null,Object? statusText = null,Object? statusColor = null,Object? statusTextColor = freezed,Object? transactionId = freezed,Object? thumbnailUrl = freezed,Object? dateText = null,Object? totalSalesAmountText = null,Object? showVerificationGuide = null,}) {
   return _then(_EventTicketUiModel(
 ticketId: null == ticketId ? _self.ticketId : ticketId // ignore: cast_nullable_to_non_nullable
 as int,seatInfo: null == seatInfo ? _self.seatInfo : seatInfo // ignore: cast_nullable_to_non_nullable
@@ -294,7 +296,8 @@ as Color?,transactionId: freezed == transactionId ? _self.transactionId : transa
 as int?,thumbnailUrl: freezed == thumbnailUrl ? _self.thumbnailUrl : thumbnailUrl // ignore: cast_nullable_to_non_nullable
 as String?,dateText: null == dateText ? _self.dateText : dateText // ignore: cast_nullable_to_non_nullable
 as String,totalSalesAmountText: null == totalSalesAmountText ? _self.totalSalesAmountText : totalSalesAmountText // ignore: cast_nullable_to_non_nullable
-as String,
+as String,showVerificationGuide: null == showVerificationGuide ? _self.showVerificationGuide : showVerificationGuide // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

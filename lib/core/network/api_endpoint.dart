@@ -68,6 +68,14 @@ class ApiEndpoint {
   static const String paymentConfirm = '/api/payment/confirm';
   static const String paymentCancel = '/api/payment/cancel';
 
+  // Bank Account
+  static const String bankAccount = '/api/bank-account';
+  static const String bankAccountMe = '/api/bank-account/me';
+  static const String bankAccountVerifyRequest =
+      '/api/bank-account/verify/request';
+  static const String bankAccountVerifyConfirm =
+      '/api/bank-account/verify/confirm';
+
   // Notification
   static const String notificationToken = '/api/notifications/token';
   static const String notifications = '/api/notifications';

@@ -22,6 +22,7 @@ abstract class EventTicketUiModel with _$EventTicketUiModel {
     String? thumbnailUrl,
     required String dateText,
     required String totalSalesAmountText,
+    @Default(false) bool showVerificationGuide,
   }) = _EventTicketUiModel;
 
   factory EventTicketUiModel.fromEntity(EventTicketEntity entity) {
@@ -45,6 +46,11 @@ abstract class EventTicketUiModel with _$EventTicketUiModel {
       case 'completed':
         statusColor = AppColors.success;
         statusText = '정산 완료';
+        break;
+      case 'settlement_on_hold':
+      case 'on_hold':
+        statusColor = AppColors.warning;
+        statusText = '정산 보류';
         break;
       case 'on_sale':
         statusColor = AppColors.success;
@@ -70,6 +76,9 @@ abstract class EventTicketUiModel with _$EventTicketUiModel {
       statusText: statusText,
       statusColor: statusColor,
       statusTextColor: statusTextColor,
+      showVerificationGuide:
+          entity.statusCode == 'settlement_on_hold' ||
+          entity.statusCode == 'on_hold',
       transactionId: entity.transactionId,
       thumbnailUrl: entity.thumbnailUrl,
       dateText: DateFormatUtil.formatCompactDate(entity.createdAt),

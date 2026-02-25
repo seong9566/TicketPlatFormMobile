@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
@@ -26,7 +28,7 @@ class EventTicketItem extends StatelessWidget {
           children: [
             _buildThumbnail(),
             const SizedBox(width: AppSpacing.md),
-            Expanded(child: _buildTicketInfo()),
+            Expanded(child: _buildTicketInfo(context)),
           ],
         ),
       ),
@@ -72,7 +74,7 @@ class EventTicketItem extends StatelessWidget {
     );
   }
 
-  Widget _buildTicketInfo() {
+  Widget _buildTicketInfo(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -146,6 +148,49 @@ class EventTicketItem extends StatelessWidget {
             ),
           ],
         ),
+        if (model.showVerificationGuide) ...[
+          const SizedBox(height: AppSpacing.sm),
+          Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.sm,
+              vertical: AppSpacing.xs,
+            ),
+            decoration: BoxDecoration(
+              color: AppColors.warning.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(AppRadius.md),
+            ),
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.info_outline,
+                  size: 14,
+                  color: AppColors.warning,
+                ),
+                const SizedBox(width: AppSpacing.xs),
+                Expanded(
+                  child: Text(
+                    '계좌 인증 필요',
+                    style: AppTextStyles.caption.copyWith(
+                      color: AppColors.warning,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () =>
+                      context.pushNamed(AppRouterPath.bankAccountVerify.name),
+                  child: Text(
+                    '인증하러가기',
+                    style: AppTextStyles.caption.copyWith(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ],
     );
   }

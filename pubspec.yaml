@@ -100,6 +100,7 @@ flutter:
     - assets/icons/social/
     - assets/icons/logo/
     - assets/icons/lottie/
+    - assets/icons/bank/
 
   fonts:
     - family: SUIT
