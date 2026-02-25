@@ -7,8 +7,8 @@ Primary structure is `lib/features/<feature>/{data,domain,presentation}` with sh
 ## STRUCTURE
 ```text
 ticket_platform_mobile/
-├── lib/core/           # network, config, theme, utils, services
-├── lib/features/       # auth, chat, events, sell, ticketing, profile, ...
+├── lib/core/           # network, config, theme, utils, services (see lib/core/AGENTS.md)
+├── lib/features/       # auth, chat, events, sell, ticketing, profile, ... (see lib/features/AGENTS.md)
 ├── lib/shared/widgets/ # reusable UI widgets
 ├── scripts/            # run_dev.sh, run_prod.sh
 └── test/               # flutter tests
@@ -18,6 +18,12 @@ ticket_platform_mobile/
 | Task | Location | Notes |
 |------|----------|-------|
 | Network/token flow | `lib/core/network/` | Dio provider, interceptors, token refresh |
+| App config/env | `lib/core/config/` + `scripts/` | `--dart-define` driven runtime config |
+| Core modules detail | `lib/core/AGENTS.md` | per-module guidance for core |
+| Feature structure | `lib/features/AGENTS.md` | 16 features, Clean MVVM template |
+| Chat realtime logic | `lib/features/chat/` | SignalR data source + viewmodel |
+| Sell flow forms | `lib/features/sell/` | multi-step registration UI and validation |
+| Shared design system | `lib/core/theme/` + `lib/shared/widgets/` | centralized colors/spacing/widgets |
 | App config/env | `lib/core/config/` + `scripts/` | `--dart-define` driven runtime config |
 | Chat realtime logic | `lib/features/chat/` | SignalR data source + viewmodel |
 | Sell flow forms | `lib/features/sell/` | multi-step registration UI and validation |
@@ -45,5 +51,7 @@ cd ticket_platform_mobile && ./scripts/run_dev.sh
 ```
 
 ## NOTES
-- `.env` is required for local runs (`KAKAO_NATIVE_APP_KEY` via `.env.example`).
+- `.env` required for local runs (`KAKAO_NATIVE_APP_KEY` via `.env.example`).
+- Script-based `--dart-define` configuration is the standard local workflow.
+- `dart-define` keys: `APP_PROD`, `API_BASE_URL_IOS`, `API_BASE_URL_ANDROID`, `TOSS_CLIENT_KEY`, `SUPABASE_URL`, `SUPABASE_ANON_KEY`.
 - Script-based `--dart-define` configuration is the standard local workflow.
