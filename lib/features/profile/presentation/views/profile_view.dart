@@ -11,7 +11,9 @@ import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/
 import 'package:ticket_platform_mobile/features/profile/presentation/widgets/profile_header_section.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/widgets/profile_menu_tile.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/widgets/profile_section.dart';
+import 'package:ticket_platform_mobile/features/withdrawal/presentation/viewmodels/balance_viewmodel.dart';
 import 'package:ticket_platform_mobile/shared/widgets/app_dialog.dart';
+import 'package:ticket_platform_mobile/core/utils/number_format_util.dart';
 
 class ProfileView extends ConsumerWidget {
   const ProfileView({super.key});
@@ -156,20 +158,55 @@ class ProfileView extends ConsumerWidget {
             ProfileSection(
               title: '계정 인증',
               children: [
-                ProfileMenuTile(
-                  icon: Icons.account_balance_outlined,
-                  title: '계좌 인증',
-                  trailingText: bankAccount == null ? '등록하기' : '등록 완료',
-                  trailingTextColor: bankAccount == null
-                      ? AppColors.textSecondary
-                      : AppColors.success,
-                  onTap: () {
-                    if (bankAccount == null) {
-                      context.pushNamed(AppRouterPath.bankAccountRegister.name);
-                      return;
-                    }
-                    context.pushNamed(AppRouterPath.bankAccountDetail.name);
-                  },
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ProfileMenuTile(
+                      icon: Icons.account_balance_outlined,
+                      title: bankAccount == null
+                          ? '계좌인증을 해주세요'
+                          : '${bankAccount.bankName} ${bankAccount.accountNumber}',
+                      onTap: () {
+                        if (bankAccount == null) {
+                          context.pushNamed(
+                            AppRouterPath.bankAccountRegister.name,
+                          );
+                          return;
+                        }
+                        context.pushNamed(AppRouterPath.bankAccountDetail.name);
+                      },
+                    ),
+                    if (bankAccount != null)
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: AppSpacing.lg + 36 + AppSpacing.md,
+                          right: AppSpacing.lg,
+                          bottom: AppSpacing.md,
+                        ),
+                        child: Consumer(
+                          builder: (context, ref, child) {
+                            final balanceAsync = ref.watch(
+                              balanceViewModelProvider,
+                            );
+                            return balanceAsync.when(
+                              data: (balance) => Text(
+                                '출금 가능 금액: ${NumberFormatUtil.formatPrice(balance.available)}',
+                                style: AppTextStyles.body2.copyWith(
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
+                              loading: () => Text(
+                                '출금 가능 금액: 가져오는 중...',
+                                style: AppTextStyles.body2.copyWith(
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
+                              error: (_, __) => const SizedBox.shrink(),
+                            );
+                          },
+                        ),
+                      ),
+                  ],
                 ),
                 const ProfileMenuTile(
                   icon: Icons.phone_iphone,
