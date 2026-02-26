@@ -398,10 +398,8 @@ class _BankAccountDetailViewState extends ConsumerState<BankAccountDetailView> {
     );
   }
 
-  /// 계좌번호 마스킹 표시 — 백엔드가 이미 마스킹 처리한 경우 그대로 표시,
-  /// 숫자만 있는 경우 뒤 4자리만 노출
+  /// 계좌번호 마스킹 표시 — 뒤 4자리만 노출
   String _maskDisplay(String accountNumber) {
-    if (accountNumber.contains('*')) return accountNumber;
     if (accountNumber.length <= 4) return accountNumber;
     final visible = accountNumber.substring(accountNumber.length - 4);
     return '${'*' * (accountNumber.length - 4)}$visible';
