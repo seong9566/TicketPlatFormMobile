@@ -12,11 +12,12 @@ class ApiEndpoint {
   static const String logout = '/api/auth/logout';
   static const String tokenRefresh = '/api/auth/refresh';
   static const String socialLogin = '/api/auth/social/login';
+  static const String findId = '/api/auth/find-id';
+  static const String forgotPassword = '/api/auth/forgot-password';
 
   // Ticketing
-  static const String ticketingInfo = '/api/ticketing/info';
-  static const String ticketListings = '/api/ticketing/listings';
   static const String ticketDetail = '/api/tickets/detail';
+  static const String search = '/api/search';
 
   static const String eventTickets = '/api/events/tickets';
 
@@ -45,6 +46,7 @@ class ApiEndpoint {
   static const String tradeMethods = '/api/sell/trade-methods';
   static const String sellFeatures = '/api/sell/features';
   static const String sellTickets = '/api/sell/tickets';
+  static const String cancelTicket = '/api/sell/tickets';
   static const String sellMyTickets = '/api/sell/my-tickets';
   static const String sellTicketImageRefresh =
       '/api/sell/tickets/images/refresh';
@@ -59,6 +61,7 @@ class ApiEndpoint {
 
   // Profile
   static const String myProfile = '/api/users/profile';
+  static const String updateProfile = '/api/users/profile';
   static String userProfile(int userId) => '/api/users/profile/user';
   static const String profileImageRefresh = '/api/users/profile/image-refresh';
   static const String changePassword = '/api/users/password';
@@ -70,6 +73,7 @@ class ApiEndpoint {
 
   // Bank Account
   static const String bankAccount = '/api/bank-account';
+  static const String deleteBankAccount = '/api/bank-account';
   static const String bankAccountMe = '/api/bank-account/me';
 
   // Balance
@@ -83,6 +87,7 @@ class ApiEndpoint {
 
   // Notification
   static const String notificationToken = '/api/notifications/token';
+  static const String deleteNotificationToken = '/api/notifications/token';
   static const String notifications = '/api/notifications';
   static const String notificationsReadAll = '/api/notifications/read-all';
   static const String notificationsUnreadCount =
