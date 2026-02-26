@@ -71,10 +71,6 @@ class ApiEndpoint {
   // Bank Account
   static const String bankAccount = '/api/bank-account';
   static const String bankAccountMe = '/api/bank-account/me';
-  static const String bankAccountVerifyRequest =
-      '/api/bank-account/verify/request';
-  static const String bankAccountVerifyConfirm =
-      '/api/bank-account/verify/confirm';
 
   // Balance
   static const String balance = '/api/balance';

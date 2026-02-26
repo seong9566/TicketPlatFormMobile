@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$BankAccountState {
 
- BankAccountEntity? get bankAccount; VerificationState get verificationState; bool get isSubmitting; String? get error; DateTime? get expiresAt; int get remainingSeconds; String? get verificationProvider; String? get verificationTier; String? get reasonCode;
+ BankAccountEntity? get bankAccount; bool get isSubmitting; String? get error;
 /// Create a copy of BankAccountState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $BankAccountStateCopyWith<BankAccountState> get copyWith => _$BankAccountStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BankAccountState&&(identical(other.bankAccount, bankAccount) || other.bankAccount == bankAccount)&&(identical(other.verificationState, verificationState) || other.verificationState == verificationState)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting)&&(identical(other.error, error) || other.error == error)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt)&&(identical(other.remainingSeconds, remainingSeconds) || other.remainingSeconds == remainingSeconds)&&(identical(other.verificationProvider, verificationProvider) || other.verificationProvider == verificationProvider)&&(identical(other.verificationTier, verificationTier) || other.verificationTier == verificationTier)&&(identical(other.reasonCode, reasonCode) || other.reasonCode == reasonCode));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BankAccountState&&(identical(other.bankAccount, bankAccount) || other.bankAccount == bankAccount)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting)&&(identical(other.error, error) || other.error == error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,bankAccount,verificationState,isSubmitting,error,expiresAt,remainingSeconds,verificationProvider,verificationTier,reasonCode);
+int get hashCode => Object.hash(runtimeType,bankAccount,isSubmitting,error);
 
 @override
 String toString() {
-  return 'BankAccountState(bankAccount: $bankAccount, verificationState: $verificationState, isSubmitting: $isSubmitting, error: $error, expiresAt: $expiresAt, remainingSeconds: $remainingSeconds, verificationProvider: $verificationProvider, verificationTier: $verificationTier, reasonCode: $reasonCode)';
+  return 'BankAccountState(bankAccount: $bankAccount, isSubmitting: $isSubmitting, error: $error)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $BankAccountStateCopyWith<$Res>  {
   factory $BankAccountStateCopyWith(BankAccountState value, $Res Function(BankAccountState) _then) = _$BankAccountStateCopyWithImpl;
 @useResult
 $Res call({
- BankAccountEntity? bankAccount, VerificationState verificationState, bool isSubmitting, String? error, DateTime? expiresAt, int remainingSeconds, String? verificationProvider, String? verificationTier, String? reasonCode
+ BankAccountEntity? bankAccount, bool isSubmitting, String? error
 });
 
 
@@ -62,17 +62,11 @@ class _$BankAccountStateCopyWithImpl<$Res>
 
 /// Create a copy of BankAccountState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? bankAccount = freezed,Object? verificationState = null,Object? isSubmitting = null,Object? error = freezed,Object? expiresAt = freezed,Object? remainingSeconds = null,Object? verificationProvider = freezed,Object? verificationTier = freezed,Object? reasonCode = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? bankAccount = freezed,Object? isSubmitting = null,Object? error = freezed,}) {
   return _then(_self.copyWith(
 bankAccount: freezed == bankAccount ? _self.bankAccount : bankAccount // ignore: cast_nullable_to_non_nullable
-as BankAccountEntity?,verificationState: null == verificationState ? _self.verificationState : verificationState // ignore: cast_nullable_to_non_nullable
-as VerificationState,isSubmitting: null == isSubmitting ? _self.isSubmitting : isSubmitting // ignore: cast_nullable_to_non_nullable
+as BankAccountEntity?,isSubmitting: null == isSubmitting ? _self.isSubmitting : isSubmitting // ignore: cast_nullable_to_non_nullable
 as bool,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
-as String?,expiresAt: freezed == expiresAt ? _self.expiresAt : expiresAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,remainingSeconds: null == remainingSeconds ? _self.remainingSeconds : remainingSeconds // ignore: cast_nullable_to_non_nullable
-as int,verificationProvider: freezed == verificationProvider ? _self.verificationProvider : verificationProvider // ignore: cast_nullable_to_non_nullable
-as String?,verificationTier: freezed == verificationTier ? _self.verificationTier : verificationTier // ignore: cast_nullable_to_non_nullable
-as String?,reasonCode: freezed == reasonCode ? _self.reasonCode : reasonCode // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -170,10 +164,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( BankAccountEntity? bankAccount,  VerificationState verificationState,  bool isSubmitting,  String? error,  DateTime? expiresAt,  int remainingSeconds,  String? verificationProvider,  String? verificationTier,  String? reasonCode)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( BankAccountEntity? bankAccount,  bool isSubmitting,  String? error)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _BankAccountState() when $default != null:
-return $default(_that.bankAccount,_that.verificationState,_that.isSubmitting,_that.error,_that.expiresAt,_that.remainingSeconds,_that.verificationProvider,_that.verificationTier,_that.reasonCode);case _:
+return $default(_that.bankAccount,_that.isSubmitting,_that.error);case _:
   return orElse();
 
 }
@@ -191,10 +185,10 @@ return $default(_that.bankAccount,_that.verificationState,_that.isSubmitting,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( BankAccountEntity? bankAccount,  VerificationState verificationState,  bool isSubmitting,  String? error,  DateTime? expiresAt,  int remainingSeconds,  String? verificationProvider,  String? verificationTier,  String? reasonCode)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( BankAccountEntity? bankAccount,  bool isSubmitting,  String? error)  $default,) {final _that = this;
 switch (_that) {
 case _BankAccountState():
-return $default(_that.bankAccount,_that.verificationState,_that.isSubmitting,_that.error,_that.expiresAt,_that.remainingSeconds,_that.verificationProvider,_that.verificationTier,_that.reasonCode);case _:
+return $default(_that.bankAccount,_that.isSubmitting,_that.error);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -211,10 +205,10 @@ return $default(_that.bankAccount,_that.verificationState,_that.isSubmitting,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( BankAccountEntity? bankAccount,  VerificationState verificationState,  bool isSubmitting,  String? error,  DateTime? expiresAt,  int remainingSeconds,  String? verificationProvider,  String? verificationTier,  String? reasonCode)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( BankAccountEntity? bankAccount,  bool isSubmitting,  String? error)?  $default,) {final _that = this;
 switch (_that) {
 case _BankAccountState() when $default != null:
-return $default(_that.bankAccount,_that.verificationState,_that.isSubmitting,_that.error,_that.expiresAt,_that.remainingSeconds,_that.verificationProvider,_that.verificationTier,_that.reasonCode);case _:
+return $default(_that.bankAccount,_that.isSubmitting,_that.error);case _:
   return null;
 
 }
@@ -226,18 +220,12 @@ return $default(_that.bankAccount,_that.verificationState,_that.isSubmitting,_th
 
 
 class _BankAccountState implements BankAccountState {
-  const _BankAccountState({this.bankAccount, this.verificationState = VerificationState.idle, this.isSubmitting = false, this.error, this.expiresAt, this.remainingSeconds = 0, this.verificationProvider, this.verificationTier, this.reasonCode});
+  const _BankAccountState({this.bankAccount, this.isSubmitting = false, this.error});
   
 
 @override final  BankAccountEntity? bankAccount;
-@override@JsonKey() final  VerificationState verificationState;
 @override@JsonKey() final  bool isSubmitting;
 @override final  String? error;
-@override final  DateTime? expiresAt;
-@override@JsonKey() final  int remainingSeconds;
-@override final  String? verificationProvider;
-@override final  String? verificationTier;
-@override final  String? reasonCode;
 
 /// Create a copy of BankAccountState
 /// with the given fields replaced by the non-null parameter values.
@@ -249,16 +237,16 @@ _$BankAccountStateCopyWith<_BankAccountState> get copyWith => __$BankAccountStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BankAccountState&&(identical(other.bankAccount, bankAccount) || other.bankAccount == bankAccount)&&(identical(other.verificationState, verificationState) || other.verificationState == verificationState)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting)&&(identical(other.error, error) || other.error == error)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt)&&(identical(other.remainingSeconds, remainingSeconds) || other.remainingSeconds == remainingSeconds)&&(identical(other.verificationProvider, verificationProvider) || other.verificationProvider == verificationProvider)&&(identical(other.verificationTier, verificationTier) || other.verificationTier == verificationTier)&&(identical(other.reasonCode, reasonCode) || other.reasonCode == reasonCode));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BankAccountState&&(identical(other.bankAccount, bankAccount) || other.bankAccount == bankAccount)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting)&&(identical(other.error, error) || other.error == error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,bankAccount,verificationState,isSubmitting,error,expiresAt,remainingSeconds,verificationProvider,verificationTier,reasonCode);
+int get hashCode => Object.hash(runtimeType,bankAccount,isSubmitting,error);
 
 @override
 String toString() {
-  return 'BankAccountState(bankAccount: $bankAccount, verificationState: $verificationState, isSubmitting: $isSubmitting, error: $error, expiresAt: $expiresAt, remainingSeconds: $remainingSeconds, verificationProvider: $verificationProvider, verificationTier: $verificationTier, reasonCode: $reasonCode)';
+  return 'BankAccountState(bankAccount: $bankAccount, isSubmitting: $isSubmitting, error: $error)';
 }
 
 
@@ -269,7 +257,7 @@ abstract mixin class _$BankAccountStateCopyWith<$Res> implements $BankAccountSta
   factory _$BankAccountStateCopyWith(_BankAccountState value, $Res Function(_BankAccountState) _then) = __$BankAccountStateCopyWithImpl;
 @override @useResult
 $Res call({
- BankAccountEntity? bankAccount, VerificationState verificationState, bool isSubmitting, String? error, DateTime? expiresAt, int remainingSeconds, String? verificationProvider, String? verificationTier, String? reasonCode
+ BankAccountEntity? bankAccount, bool isSubmitting, String? error
 });
 
 
@@ -286,17 +274,11 @@ class __$BankAccountStateCopyWithImpl<$Res>
 
 /// Create a copy of BankAccountState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? bankAccount = freezed,Object? verificationState = null,Object? isSubmitting = null,Object? error = freezed,Object? expiresAt = freezed,Object? remainingSeconds = null,Object? verificationProvider = freezed,Object? verificationTier = freezed,Object? reasonCode = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? bankAccount = freezed,Object? isSubmitting = null,Object? error = freezed,}) {
   return _then(_BankAccountState(
 bankAccount: freezed == bankAccount ? _self.bankAccount : bankAccount // ignore: cast_nullable_to_non_nullable
-as BankAccountEntity?,verificationState: null == verificationState ? _self.verificationState : verificationState // ignore: cast_nullable_to_non_nullable
-as VerificationState,isSubmitting: null == isSubmitting ? _self.isSubmitting : isSubmitting // ignore: cast_nullable_to_non_nullable
+as BankAccountEntity?,isSubmitting: null == isSubmitting ? _self.isSubmitting : isSubmitting // ignore: cast_nullable_to_non_nullable
 as bool,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
-as String?,expiresAt: freezed == expiresAt ? _self.expiresAt : expiresAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,remainingSeconds: null == remainingSeconds ? _self.remainingSeconds : remainingSeconds // ignore: cast_nullable_to_non_nullable
-as int,verificationProvider: freezed == verificationProvider ? _self.verificationProvider : verificationProvider // ignore: cast_nullable_to_non_nullable
-as String?,verificationTier: freezed == verificationTier ? _self.verificationTier : verificationTier // ignore: cast_nullable_to_non_nullable
-as String?,reasonCode: freezed == reasonCode ? _self.reasonCode : reasonCode // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

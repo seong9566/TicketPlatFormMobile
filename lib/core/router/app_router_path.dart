@@ -71,10 +71,6 @@ class AppRouterPath {
     '/bank-account/register',
     'bankAccountRegister',
   );
-  static const bankAccountVerify = _Route(
-    '/bank-account/verify',
-    'bankAccountVerify',
-  );
   static const bankAccountDetail = _Route(
     '/bank-account/detail',
     'bankAccountDetail',

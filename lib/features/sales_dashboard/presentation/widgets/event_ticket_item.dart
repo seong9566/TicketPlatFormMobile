@@ -169,7 +169,7 @@ class EventTicketItem extends StatelessWidget {
                 const SizedBox(width: AppSpacing.xs),
                 Expanded(
                   child: Text(
-                    '계좌 인증 필요',
+                    '정산 계좌 등록 필요',
                     style: AppTextStyles.caption.copyWith(
                       color: AppColors.warning,
                       fontWeight: FontWeight.w700,
@@ -178,9 +178,9 @@ class EventTicketItem extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () =>
-                      context.pushNamed(AppRouterPath.bankAccountVerify.name),
+                      context.pushNamed(AppRouterPath.bankAccountRegister.name),
                   child: Text(
-                    '인증하러가기',
+                    '등록하러가기',
                     style: AppTextStyles.caption.copyWith(
                       color: AppColors.primary,
                       fontWeight: FontWeight.w700,

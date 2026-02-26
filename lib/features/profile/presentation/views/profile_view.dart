@@ -159,24 +159,16 @@ class ProfileView extends ConsumerWidget {
                 ProfileMenuTile(
                   icon: Icons.account_balance_outlined,
                   title: '계좌 인증',
-                  trailingText: bankAccount == null
-                      ? '등록하기'
-                      : (bankAccount.verified ? '인증 완료' : '인증하기'),
+                  trailingText: bankAccount == null ? '등록하기' : '등록 완료',
                   trailingTextColor: bankAccount == null
                       ? AppColors.textSecondary
-                      : (bankAccount.verified
-                            ? AppColors.success
-                            : AppColors.warning),
+                      : AppColors.success,
                   onTap: () {
                     if (bankAccount == null) {
                       context.pushNamed(AppRouterPath.bankAccountRegister.name);
                       return;
                     }
-                    if (bankAccount.verified) {
-                      context.pushNamed(AppRouterPath.bankAccountDetail.name);
-                    } else {
-                      context.pushNamed(AppRouterPath.bankAccountVerify.name);
-                    }
+                    context.pushNamed(AppRouterPath.bankAccountDetail.name);
                   },
                 ),
                 const ProfileMenuTile(

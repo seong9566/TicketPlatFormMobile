@@ -5,11 +5,13 @@ import 'package:go_router/go_router.dart';
 import 'package:ticket_platform_mobile/core/enums/bank_type.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
+import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
-import 'package:ticket_platform_mobile/core/theme/app_radius.dart';
+import 'package:ticket_platform_mobile/core/utils/number_format_util.dart';
 import 'package:ticket_platform_mobile/features/bank_account/domain/entities/bank_account_entity.dart';
 import 'package:ticket_platform_mobile/features/bank_account/presentation/viewmodels/bank_account_viewmodel.dart';
+import 'package:ticket_platform_mobile/features/withdrawal/presentation/viewmodels/balance_viewmodel.dart';
 import 'package:ticket_platform_mobile/shared/widgets/app_button.dart';
 
 class BankAccountDetailView extends ConsumerStatefulWidget {
@@ -101,110 +103,19 @@ class _BankAccountDetailViewState extends ConsumerState<BankAccountDetailView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // 1) 인증 상태 카드 — 최상단
-                  _buildVerificationStatusCard(context, account),
-                  const SizedBox(height: AppSpacing.lg),
-
-                  // 2) 계좌 정보 카드
                   _buildAccountCard(account),
-
-                  if (account.verified) ...[
-                    const SizedBox(height: AppSpacing.lg),
-                    _buildBalanceNavigationCard(context),
-                  ],
+                  const SizedBox(height: AppSpacing.lg),
+                  _buildBalanceNavigationCard(context),
                 ],
               ),
             ),
           ),
-
-          // 하단 고정 버튼 영역
-          _buildBottomActions(context, account, isSubmitting),
+          _buildBottomActions(context, isSubmitting),
         ],
       ),
     );
   }
 
-  // ── 인증 상태 카드 ──────────────────────────────────────────
-  Widget _buildVerificationStatusCard(
-    BuildContext context,
-    BankAccountEntity account,
-  ) {
-    final isVerified = account.verified;
-
-    return GestureDetector(
-      onTap: isVerified
-          ? null
-          : () => context.goNamed(AppRouterPath.bankAccountVerify.name),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(AppSpacing.lg),
-        decoration: BoxDecoration(
-          color: isVerified
-              ? AppColors.primaryLight.withValues(alpha: 0.5)
-              : AppColors.muted,
-          borderRadius: BorderRadius.circular(AppRadius.lg),
-          border: Border.all(
-            color: isVerified
-                ? AppColors.primary.withValues(alpha: 0.2)
-                : AppColors.border,
-          ),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: isVerified
-                    ? AppColors.primary.withValues(alpha: 0.1)
-                    : AppColors.warning.withValues(alpha: 0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                isVerified
-                    ? Icons.verified_outlined
-                    : Icons.warning_amber_rounded,
-                color: isVerified ? AppColors.primary : AppColors.warning,
-                size: 22,
-              ),
-            ),
-            const SizedBox(width: AppSpacing.md),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    isVerified ? '인증 완료' : '인증 필요',
-                    style: AppTextStyles.body1.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: isVerified ? AppColors.primary : AppColors.warning,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    isVerified
-                        ? _formatVerifiedDate(account.verifiedAt)
-                        : '계좌 인증을 완료해야 정산이 진행됩니다.',
-                    style: AppTextStyles.caption.copyWith(
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            if (!isVerified)
-              const Icon(
-                Icons.chevron_right,
-                color: AppColors.textSecondary,
-                size: 20,
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // ── 계좌 정보 카드 (은행 아이콘 + 계좌번호 토글) ──────────
   Widget _buildAccountCard(BankAccountEntity account) {
     final bankType = BankType.fromCode(account.bankCode);
 
@@ -226,10 +137,8 @@ class _BankAccountDetailViewState extends ConsumerState<BankAccountDetailView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 은행 정보 헤더
           Row(
             children: [
-              // 은행 아이콘 (SVG) or fallback 텍스트 아바타
               _buildBankAvatar(account, bankType),
               const SizedBox(width: AppSpacing.md),
               Expanded(
@@ -243,7 +152,6 @@ class _BankAccountDetailViewState extends ConsumerState<BankAccountDetailView> {
                       ),
                     ),
                     const SizedBox(height: 2),
-                    // 계좌번호 + 보기/숨기기 토글
                     Row(
                       children: [
                         Expanded(
@@ -279,12 +187,9 @@ class _BankAccountDetailViewState extends ConsumerState<BankAccountDetailView> {
               ),
             ],
           ),
-
           const SizedBox(height: AppSpacing.md),
           Divider(color: AppColors.border.withValues(alpha: 0.5), height: 1),
           const SizedBox(height: AppSpacing.md),
-
-          // 예금주
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -309,6 +214,21 @@ class _BankAccountDetailViewState extends ConsumerState<BankAccountDetailView> {
   }
 
   Widget _buildBalanceNavigationCard(BuildContext context) {
+    final balanceAsync = ref.watch(balanceViewModelProvider);
+
+    final availableText = balanceAsync.when(
+      loading: () => '-',
+      error: (_, _) => '-',
+      data: (balance) => NumberFormatUtil.formatPrice(balance.available),
+    );
+
+    final pendingText = balanceAsync.when(
+      loading: () => '정산 대기 금액을 불러오는 중입니다.',
+      error: (_, _) => '잔고를 불러오지 못했습니다.',
+      data: (balance) =>
+          '정산 대기 ${NumberFormatUtil.formatPrice(balance.pending)}',
+    );
+
     return GestureDetector(
       onTap: () => context.goNamed(AppRouterPath.balanceOverview.name),
       child: Container(
@@ -338,20 +258,61 @@ class _BankAccountDetailViewState extends ConsumerState<BankAccountDetailView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          '출금 가능 금액',
+                          style: AppTextStyles.body1.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () => context.pushNamed(
+                          AppRouterPath.withdrawalRequest.name,
+                        ),
+                        child: Text(
+                          '출금하기',
+                          style: AppTextStyles.caption.copyWith(
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppSpacing.xs),
                   Text(
-                    '내 잔고 확인하기',
-                    style: AppTextStyles.body1.copyWith(
-                      fontWeight: FontWeight.w700,
+                    availableText,
+                    style: AppTextStyles.heading3.copyWith(
                       color: AppColors.textPrimary,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    '출금 가능 금액과 내역을 확인할 수 있어요.',
+                    pendingText,
                     style: AppTextStyles.caption.copyWith(
                       color: AppColors.textSecondary,
                     ),
                   ),
+                  if (balanceAsync.hasError)
+                    GestureDetector(
+                      onTap: () =>
+                          ref.read(balanceViewModelProvider.notifier).refresh(),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: AppSpacing.xs),
+                        child: Text(
+                          '다시 시도',
+                          style: AppTextStyles.caption.copyWith(
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),
@@ -362,22 +323,18 @@ class _BankAccountDetailViewState extends ConsumerState<BankAccountDetailView> {
     );
   }
 
-  /// 은행 아이콘 위젯 — BankType 매칭 시 SVG, 실패 시 텍스트 fallback
   Widget _buildBankAvatar(BankAccountEntity account, BankType? bankType) {
     if (bankType != null) {
       return Container(
         width: 48,
         height: 48,
-        // padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          // color: AppColors.gray50,
           borderRadius: BorderRadius.circular(AppRadius.md),
         ),
         child: SvgPicture.asset(bankType.iconPath, width: 28, height: 28),
       );
     }
 
-    // fallback: 은행명 앞 2글자
     return Container(
       width: 48,
       height: 48,
@@ -398,19 +355,13 @@ class _BankAccountDetailViewState extends ConsumerState<BankAccountDetailView> {
     );
   }
 
-  /// 계좌번호 마스킹 표시 — 뒤 4자리만 노출
   String _maskDisplay(String accountNumber) {
     if (accountNumber.length <= 4) return accountNumber;
     final visible = accountNumber.substring(accountNumber.length - 4);
     return '${'*' * (accountNumber.length - 4)}$visible';
   }
 
-  // ── 하단 버튼 ──────────────────────────────────────────────
-  Widget _buildBottomActions(
-    BuildContext context,
-    BankAccountEntity account,
-    bool isSubmitting,
-  ) {
+  Widget _buildBottomActions(BuildContext context, bool isSubmitting) {
     return Container(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.lg,
@@ -424,47 +375,31 @@ class _BankAccountDetailViewState extends ConsumerState<BankAccountDetailView> {
           top: BorderSide(color: AppColors.border.withValues(alpha: 0.5)),
         ),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // 인증 진행 버튼 (미인증 시)
-          if (!account.verified) ...[
-            AppButton(
-              text: '계좌 인증 진행',
-              onPressed: () =>
-                  context.goNamed(AppRouterPath.bankAccountVerify.name),
-            ),
-            const SizedBox(height: AppSpacing.sm),
-          ],
-
-          // 계좌 변경 버튼
-          SizedBox(
-            width: double.infinity,
-            height: 48,
-            child: OutlinedButton(
-              onPressed: isSubmitting ? null : () => _showChangeDialog(context),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: AppColors.textSecondary,
-                side: const BorderSide(color: AppColors.border),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppRadius.md),
-                ),
-              ),
-              child: isSubmitting
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : Text(
-                      '계좌 변경',
-                      style: AppTextStyles.body2.copyWith(
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
+      child: SizedBox(
+        width: double.infinity,
+        height: 48,
+        child: OutlinedButton(
+          onPressed: isSubmitting ? null : () => _showChangeDialog(context),
+          style: OutlinedButton.styleFrom(
+            foregroundColor: AppColors.textSecondary,
+            side: const BorderSide(color: AppColors.border),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppRadius.md),
             ),
           ),
-        ],
+          child: isSubmitting
+              ? const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : Text(
+                  '계좌 변경',
+                  style: AppTextStyles.body2.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+        ),
       ),
     );
   }
@@ -517,11 +452,5 @@ class _BankAccountDetailViewState extends ConsumerState<BankAccountDetailView> {
         nav.goNamed(AppRouterPath.bankAccountRegister.name);
       }
     }
-  }
-
-  String _formatVerifiedDate(DateTime? verifiedAt) {
-    if (verifiedAt == null) return '인증 완료';
-    final local = verifiedAt.toLocal();
-    return '${local.year}.${local.month.toString().padLeft(2, '0')}.${local.day.toString().padLeft(2, '0')} 인증됨';
   }
 }

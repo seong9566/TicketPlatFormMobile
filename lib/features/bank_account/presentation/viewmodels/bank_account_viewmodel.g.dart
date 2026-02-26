@@ -34,7 +34,7 @@ final class BankAccountViewModelProvider
 }
 
 String _$bankAccountViewModelHash() =>
-    r'e33b866761d5e1cf50a799e934fbb062888df520';
+    r'4475c13e440655baca9f6942015432f1e3d9de88';
 
 abstract class _$BankAccountViewModel extends $AsyncNotifier<BankAccountState> {
   FutureOr<BankAccountState> build();

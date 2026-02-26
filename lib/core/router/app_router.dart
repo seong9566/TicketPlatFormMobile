@@ -36,7 +36,6 @@ import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/features/sales_dashboard/presentation/views/sales_dashboard_view.dart';
 import 'package:ticket_platform_mobile/features/sales_dashboard/presentation/views/event_ticket_list_view.dart';
 import 'package:ticket_platform_mobile/features/bank_account/presentation/views/bank_account_register_view.dart';
-import 'package:ticket_platform_mobile/features/bank_account/presentation/views/bank_account_verify_view.dart';
 import 'package:ticket_platform_mobile/features/bank_account/presentation/views/bank_account_detail_view.dart';
 import 'package:ticket_platform_mobile/features/withdrawal/presentation/views/balance_overview_view.dart';
 import 'package:ticket_platform_mobile/features/withdrawal/presentation/views/withdrawal_history_view.dart';
@@ -330,11 +329,6 @@ GoRouter goRouter(Ref ref) {
         path: AppRouterPath.bankAccountRegister.path,
         name: AppRouterPath.bankAccountRegister.name,
         builder: (context, state) => const BankAccountRegisterView(),
-      ),
-      GoRoute(
-        path: AppRouterPath.bankAccountVerify.path,
-        name: AppRouterPath.bankAccountVerify.name,
-        builder: (context, state) => const BankAccountVerifyView(),
       ),
       GoRoute(
         path: AppRouterPath.bankAccountDetail.path,

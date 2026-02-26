@@ -56,7 +56,7 @@ class _BankAccountRegisterViewState
                     Text('정산 계좌 등록', style: AppTextStyles.heading2),
                     const SizedBox(height: AppSpacing.sm),
                     Text(
-                      '계좌 인증 완료 후 정산이 진행됩니다.',
+                      '정산을 위해 본인 명의 계좌를 등록해주세요.',
                       style: AppTextStyles.body2.copyWith(
                         color: AppColors.textSecondary,
                       ),
@@ -189,7 +189,7 @@ class _BankAccountRegisterViewState
                           ),
                           const SizedBox(height: AppSpacing.sm),
                           Text(
-                            '• 본인 명의의 계좌만 등록 가능합니다.\n• 등록 후 1원 인증을 진행해야 합니다.',
+                            '• 본인 명의의 계좌만 등록 가능합니다.\n• 계좌번호와 예금주명이 일치해야 합니다.',
                             style: AppTextStyles.caption.copyWith(
                               color: AppColors.textTertiary,
                               height: 1.6,
@@ -220,7 +220,7 @@ class _BankAccountRegisterViewState
                 ),
               ),
               child: AppButton(
-                text: '등록하고 인증하기',
+                text: '계좌 등록',
                 isLoading: isSubmitting,
                 onPressed: isSubmitting ? null : _submit,
               ),
@@ -342,7 +342,7 @@ class _BankAccountRegisterViewState
     final state = ref.read(bankAccountViewModelProvider).value;
     if (!mounted) return;
     if (state?.bankAccount != null && state?.error == null) {
-      context.pushNamed(AppRouterPath.bankAccountVerify.name);
+      context.goNamed(AppRouterPath.bankAccountDetail.name);
     }
   }
 }
