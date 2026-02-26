@@ -3,6 +3,7 @@ import 'package:ticket_platform_mobile/core/network/base_response.dart';
 import 'package:ticket_platform_mobile/core/storage/token_storage.dart';
 import 'package:ticket_platform_mobile/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:ticket_platform_mobile/features/auth/data/dto/request/auth_req_dto.dart';
+import 'package:ticket_platform_mobile/features/auth/data/dto/request/find_id_req_dto.dart';
 import 'package:ticket_platform_mobile/features/auth/data/dto/request/social_login_req_dto.dart';
 import 'package:ticket_platform_mobile/features/auth/data/dto/response/auth_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/auth/domain/entities/sign_up_entity.dart';
@@ -118,6 +119,18 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<bool> hasToken() async {
     return await _tokenStorage.hasToken();
+  }
+
+  @override
+  Future<String> findId(String phoneNumber) async {
+    try {
+      final req = FindIdReqDto(phoneNumber: phoneNumber);
+      final response = await _remoteDataSource.findId(req);
+      final dto = response.dataOrThrow;
+      return dto.maskedEmail;
+    } catch (e) {
+      rethrow;
+    }
   }
 }
 

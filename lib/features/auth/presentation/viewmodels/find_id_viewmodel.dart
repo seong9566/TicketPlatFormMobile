@@ -1,10 +1,12 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:ticket_platform_mobile/core/utils/error_handler.dart';
+import 'package:ticket_platform_mobile/features/auth/presentation/providers/auth_providers_di.dart';
 import 'package:ticket_platform_mobile/features/auth/presentation/viewmodels/find_id_state.dart';
 
 part 'find_id_viewmodel.g.dart';
 
 @riverpod
-class FindIdViewModel extends _$FindIdViewModel {
+class FindIdViewModel extends _$FindIdViewModel with ErrorHandler {
   @override
   FindIdState build() => const FindIdState();
 
@@ -21,15 +23,17 @@ class FindIdViewModel extends _$FindIdViewModel {
     state = state.copyWith(isLoading: true, errorMessage: null);
 
     try {
-      // TODO: Implement actual find ID logic via UseCase
-      await Future.delayed(const Duration(seconds: 1));
-      // Mock result
-      state = state.copyWith(isLoading: false, foundId: 'user***@email.com');
+      final maskedEmail = await ref
+          .read(findIdUseCaseProvider)
+          .call(state.phoneNumber);
+
+      if (!ref.mounted) return;
+
+      state = state.copyWith(isLoading: false, foundId: maskedEmail);
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: '아이디 찾기에 실패했습니다. 다시 시도해주세요.',
-      );
+      if (!ref.mounted) return;
+
+      state = state.copyWith(isLoading: false, errorMessage: handleError(e));
     }
   }
 

@@ -186,3 +186,44 @@ final class KakaoSignInUsecaseProvider
 
 String _$kakaoSignInUsecaseHash() =>
     r'0f6fc96774d1641bac6ee7cafeee9f6cec44a4e6';
+
+@ProviderFor(findIdUseCase)
+const findIdUseCaseProvider = FindIdUseCaseProvider._();
+
+final class FindIdUseCaseProvider
+    extends $FunctionalProvider<FindIdUseCase, FindIdUseCase, FindIdUseCase>
+    with $Provider<FindIdUseCase> {
+  const FindIdUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'findIdUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$findIdUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<FindIdUseCase> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  FindIdUseCase create(Ref ref) {
+    return findIdUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(FindIdUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<FindIdUseCase>(value),
+    );
+  }
+}
+
+String _$findIdUseCaseHash() => r'760cced99ba1c4adf21c93cfe335deff65043d33';

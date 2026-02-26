@@ -5,7 +5,7 @@ import 'package:ticket_platform_mobile/features/auth/domain/usecases/google_sign
 import 'package:ticket_platform_mobile/features/auth/domain/usecases/kakao_sign_in_usecase.dart';
 import 'package:ticket_platform_mobile/features/auth/domain/usecases/login_usecase.dart';
 import 'package:ticket_platform_mobile/features/auth/domain/usecases/sign_up_usecase.dart';
-
+import 'package:ticket_platform_mobile/features/auth/domain/usecases/find_id_usecase.dart';
 part 'auth_providers_di.g.dart';
 
 @riverpod
@@ -32,4 +32,9 @@ KakaoSignInUsecase kakaoSignInUsecase(Ref ref) {
     ref.watch(socialOAuthRepositoryProvider),
     ref.watch(authRepositoryProvider),
   );
+}
+
+@riverpod
+FindIdUseCase findIdUseCase(Ref ref) {
+  return FindIdUseCase(ref.watch(authRepositoryProvider));
 }
