@@ -237,6 +237,11 @@ class BankAccountViewModel extends _$BankAccountViewModel {
     }
   }
 
+ /// 계좌 변경: 기존 계좌 삭제 후 새 등록을 위한 상태 초기화
+  Future<void> changeAccount() async {
+    await deleteAccount();
+  }
+
   void _startTimer() {
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
