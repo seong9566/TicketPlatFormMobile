@@ -97,7 +97,7 @@ class TransactionFilterBar extends StatelessWidget {
             ),
           ),
           selected: isSelected,
-          onSelected: (_) => onStatusChanged(status['value'] as String?),
+          onSelected: (_) => onStatusChanged(status['value']),
           selectedColor: AppColors.primary,
           backgroundColor: AppColors.muted,
           checkmarkColor: AppColors.background,

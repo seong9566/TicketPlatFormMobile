@@ -187,33 +187,4 @@ class _PaymentFailureWidgetState extends State<PaymentFailureWidget>
       ),
     );
   }
-
-  Widget _buildDetailRow(
-    String label,
-    String value, {
-    Color? valueColor,
-    bool isBold = false,
-  }) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: AppTextStyles.body2.copyWith(color: AppColors.textSecondary),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Text(
-            value,
-            textAlign: TextAlign.end,
-            style: AppTextStyles.body2.copyWith(
-              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-              color: valueColor ?? AppColors.textPrimary,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
 }

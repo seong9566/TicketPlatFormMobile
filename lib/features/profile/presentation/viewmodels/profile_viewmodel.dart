@@ -78,7 +78,7 @@ class ProfileViewModel extends _$ProfileViewModel {
       }
 
       await ref.read(deleteFcmTokenUsecaseProvider).call(deviceToken: token);
-      AppLogger.i('[FCM] 로그아웃 시 토큰 삭제 성공 (${_platform})');
+      AppLogger.i('[FCM] 로그아웃 시 토큰 삭제 성공 ($_platform)');
     } catch (e, stack) {
       AppLogger.w('[FCM] 로그아웃 토큰 삭제 실패 (로그아웃은 계속 진행): $e');
       AppLogger.e('[FCM] 로그아웃 토큰 삭제 stack', e, stack);

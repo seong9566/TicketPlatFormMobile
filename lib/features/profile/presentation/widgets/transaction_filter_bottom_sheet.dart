@@ -219,7 +219,7 @@ class _TransactionFilterBottomSheetState
           selected: isSelected,
           onSelected: (_) {
             setState(() {
-              _selectedStatus = status['value'] as String?;
+              _selectedStatus = status['value'];
             });
           },
           selectedColor: AppColors.primary,

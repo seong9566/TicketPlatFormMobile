@@ -129,7 +129,6 @@ class TicketListingCard extends StatelessWidget {
 
   Widget _buildPriceSection() {
     final unitPriceText = NumberFormatUtil.formatNumber(ticket.price);
-    final totalPriceText = NumberFormatUtil.formatNumber(ticket.totalPrice);
     final originalPriceText = NumberFormatUtil.formatNumber(
       ticket.originalPrice,
     );

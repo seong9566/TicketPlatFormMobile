@@ -1,10 +1,12 @@
+library;
+
 /// ChatRoomViewModel - Presentation Layer
 ///
 /// **역할: UI 상태 관리 및 사용자 인터랙션 처리**
 ///
 /// - SignalR Stream 구독 → 실시간 메시지 수신
 /// - UseCase 호출 → 비즈니스 로직 실행
-/// - AsyncValue<ChatRoomDetailUiModel> → UI 상태 관리
+/// - `AsyncValue<ChatRoomDetailUiModel>` → UI 상태 관리
 ///
 /// **Data Layer와의 차이:**
 /// - ViewModel: UI 상태 관리 (AsyncValue, copyWith)

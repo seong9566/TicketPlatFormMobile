@@ -55,7 +55,7 @@ abstract class EventGroupUiModel with _$EventGroupUiModel {
       onSaleBadgeColor: AppColors.success,
       completedBadgeColor: AppColors.info,
       settlingBadgeColor: AppColors.badgeWaitingBackground,
-      salesSummaryText: '판매 ${soldCount}장 / 총 ${entity.totalCount}장',
+      salesSummaryText: '판매 $soldCount장 / 총 ${entity.totalCount}장',
       salesProgressRate: entity.totalCount == 0
           ? 0.0
           : soldCount / entity.totalCount,

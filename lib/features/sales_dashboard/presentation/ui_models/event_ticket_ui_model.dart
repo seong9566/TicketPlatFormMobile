@@ -70,7 +70,7 @@ abstract class EventTicketUiModel with _$EventTicketUiModel {
           : entity.seatInfo!,
       priceText: NumberFormatUtil.formatPrice(entity.price),
       originalPriceText: NumberFormatUtil.formatPrice(entity.originalPrice),
-      quantityText: '판매 ${soldQuantity}장',
+      quantityText: '판매 $soldQuantity장',
       totalSalesAmountText:
           '총 ${NumberFormatUtil.formatPrice(totalSalesAmount)}',
       statusText: statusText,

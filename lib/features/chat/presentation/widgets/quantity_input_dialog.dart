@@ -22,7 +22,7 @@ Future<int?> showQuantityInputDialog({
     context: context,
     barrierDismissible: true,
     barrierLabel: 'Dismiss',
-    barrierColor: Colors.black.withOpacity(0.4),
+    barrierColor: Colors.black.withValues(alpha: 0.4),
     transitionDuration: const Duration(milliseconds: 300),
     pageBuilder: (context, animation, secondaryAnimation) {
       return _QuantityInputDialog(
@@ -140,15 +140,15 @@ class _QuantityInputDialogState extends State<_QuantityInputDialog>
         child: Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.9),
+            color: Colors.white.withValues(alpha: 0.9),
             borderRadius: BorderRadius.circular(28),
             border: Border.all(
-              color: Colors.white.withOpacity(0.5),
+              color: Colors.white.withValues(alpha: 0.5),
               width: 1.5,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: 0.1),
                 blurRadius: 20,
                 offset: const Offset(0, 10),
               ),
@@ -270,7 +270,7 @@ class _QuantityInputDialogState extends State<_QuantityInputDialog>
                     border: Border.all(color: AppColors.border),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.primary.withOpacity(0.05),
+                        color: AppColors.primary.withValues(alpha: 0.05),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       ),
@@ -317,9 +317,9 @@ class _QuantityInputDialogState extends State<_QuantityInputDialog>
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.border.withOpacity(0.1),
+            AppColors.border.withValues(alpha: 0.1),
             AppColors.border,
-            AppColors.border.withOpacity(0.1),
+            AppColors.border.withValues(alpha: 0.1),
           ],
         ),
       ),
@@ -435,7 +435,7 @@ class _AnimatedScaleButtonState extends State<_AnimatedScaleButton>
           decoration: BoxDecoration(
             color: widget.enabled
                 ? (widget.isPrimary ? AppColors.primary : Colors.white)
-                : AppColors.disabled.withOpacity(0.3),
+                : AppColors.disabled.withValues(alpha: 0.3),
             shape: BoxShape.circle,
             border: widget.isPrimary || !widget.enabled
                 ? null
@@ -445,7 +445,7 @@ class _AnimatedScaleButtonState extends State<_AnimatedScaleButton>
                     BoxShadow(
                       color:
                           (widget.isPrimary ? AppColors.primary : Colors.black)
-                              .withOpacity(0.1),
+                              .withValues(alpha: 0.1),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -486,7 +486,7 @@ class _ActionButton extends StatelessWidget {
           backgroundColor: isPrimary ? AppColors.primary : Colors.white,
           foregroundColor: isPrimary ? Colors.white : AppColors.textPrimary,
           elevation: isPrimary ? 8 : 0,
-          shadowColor: isPrimary ? AppColors.primary.withOpacity(0.4) : null,
+          shadowColor: isPrimary ? AppColors.primary.withValues(alpha: 0.4) : null,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
             side: isPrimary

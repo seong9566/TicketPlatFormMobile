@@ -1,3 +1,4 @@
+library;
 /// SignalR DataSource - Data Layer
 ///
 /// **왜 연결 코드를 Presentation Layer에 두지 않아야 하는가?**

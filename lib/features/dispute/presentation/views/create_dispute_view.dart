@@ -96,6 +96,7 @@ class _CreateDisputeViewState extends ConsumerState<CreateDisputeView> {
           if (!mounted) return;
           final message = ref.read(createDisputeViewModelProvider).errorMessage;
           if (message != null) {
+            // ignore: use_build_context_synchronously
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(message),
@@ -112,6 +113,7 @@ class _CreateDisputeViewState extends ConsumerState<CreateDisputeView> {
             .createdDisputeId;
         if (createdId != null) {
           if (!mounted) return;
+          // ignore: use_build_context_synchronously
           context.goNamed(
             AppRouterPath.disputeDetail.name,
             pathParameters: {'id': createdId.toString()},
