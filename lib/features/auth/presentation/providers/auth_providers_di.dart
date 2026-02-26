@@ -6,6 +6,7 @@ import 'package:ticket_platform_mobile/features/auth/domain/usecases/kakao_sign_
 import 'package:ticket_platform_mobile/features/auth/domain/usecases/login_usecase.dart';
 import 'package:ticket_platform_mobile/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:ticket_platform_mobile/features/auth/domain/usecases/find_id_usecase.dart';
+import 'package:ticket_platform_mobile/features/auth/domain/usecases/forgot_password_usecase.dart';
 part 'auth_providers_di.g.dart';
 
 @riverpod
@@ -37,4 +38,9 @@ KakaoSignInUsecase kakaoSignInUsecase(Ref ref) {
 @riverpod
 FindIdUseCase findIdUseCase(Ref ref) {
   return FindIdUseCase(ref.watch(authRepositoryProvider));
+}
+
+@riverpod
+ForgotPasswordUseCase forgotPasswordUseCase(Ref ref) {
+  return ForgotPasswordUseCase(ref.watch(authRepositoryProvider));
 }

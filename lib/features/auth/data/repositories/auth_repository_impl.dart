@@ -4,6 +4,7 @@ import 'package:ticket_platform_mobile/core/storage/token_storage.dart';
 import 'package:ticket_platform_mobile/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:ticket_platform_mobile/features/auth/data/dto/request/auth_req_dto.dart';
 import 'package:ticket_platform_mobile/features/auth/data/dto/request/find_id_req_dto.dart';
+import 'package:ticket_platform_mobile/features/auth/data/dto/request/forgot_password_req_dto.dart';
 import 'package:ticket_platform_mobile/features/auth/data/dto/request/social_login_req_dto.dart';
 import 'package:ticket_platform_mobile/features/auth/data/dto/response/auth_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/auth/domain/entities/sign_up_entity.dart';
@@ -128,6 +129,17 @@ class AuthRepositoryImpl implements AuthRepository {
       final response = await _remoteDataSource.findId(req);
       final dto = response.dataOrThrow;
       return dto.maskedEmail;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> forgotPassword(String email) async {
+    try {
+      final req = ForgotPasswordReqDto(email: email);
+      final response = await _remoteDataSource.forgotPassword(req);
+      response.dataOrThrow;
     } catch (e) {
       rethrow;
     }

@@ -1,10 +1,12 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:ticket_platform_mobile/core/utils/error_handler.dart';
+import 'package:ticket_platform_mobile/features/auth/presentation/providers/auth_providers_di.dart';
 import 'package:ticket_platform_mobile/features/auth/presentation/viewmodels/find_password_state.dart';
 
 part 'find_password_viewmodel.g.dart';
 
 @riverpod
-class FindPasswordViewModel extends _$FindPasswordViewModel {
+class FindPasswordViewModel extends _$FindPasswordViewModel with ErrorHandler {
   @override
   FindPasswordState build() => const FindPasswordState();
 
@@ -21,14 +23,15 @@ class FindPasswordViewModel extends _$FindPasswordViewModel {
     state = state.copyWith(isLoading: true, errorMessage: null);
 
     try {
-      // TODO: Implement actual reset logic via UseCase
-      await Future.delayed(const Duration(seconds: 1));
+      await ref.read(forgotPasswordUseCaseProvider).call(state.email);
+
+      if (!ref.mounted) return;
+
       state = state.copyWith(isLoading: false, isLinkSent: true);
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: '재설정 링크 발송에 실패했습니다. 다시 시도해주세요.',
-      );
+      if (!ref.mounted) return;
+
+      state = state.copyWith(isLoading: false, errorMessage: handleError(e));
     }
   }
 

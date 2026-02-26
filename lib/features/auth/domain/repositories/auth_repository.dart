@@ -10,4 +10,5 @@ abstract class AuthRepository {
   Future<bool> refreshToken();
   Future<bool> hasToken();
   Future<String> findId(String phoneNumber);
+  Future<void> forgotPassword(String email);
 }

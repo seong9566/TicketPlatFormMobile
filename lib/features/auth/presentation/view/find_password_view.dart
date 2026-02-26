@@ -109,7 +109,7 @@ class FindPasswordView extends ConsumerWidget {
         ),
         const SizedBox(height: 8),
         const Text(
-          '가입한 이메일 주소로 비밀번호 재설정 링크를 보내드립니다',
+          '가입한 이메일 주소로 임시 비밀번호를 발송해드립니다',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 14, color: AppColors.textSecondary),
         ),
@@ -127,8 +127,28 @@ class FindPasswordView extends ConsumerWidget {
   }
 
   Widget _buildSubmitButton(state, FindPasswordViewModel viewModel) {
+    if (state.isLinkSent) {
+      return Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.green.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: const Column(
+          children: [
+            Icon(Icons.check_circle, color: Colors.green, size: 32),
+            SizedBox(height: 8),
+            Text(
+              '임시 비밀번호가 이메일로 발송되었습니다. 로그인 후 비밀번호를 변경해주세요.',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.green, fontSize: 14),
+            ),
+          ],
+        ),
+      );
+    }
     return AppButton(
-      text: '재설정 링크 보내기',
+      text: '임시 비밀번호 발송',
       isLoading: state.isLoading,
       onPressed: viewModel.sendResetLink,
     );

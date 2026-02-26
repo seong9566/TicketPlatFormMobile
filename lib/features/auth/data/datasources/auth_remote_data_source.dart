@@ -6,6 +6,7 @@ import 'package:ticket_platform_mobile/core/network/dio_provider.dart';
 import 'package:ticket_platform_mobile/core/network/safe_api_call.dart';
 import 'package:ticket_platform_mobile/features/auth/data/dto/request/auth_req_dto.dart';
 import 'package:ticket_platform_mobile/features/auth/data/dto/request/find_id_req_dto.dart';
+import 'package:ticket_platform_mobile/features/auth/data/dto/request/forgot_password_req_dto.dart';
 import 'package:ticket_platform_mobile/features/auth/data/dto/request/social_login_req_dto.dart';
 import 'package:ticket_platform_mobile/features/auth/data/dto/response/auth_resp_dto.dart';
 import 'package:ticket_platform_mobile/features/auth/data/dto/response/find_id_res_dto.dart';
@@ -19,6 +20,7 @@ abstract class AuthRemoteDataSource {
   Future<BaseResponse<void>> logout();
   Future<BaseResponse<TokenRespDto>> refreshToken(String refreshToken);
   Future<BaseResponse<FindIdResDto>> findId(FindIdReqDto req);
+  Future<BaseResponse<void>> forgotPassword(ForgotPasswordReqDto req);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -89,6 +91,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           _dio.post(ApiEndpoint.findId, data: req.toMap(), options: options),
       apiName: 'findId',
       dataParser: (json) => FindIdResDto.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
+  @override
+  Future<BaseResponse<void>> forgotPassword(ForgotPasswordReqDto req) async {
+    return safeApiCall<void>(
+      apiCall: (options) => _dio.post(
+        ApiEndpoint.forgotPassword,
+        data: req.toJson(),
+        options: options,
+      ),
+      apiName: 'forgotPassword',
+      dataParser: (_) {},
     );
   }
 }
