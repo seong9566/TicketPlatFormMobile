@@ -107,6 +107,11 @@ class _BankAccountDetailViewState extends ConsumerState<BankAccountDetailView> {
 
                   // 2) 계좌 정보 카드
                   _buildAccountCard(account),
+
+                  if (account.verified) ...[
+                    const SizedBox(height: AppSpacing.lg),
+                    _buildBalanceNavigationCard(context),
+                  ],
                 ],
               ),
             ),
@@ -299,6 +304,60 @@ class _BankAccountDetailViewState extends ConsumerState<BankAccountDetailView> {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildBalanceNavigationCard(BuildContext context) {
+    return GestureDetector(
+      onTap: () => context.goNamed(AppRouterPath.balanceOverview.name),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        decoration: BoxDecoration(
+          color: AppColors.primaryLight,
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+          border: Border.all(color: AppColors.border),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.14),
+                borderRadius: BorderRadius.circular(AppRadius.md),
+              ),
+              child: const Icon(
+                Icons.account_balance_wallet_outlined,
+                color: AppColors.primary,
+              ),
+            ),
+            const SizedBox(width: AppSpacing.md),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '내 잔고 확인하기',
+                    style: AppTextStyles.body1.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    '출금 가능 금액과 내역을 확인할 수 있어요.',
+                    style: AppTextStyles.caption.copyWith(
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Icon(Icons.chevron_right, color: AppColors.textSecondary),
+          ],
+        ),
       ),
     );
   }

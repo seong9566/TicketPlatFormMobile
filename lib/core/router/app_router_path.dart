@@ -79,4 +79,14 @@ class AppRouterPath {
     '/bank-account/detail',
     'bankAccountDetail',
   );
+
+  static const balanceOverview = _Route('/balance', 'balanceOverview');
+  static const withdrawalRequest = _Route(
+    '/withdrawal/request',
+    'withdrawalRequest',
+  );
+  static const withdrawalHistory = _Route(
+    '/withdrawal/history',
+    'withdrawalHistory',
+  );
 }

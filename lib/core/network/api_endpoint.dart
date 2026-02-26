@@ -76,6 +76,15 @@ class ApiEndpoint {
   static const String bankAccountVerifyConfirm =
       '/api/bank-account/verify/confirm';
 
+  // Balance
+  static const String balance = '/api/balance';
+  static const String balanceHistory = '/api/balance/history';
+
+  // Withdrawal
+  static const String withdrawal = '/api/withdrawal';
+  static const String withdrawalHistory = '/api/withdrawal/history';
+  static String withdrawalCancel(int id) => '/api/withdrawal/$id/cancel';
+
   // Notification
   static const String notificationToken = '/api/notifications/token';
   static const String notifications = '/api/notifications';

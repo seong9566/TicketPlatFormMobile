@@ -38,6 +38,9 @@ import 'package:ticket_platform_mobile/features/sales_dashboard/presentation/vie
 import 'package:ticket_platform_mobile/features/bank_account/presentation/views/bank_account_register_view.dart';
 import 'package:ticket_platform_mobile/features/bank_account/presentation/views/bank_account_verify_view.dart';
 import 'package:ticket_platform_mobile/features/bank_account/presentation/views/bank_account_detail_view.dart';
+import 'package:ticket_platform_mobile/features/withdrawal/presentation/views/balance_overview_view.dart';
+import 'package:ticket_platform_mobile/features/withdrawal/presentation/views/withdrawal_history_view.dart';
+import 'package:ticket_platform_mobile/features/withdrawal/presentation/views/withdrawal_request_view.dart';
 
 part 'app_router.g.dart';
 
@@ -337,6 +340,21 @@ GoRouter goRouter(Ref ref) {
         path: AppRouterPath.bankAccountDetail.path,
         name: AppRouterPath.bankAccountDetail.name,
         builder: (context, state) => const BankAccountDetailView(),
+      ),
+      GoRoute(
+        path: AppRouterPath.balanceOverview.path,
+        name: AppRouterPath.balanceOverview.name,
+        builder: (context, state) => const BalanceOverviewView(),
+      ),
+      GoRoute(
+        path: AppRouterPath.withdrawalRequest.path,
+        name: AppRouterPath.withdrawalRequest.name,
+        builder: (context, state) => const WithdrawalRequestView(),
+      ),
+      GoRoute(
+        path: AppRouterPath.withdrawalHistory.path,
+        name: AppRouterPath.withdrawalHistory.name,
+        builder: (context, state) => const WithdrawalHistoryView(),
       ),
     ],
   );
