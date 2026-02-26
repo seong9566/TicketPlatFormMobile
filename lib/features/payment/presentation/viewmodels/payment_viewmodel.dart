@@ -87,7 +87,7 @@ class PaymentViewModel extends _$PaymentViewModel {
               );
         } catch (e) {
           // 메시지 전송 실패는 상세 에러로 처리하지 않음 (결제는 성공했으므로)
-          print('결제 완료 메시지 전송 실패: $e');
+          debugPrint('결제 완료 메시지 전송 실패: $e');
         }
       }
       */

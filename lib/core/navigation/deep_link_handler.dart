@@ -82,7 +82,7 @@ class DeepLinkHandler {
               if (parsedNested != null) return parsedNested;
             }
           }
-        } catch (_) {}
+        } catch (e, st) { AppLogger.e('[DeepLink] JSON decode 오류: $e', e, st); }
       }
     }
     return null;
