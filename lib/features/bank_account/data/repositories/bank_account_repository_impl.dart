@@ -46,7 +46,7 @@ class BankAccountRepositoryImpl implements BankAccountRepository {
   @override
   Future<void> deleteBankAccount() async {
     final response = await _remoteDataSource.deleteBankAccount();
-    response.mapOrThrow((_) => null, errorMessage: '계좌 삭제에 실패했습니다.');
+    response.voidOrThrow(errorMessage: '계좌 삭제에 실패했습니다.');
   }
 
   @override

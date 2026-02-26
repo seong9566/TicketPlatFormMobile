@@ -50,6 +50,18 @@ extension BaseResponseExt<T> on BaseResponse<T> {
     );
     throw Exception(errorMsg);
   }
+
+  /// 데이터 값이 없어도(success 상태면) 성공으로 처리하는 경우
+  void voidOrThrow({String? errorMessage}) {
+    if (isSuccess) return;
+
+    final errorMsg =
+        errorMessage ?? (message.isNotEmpty ? message : '요청 처리에 실패했습니다.');
+    AppLogger.w(
+      '[BaseResponse] voidOrThrow 실패: $errorMsg (success: $isSuccess)',
+    );
+    throw Exception(errorMsg);
+  }
 }
 
 extension BaseResponseListExt<T> on BaseResponse<List<T>> {
