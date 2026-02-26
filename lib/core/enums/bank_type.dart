@@ -95,4 +95,15 @@ enum BankType {
         return AppAssets.bankShuhyeop;
     }
   }
+
+  /// bankCode(3자리)로 BankType 조회. 매칭 실패 시 null 반환.
+  static BankType? fromCode(String code) {
+    final trimmed = code.trim();
+    for (final bank in BankType.values) {
+      if (bank.code == trimmed || bank.shortCode == trimmed) {
+        return bank;
+      }
+    }
+    return null;
+  }
 }
