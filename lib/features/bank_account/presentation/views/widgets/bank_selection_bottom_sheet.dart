@@ -101,16 +101,10 @@ class _BottomSheetContent extends StatelessWidget {
             const SizedBox(height: AppSpacing.sm),
             Divider(color: AppColors.border.withValues(alpha: 0.5), height: 1),
             Expanded(
-              child: ListView.separated(
+              child: ListView.builder(
                 controller: controller,
                 padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
                 itemCount: bankOptions.length,
-                separatorBuilder: (context, index) => Divider(
-                  color: AppColors.border.withValues(alpha: 0.3),
-                  height: 1,
-                  indent: AppSpacing.lg,
-                  endIndent: AppSpacing.lg,
-                ),
                 itemBuilder: (context, index) {
                   final bank = bankOptions[index];
                   final isSelected = selectedBank == bank;
@@ -122,8 +116,8 @@ class _BottomSheetContent extends StatelessWidget {
                     ),
                     leading: SvgPicture.asset(
                       bank.iconPath,
-                      width: 24,
-                      height: 24,
+                      width: 40,
+                      height: 40,
                     ),
                     title: Text(
                       bank.bankName,
