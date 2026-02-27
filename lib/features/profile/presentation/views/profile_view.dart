@@ -5,15 +5,11 @@ import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
-import 'package:ticket_platform_mobile/features/notification/presentation/viewmodels/unread_badge_viewmodel.dart';
-import 'package:ticket_platform_mobile/features/bank_account/presentation/viewmodels/bank_account_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/profile_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/widgets/profile_header_section.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/widgets/profile_menu_tile.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/widgets/profile_section.dart';
-import 'package:ticket_platform_mobile/features/withdrawal/presentation/viewmodels/balance_viewmodel.dart';
 import 'package:ticket_platform_mobile/shared/widgets/app_dialog.dart';
-import 'package:ticket_platform_mobile/core/utils/number_format_util.dart';
 
 class ProfileView extends ConsumerWidget {
   const ProfileView({super.key});
@@ -55,9 +51,6 @@ class ProfileView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncState = ref.watch(profileViewModelProvider);
     final profile = asyncState.value?.profile;
-    final unreadNotificationCount = ref.watch(unreadBadgeViewModelProvider);
-    final bankAccountState = ref.watch(bankAccountViewModelProvider).value;
-    final bankAccount = bankAccountState?.bankAccount;
     final socialProvider = _resolveSocialProvider(
       profile?.email,
       profile?.provider,
@@ -101,8 +94,9 @@ class ProfileView extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // ── 1. 프로필 헤더 및 계좌 정보 ────────────────────────────────────
             const ProfileHeaderSection(),
-            const SizedBox(height: AppSpacing.lg),
+            // ── 2. 거래 ──────────────────────────────────────────
             ProfileSection(
               title: '거래',
               children: [
@@ -128,6 +122,8 @@ class ProfileView extends ConsumerWidget {
                 ),
               ],
             ),
+
+            // ── 3. 계정 정보 ──────────────────────────────────────
             ProfileSection(
               title: '계정 정보',
               children: [
@@ -153,61 +149,6 @@ class ProfileView extends ConsumerWidget {
                     onTap: () =>
                         context.push(AppRouterPath.changePassword.path),
                   ),
-              ],
-            ),
-            ProfileSection(
-              title: '계정 인증',
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    ProfileMenuTile(
-                      icon: Icons.account_balance_outlined,
-                      title: bankAccount == null
-                          ? '계좌인증을 해주세요'
-                          : '${bankAccount.bankName} ${bankAccount.accountNumber}',
-                      onTap: () {
-                        if (bankAccount == null) {
-                          context.pushNamed(
-                            AppRouterPath.bankAccountRegister.name,
-                          );
-                          return;
-                        }
-                        context.pushNamed(AppRouterPath.bankAccountDetail.name);
-                      },
-                    ),
-                    if (bankAccount != null)
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: AppSpacing.lg + 36 + AppSpacing.md,
-                          right: AppSpacing.lg,
-                          bottom: AppSpacing.md,
-                        ),
-                        child: Consumer(
-                          builder: (context, ref, child) {
-                            final balanceAsync = ref.watch(
-                              balanceViewModelProvider,
-                            );
-                            return balanceAsync.when(
-                              data: (balance) => Text(
-                                '출금 가능 금액: ${NumberFormatUtil.formatPrice(balance.available)}',
-                                style: AppTextStyles.body2.copyWith(
-                                  color: AppColors.textSecondary,
-                                ),
-                              ),
-                              loading: () => Text(
-                                '출금 가능 금액: 가져오는 중...',
-                                style: AppTextStyles.body2.copyWith(
-                                  color: AppColors.textSecondary,
-                                ),
-                              ),
-                              error: (_, __) => const SizedBox.shrink(),
-                            );
-                          },
-                        ),
-                      ),
-                  ],
-                ),
                 const ProfileMenuTile(
                   icon: Icons.phone_iphone,
                   title: '휴대폰 인증',
@@ -217,24 +158,19 @@ class ProfileView extends ConsumerWidget {
                 ),
               ],
             ),
+
+            // ── 4. 설정 ──────────────────────────────────────────
             ProfileSection(
               title: '설정',
               children: [
-                ProfileMenuTile(
-                  icon: Icons.notifications_none,
-                  title: '알림',
-                  trailingText: unreadNotificationCount > 0
-                      ? '$unreadNotificationCount개 미읽음'
-                      : null,
-                  onTap: () =>
-                      context.push(AppRouterPath.notificationList.path),
-                ),
                 const ProfileMenuTile(
                   icon: Icons.place_outlined,
                   title: '배송지 관리',
                 ),
               ],
             ),
+
+            // ── 5. 약관 및 정보 ─────────────────────────────────────
             ProfileSection(
               title: '약관 및 정보',
               children: const [
@@ -251,6 +187,8 @@ class ProfileView extends ConsumerWidget {
                 ),
               ],
             ),
+
+            // ── 6. 로그아웃 / 회원탈퇴 ─────────────────────────────────
             const SizedBox(height: AppSpacing.lg),
             Container(
               color: AppColors.background,
