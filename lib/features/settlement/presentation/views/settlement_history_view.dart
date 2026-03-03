@@ -28,7 +28,7 @@ class SettlementHistoryView extends StatelessWidget {
           ),
         ),
         child: Scaffold(
-          backgroundColor: Colors.transparent,
+          backgroundColor: AppColors.transparent,
           appBar: AppBar(
             backgroundColor: AppColors.background,
             elevation: 0,
