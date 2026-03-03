@@ -10,7 +10,7 @@ abstract class EventRespDto with _$EventRespDto {
   const factory EventRespDto({
     required int eventId,
     required String eventTitle,
-    required String eventPosterImageUrl,
+    required String? eventPosterImageUrl,
     required String startAt,
     required String endAt,
     required String venueName,

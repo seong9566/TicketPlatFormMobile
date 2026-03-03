@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$EventEntity {
 
- String get id; String get title; String get posterImageUrl; DateTime get startDate; DateTime get endDate; String get location; Category get category;
+ String get id; String get title; String? get posterImageUrl; DateTime get startDate; DateTime get endDate; String get location; Category get category;
 /// Create a copy of EventEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -45,7 +45,7 @@ abstract mixin class $EventEntityCopyWith<$Res>  {
   factory $EventEntityCopyWith(EventEntity value, $Res Function(EventEntity) _then) = _$EventEntityCopyWithImpl;
 @useResult
 $Res call({
- String id, String title, String posterImageUrl, DateTime startDate, DateTime endDate, String location, Category category
+ String id, String title, String? posterImageUrl, DateTime startDate, DateTime endDate, String location, Category category
 });
 
 
@@ -62,12 +62,12 @@ class _$EventEntityCopyWithImpl<$Res>
 
 /// Create a copy of EventEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? posterImageUrl = null,Object? startDate = null,Object? endDate = null,Object? location = null,Object? category = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? posterImageUrl = freezed,Object? startDate = null,Object? endDate = null,Object? location = null,Object? category = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,posterImageUrl: null == posterImageUrl ? _self.posterImageUrl : posterImageUrl // ignore: cast_nullable_to_non_nullable
-as String,startDate: null == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
+as String,posterImageUrl: freezed == posterImageUrl ? _self.posterImageUrl : posterImageUrl // ignore: cast_nullable_to_non_nullable
+as String?,startDate: null == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
 as DateTime,endDate: null == endDate ? _self.endDate : endDate // ignore: cast_nullable_to_non_nullable
 as DateTime,location: null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
 as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
@@ -156,7 +156,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String title,  String posterImageUrl,  DateTime startDate,  DateTime endDate,  String location,  Category category)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String title,  String? posterImageUrl,  DateTime startDate,  DateTime endDate,  String location,  Category category)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EventEntity() when $default != null:
 return $default(_that.id,_that.title,_that.posterImageUrl,_that.startDate,_that.endDate,_that.location,_that.category);case _:
@@ -177,7 +177,7 @@ return $default(_that.id,_that.title,_that.posterImageUrl,_that.startDate,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String title,  String posterImageUrl,  DateTime startDate,  DateTime endDate,  String location,  Category category)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String title,  String? posterImageUrl,  DateTime startDate,  DateTime endDate,  String location,  Category category)  $default,) {final _that = this;
 switch (_that) {
 case _EventEntity():
 return $default(_that.id,_that.title,_that.posterImageUrl,_that.startDate,_that.endDate,_that.location,_that.category);case _:
@@ -197,7 +197,7 @@ return $default(_that.id,_that.title,_that.posterImageUrl,_that.startDate,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String title,  String posterImageUrl,  DateTime startDate,  DateTime endDate,  String location,  Category category)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String title,  String? posterImageUrl,  DateTime startDate,  DateTime endDate,  String location,  Category category)?  $default,) {final _that = this;
 switch (_that) {
 case _EventEntity() when $default != null:
 return $default(_that.id,_that.title,_that.posterImageUrl,_that.startDate,_that.endDate,_that.location,_that.category);case _:
@@ -212,12 +212,12 @@ return $default(_that.id,_that.title,_that.posterImageUrl,_that.startDate,_that.
 
 
 class _EventEntity implements EventEntity {
-  const _EventEntity({required this.id, required this.title, required this.posterImageUrl, required this.startDate, required this.endDate, required this.location, required this.category});
+  const _EventEntity({required this.id, required this.title, this.posterImageUrl, required this.startDate, required this.endDate, required this.location, required this.category});
   
 
 @override final  String id;
 @override final  String title;
-@override final  String posterImageUrl;
+@override final  String? posterImageUrl;
 @override final  DateTime startDate;
 @override final  DateTime endDate;
 @override final  String location;
@@ -253,7 +253,7 @@ abstract mixin class _$EventEntityCopyWith<$Res> implements $EventEntityCopyWith
   factory _$EventEntityCopyWith(_EventEntity value, $Res Function(_EventEntity) _then) = __$EventEntityCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String title, String posterImageUrl, DateTime startDate, DateTime endDate, String location, Category category
+ String id, String title, String? posterImageUrl, DateTime startDate, DateTime endDate, String location, Category category
 });
 
 
@@ -270,12 +270,12 @@ class __$EventEntityCopyWithImpl<$Res>
 
 /// Create a copy of EventEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? posterImageUrl = null,Object? startDate = null,Object? endDate = null,Object? location = null,Object? category = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? posterImageUrl = freezed,Object? startDate = null,Object? endDate = null,Object? location = null,Object? category = null,}) {
   return _then(_EventEntity(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,posterImageUrl: null == posterImageUrl ? _self.posterImageUrl : posterImageUrl // ignore: cast_nullable_to_non_nullable
-as String,startDate: null == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
+as String,posterImageUrl: freezed == posterImageUrl ? _self.posterImageUrl : posterImageUrl // ignore: cast_nullable_to_non_nullable
+as String?,startDate: null == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
 as DateTime,endDate: null == endDate ? _self.endDate : endDate // ignore: cast_nullable_to_non_nullable
 as DateTime,location: null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
 as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable

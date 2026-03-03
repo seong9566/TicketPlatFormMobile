@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$EventRespDto {
 
- int get eventId; String get eventTitle; String get eventPosterImageUrl; String get startAt; String get endAt; String get venueName; int? get artistId; String? get artistName; String? get artistProfileImageUrl; String get eventCreatedAt; bool get isNew;
+ int get eventId; String get eventTitle; String? get eventPosterImageUrl; String get startAt; String get endAt; String get venueName; int? get artistId; String? get artistName; String? get artistProfileImageUrl; String get eventCreatedAt; bool get isNew;
 /// Create a copy of EventRespDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $EventRespDtoCopyWith<$Res>  {
   factory $EventRespDtoCopyWith(EventRespDto value, $Res Function(EventRespDto) _then) = _$EventRespDtoCopyWithImpl;
 @useResult
 $Res call({
- int eventId, String eventTitle, String eventPosterImageUrl, String startAt, String endAt, String venueName, int? artistId, String? artistName, String? artistProfileImageUrl, String eventCreatedAt, bool isNew
+ int eventId, String eventTitle, String? eventPosterImageUrl, String startAt, String endAt, String venueName, int? artistId, String? artistName, String? artistProfileImageUrl, String eventCreatedAt, bool isNew
 });
 
 
@@ -65,12 +65,12 @@ class _$EventRespDtoCopyWithImpl<$Res>
 
 /// Create a copy of EventRespDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? eventId = null,Object? eventTitle = null,Object? eventPosterImageUrl = null,Object? startAt = null,Object? endAt = null,Object? venueName = null,Object? artistId = freezed,Object? artistName = freezed,Object? artistProfileImageUrl = freezed,Object? eventCreatedAt = null,Object? isNew = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? eventId = null,Object? eventTitle = null,Object? eventPosterImageUrl = freezed,Object? startAt = null,Object? endAt = null,Object? venueName = null,Object? artistId = freezed,Object? artistName = freezed,Object? artistProfileImageUrl = freezed,Object? eventCreatedAt = null,Object? isNew = null,}) {
   return _then(_self.copyWith(
 eventId: null == eventId ? _self.eventId : eventId // ignore: cast_nullable_to_non_nullable
 as int,eventTitle: null == eventTitle ? _self.eventTitle : eventTitle // ignore: cast_nullable_to_non_nullable
-as String,eventPosterImageUrl: null == eventPosterImageUrl ? _self.eventPosterImageUrl : eventPosterImageUrl // ignore: cast_nullable_to_non_nullable
-as String,startAt: null == startAt ? _self.startAt : startAt // ignore: cast_nullable_to_non_nullable
+as String,eventPosterImageUrl: freezed == eventPosterImageUrl ? _self.eventPosterImageUrl : eventPosterImageUrl // ignore: cast_nullable_to_non_nullable
+as String?,startAt: null == startAt ? _self.startAt : startAt // ignore: cast_nullable_to_non_nullable
 as String,endAt: null == endAt ? _self.endAt : endAt // ignore: cast_nullable_to_non_nullable
 as String,venueName: null == venueName ? _self.venueName : venueName // ignore: cast_nullable_to_non_nullable
 as String,artistId: freezed == artistId ? _self.artistId : artistId // ignore: cast_nullable_to_non_nullable
@@ -163,7 +163,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int eventId,  String eventTitle,  String eventPosterImageUrl,  String startAt,  String endAt,  String venueName,  int? artistId,  String? artistName,  String? artistProfileImageUrl,  String eventCreatedAt,  bool isNew)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int eventId,  String eventTitle,  String? eventPosterImageUrl,  String startAt,  String endAt,  String venueName,  int? artistId,  String? artistName,  String? artistProfileImageUrl,  String eventCreatedAt,  bool isNew)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EventRespDto() when $default != null:
 return $default(_that.eventId,_that.eventTitle,_that.eventPosterImageUrl,_that.startAt,_that.endAt,_that.venueName,_that.artistId,_that.artistName,_that.artistProfileImageUrl,_that.eventCreatedAt,_that.isNew);case _:
@@ -184,7 +184,7 @@ return $default(_that.eventId,_that.eventTitle,_that.eventPosterImageUrl,_that.s
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int eventId,  String eventTitle,  String eventPosterImageUrl,  String startAt,  String endAt,  String venueName,  int? artistId,  String? artistName,  String? artistProfileImageUrl,  String eventCreatedAt,  bool isNew)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int eventId,  String eventTitle,  String? eventPosterImageUrl,  String startAt,  String endAt,  String venueName,  int? artistId,  String? artistName,  String? artistProfileImageUrl,  String eventCreatedAt,  bool isNew)  $default,) {final _that = this;
 switch (_that) {
 case _EventRespDto():
 return $default(_that.eventId,_that.eventTitle,_that.eventPosterImageUrl,_that.startAt,_that.endAt,_that.venueName,_that.artistId,_that.artistName,_that.artistProfileImageUrl,_that.eventCreatedAt,_that.isNew);case _:
@@ -204,7 +204,7 @@ return $default(_that.eventId,_that.eventTitle,_that.eventPosterImageUrl,_that.s
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int eventId,  String eventTitle,  String eventPosterImageUrl,  String startAt,  String endAt,  String venueName,  int? artistId,  String? artistName,  String? artistProfileImageUrl,  String eventCreatedAt,  bool isNew)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int eventId,  String eventTitle,  String? eventPosterImageUrl,  String startAt,  String endAt,  String venueName,  int? artistId,  String? artistName,  String? artistProfileImageUrl,  String eventCreatedAt,  bool isNew)?  $default,) {final _that = this;
 switch (_that) {
 case _EventRespDto() when $default != null:
 return $default(_that.eventId,_that.eventTitle,_that.eventPosterImageUrl,_that.startAt,_that.endAt,_that.venueName,_that.artistId,_that.artistName,_that.artistProfileImageUrl,_that.eventCreatedAt,_that.isNew);case _:
@@ -224,7 +224,7 @@ class _EventRespDto implements EventRespDto {
 
 @override final  int eventId;
 @override final  String eventTitle;
-@override final  String eventPosterImageUrl;
+@override final  String? eventPosterImageUrl;
 @override final  String startAt;
 @override final  String endAt;
 @override final  String venueName;
@@ -267,7 +267,7 @@ abstract mixin class _$EventRespDtoCopyWith<$Res> implements $EventRespDtoCopyWi
   factory _$EventRespDtoCopyWith(_EventRespDto value, $Res Function(_EventRespDto) _then) = __$EventRespDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int eventId, String eventTitle, String eventPosterImageUrl, String startAt, String endAt, String venueName, int? artistId, String? artistName, String? artistProfileImageUrl, String eventCreatedAt, bool isNew
+ int eventId, String eventTitle, String? eventPosterImageUrl, String startAt, String endAt, String venueName, int? artistId, String? artistName, String? artistProfileImageUrl, String eventCreatedAt, bool isNew
 });
 
 
@@ -284,12 +284,12 @@ class __$EventRespDtoCopyWithImpl<$Res>
 
 /// Create a copy of EventRespDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? eventId = null,Object? eventTitle = null,Object? eventPosterImageUrl = null,Object? startAt = null,Object? endAt = null,Object? venueName = null,Object? artistId = freezed,Object? artistName = freezed,Object? artistProfileImageUrl = freezed,Object? eventCreatedAt = null,Object? isNew = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? eventId = null,Object? eventTitle = null,Object? eventPosterImageUrl = freezed,Object? startAt = null,Object? endAt = null,Object? venueName = null,Object? artistId = freezed,Object? artistName = freezed,Object? artistProfileImageUrl = freezed,Object? eventCreatedAt = null,Object? isNew = null,}) {
   return _then(_EventRespDto(
 eventId: null == eventId ? _self.eventId : eventId // ignore: cast_nullable_to_non_nullable
 as int,eventTitle: null == eventTitle ? _self.eventTitle : eventTitle // ignore: cast_nullable_to_non_nullable
-as String,eventPosterImageUrl: null == eventPosterImageUrl ? _self.eventPosterImageUrl : eventPosterImageUrl // ignore: cast_nullable_to_non_nullable
-as String,startAt: null == startAt ? _self.startAt : startAt // ignore: cast_nullable_to_non_nullable
+as String,eventPosterImageUrl: freezed == eventPosterImageUrl ? _self.eventPosterImageUrl : eventPosterImageUrl // ignore: cast_nullable_to_non_nullable
+as String?,startAt: null == startAt ? _self.startAt : startAt // ignore: cast_nullable_to_non_nullable
 as String,endAt: null == endAt ? _self.endAt : endAt // ignore: cast_nullable_to_non_nullable
 as String,venueName: null == venueName ? _self.venueName : venueName // ignore: cast_nullable_to_non_nullable
 as String,artistId: freezed == artistId ? _self.artistId : artistId // ignore: cast_nullable_to_non_nullable

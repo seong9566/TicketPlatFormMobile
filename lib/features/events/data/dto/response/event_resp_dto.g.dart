@@ -10,7 +10,7 @@ _EventRespDto _$EventRespDtoFromJson(Map<String, dynamic> json) =>
     _EventRespDto(
       eventId: (json['eventId'] as num).toInt(),
       eventTitle: json['eventTitle'] as String,
-      eventPosterImageUrl: json['eventPosterImageUrl'] as String,
+      eventPosterImageUrl: json['eventPosterImageUrl'] as String?,
       startAt: json['startAt'] as String,
       endAt: json['endAt'] as String,
       venueName: json['venueName'] as String,

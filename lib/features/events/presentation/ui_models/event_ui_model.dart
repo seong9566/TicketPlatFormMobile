@@ -27,7 +27,7 @@ class EventUiModel {
     return EventUiModel(
       id: entity.id,
       title: entity.title,
-      posterImageUrl: entity.posterImageUrl,
+      posterImageUrl: entity.posterImageUrl ?? '',
       dateRange: dateRange,
       location: entity.location,
       category: entity.category,

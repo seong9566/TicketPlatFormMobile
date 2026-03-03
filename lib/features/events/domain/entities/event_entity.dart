@@ -8,7 +8,7 @@ abstract class EventEntity with _$EventEntity {
   const factory EventEntity({
     required String id,
     required String title,
-    required String posterImageUrl,
+    String? posterImageUrl,
     required DateTime startDate,
     required DateTime endDate,
     required String location,
