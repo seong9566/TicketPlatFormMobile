@@ -39,7 +39,7 @@ lib/features/<feature>/
 | `profile` | Profile view/edit, transaction history, password change | Image upload |
 | `reputation` | Rate buyer/seller after transaction | One-time per transaction |
 | `sales_dashboard` | Seller's active ticket overview | Per-event ticket breakdown |
-| `search` | Ticket search by keyword | Lightweight, presentation-only (no data/domain) |
+| `search` | Ticket search by keyword | Full data/domain/presentation layers |
 | `sell` | 6-step ticket registration wizard | Most complex UI (ShellRoute) |
 | `splash` | App init, auth gate, deep-link | Minimal — presentation-only, router redirect logic |
 | `ticketing` | Browse tickets, detail view | Nested routes (ticket_detail/) |
@@ -73,7 +73,7 @@ lib/features/<feature>/
 - Never access `TokenStorage` or `AppConfig` directly in features — use DI providers from core.
 
 ## NOTES
-- `search` has no `data/` or `domain/` layer — presentation only (local state).
+- `search` has full `data/` and `domain/` layers with remote data source, DTOs, repository, and usecase.
 - `splash` has no `data/` or `domain/` — viewmodel checks auth state and redirects.
 - `sell` uses GoRouter `ShellRoute` to share state across 6 steps — do not break shell wrapping.
 - `chat` SignalR datasource manages WebSocket lifecycle; max 200 messages in memory; markAsRead throttled (700ms).

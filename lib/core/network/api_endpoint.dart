@@ -102,6 +102,10 @@ class ApiEndpoint {
   static String disputeCancel(int disputeId) =>
       '/api/disputes/$disputeId/cancel';
 
+  // Settlement
+  static const String settlements = '/api/settlement';
+  static String settlementDetail(int id) => '/api/settlement/$id';
+
   // Reputation
   static const String reputations = '/api/reputations';
   static String reputationCheck(int transactionId) =>

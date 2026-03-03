@@ -67,6 +67,12 @@ class AppRouterPath {
   static const disputeCreate = _Route('/disputes/create', 'disputeCreate');
   static const disputeDetail = _Route('/disputes/detail', 'disputeDetail');
 
+  static const settlementHistory = _Route('/settlements', 'settlementHistory');
+  static const settlementDetail = _Route(
+    '/settlements/detail',
+    'settlementDetail',
+  );
+
   static const bankAccountRegister = _Route(
     '/bank-account/register',
     'bankAccountRegister',

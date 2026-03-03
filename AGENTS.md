@@ -54,6 +54,6 @@ cd ticket_platform_mobile && ./scripts/run_dev.sh
 ## NOTES
 - `.env` required for local runs (`KAKAO_NATIVE_APP_KEY` via `.env.example`).
 - `--dart-define` keys: `APP_PROD`, `API_BASE_URL_IOS`, `API_BASE_URL_ANDROID`, `TOSS_CLIENT_KEY`, `SUPABASE_URL`, `SUPABASE_ANON_KEY`.
-- `splash` and `search` features are presentation-only (no data/domain layer) by design.
+- `splash` feature is presentation-only (no data/domain layer) by design.
 - `sell` uses GoRouter `ShellRoute` across 6 steps — do not break shell wrapping.
 - FCM: Android fully implemented; iOS deferred pending Apple Developer account.

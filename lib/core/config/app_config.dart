@@ -87,7 +87,10 @@ class AppConfig {
 
     return overrideAndroid.isNotEmpty
         ? overrideAndroid
+        // STEC MAC 로컬 랜으로 연결 시
         : 'http://123.2.156.230:5224';
+    // STEC MAC 와이파이 연결 시
+    // : 'http://192.168.10.16:5224';
   }
 
   static String _resolveProdBaseUrl() {
