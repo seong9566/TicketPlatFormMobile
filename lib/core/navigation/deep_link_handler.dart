@@ -56,8 +56,10 @@ class DeepLinkHandler {
         return;
       case 'DISPUTE_OPENED':
       case 'DISPUTE_RESOLVED':
-        AppLogger.w('[DeepLink] 분쟁 상세 화면 미구현, 홈으로 이동');
-        _router.go(AppRouterPath.home.path);
+        _router.pushNamed(
+          AppRouterPath.transactionHistory.name,
+          pathParameters: {'initialIndex': '0'},
+        );
         return;
       default:
         _router.pushNamed(AppRouterPath.notificationList.name);
@@ -82,7 +84,9 @@ class DeepLinkHandler {
               if (parsedNested != null) return parsedNested;
             }
           }
-        } catch (e, st) { AppLogger.e('[DeepLink] JSON decode 오류: $e', e, st); }
+        } catch (e, st) {
+          AppLogger.e('[DeepLink] JSON decode 오류: $e', e, st);
+        }
       }
     }
     return null;
