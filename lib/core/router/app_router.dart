@@ -39,6 +39,8 @@ import 'package:ticket_platform_mobile/features/bank_account/presentation/views/
 import 'package:ticket_platform_mobile/features/bank_account/presentation/views/bank_account_detail_view.dart';
 import 'package:ticket_platform_mobile/features/withdrawal/presentation/views/balance_overview_view.dart';
 import 'package:ticket_platform_mobile/features/withdrawal/presentation/views/withdrawal_history_view.dart';
+import 'package:ticket_platform_mobile/features/settlement/presentation/views/settlement_history_view.dart';
+import 'package:ticket_platform_mobile/features/settlement/presentation/views/settlement_detail_view.dart';
 import 'package:ticket_platform_mobile/features/withdrawal/presentation/views/withdrawal_request_view.dart';
 
 part 'app_router.g.dart';
@@ -305,6 +307,22 @@ GoRouter goRouter(Ref ref) {
         name: AppRouterPath.disputeDetail.name,
         builder: (context, state) =>
             DisputeDetailView(disputeId: state.pathParameters['id'] ?? '0'),
+      ),
+      GoRoute(
+        path: AppRouterPath.settlementHistory.path,
+        name: AppRouterPath.settlementHistory.name,
+        builder: (context, state) => const SettlementHistoryView(),
+      ),
+
+      /// 정산 상세 화면
+      /// extra: settlementId (int)
+      GoRoute(
+        path: AppRouterPath.settlementDetail.path,
+        name: AppRouterPath.settlementDetail.name,
+        builder: (context, state) {
+          final settlementId = state.extra as int;
+          return SettlementDetailView(settlementId: settlementId);
+        },
       ),
 
       /// 판매 관리 대시보드
