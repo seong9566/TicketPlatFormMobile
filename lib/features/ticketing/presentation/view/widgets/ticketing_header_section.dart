@@ -15,136 +15,152 @@ class TicketingHeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(color: AppColors.background),
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildThumbnail(),
-          const SizedBox(width: AppSpacing.md),
-          Expanded(child: _buildDetails()),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildThumbnail() {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppRadius.md),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(AppRadius.md),
-        child: CachedNetworkImage(
-          imageUrl: ticketingInfo?.imageUrl ?? '',
-          width: 110,
-          height: 110,
-          fit: BoxFit.cover,
-          placeholder: (context, url) => Container(
-            color: AppColors.muted,
-            child: const Center(
-              child: SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: AppColors.primary,
-                ),
-              ),
-            ),
-          ),
-          errorWidget: (context, url, error) => Container(
-            color: AppColors.muted,
-            child: const Icon(
-              Icons.image_not_supported_outlined,
-              color: AppColors.textTertiary,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDetails() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (ticketingInfo?.isHot ?? false) ...[
-          _buildHotBadge(),
-          const SizedBox(height: AppSpacing.sm),
-        ],
-        Text(
-          ticketingInfo?.title ?? '',
-          style: AppTextStyles.heading3.copyWith(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            height: 1.3,
-          ),
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
-        const SizedBox(height: AppSpacing.sm),
-        _buildInfoRow(
-          Icons.calendar_today,
-          ticketingInfo != null
-              ? DateFormatUtil.formatFullDateTime(ticketingInfo!.eventDate)
-              : '',
-        ),
-        const SizedBox(height: 6),
-        _buildInfoRow(
-          Icons.location_on_outlined,
-          ticketingInfo?.location ?? '',
-        ),
+        _buildHeroImage(),
+        const SizedBox(height: AppSpacing.md),
+        _buildInfoCards(),
       ],
     );
   }
 
-  Widget _buildInfoRow(IconData icon, String text) {
-    return Row(
-      children: [
-        Icon(icon, size: 14, color: AppColors.textTertiary),
-        const SizedBox(width: 6),
-        Expanded(
-          child: Text(
-            text,
-            style: AppTextStyles.body2.copyWith(
-              color: AppColors.textSecondary,
-              fontSize: 13,
+  /// 히어로 이미지 + 그라디언트 오버레이 + 타이틀
+  Widget _buildHeroImage() {
+    return SizedBox(
+      height: 280,
+      width: double.infinity,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          // 배경 이미지
+          CachedNetworkImage(
+            imageUrl: ticketingInfo?.imageUrl ?? '',
+            fit: BoxFit.cover,
+            placeholder: (context, url) => Container(
+              color: AppColors.ticketThumbnailBackground,
+              child: const Center(
+                child: SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: AppColors.primary,
+                  ),
+                ),
+              ),
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+            errorWidget: (context, url, error) => Container(
+              color: AppColors.ticketThumbnailBackground,
+              child: const Icon(
+                Icons.image_not_supported_outlined,
+                color: AppColors.textTertiary,
+                size: 40,
+              ),
+            ),
           ),
-        ),
-      ],
+          // 하단 그라디언트 오버레이
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.transparent,
+                  Colors.black.withValues(alpha: 0.75),
+                ],
+                stops: const [0.35, 1.0],
+              ),
+            ),
+          ),
+          // 타이틀 오버레이
+          Positioned(
+            left: AppSpacing.md,
+            right: AppSpacing.md,
+            bottom: AppSpacing.lg,
+            child: Text(
+              ticketingInfo?.title ?? '',
+              style: AppTextStyles.heading1.copyWith(
+                color: Colors.white,
+                fontSize: 26,
+                fontWeight: FontWeight.w800,
+                height: 1.3,
+              ),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildHotBadge() {
+  /// 날짜/장소 info 카드
+  Widget _buildInfoCards() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+      child: Column(
+        children: [
+          _buildInfoCard(
+            Icons.calendar_today_outlined,
+            ticketingInfo != null
+                ? DateFormatUtil.formatFullDateTime(ticketingInfo!.eventDate)
+                : '',
+            '날짜 및 시간',
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          _buildInfoCard(
+            Icons.location_on_outlined,
+            ticketingInfo?.location ?? '',
+            '장소',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoCard(IconData icon, String text, String label) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
-        color: AppColors.badgeSoldOutBackground.withValues(alpha: 0.5),
-        borderRadius: BorderRadius.circular(4),
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(AppRadius.md),
+        border: Border.all(color: AppColors.border),
       ),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.flash_on, size: 12, color: AppColors.destructive),
-          const SizedBox(width: 2),
-          Text(
-            '매진 임박',
-            style: AppTextStyles.caption.copyWith(
-              color: AppColors.destructive,
-              fontWeight: FontWeight.w800,
-              fontSize: 11,
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: AppColors.muted,
+              borderRadius: BorderRadius.circular(AppRadius.sm),
+            ),
+            child: Icon(icon, color: AppColors.textSecondary, size: 20),
+          ),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  text,
+                  style: AppTextStyles.body1.copyWith(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  label,
+                  style: AppTextStyles.caption.copyWith(
+                    color: AppColors.textTertiary,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
