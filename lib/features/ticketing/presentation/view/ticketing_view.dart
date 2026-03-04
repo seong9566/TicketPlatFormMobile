@@ -25,13 +25,15 @@ class TicketingView extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: _buildAppBar(context, stateAsync),
+      appBar: _buildAppBar(context),
       body: stateAsync.when(
         data: (state) {
           final info = state.ticketingInfo;
-          if (info == null) return const Center(child: Text('정보를 불러올 수 없습니다.'));
+          if (info == null) {
+            return const Center(child: Text('정보를 불러올 수 없습니다.'));
+          }
 
-          // 1. 필터링 로직 (좌석 등급)
+          // 필터링 로직 (좌석 등급)
           var filteredListings = info.tickets.where((ticket) {
             final selectedGrade = state.selectedGrade;
             if (selectedGrade == null || selectedGrade.id == 'all') {
@@ -40,7 +42,7 @@ class TicketingView extends ConsumerWidget {
             return ticket.gradeName == selectedGrade.name;
           }).toList();
 
-          // 2. 정렬 로직
+          // 정렬 로직
           if (state.sortBy == '가격 낮은순') {
             filteredListings.sort(
               (a, b) => a.totalPrice.compareTo(b.totalPrice),
@@ -53,42 +55,23 @@ class TicketingView extends ConsumerWidget {
             filteredListings.sort((a, b) => b.createdAt.compareTo(a.createdAt));
           }
 
-          return SafeArea(
-            child: CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(child: SizedBox(height: AppSpacing.md)),
-                // 공연 정보
-                SliverToBoxAdapter(
-                  child: TicketingHeaderSection(ticketingInfo: info),
-                ),
-                SliverToBoxAdapter(child: SizedBox(height: AppSpacing.md)),
-                // 구분선
-                SliverToBoxAdapter(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.md,
-                    ),
-                    child: const Divider(
-                      height: 1,
-                      thickness: 1,
-                      color: AppColors.border,
-                    ),
-                  ),
-                ),
-                SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sm)),
-                // 필터 정보
-                _buildStickyFilter(
-                  performanceId,
-                  state,
-                  ref,
-                  filteredListings.length,
-                ),
-                _buildListingList(filteredListings, ref),
-                const SliverToBoxAdapter(
-                  child: SizedBox(height: 80),
-                ), // FAB 여유 공간
-              ],
-            ),
+          return CustomScrollView(
+            slivers: [
+              // 히어로 이미지 + 날짜/장소 카드
+              SliverToBoxAdapter(
+                child: TicketingHeaderSection(ticketingInfo: info),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.lg)),
+              // 섹션 타이틀: "판매 중인 티켓" + "판매 티켓"
+              SliverToBoxAdapter(child: _buildSectionTitle(state)),
+              const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sm)),
+              // 등급 필터 칩 (sticky)
+              _buildStickyFilter(performanceId, state, ref),
+              const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xs)),
+              // 티켓 리스트
+              _buildListingList(filteredListings, ref),
+              const SliverToBoxAdapter(child: SizedBox(height: 80)),
+            ],
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -103,47 +86,57 @@ class TicketingView extends ConsumerWidget {
     );
   }
 
-  PreferredSizeWidget _buildAppBar(
-    BuildContext context,
-    AsyncValue stateAsync,
-  ) {
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: AppColors.background,
       elevation: 0,
       leading: IconButton(
-        icon: Icon(
+        icon: const Icon(
           Icons.arrow_back_ios_new,
           color: AppColors.textPrimary,
           size: 20,
         ),
         onPressed: () => context.pop(),
       ),
-      title: stateAsync.maybeWhen(
-        data: (state) => Text(
-          state.ticketingInfo?.title ?? '',
-          style: AppTextStyles.heading3.copyWith(
-            color: AppColors.textPrimary,
-            fontWeight: FontWeight.bold,
-          ),
+      title: Text(
+        '공연 상세 정보',
+        style: AppTextStyles.heading3.copyWith(
+          color: AppColors.textPrimary,
+          fontWeight: FontWeight.bold,
         ),
-        orElse: () => const Text(''),
       ),
       centerTitle: true,
-      actions: [
-        IconButton(
-          icon: Icon(Icons.search, color: AppColors.textPrimary),
-          onPressed: () {},
-        ),
-      ],
     );
   }
 
-  Widget _buildStickyFilter(
-    String id,
-    TicketingState state,
-    WidgetRef ref,
-    int totalCount,
-  ) {
+  /// "판매 중인 티켓" 섹션 헤더
+  Widget _buildSectionTitle(TicketingState state) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            '판매 중인 티켓',
+            style: AppTextStyles.heading3.copyWith(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          Text(
+            '${state.ticketingInfo?.tickets.length ?? 0}개',
+            style: AppTextStyles.body2.copyWith(
+              color: AppColors.primary,
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStickyFilter(String id, TicketingState state, WidgetRef ref) {
     final info = state.ticketingInfo;
     if (info == null || info.ticketGrades.isEmpty) {
       return const SliverToBoxAdapter(child: SizedBox.shrink());
@@ -154,14 +147,10 @@ class TicketingView extends ConsumerWidget {
       delegate: TicketingFilterHeaderDelegate(
         child: TicketingFilterBar(
           grades: info.ticketGrades,
-          ticketingInfo: info,
           selectedGrade: state.selectedGrade,
           onGradeSelected: (TicketingGradeUiModel grade) => ref
               .read(ticketingViewModelProvider(id).notifier)
               .selectGrade(grade),
-          totalCount: totalCount,
-          sortBy: state.sortBy,
-          onSortTap: () => _showSortBottomSheet(ref.context, ref),
         ),
       ),
     );
