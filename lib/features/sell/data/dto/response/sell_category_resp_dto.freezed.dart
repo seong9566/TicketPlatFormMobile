@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SellCategoryRespDto {
 
- int get categoryId; String get code; String get name; String? get iconUrl;
+ int get categoryId; String get code; String get name;
 /// Create a copy of SellCategoryRespDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $SellCategoryRespDtoCopyWith<SellCategoryRespDto> get copyWith => _$SellCategory
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SellCategoryRespDto&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name)&&(identical(other.iconUrl, iconUrl) || other.iconUrl == iconUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SellCategoryRespDto&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,categoryId,code,name,iconUrl);
+int get hashCode => Object.hash(runtimeType,categoryId,code,name);
 
 @override
 String toString() {
-  return 'SellCategoryRespDto(categoryId: $categoryId, code: $code, name: $name, iconUrl: $iconUrl)';
+  return 'SellCategoryRespDto(categoryId: $categoryId, code: $code, name: $name)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $SellCategoryRespDtoCopyWith<$Res>  {
   factory $SellCategoryRespDtoCopyWith(SellCategoryRespDto value, $Res Function(SellCategoryRespDto) _then) = _$SellCategoryRespDtoCopyWithImpl;
 @useResult
 $Res call({
- int categoryId, String code, String name, String? iconUrl
+ int categoryId, String code, String name
 });
 
 
@@ -65,13 +65,12 @@ class _$SellCategoryRespDtoCopyWithImpl<$Res>
 
 /// Create a copy of SellCategoryRespDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? categoryId = null,Object? code = null,Object? name = null,Object? iconUrl = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? categoryId = null,Object? code = null,Object? name = null,}) {
   return _then(_self.copyWith(
 categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
 as int,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,iconUrl: freezed == iconUrl ? _self.iconUrl : iconUrl // ignore: cast_nullable_to_non_nullable
-as String?,
+as String,
   ));
 }
 
@@ -156,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int categoryId,  String code,  String name,  String? iconUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int categoryId,  String code,  String name)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SellCategoryRespDto() when $default != null:
-return $default(_that.categoryId,_that.code,_that.name,_that.iconUrl);case _:
+return $default(_that.categoryId,_that.code,_that.name);case _:
   return orElse();
 
 }
@@ -177,10 +176,10 @@ return $default(_that.categoryId,_that.code,_that.name,_that.iconUrl);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int categoryId,  String code,  String name,  String? iconUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int categoryId,  String code,  String name)  $default,) {final _that = this;
 switch (_that) {
 case _SellCategoryRespDto():
-return $default(_that.categoryId,_that.code,_that.name,_that.iconUrl);case _:
+return $default(_that.categoryId,_that.code,_that.name);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -197,10 +196,10 @@ return $default(_that.categoryId,_that.code,_that.name,_that.iconUrl);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int categoryId,  String code,  String name,  String? iconUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int categoryId,  String code,  String name)?  $default,) {final _that = this;
 switch (_that) {
 case _SellCategoryRespDto() when $default != null:
-return $default(_that.categoryId,_that.code,_that.name,_that.iconUrl);case _:
+return $default(_that.categoryId,_that.code,_that.name);case _:
   return null;
 
 }
@@ -212,13 +211,12 @@ return $default(_that.categoryId,_that.code,_that.name,_that.iconUrl);case _:
 @JsonSerializable()
 
 class _SellCategoryRespDto implements SellCategoryRespDto {
-  const _SellCategoryRespDto({required this.categoryId, required this.code, required this.name, this.iconUrl});
+  const _SellCategoryRespDto({required this.categoryId, required this.code, required this.name});
   factory _SellCategoryRespDto.fromJson(Map<String, dynamic> json) => _$SellCategoryRespDtoFromJson(json);
 
 @override final  int categoryId;
 @override final  String code;
 @override final  String name;
-@override final  String? iconUrl;
 
 /// Create a copy of SellCategoryRespDto
 /// with the given fields replaced by the non-null parameter values.
@@ -233,16 +231,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SellCategoryRespDto&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name)&&(identical(other.iconUrl, iconUrl) || other.iconUrl == iconUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SellCategoryRespDto&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,categoryId,code,name,iconUrl);
+int get hashCode => Object.hash(runtimeType,categoryId,code,name);
 
 @override
 String toString() {
-  return 'SellCategoryRespDto(categoryId: $categoryId, code: $code, name: $name, iconUrl: $iconUrl)';
+  return 'SellCategoryRespDto(categoryId: $categoryId, code: $code, name: $name)';
 }
 
 
@@ -253,7 +251,7 @@ abstract mixin class _$SellCategoryRespDtoCopyWith<$Res> implements $SellCategor
   factory _$SellCategoryRespDtoCopyWith(_SellCategoryRespDto value, $Res Function(_SellCategoryRespDto) _then) = __$SellCategoryRespDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int categoryId, String code, String name, String? iconUrl
+ int categoryId, String code, String name
 });
 
 
@@ -270,13 +268,12 @@ class __$SellCategoryRespDtoCopyWithImpl<$Res>
 
 /// Create a copy of SellCategoryRespDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? categoryId = null,Object? code = null,Object? name = null,Object? iconUrl = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? categoryId = null,Object? code = null,Object? name = null,}) {
   return _then(_SellCategoryRespDto(
 categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
 as int,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,iconUrl: freezed == iconUrl ? _self.iconUrl : iconUrl // ignore: cast_nullable_to_non_nullable
-as String?,
+as String,
   ));
 }
 

@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SellCategoryEntity {
 
- int get categoryId; String get code; String get name; String? get iconUrl;
+ int get categoryId; String get code; String get name;
 /// Create a copy of SellCategoryEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $SellCategoryEntityCopyWith<SellCategoryEntity> get copyWith => _$SellCategoryEn
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SellCategoryEntity&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name)&&(identical(other.iconUrl, iconUrl) || other.iconUrl == iconUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SellCategoryEntity&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,categoryId,code,name,iconUrl);
+int get hashCode => Object.hash(runtimeType,categoryId,code,name);
 
 @override
 String toString() {
-  return 'SellCategoryEntity(categoryId: $categoryId, code: $code, name: $name, iconUrl: $iconUrl)';
+  return 'SellCategoryEntity(categoryId: $categoryId, code: $code, name: $name)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $SellCategoryEntityCopyWith<$Res>  {
   factory $SellCategoryEntityCopyWith(SellCategoryEntity value, $Res Function(SellCategoryEntity) _then) = _$SellCategoryEntityCopyWithImpl;
 @useResult
 $Res call({
- int categoryId, String code, String name, String? iconUrl
+ int categoryId, String code, String name
 });
 
 
@@ -62,13 +62,12 @@ class _$SellCategoryEntityCopyWithImpl<$Res>
 
 /// Create a copy of SellCategoryEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? categoryId = null,Object? code = null,Object? name = null,Object? iconUrl = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? categoryId = null,Object? code = null,Object? name = null,}) {
   return _then(_self.copyWith(
 categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
 as int,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,iconUrl: freezed == iconUrl ? _self.iconUrl : iconUrl // ignore: cast_nullable_to_non_nullable
-as String?,
+as String,
   ));
 }
 
@@ -153,10 +152,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int categoryId,  String code,  String name,  String? iconUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int categoryId,  String code,  String name)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SellCategoryEntity() when $default != null:
-return $default(_that.categoryId,_that.code,_that.name,_that.iconUrl);case _:
+return $default(_that.categoryId,_that.code,_that.name);case _:
   return orElse();
 
 }
@@ -174,10 +173,10 @@ return $default(_that.categoryId,_that.code,_that.name,_that.iconUrl);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int categoryId,  String code,  String name,  String? iconUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int categoryId,  String code,  String name)  $default,) {final _that = this;
 switch (_that) {
 case _SellCategoryEntity():
-return $default(_that.categoryId,_that.code,_that.name,_that.iconUrl);case _:
+return $default(_that.categoryId,_that.code,_that.name);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -194,10 +193,10 @@ return $default(_that.categoryId,_that.code,_that.name,_that.iconUrl);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int categoryId,  String code,  String name,  String? iconUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int categoryId,  String code,  String name)?  $default,) {final _that = this;
 switch (_that) {
 case _SellCategoryEntity() when $default != null:
-return $default(_that.categoryId,_that.code,_that.name,_that.iconUrl);case _:
+return $default(_that.categoryId,_that.code,_that.name);case _:
   return null;
 
 }
@@ -209,13 +208,12 @@ return $default(_that.categoryId,_that.code,_that.name,_that.iconUrl);case _:
 
 
 class _SellCategoryEntity implements SellCategoryEntity {
-  const _SellCategoryEntity({required this.categoryId, required this.code, required this.name, this.iconUrl});
+  const _SellCategoryEntity({required this.categoryId, required this.code, required this.name});
   
 
 @override final  int categoryId;
 @override final  String code;
 @override final  String name;
-@override final  String? iconUrl;
 
 /// Create a copy of SellCategoryEntity
 /// with the given fields replaced by the non-null parameter values.
@@ -227,16 +225,16 @@ _$SellCategoryEntityCopyWith<_SellCategoryEntity> get copyWith => __$SellCategor
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SellCategoryEntity&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name)&&(identical(other.iconUrl, iconUrl) || other.iconUrl == iconUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SellCategoryEntity&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,categoryId,code,name,iconUrl);
+int get hashCode => Object.hash(runtimeType,categoryId,code,name);
 
 @override
 String toString() {
-  return 'SellCategoryEntity(categoryId: $categoryId, code: $code, name: $name, iconUrl: $iconUrl)';
+  return 'SellCategoryEntity(categoryId: $categoryId, code: $code, name: $name)';
 }
 
 
@@ -247,7 +245,7 @@ abstract mixin class _$SellCategoryEntityCopyWith<$Res> implements $SellCategory
   factory _$SellCategoryEntityCopyWith(_SellCategoryEntity value, $Res Function(_SellCategoryEntity) _then) = __$SellCategoryEntityCopyWithImpl;
 @override @useResult
 $Res call({
- int categoryId, String code, String name, String? iconUrl
+ int categoryId, String code, String name
 });
 
 
@@ -264,13 +262,12 @@ class __$SellCategoryEntityCopyWithImpl<$Res>
 
 /// Create a copy of SellCategoryEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? categoryId = null,Object? code = null,Object? name = null,Object? iconUrl = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? categoryId = null,Object? code = null,Object? name = null,}) {
   return _then(_SellCategoryEntity(
 categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
 as int,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,iconUrl: freezed == iconUrl ? _self.iconUrl : iconUrl // ignore: cast_nullable_to_non_nullable
-as String?,
+as String,
   ));
 }
 

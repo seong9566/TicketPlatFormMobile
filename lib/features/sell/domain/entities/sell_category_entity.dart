@@ -8,6 +8,5 @@ abstract class SellCategoryEntity with _$SellCategoryEntity {
     required int categoryId,
     required String code,
     required String name,
-    String? iconUrl,
   }) = _SellCategoryEntity;
 }

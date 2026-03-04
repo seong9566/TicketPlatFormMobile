@@ -11,7 +11,6 @@ _SellCategoryRespDto _$SellCategoryRespDtoFromJson(Map<String, dynamic> json) =>
       categoryId: (json['categoryId'] as num).toInt(),
       code: json['code'] as String,
       name: json['name'] as String,
-      iconUrl: json['iconUrl'] as String?,
     );
 
 Map<String, dynamic> _$SellCategoryRespDtoToJson(
@@ -20,5 +19,4 @@ Map<String, dynamic> _$SellCategoryRespDtoToJson(
   'categoryId': instance.categoryId,
   'code': instance.code,
   'name': instance.name,
-  'iconUrl': instance.iconUrl,
 };

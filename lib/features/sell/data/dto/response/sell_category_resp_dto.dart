@@ -10,7 +10,6 @@ abstract class SellCategoryRespDto with _$SellCategoryRespDto {
     required int categoryId,
     required String code,
     required String name,
-    String? iconUrl,
   }) = _SellCategoryRespDto;
 
   factory SellCategoryRespDto.fromJson(Map<String, dynamic> json) =>
@@ -18,10 +17,6 @@ abstract class SellCategoryRespDto with _$SellCategoryRespDto {
 }
 
 extension SellCategoryRespDtoX on SellCategoryRespDto {
-  SellCategoryEntity toEntity() => SellCategoryEntity(
-    categoryId: categoryId,
-    code: code,
-    name: name,
-    iconUrl: iconUrl,
-  );
+  SellCategoryEntity toEntity() =>
+      SellCategoryEntity(categoryId: categoryId, code: code, name: name);
 }
