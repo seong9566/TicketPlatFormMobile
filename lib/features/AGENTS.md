@@ -1,7 +1,7 @@
 # PROJECT KNOWLEDGE BASE (lib/features)
 
 ## OVERVIEW
-17 feature modules using feature-first Clean MVVM. Each feature is self-contained: data → domain → presentation.
+18 feature modules using feature-first Clean MVVM. Each feature is self-contained: data → domain → presentation.
 
 ## STRUCTURE
 Every feature follows this template:
@@ -41,6 +41,7 @@ lib/features/<feature>/
 | `sales_dashboard` | Seller's active ticket overview | Per-event ticket breakdown |
 | `search` | Ticket search by keyword | Full data/domain/presentation layers |
 | `sell` | 6-step ticket registration wizard | Most complex UI (ShellRoute) |
+| `settlement` | Settlement history list + detail | Full data/domain/presentation layers |
 | `splash` | App init, auth gate, deep-link | Minimal — presentation-only, router redirect logic |
 | `ticketing` | Browse tickets, detail view | Nested routes (ticket_detail/) |
 | `wishlist` | Wishlist add/remove/list | Optimistic UI updates |

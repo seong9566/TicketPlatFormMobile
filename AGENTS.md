@@ -1,14 +1,14 @@
 # PROJECT KNOWLEDGE BASE (Mobile App)
 
 ## OVERVIEW
-Flutter client for TicketHub using feature-first Clean MVVM. 17 features across `lib/features/` with shared `lib/core` and `lib/shared`. Riverpod codegen + Freezed throughout.
+Flutter client for TicketHub using feature-first Clean MVVM. 18 features across `lib/features/` with shared `lib/core` and `lib/shared`. Riverpod codegen + Freezed throughout.
 
 ## STRUCTURE
 ```text
 ticket_platform_mobile/
 ├── lib/core/           # network, config, theme, utils, services (see lib/core/AGENTS.md)
-├── lib/features/       # 17 features: auth, bank_account, chat, dispute, events, home, notification,
-|                       #   payment, profile, reputation, sales_dashboard, search, sell, splash, ticketing,
+├── lib/features/       # 18 features: auth, bank_account, chat, dispute, events, home, notification,
+|                       #   payment, profile, reputation, sales_dashboard, search, sell, settlement, splash, ticketing,
 |                       #   wishlist, withdrawal (see lib/features/AGENTS.md)
 ├── lib/shared/widgets/ # reusable feature-agnostic widgets (see lib/shared/AGENTS.md)
 ├── scripts/            # run_dev.sh, run_prod.sh (--dart-define injection)
@@ -21,7 +21,7 @@ ticket_platform_mobile/
 | Network/token flow | `lib/core/network/` | Dio provider, interceptors, token refresh |
 | App config/env | `lib/core/config/` + `scripts/` | `--dart-define` driven runtime config |
 | Core modules detail | `lib/core/AGENTS.md` | per-module guidance for core |
-| Feature structure | `lib/features/AGENTS.md` | 17 features, Clean MVVM template |
+| Feature structure | `lib/features/AGENTS.md` | 18 features, Clean MVVM template |
 | Shared widgets | `lib/shared/AGENTS.md` | reusable feature-agnostic widgets |
 | Chat realtime logic | `lib/features/chat/` | SignalR datasource + viewmodel |
 | Sell flow forms | `lib/features/sell/` | 6-step wizard with ShellRoute |
