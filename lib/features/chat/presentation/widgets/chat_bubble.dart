@@ -9,7 +9,6 @@ import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/message_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/ui_models/chat_room_ui_model.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/viewmodels/chat_room_viewmodel.dart';
-import 'package:ticket_platform_mobile/features/chat/presentation/widgets/payment_request_bubble.dart';
 import 'package:ticket_platform_mobile/core/constants/app_constants.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/payment_success_bubble.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/purchase_confirmed_bubble.dart';
@@ -18,14 +17,12 @@ import 'package:ticket_platform_mobile/features/reputation/presentation/views/re
 
 class ChatBubble extends ConsumerWidget {
   final MessageUiModel message;
-  final VoidCallback onBuyerPayment;
   final VoidCallback onConfirmPurchase;
   final VoidCallback onCancelTransaction;
 
   const ChatBubble({
     super.key,
     required this.message,
-    required this.onBuyerPayment,
     required this.onConfirmPurchase,
     required this.onCancelTransaction,
   });
@@ -167,34 +164,9 @@ class ChatBubble extends ConsumerWidget {
       }
     }
 
-    // 결제 요청 메시지인 경우
+    // 결제 요청 메시지인 경우 → 시스템 메시지로 표시
     if (message.type == MessageType.paymentRequest) {
-      final chatRoom = ref
-          .watch(chatRoomViewModelProvider(message.roomId))
-          .value;
-      if (chatRoom != null) {
-        final myUserId = ref
-            .read(profileViewModelProvider)
-            .value
-            ?.profile
-            ?.userId;
-        final isBuyer = myUserId == chatRoom.buyer.userId;
-
-        return Row(
-          mainAxisAlignment: isMine
-              ? MainAxisAlignment.end
-              : MainAxisAlignment.start,
-          children: [
-            PaymentRequestBubble(
-              message: message,
-              ticket: chatRoom.ticket,
-              isBuyer: isBuyer,
-              onPayment: onBuyerPayment,
-              onCancel: onCancelTransaction,
-            ),
-          ],
-        );
-      }
+      return _buildSystemMessage('거래 요청이 전송되었습니다.');
     }
 
     // 빈 메시지는 렌더링하지 않음 (프로필 사진만 나타나는 문제 방지)
@@ -382,6 +354,25 @@ class ChatBubble extends ConsumerWidget {
                 ],
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSystemMessage(String text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Center(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Text(
+            text,
+            style: const TextStyle(fontSize: 12, color: Colors.grey),
           ),
         ),
       ),

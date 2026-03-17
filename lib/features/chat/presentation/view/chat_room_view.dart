@@ -20,10 +20,8 @@ import 'package:ticket_platform_mobile/features/reputation/presentation/views/re
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_room_ticket_header.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_input_bar.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/chat_room_menu_bottom_sheet.dart';
-import 'package:ticket_platform_mobile/features/chat/presentation/widgets/quantity_input_dialog.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ticket_platform_mobile/features/payment/presentation/viewmodels/payment_viewmodel.dart';
 import 'package:ticket_platform_mobile/shared/widgets/app_dialog.dart';
 
 class ChatRoomView extends ConsumerStatefulWidget {
@@ -180,92 +178,6 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(message)));
-    }
-  }
-
-  /// 결제 로직 처리 및 결제 화면으로 이동 (구매자용)
-  Future<void> _handleBuyerPaymentAction(ChatRoomDetailUiModel chatRoom) async {
-    final transaction = chatRoom.transaction;
-    if (transaction == null) return;
-
-    final profile = ref.read(profileViewModelProvider).value?.profile;
-    final paymentViewModel = ref.read(paymentViewModelProvider.notifier);
-    final ticketInfo = chatRoom.ticket;
-    // 결제 요청 정보 생성
-    await paymentViewModel.requestPayment(
-      transactionId: transaction.transactionId,
-      amount: transaction.amount,
-      orderName: ticketInfo.title,
-      customerName: profile?.nickname ?? '구매자',
-      customerEmail: profile?.email ?? 'customer@example.com',
-      roomId: roomId,
-    );
-    final paymentState = ref.read(paymentViewModelProvider);
-
-    // 에러 발생 시 처리
-    if (paymentState.errorMessage != null) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(paymentState.errorMessage!),
-          backgroundColor: AppColors.destructive,
-        ),
-      );
-      return;
-    }
-
-    // 결제 화면으로 이동
-    if (paymentState.paymentRequest != null) {
-      if (!mounted) return;
-      final success = await context.push<bool>(
-        AppRouterPath.payment.path,
-        extra: paymentState.paymentRequest,
-      );
-
-      if (success == true) {
-        ref.read(chatRoomViewModelProvider(roomId).notifier).refresh();
-      }
-    }
-  }
-
-  Future<void> _handleSellerPaymentRequest(
-    ChatRoomDetailUiModel chatRoom,
-  ) async {
-    final remainingQuantity = chatRoom.ticket.remainingQuantity;
-
-    // Validation: Check if remaining quantity is available
-    if (remainingQuantity == null || remainingQuantity <= 0) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('판매 가능한 티켓이 없습니다.'),
-          backgroundColor: AppColors.destructive,
-        ),
-      );
-      return;
-    }
-
-    final unitPrice = chatRoom.ticket.priceValue;
-
-    final quantity = await showQuantityInputDialog(
-      context: context,
-      maxQuantity: remainingQuantity,
-      unitPrice: unitPrice,
-    );
-
-    if (quantity == null) return; // User cancelled
-
-    final success = await ref
-        .read(chatRoomViewModelProvider(roomId).notifier)
-        .requestPayment(quantity);
-
-    if (!success && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('결제 요청에 실패했습니다.'),
-          backgroundColor: AppColors.destructive,
-        ),
-      );
     }
   }
 
@@ -498,31 +410,6 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
               // 이벤트 + 티켓 정보
               ChatRoomTicketHeader(
                 ticket: chatRoom.ticket,
-                canRequestPayment: chatRoom.canRequestPayment,
-                buttonText:
-                    (ref
-                            .watch(profileViewModelProvider)
-                            .value
-                            ?.profile
-                            ?.userId ==
-                        chatRoom.buyer.userId)
-                    ? '결제하기'
-                    : '결제 요청',
-                onRequestPayment: () async {
-                  final myUserId = ref
-                      .read(profileViewModelProvider)
-                      .value
-                      ?.profile
-                      ?.userId;
-                  final isBuyer = myUserId == chatRoom.buyer.userId;
-
-                  if (isBuyer) {
-                    await _handleBuyerPaymentAction(chatRoom);
-                  } else {
-                    // 판매자: 수량 입력 후 결제 요청
-                    await _handleSellerPaymentRequest(chatRoom);
-                  }
-                },
                 onViewTicketDetail: () {
                   if (widget.fromTicketDetail) {
                     context.pop();
@@ -542,7 +429,6 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
                   messages: chatRoom.messages,
                   scrollController: _scrollController,
                   chatRoom: chatRoom, // 정보 전달
-                  onBuyerPayment: () => _handleBuyerPaymentAction(chatRoom),
                   onConfirmPurchase: () => _showConfirmPurchaseDialog(chatRoom),
                   onCancelTransaction: () =>
                       _showCancelTransactionDialog(chatRoom),
