@@ -46,6 +46,7 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
   bool _reviewPromptRequested = false;
   bool _isReviewPromptShowing = false;
   final Set<int> _handledReviewPromptTransactionIds = <int>{};
+  bool _isProcessingAction = false;
 
   int get roomId => int.parse(widget.chatRoomId);
 
@@ -206,23 +207,29 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
       confirmText: '확정',
       cancelText: '취소',
       onConfirm: () async {
-        if (chatRoom.transaction != null) {
-          _reviewPromptRequested = true;
+        if (_isProcessingAction) return;
+        _isProcessingAction = true;
+        try {
+          if (chatRoom.transaction != null) {
+            _reviewPromptRequested = true;
 
-          final success = await ref
-              .read(chatRoomViewModelProvider(roomId).notifier)
-              .confirmPurchase(chatRoom.transaction!.transactionId);
+            final success = await ref
+                .read(chatRoomViewModelProvider(roomId).notifier)
+                .confirmPurchase(chatRoom.transaction!.transactionId);
 
-          if (!success) {
-            _reviewPromptRequested = false;
-            _showErrorSnackBar('구매 확정에 실패했습니다. 잠시 후 다시 시도해주세요.');
-            return;
+            if (!success) {
+              _reviewPromptRequested = false;
+              _showErrorSnackBar('구매 확정에 실패했습니다. 잠시 후 다시 시도해주세요.');
+              return;
+            }
+
+            final latest = ref.read(chatRoomViewModelProvider(roomId)).value;
+            if (latest != null) {
+              unawaited(_tryPromptReviewWrite(latest));
+            }
           }
-
-          final latest = ref.read(chatRoomViewModelProvider(roomId)).value;
-          if (latest != null) {
-            unawaited(_tryPromptReviewWrite(latest));
-          }
+        } finally {
+          _isProcessingAction = false;
         }
       },
     );
@@ -368,13 +375,19 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
       confirmText: '취소하기',
       cancelText: '닫기',
       onConfirm: () async {
-        final reason = reasonController.text.trim();
-        reasonController.dispose();
+        if (_isProcessingAction) return;
+        _isProcessingAction = true;
+        try {
+          final reason = reasonController.text.trim();
+          reasonController.dispose();
 
-        if (chatRoom.transaction != null) {
-          await ref
-              .read(chatRoomViewModelProvider(roomId).notifier)
-              .cancelTransaction(chatRoom.transaction!.transactionId, reason);
+          if (chatRoom.transaction != null) {
+            await ref
+                .read(chatRoomViewModelProvider(roomId).notifier)
+                .cancelTransaction(chatRoom.transaction!.transactionId, reason);
+          }
+        } finally {
+          _isProcessingAction = false;
         }
       },
       onCancel: () {
@@ -458,6 +471,7 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
               if (chatRoom.canConfirmPurchase || chatRoom.canCancelTransaction)
                 ChatRoomActionBar(
                   chatRoom: chatRoom,
+                  isProcessing: _isProcessingAction,
                   onConfirmPurchase: () => _showConfirmPurchaseDialog(chatRoom),
                   onCancelTransaction: () =>
                       _showCancelTransactionDialog(chatRoom),

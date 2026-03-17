@@ -8,12 +8,14 @@ class ChatRoomActionBar extends StatelessWidget {
   final ChatRoomDetailUiModel chatRoom;
   final VoidCallback onConfirmPurchase;
   final VoidCallback onCancelTransaction;
+  final bool isProcessing;
 
   const ChatRoomActionBar({
     super.key,
     required this.chatRoom,
     required this.onConfirmPurchase,
     required this.onCancelTransaction,
+    this.isProcessing = false,
   });
 
   @override
@@ -31,7 +33,7 @@ class ChatRoomActionBar extends StatelessWidget {
           if (chatRoom.canConfirmPurchase)
             Expanded(
               child: OutlinedButton(
-                onPressed: onConfirmPurchase,
+                onPressed: isProcessing ? null : onConfirmPurchase,
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   side: const BorderSide(color: AppColors.border),
@@ -50,7 +52,7 @@ class ChatRoomActionBar extends StatelessWidget {
           if (chatRoom.canCancelTransaction)
             Expanded(
               child: OutlinedButton(
-                onPressed: onCancelTransaction,
+                onPressed: isProcessing ? null : onCancelTransaction,
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   side: const BorderSide(color: AppColors.border),
