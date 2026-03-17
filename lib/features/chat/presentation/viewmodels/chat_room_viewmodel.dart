@@ -440,7 +440,7 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
         senderId: myProfile?.userId ?? 0,
         senderNickname: myProfile?.nickname ?? '판매자',
         senderProfileImage: myProfile?.profileImageUrl,
-        message: '결제를 요청합니다.',
+        message: '거래를 요청합니다.',
         type: MessageType.paymentRequest,
         createdAt: DateTime.now(),
         timeDisplay: '방금 전',

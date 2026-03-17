@@ -8,7 +8,6 @@ import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
 import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/message_entity.dart';
-import 'package:ticket_platform_mobile/features/chat/domain/entities/transaction_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/ui_models/chat_room_ui_model.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/viewmodels/chat_list_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/viewmodels/chat_room_viewmodel.dart';
@@ -179,6 +178,24 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
         context,
       ).showSnackBar(SnackBar(content: Text(message)));
     }
+  }
+
+  void _handleTransactionRequest(ChatRoomDetailUiModel chatRoom) {
+    AppDialog.showConfirm(
+      context: context,
+      title: '거래 요청',
+      content: '구매자에게 거래를 요청하시겠습니까?',
+      confirmText: '요청',
+      cancelText: '취소',
+      onConfirm: () async {
+        final success = await ref
+            .read(chatRoomViewModelProvider(roomId).notifier)
+            .requestPayment(1);
+        if (!success) {
+          _showErrorSnackBar('거래 요청에 실패했습니다.');
+        }
+      },
+    );
   }
 
   void _showConfirmPurchaseDialog(ChatRoomDetailUiModel chatRoom) {
@@ -410,6 +427,8 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
               // 이벤트 + 티켓 정보
               ChatRoomTicketHeader(
                 ticket: chatRoom.ticket,
+                canRequestPayment: chatRoom.canRequestPayment,
+                onRequestPayment: () => _handleTransactionRequest(chatRoom),
                 onViewTicketDetail: () {
                   if (widget.fromTicketDetail) {
                     context.pop();
@@ -436,10 +455,7 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
               ),
 
               // 하단 액션바
-              if ((chatRoom.canConfirmPurchase ||
-                      chatRoom.canCancelTransaction) &&
-                  chatRoom.transaction?.status !=
-                      TransactionStatus.pendingPayment)
+              if (chatRoom.canConfirmPurchase || chatRoom.canCancelTransaction)
                 ChatRoomActionBar(
                   chatRoom: chatRoom,
                   onConfirmPurchase: () => _showConfirmPurchaseDialog(chatRoom),

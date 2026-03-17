@@ -7,11 +7,15 @@ import 'package:ticket_platform_mobile/features/chat/presentation/ui_models/chat
 
 class ChatRoomTicketHeader extends StatefulWidget {
   final TicketInfoUiModel ticket;
+  final bool canRequestPayment;
+  final VoidCallback? onRequestPayment;
   final VoidCallback? onViewTicketDetail;
 
   const ChatRoomTicketHeader({
     super.key,
     required this.ticket,
+    this.canRequestPayment = false,
+    this.onRequestPayment,
     this.onViewTicketDetail,
   });
 
@@ -92,6 +96,28 @@ class _ChatRoomTicketHeaderState extends State<ChatRoomTicketHeader> {
                 ],
               ),
             ),
+            if (widget.canRequestPayment) ...[
+              const SizedBox(width: AppSpacing.sm),
+              SizedBox(
+                height: 36,
+                child: ElevatedButton(
+                  onPressed: widget.onRequestPayment,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: const Text(
+                    '거래 요청',
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+            ],
           ],
         ),
       ),
