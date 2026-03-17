@@ -2,7 +2,6 @@ import 'dart:io';
 
 class AppConfig {
   final String apiBaseUrl;
-  final String tossPaymentsClientKey;
   final String kakaoNativeAppKey;
   final String supabaseUrl;
   final String supabaseAnonKey;
@@ -10,7 +9,6 @@ class AppConfig {
 
   const AppConfig({
     required this.apiBaseUrl,
-    required this.tossPaymentsClientKey,
     required this.kakaoNativeAppKey,
     required this.supabaseUrl,
     required this.supabaseAnonKey,
@@ -22,10 +20,6 @@ class AppConfig {
 
     return AppConfig(
       apiBaseUrl: baseUrl,
-      tossPaymentsClientKey: const String.fromEnvironment(
-        'TOSS_CLIENT_KEY',
-        defaultValue: 'test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm',
-      ),
       kakaoNativeAppKey: const String.fromEnvironment(
         'KAKAO_NATIVE_APP_KEY',
         defaultValue: '',
@@ -45,10 +39,6 @@ class AppConfig {
   factory AppConfig.production() {
     return AppConfig(
       apiBaseUrl: _resolveProdBaseUrl(),
-      tossPaymentsClientKey: const String.fromEnvironment(
-        'TOSS_CLIENT_KEY',
-        defaultValue: '',
-      ),
       kakaoNativeAppKey: const String.fromEnvironment(
         'KAKAO_NATIVE_APP_KEY',
         defaultValue: '',

@@ -13,10 +13,8 @@ enum MessageType {
   text,
   @JsonValue('IMAGE')
   image,
-  @JsonValue('PAYMENT_REQUEST')
+  @JsonValue('TRANSACTION_REQUEST')
   paymentRequest,
-  @JsonValue('PAYMENT_SUCCESS')
-  paymentSuccess,
   @JsonValue('PURCHASE_CONFIRMED')
   purchaseConfirmed,
 }

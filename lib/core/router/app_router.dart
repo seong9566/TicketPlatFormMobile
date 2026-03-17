@@ -24,24 +24,11 @@ import 'package:ticket_platform_mobile/features/profile/presentation/views/trans
 import 'package:ticket_platform_mobile/features/profile/presentation/views/profile_edit_view.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/views/change_password_view.dart';
 import 'package:ticket_platform_mobile/features/notification/presentation/views/notification_list_view.dart';
-import 'package:ticket_platform_mobile/features/payment/presentation/views/payment_view.dart';
-import 'package:ticket_platform_mobile/features/payment/presentation/views/payment_final_view.dart';
-import 'package:ticket_platform_mobile/features/payment/domain/entities/payment_entities.dart';
-import 'package:ticket_platform_mobile/features/dispute/presentation/views/create_dispute_view.dart';
-import 'package:ticket_platform_mobile/features/dispute/presentation/views/dispute_detail_view.dart';
-import 'package:ticket_platform_mobile/features/dispute/presentation/views/dispute_list_view.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/ui_models/my_profile_ui_model.dart';
 import 'package:ticket_platform_mobile/shared/widgets/full_screen_image_viewer.dart';
 import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/features/sales_dashboard/presentation/views/sales_dashboard_view.dart';
 import 'package:ticket_platform_mobile/features/sales_dashboard/presentation/views/event_ticket_list_view.dart';
-import 'package:ticket_platform_mobile/features/bank_account/presentation/views/bank_account_register_view.dart';
-import 'package:ticket_platform_mobile/features/bank_account/presentation/views/bank_account_detail_view.dart';
-import 'package:ticket_platform_mobile/features/withdrawal/presentation/views/balance_overview_view.dart';
-import 'package:ticket_platform_mobile/features/withdrawal/presentation/views/withdrawal_history_view.dart';
-import 'package:ticket_platform_mobile/features/settlement/presentation/views/settlement_history_view.dart';
-import 'package:ticket_platform_mobile/features/settlement/presentation/views/settlement_detail_view.dart';
-import 'package:ticket_platform_mobile/features/withdrawal/presentation/views/withdrawal_request_view.dart';
 
 part 'app_router.g.dart';
 
@@ -267,63 +254,6 @@ GoRouter goRouter(Ref ref) {
           );
         },
       ),
-      // 결제 화면
-      GoRoute(
-        path: AppRouterPath.payment.path,
-        name: AppRouterPath.payment.name,
-        builder: (context, state) {
-          final paymentRequest = state.extra as PaymentRequestEntity;
-          return PaymentView(paymentRequest: paymentRequest);
-        },
-      ),
-      GoRoute(
-        path: AppRouterPath.paymentFinal.path,
-        name: AppRouterPath.paymentFinal.name,
-        builder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>;
-          return PaymentFinalView(
-            paymentKey: extra['paymentKey'] as String,
-            orderId: extra['orderId'] as String,
-            amount: extra['amount'] as int,
-            frontendErrorCode: extra['frontendErrorCode'] as String?,
-            frontendErrorMessage: extra['frontendErrorMessage'] as String?,
-          );
-        },
-      ),
-      GoRoute(
-        path: AppRouterPath.disputeList.path,
-        name: AppRouterPath.disputeList.name,
-        builder: (context, state) => const DisputeListView(),
-      ),
-      GoRoute(
-        path: '${AppRouterPath.disputeCreate.path}/:transactionId',
-        name: AppRouterPath.disputeCreate.name,
-        builder: (context, state) => CreateDisputeView(
-          transactionId: state.pathParameters['transactionId'] ?? '0',
-        ),
-      ),
-      GoRoute(
-        path: '${AppRouterPath.disputeDetail.path}/:id',
-        name: AppRouterPath.disputeDetail.name,
-        builder: (context, state) =>
-            DisputeDetailView(disputeId: state.pathParameters['id'] ?? '0'),
-      ),
-      GoRoute(
-        path: AppRouterPath.settlementHistory.path,
-        name: AppRouterPath.settlementHistory.name,
-        builder: (context, state) => const SettlementHistoryView(),
-      ),
-
-      /// 정산 상세 화면
-      /// extra: settlementId (int)
-      GoRoute(
-        path: AppRouterPath.settlementDetail.path,
-        name: AppRouterPath.settlementDetail.name,
-        builder: (context, state) {
-          final settlementId = state.extra as int;
-          return SettlementDetailView(settlementId: settlementId);
-        },
-      ),
 
       /// 판매 관리 대시보드
       GoRoute(
@@ -342,31 +272,6 @@ GoRouter goRouter(Ref ref) {
               int.tryParse(state.pathParameters['eventId'] ?? '0') ?? 0;
           return EventTicketListView(eventId: eventId);
         },
-      ),
-      GoRoute(
-        path: AppRouterPath.bankAccountRegister.path,
-        name: AppRouterPath.bankAccountRegister.name,
-        builder: (context, state) => const BankAccountRegisterView(),
-      ),
-      GoRoute(
-        path: AppRouterPath.bankAccountDetail.path,
-        name: AppRouterPath.bankAccountDetail.name,
-        builder: (context, state) => const BankAccountDetailView(),
-      ),
-      GoRoute(
-        path: AppRouterPath.balanceOverview.path,
-        name: AppRouterPath.balanceOverview.name,
-        builder: (context, state) => const BalanceOverviewView(),
-      ),
-      GoRoute(
-        path: AppRouterPath.withdrawalRequest.path,
-        name: AppRouterPath.withdrawalRequest.name,
-        builder: (context, state) => const WithdrawalRequestView(),
-      ),
-      GoRoute(
-        path: AppRouterPath.withdrawalHistory.path,
-        name: AppRouterPath.withdrawalHistory.name,
-        builder: (context, state) => const WithdrawalHistoryView(),
       ),
     ],
   );

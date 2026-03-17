@@ -115,7 +115,7 @@ class _EventTicketListViewState extends ConsumerState<EventTicketListView> {
           ),
           const SizedBox(height: AppSpacing.md),
           Text(
-            '결제/정산 내역이 없습니다.',
+            '판매 내역이 없습니다.',
             style: AppTextStyles.body2.copyWith(color: AppColors.textSecondary),
           ),
         ],

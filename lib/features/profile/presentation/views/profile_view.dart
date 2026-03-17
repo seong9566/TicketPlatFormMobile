@@ -114,18 +114,6 @@ class ProfileView extends ConsumerWidget {
                     pathParameters: {'initialIndex': '0'},
                   ),
                 ),
-                ProfileMenuTile(
-                  icon: Icons.gavel_outlined,
-                  title: '내 신고 내역',
-                  onTap: () =>
-                      context.pushNamed(AppRouterPath.disputeList.name),
-                ),
-                ProfileMenuTile(
-                  icon: Icons.account_balance_wallet_outlined,
-                  title: '정산 내역',
-                  onTap: () =>
-                      context.pushNamed(AppRouterPath.settlementHistory.name),
-                ),
               ],
             ),
 

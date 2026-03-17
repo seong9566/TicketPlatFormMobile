@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$EventGroupUiModel {
 
- int get eventId; String get eventTitle; String? get posterImageUrl; String get venueName; String get eventDate; String get representativeSeatInfoText; String get totalCountText; String get onSaleCountText; String get completedCountText; String get settlingCountText; Color get onSaleBadgeColor; Color get completedBadgeColor; Color get settlingBadgeColor; String get salesSummaryText; double get salesProgressRate; String get remainingCountText;
+ int get eventId; String get eventTitle; String? get posterImageUrl; String get venueName; String get eventDate; String get representativeSeatInfoText; String get totalCountText; String get onSaleCountText; String get completedCountText; Color get onSaleBadgeColor; Color get completedBadgeColor; String get salesSummaryText; double get salesProgressRate; String get remainingCountText;
 /// Create a copy of EventGroupUiModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $EventGroupUiModelCopyWith<EventGroupUiModel> get copyWith => _$EventGroupUiMode
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EventGroupUiModel&&(identical(other.eventId, eventId) || other.eventId == eventId)&&(identical(other.eventTitle, eventTitle) || other.eventTitle == eventTitle)&&(identical(other.posterImageUrl, posterImageUrl) || other.posterImageUrl == posterImageUrl)&&(identical(other.venueName, venueName) || other.venueName == venueName)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.representativeSeatInfoText, representativeSeatInfoText) || other.representativeSeatInfoText == representativeSeatInfoText)&&(identical(other.totalCountText, totalCountText) || other.totalCountText == totalCountText)&&(identical(other.onSaleCountText, onSaleCountText) || other.onSaleCountText == onSaleCountText)&&(identical(other.completedCountText, completedCountText) || other.completedCountText == completedCountText)&&(identical(other.settlingCountText, settlingCountText) || other.settlingCountText == settlingCountText)&&(identical(other.onSaleBadgeColor, onSaleBadgeColor) || other.onSaleBadgeColor == onSaleBadgeColor)&&(identical(other.completedBadgeColor, completedBadgeColor) || other.completedBadgeColor == completedBadgeColor)&&(identical(other.settlingBadgeColor, settlingBadgeColor) || other.settlingBadgeColor == settlingBadgeColor)&&(identical(other.salesSummaryText, salesSummaryText) || other.salesSummaryText == salesSummaryText)&&(identical(other.salesProgressRate, salesProgressRate) || other.salesProgressRate == salesProgressRate)&&(identical(other.remainingCountText, remainingCountText) || other.remainingCountText == remainingCountText));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is EventGroupUiModel&&(identical(other.eventId, eventId) || other.eventId == eventId)&&(identical(other.eventTitle, eventTitle) || other.eventTitle == eventTitle)&&(identical(other.posterImageUrl, posterImageUrl) || other.posterImageUrl == posterImageUrl)&&(identical(other.venueName, venueName) || other.venueName == venueName)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.representativeSeatInfoText, representativeSeatInfoText) || other.representativeSeatInfoText == representativeSeatInfoText)&&(identical(other.totalCountText, totalCountText) || other.totalCountText == totalCountText)&&(identical(other.onSaleCountText, onSaleCountText) || other.onSaleCountText == onSaleCountText)&&(identical(other.completedCountText, completedCountText) || other.completedCountText == completedCountText)&&(identical(other.onSaleBadgeColor, onSaleBadgeColor) || other.onSaleBadgeColor == onSaleBadgeColor)&&(identical(other.completedBadgeColor, completedBadgeColor) || other.completedBadgeColor == completedBadgeColor)&&(identical(other.salesSummaryText, salesSummaryText) || other.salesSummaryText == salesSummaryText)&&(identical(other.salesProgressRate, salesProgressRate) || other.salesProgressRate == salesProgressRate)&&(identical(other.remainingCountText, remainingCountText) || other.remainingCountText == remainingCountText));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,eventId,eventTitle,posterImageUrl,venueName,eventDate,representativeSeatInfoText,totalCountText,onSaleCountText,completedCountText,settlingCountText,onSaleBadgeColor,completedBadgeColor,settlingBadgeColor,salesSummaryText,salesProgressRate,remainingCountText);
+int get hashCode => Object.hash(runtimeType,eventId,eventTitle,posterImageUrl,venueName,eventDate,representativeSeatInfoText,totalCountText,onSaleCountText,completedCountText,onSaleBadgeColor,completedBadgeColor,salesSummaryText,salesProgressRate,remainingCountText);
 
 @override
 String toString() {
-  return 'EventGroupUiModel(eventId: $eventId, eventTitle: $eventTitle, posterImageUrl: $posterImageUrl, venueName: $venueName, eventDate: $eventDate, representativeSeatInfoText: $representativeSeatInfoText, totalCountText: $totalCountText, onSaleCountText: $onSaleCountText, completedCountText: $completedCountText, settlingCountText: $settlingCountText, onSaleBadgeColor: $onSaleBadgeColor, completedBadgeColor: $completedBadgeColor, settlingBadgeColor: $settlingBadgeColor, salesSummaryText: $salesSummaryText, salesProgressRate: $salesProgressRate, remainingCountText: $remainingCountText)';
+  return 'EventGroupUiModel(eventId: $eventId, eventTitle: $eventTitle, posterImageUrl: $posterImageUrl, venueName: $venueName, eventDate: $eventDate, representativeSeatInfoText: $representativeSeatInfoText, totalCountText: $totalCountText, onSaleCountText: $onSaleCountText, completedCountText: $completedCountText, onSaleBadgeColor: $onSaleBadgeColor, completedBadgeColor: $completedBadgeColor, salesSummaryText: $salesSummaryText, salesProgressRate: $salesProgressRate, remainingCountText: $remainingCountText)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $EventGroupUiModelCopyWith<$Res>  {
   factory $EventGroupUiModelCopyWith(EventGroupUiModel value, $Res Function(EventGroupUiModel) _then) = _$EventGroupUiModelCopyWithImpl;
 @useResult
 $Res call({
- int eventId, String eventTitle, String? posterImageUrl, String venueName, String eventDate, String representativeSeatInfoText, String totalCountText, String onSaleCountText, String completedCountText, String settlingCountText, Color onSaleBadgeColor, Color completedBadgeColor, Color settlingBadgeColor, String salesSummaryText, double salesProgressRate, String remainingCountText
+ int eventId, String eventTitle, String? posterImageUrl, String venueName, String eventDate, String representativeSeatInfoText, String totalCountText, String onSaleCountText, String completedCountText, Color onSaleBadgeColor, Color completedBadgeColor, String salesSummaryText, double salesProgressRate, String remainingCountText
 });
 
 
@@ -62,7 +62,7 @@ class _$EventGroupUiModelCopyWithImpl<$Res>
 
 /// Create a copy of EventGroupUiModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? eventId = null,Object? eventTitle = null,Object? posterImageUrl = freezed,Object? venueName = null,Object? eventDate = null,Object? representativeSeatInfoText = null,Object? totalCountText = null,Object? onSaleCountText = null,Object? completedCountText = null,Object? settlingCountText = null,Object? onSaleBadgeColor = null,Object? completedBadgeColor = null,Object? settlingBadgeColor = null,Object? salesSummaryText = null,Object? salesProgressRate = null,Object? remainingCountText = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? eventId = null,Object? eventTitle = null,Object? posterImageUrl = freezed,Object? venueName = null,Object? eventDate = null,Object? representativeSeatInfoText = null,Object? totalCountText = null,Object? onSaleCountText = null,Object? completedCountText = null,Object? onSaleBadgeColor = null,Object? completedBadgeColor = null,Object? salesSummaryText = null,Object? salesProgressRate = null,Object? remainingCountText = null,}) {
   return _then(_self.copyWith(
 eventId: null == eventId ? _self.eventId : eventId // ignore: cast_nullable_to_non_nullable
 as int,eventTitle: null == eventTitle ? _self.eventTitle : eventTitle // ignore: cast_nullable_to_non_nullable
@@ -73,10 +73,8 @@ as String,representativeSeatInfoText: null == representativeSeatInfoText ? _self
 as String,totalCountText: null == totalCountText ? _self.totalCountText : totalCountText // ignore: cast_nullable_to_non_nullable
 as String,onSaleCountText: null == onSaleCountText ? _self.onSaleCountText : onSaleCountText // ignore: cast_nullable_to_non_nullable
 as String,completedCountText: null == completedCountText ? _self.completedCountText : completedCountText // ignore: cast_nullable_to_non_nullable
-as String,settlingCountText: null == settlingCountText ? _self.settlingCountText : settlingCountText // ignore: cast_nullable_to_non_nullable
 as String,onSaleBadgeColor: null == onSaleBadgeColor ? _self.onSaleBadgeColor : onSaleBadgeColor // ignore: cast_nullable_to_non_nullable
 as Color,completedBadgeColor: null == completedBadgeColor ? _self.completedBadgeColor : completedBadgeColor // ignore: cast_nullable_to_non_nullable
-as Color,settlingBadgeColor: null == settlingBadgeColor ? _self.settlingBadgeColor : settlingBadgeColor // ignore: cast_nullable_to_non_nullable
 as Color,salesSummaryText: null == salesSummaryText ? _self.salesSummaryText : salesSummaryText // ignore: cast_nullable_to_non_nullable
 as String,salesProgressRate: null == salesProgressRate ? _self.salesProgressRate : salesProgressRate // ignore: cast_nullable_to_non_nullable
 as double,remainingCountText: null == remainingCountText ? _self.remainingCountText : remainingCountText // ignore: cast_nullable_to_non_nullable
@@ -165,10 +163,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int eventId,  String eventTitle,  String? posterImageUrl,  String venueName,  String eventDate,  String representativeSeatInfoText,  String totalCountText,  String onSaleCountText,  String completedCountText,  String settlingCountText,  Color onSaleBadgeColor,  Color completedBadgeColor,  Color settlingBadgeColor,  String salesSummaryText,  double salesProgressRate,  String remainingCountText)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int eventId,  String eventTitle,  String? posterImageUrl,  String venueName,  String eventDate,  String representativeSeatInfoText,  String totalCountText,  String onSaleCountText,  String completedCountText,  Color onSaleBadgeColor,  Color completedBadgeColor,  String salesSummaryText,  double salesProgressRate,  String remainingCountText)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EventGroupUiModel() when $default != null:
-return $default(_that.eventId,_that.eventTitle,_that.posterImageUrl,_that.venueName,_that.eventDate,_that.representativeSeatInfoText,_that.totalCountText,_that.onSaleCountText,_that.completedCountText,_that.settlingCountText,_that.onSaleBadgeColor,_that.completedBadgeColor,_that.settlingBadgeColor,_that.salesSummaryText,_that.salesProgressRate,_that.remainingCountText);case _:
+return $default(_that.eventId,_that.eventTitle,_that.posterImageUrl,_that.venueName,_that.eventDate,_that.representativeSeatInfoText,_that.totalCountText,_that.onSaleCountText,_that.completedCountText,_that.onSaleBadgeColor,_that.completedBadgeColor,_that.salesSummaryText,_that.salesProgressRate,_that.remainingCountText);case _:
   return orElse();
 
 }
@@ -186,10 +184,10 @@ return $default(_that.eventId,_that.eventTitle,_that.posterImageUrl,_that.venueN
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int eventId,  String eventTitle,  String? posterImageUrl,  String venueName,  String eventDate,  String representativeSeatInfoText,  String totalCountText,  String onSaleCountText,  String completedCountText,  String settlingCountText,  Color onSaleBadgeColor,  Color completedBadgeColor,  Color settlingBadgeColor,  String salesSummaryText,  double salesProgressRate,  String remainingCountText)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int eventId,  String eventTitle,  String? posterImageUrl,  String venueName,  String eventDate,  String representativeSeatInfoText,  String totalCountText,  String onSaleCountText,  String completedCountText,  Color onSaleBadgeColor,  Color completedBadgeColor,  String salesSummaryText,  double salesProgressRate,  String remainingCountText)  $default,) {final _that = this;
 switch (_that) {
 case _EventGroupUiModel():
-return $default(_that.eventId,_that.eventTitle,_that.posterImageUrl,_that.venueName,_that.eventDate,_that.representativeSeatInfoText,_that.totalCountText,_that.onSaleCountText,_that.completedCountText,_that.settlingCountText,_that.onSaleBadgeColor,_that.completedBadgeColor,_that.settlingBadgeColor,_that.salesSummaryText,_that.salesProgressRate,_that.remainingCountText);case _:
+return $default(_that.eventId,_that.eventTitle,_that.posterImageUrl,_that.venueName,_that.eventDate,_that.representativeSeatInfoText,_that.totalCountText,_that.onSaleCountText,_that.completedCountText,_that.onSaleBadgeColor,_that.completedBadgeColor,_that.salesSummaryText,_that.salesProgressRate,_that.remainingCountText);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -206,10 +204,10 @@ return $default(_that.eventId,_that.eventTitle,_that.posterImageUrl,_that.venueN
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int eventId,  String eventTitle,  String? posterImageUrl,  String venueName,  String eventDate,  String representativeSeatInfoText,  String totalCountText,  String onSaleCountText,  String completedCountText,  String settlingCountText,  Color onSaleBadgeColor,  Color completedBadgeColor,  Color settlingBadgeColor,  String salesSummaryText,  double salesProgressRate,  String remainingCountText)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int eventId,  String eventTitle,  String? posterImageUrl,  String venueName,  String eventDate,  String representativeSeatInfoText,  String totalCountText,  String onSaleCountText,  String completedCountText,  Color onSaleBadgeColor,  Color completedBadgeColor,  String salesSummaryText,  double salesProgressRate,  String remainingCountText)?  $default,) {final _that = this;
 switch (_that) {
 case _EventGroupUiModel() when $default != null:
-return $default(_that.eventId,_that.eventTitle,_that.posterImageUrl,_that.venueName,_that.eventDate,_that.representativeSeatInfoText,_that.totalCountText,_that.onSaleCountText,_that.completedCountText,_that.settlingCountText,_that.onSaleBadgeColor,_that.completedBadgeColor,_that.settlingBadgeColor,_that.salesSummaryText,_that.salesProgressRate,_that.remainingCountText);case _:
+return $default(_that.eventId,_that.eventTitle,_that.posterImageUrl,_that.venueName,_that.eventDate,_that.representativeSeatInfoText,_that.totalCountText,_that.onSaleCountText,_that.completedCountText,_that.onSaleBadgeColor,_that.completedBadgeColor,_that.salesSummaryText,_that.salesProgressRate,_that.remainingCountText);case _:
   return null;
 
 }
@@ -221,7 +219,7 @@ return $default(_that.eventId,_that.eventTitle,_that.posterImageUrl,_that.venueN
 
 
 class _EventGroupUiModel implements EventGroupUiModel {
-  const _EventGroupUiModel({required this.eventId, required this.eventTitle, this.posterImageUrl, required this.venueName, required this.eventDate, required this.representativeSeatInfoText, required this.totalCountText, required this.onSaleCountText, required this.completedCountText, required this.settlingCountText, required this.onSaleBadgeColor, required this.completedBadgeColor, required this.settlingBadgeColor, required this.salesSummaryText, required this.salesProgressRate, required this.remainingCountText});
+  const _EventGroupUiModel({required this.eventId, required this.eventTitle, this.posterImageUrl, required this.venueName, required this.eventDate, required this.representativeSeatInfoText, required this.totalCountText, required this.onSaleCountText, required this.completedCountText, required this.onSaleBadgeColor, required this.completedBadgeColor, required this.salesSummaryText, required this.salesProgressRate, required this.remainingCountText});
   
 
 @override final  int eventId;
@@ -233,10 +231,8 @@ class _EventGroupUiModel implements EventGroupUiModel {
 @override final  String totalCountText;
 @override final  String onSaleCountText;
 @override final  String completedCountText;
-@override final  String settlingCountText;
 @override final  Color onSaleBadgeColor;
 @override final  Color completedBadgeColor;
-@override final  Color settlingBadgeColor;
 @override final  String salesSummaryText;
 @override final  double salesProgressRate;
 @override final  String remainingCountText;
@@ -251,16 +247,16 @@ _$EventGroupUiModelCopyWith<_EventGroupUiModel> get copyWith => __$EventGroupUiM
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventGroupUiModel&&(identical(other.eventId, eventId) || other.eventId == eventId)&&(identical(other.eventTitle, eventTitle) || other.eventTitle == eventTitle)&&(identical(other.posterImageUrl, posterImageUrl) || other.posterImageUrl == posterImageUrl)&&(identical(other.venueName, venueName) || other.venueName == venueName)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.representativeSeatInfoText, representativeSeatInfoText) || other.representativeSeatInfoText == representativeSeatInfoText)&&(identical(other.totalCountText, totalCountText) || other.totalCountText == totalCountText)&&(identical(other.onSaleCountText, onSaleCountText) || other.onSaleCountText == onSaleCountText)&&(identical(other.completedCountText, completedCountText) || other.completedCountText == completedCountText)&&(identical(other.settlingCountText, settlingCountText) || other.settlingCountText == settlingCountText)&&(identical(other.onSaleBadgeColor, onSaleBadgeColor) || other.onSaleBadgeColor == onSaleBadgeColor)&&(identical(other.completedBadgeColor, completedBadgeColor) || other.completedBadgeColor == completedBadgeColor)&&(identical(other.settlingBadgeColor, settlingBadgeColor) || other.settlingBadgeColor == settlingBadgeColor)&&(identical(other.salesSummaryText, salesSummaryText) || other.salesSummaryText == salesSummaryText)&&(identical(other.salesProgressRate, salesProgressRate) || other.salesProgressRate == salesProgressRate)&&(identical(other.remainingCountText, remainingCountText) || other.remainingCountText == remainingCountText));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventGroupUiModel&&(identical(other.eventId, eventId) || other.eventId == eventId)&&(identical(other.eventTitle, eventTitle) || other.eventTitle == eventTitle)&&(identical(other.posterImageUrl, posterImageUrl) || other.posterImageUrl == posterImageUrl)&&(identical(other.venueName, venueName) || other.venueName == venueName)&&(identical(other.eventDate, eventDate) || other.eventDate == eventDate)&&(identical(other.representativeSeatInfoText, representativeSeatInfoText) || other.representativeSeatInfoText == representativeSeatInfoText)&&(identical(other.totalCountText, totalCountText) || other.totalCountText == totalCountText)&&(identical(other.onSaleCountText, onSaleCountText) || other.onSaleCountText == onSaleCountText)&&(identical(other.completedCountText, completedCountText) || other.completedCountText == completedCountText)&&(identical(other.onSaleBadgeColor, onSaleBadgeColor) || other.onSaleBadgeColor == onSaleBadgeColor)&&(identical(other.completedBadgeColor, completedBadgeColor) || other.completedBadgeColor == completedBadgeColor)&&(identical(other.salesSummaryText, salesSummaryText) || other.salesSummaryText == salesSummaryText)&&(identical(other.salesProgressRate, salesProgressRate) || other.salesProgressRate == salesProgressRate)&&(identical(other.remainingCountText, remainingCountText) || other.remainingCountText == remainingCountText));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,eventId,eventTitle,posterImageUrl,venueName,eventDate,representativeSeatInfoText,totalCountText,onSaleCountText,completedCountText,settlingCountText,onSaleBadgeColor,completedBadgeColor,settlingBadgeColor,salesSummaryText,salesProgressRate,remainingCountText);
+int get hashCode => Object.hash(runtimeType,eventId,eventTitle,posterImageUrl,venueName,eventDate,representativeSeatInfoText,totalCountText,onSaleCountText,completedCountText,onSaleBadgeColor,completedBadgeColor,salesSummaryText,salesProgressRate,remainingCountText);
 
 @override
 String toString() {
-  return 'EventGroupUiModel(eventId: $eventId, eventTitle: $eventTitle, posterImageUrl: $posterImageUrl, venueName: $venueName, eventDate: $eventDate, representativeSeatInfoText: $representativeSeatInfoText, totalCountText: $totalCountText, onSaleCountText: $onSaleCountText, completedCountText: $completedCountText, settlingCountText: $settlingCountText, onSaleBadgeColor: $onSaleBadgeColor, completedBadgeColor: $completedBadgeColor, settlingBadgeColor: $settlingBadgeColor, salesSummaryText: $salesSummaryText, salesProgressRate: $salesProgressRate, remainingCountText: $remainingCountText)';
+  return 'EventGroupUiModel(eventId: $eventId, eventTitle: $eventTitle, posterImageUrl: $posterImageUrl, venueName: $venueName, eventDate: $eventDate, representativeSeatInfoText: $representativeSeatInfoText, totalCountText: $totalCountText, onSaleCountText: $onSaleCountText, completedCountText: $completedCountText, onSaleBadgeColor: $onSaleBadgeColor, completedBadgeColor: $completedBadgeColor, salesSummaryText: $salesSummaryText, salesProgressRate: $salesProgressRate, remainingCountText: $remainingCountText)';
 }
 
 
@@ -271,7 +267,7 @@ abstract mixin class _$EventGroupUiModelCopyWith<$Res> implements $EventGroupUiM
   factory _$EventGroupUiModelCopyWith(_EventGroupUiModel value, $Res Function(_EventGroupUiModel) _then) = __$EventGroupUiModelCopyWithImpl;
 @override @useResult
 $Res call({
- int eventId, String eventTitle, String? posterImageUrl, String venueName, String eventDate, String representativeSeatInfoText, String totalCountText, String onSaleCountText, String completedCountText, String settlingCountText, Color onSaleBadgeColor, Color completedBadgeColor, Color settlingBadgeColor, String salesSummaryText, double salesProgressRate, String remainingCountText
+ int eventId, String eventTitle, String? posterImageUrl, String venueName, String eventDate, String representativeSeatInfoText, String totalCountText, String onSaleCountText, String completedCountText, Color onSaleBadgeColor, Color completedBadgeColor, String salesSummaryText, double salesProgressRate, String remainingCountText
 });
 
 
@@ -288,7 +284,7 @@ class __$EventGroupUiModelCopyWithImpl<$Res>
 
 /// Create a copy of EventGroupUiModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? eventId = null,Object? eventTitle = null,Object? posterImageUrl = freezed,Object? venueName = null,Object? eventDate = null,Object? representativeSeatInfoText = null,Object? totalCountText = null,Object? onSaleCountText = null,Object? completedCountText = null,Object? settlingCountText = null,Object? onSaleBadgeColor = null,Object? completedBadgeColor = null,Object? settlingBadgeColor = null,Object? salesSummaryText = null,Object? salesProgressRate = null,Object? remainingCountText = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? eventId = null,Object? eventTitle = null,Object? posterImageUrl = freezed,Object? venueName = null,Object? eventDate = null,Object? representativeSeatInfoText = null,Object? totalCountText = null,Object? onSaleCountText = null,Object? completedCountText = null,Object? onSaleBadgeColor = null,Object? completedBadgeColor = null,Object? salesSummaryText = null,Object? salesProgressRate = null,Object? remainingCountText = null,}) {
   return _then(_EventGroupUiModel(
 eventId: null == eventId ? _self.eventId : eventId // ignore: cast_nullable_to_non_nullable
 as int,eventTitle: null == eventTitle ? _self.eventTitle : eventTitle // ignore: cast_nullable_to_non_nullable
@@ -299,10 +295,8 @@ as String,representativeSeatInfoText: null == representativeSeatInfoText ? _self
 as String,totalCountText: null == totalCountText ? _self.totalCountText : totalCountText // ignore: cast_nullable_to_non_nullable
 as String,onSaleCountText: null == onSaleCountText ? _self.onSaleCountText : onSaleCountText // ignore: cast_nullable_to_non_nullable
 as String,completedCountText: null == completedCountText ? _self.completedCountText : completedCountText // ignore: cast_nullable_to_non_nullable
-as String,settlingCountText: null == settlingCountText ? _self.settlingCountText : settlingCountText // ignore: cast_nullable_to_non_nullable
 as String,onSaleBadgeColor: null == onSaleBadgeColor ? _self.onSaleBadgeColor : onSaleBadgeColor // ignore: cast_nullable_to_non_nullable
 as Color,completedBadgeColor: null == completedBadgeColor ? _self.completedBadgeColor : completedBadgeColor // ignore: cast_nullable_to_non_nullable
-as Color,settlingBadgeColor: null == settlingBadgeColor ? _self.settlingBadgeColor : settlingBadgeColor // ignore: cast_nullable_to_non_nullable
 as Color,salesSummaryText: null == salesSummaryText ? _self.salesSummaryText : salesSummaryText // ignore: cast_nullable_to_non_nullable
 as String,salesProgressRate: null == salesProgressRate ? _self.salesProgressRate : salesProgressRate // ignore: cast_nullable_to_non_nullable
 as double,remainingCountText: null == remainingCountText ? _self.remainingCountText : remainingCountText // ignore: cast_nullable_to_non_nullable

@@ -37,12 +37,11 @@ abstract class TransactionEntity with _$TransactionEntity {
 }
 
 @freezed
-abstract class PaymentRequestEntity with _$PaymentRequestEntity {
-  const factory PaymentRequestEntity({
-    required String paymentUrl,
+abstract class TransactionCreatedEntity with _$TransactionCreatedEntity {
+  const factory TransactionCreatedEntity({
     required int transactionId,
     required int amount,
-  }) = _PaymentRequestEntity;
+  }) = _TransactionCreatedEntity;
 }
 
 @freezed

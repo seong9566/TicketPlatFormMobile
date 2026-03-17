@@ -284,40 +284,40 @@ as DateTime?,
 }
 
 /// @nodoc
-mixin _$PaymentRequestEntity {
+mixin _$TransactionCreatedEntity {
 
- String get paymentUrl; int get transactionId; int get amount;
-/// Create a copy of PaymentRequestEntity
+ int get transactionId; int get amount;
+/// Create a copy of TransactionCreatedEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$PaymentRequestEntityCopyWith<PaymentRequestEntity> get copyWith => _$PaymentRequestEntityCopyWithImpl<PaymentRequestEntity>(this as PaymentRequestEntity, _$identity);
+$TransactionCreatedEntityCopyWith<TransactionCreatedEntity> get copyWith => _$TransactionCreatedEntityCopyWithImpl<TransactionCreatedEntity>(this as TransactionCreatedEntity, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaymentRequestEntity&&(identical(other.paymentUrl, paymentUrl) || other.paymentUrl == paymentUrl)&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.amount, amount) || other.amount == amount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TransactionCreatedEntity&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.amount, amount) || other.amount == amount));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,paymentUrl,transactionId,amount);
+int get hashCode => Object.hash(runtimeType,transactionId,amount);
 
 @override
 String toString() {
-  return 'PaymentRequestEntity(paymentUrl: $paymentUrl, transactionId: $transactionId, amount: $amount)';
+  return 'TransactionCreatedEntity(transactionId: $transactionId, amount: $amount)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $PaymentRequestEntityCopyWith<$Res>  {
-  factory $PaymentRequestEntityCopyWith(PaymentRequestEntity value, $Res Function(PaymentRequestEntity) _then) = _$PaymentRequestEntityCopyWithImpl;
+abstract mixin class $TransactionCreatedEntityCopyWith<$Res>  {
+  factory $TransactionCreatedEntityCopyWith(TransactionCreatedEntity value, $Res Function(TransactionCreatedEntity) _then) = _$TransactionCreatedEntityCopyWithImpl;
 @useResult
 $Res call({
- String paymentUrl, int transactionId, int amount
+ int transactionId, int amount
 });
 
 
@@ -325,19 +325,18 @@ $Res call({
 
 }
 /// @nodoc
-class _$PaymentRequestEntityCopyWithImpl<$Res>
-    implements $PaymentRequestEntityCopyWith<$Res> {
-  _$PaymentRequestEntityCopyWithImpl(this._self, this._then);
+class _$TransactionCreatedEntityCopyWithImpl<$Res>
+    implements $TransactionCreatedEntityCopyWith<$Res> {
+  _$TransactionCreatedEntityCopyWithImpl(this._self, this._then);
 
-  final PaymentRequestEntity _self;
-  final $Res Function(PaymentRequestEntity) _then;
+  final TransactionCreatedEntity _self;
+  final $Res Function(TransactionCreatedEntity) _then;
 
-/// Create a copy of PaymentRequestEntity
+/// Create a copy of TransactionCreatedEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? paymentUrl = null,Object? transactionId = null,Object? amount = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? transactionId = null,Object? amount = null,}) {
   return _then(_self.copyWith(
-paymentUrl: null == paymentUrl ? _self.paymentUrl : paymentUrl // ignore: cast_nullable_to_non_nullable
-as String,transactionId: null == transactionId ? _self.transactionId : transactionId // ignore: cast_nullable_to_non_nullable
+transactionId: null == transactionId ? _self.transactionId : transactionId // ignore: cast_nullable_to_non_nullable
 as int,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
 as int,
   ));
@@ -346,8 +345,8 @@ as int,
 }
 
 
-/// Adds pattern-matching-related methods to [PaymentRequestEntity].
-extension PaymentRequestEntityPatterns on PaymentRequestEntity {
+/// Adds pattern-matching-related methods to [TransactionCreatedEntity].
+extension TransactionCreatedEntityPatterns on TransactionCreatedEntity {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -360,10 +359,10 @@ extension PaymentRequestEntityPatterns on PaymentRequestEntity {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PaymentRequestEntity value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TransactionCreatedEntity value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _PaymentRequestEntity() when $default != null:
+case _TransactionCreatedEntity() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -382,10 +381,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PaymentRequestEntity value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TransactionCreatedEntity value)  $default,){
 final _that = this;
 switch (_that) {
-case _PaymentRequestEntity():
+case _TransactionCreatedEntity():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -403,10 +402,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PaymentRequestEntity value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TransactionCreatedEntity value)?  $default,){
 final _that = this;
 switch (_that) {
-case _PaymentRequestEntity() when $default != null:
+case _TransactionCreatedEntity() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -424,10 +423,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String paymentUrl,  int transactionId,  int amount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int transactionId,  int amount)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _PaymentRequestEntity() when $default != null:
-return $default(_that.paymentUrl,_that.transactionId,_that.amount);case _:
+case _TransactionCreatedEntity() when $default != null:
+return $default(_that.transactionId,_that.amount);case _:
   return orElse();
 
 }
@@ -445,10 +444,10 @@ return $default(_that.paymentUrl,_that.transactionId,_that.amount);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String paymentUrl,  int transactionId,  int amount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int transactionId,  int amount)  $default,) {final _that = this;
 switch (_that) {
-case _PaymentRequestEntity():
-return $default(_that.paymentUrl,_that.transactionId,_that.amount);case _:
+case _TransactionCreatedEntity():
+return $default(_that.transactionId,_that.amount);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -465,10 +464,10 @@ return $default(_that.paymentUrl,_that.transactionId,_that.amount);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String paymentUrl,  int transactionId,  int amount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int transactionId,  int amount)?  $default,) {final _that = this;
 switch (_that) {
-case _PaymentRequestEntity() when $default != null:
-return $default(_that.paymentUrl,_that.transactionId,_that.amount);case _:
+case _TransactionCreatedEntity() when $default != null:
+return $default(_that.transactionId,_that.amount);case _:
   return null;
 
 }
@@ -479,45 +478,44 @@ return $default(_that.paymentUrl,_that.transactionId,_that.amount);case _:
 /// @nodoc
 
 
-class _PaymentRequestEntity implements PaymentRequestEntity {
-  const _PaymentRequestEntity({required this.paymentUrl, required this.transactionId, required this.amount});
+class _TransactionCreatedEntity implements TransactionCreatedEntity {
+  const _TransactionCreatedEntity({required this.transactionId, required this.amount});
   
 
-@override final  String paymentUrl;
 @override final  int transactionId;
 @override final  int amount;
 
-/// Create a copy of PaymentRequestEntity
+/// Create a copy of TransactionCreatedEntity
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$PaymentRequestEntityCopyWith<_PaymentRequestEntity> get copyWith => __$PaymentRequestEntityCopyWithImpl<_PaymentRequestEntity>(this, _$identity);
+_$TransactionCreatedEntityCopyWith<_TransactionCreatedEntity> get copyWith => __$TransactionCreatedEntityCopyWithImpl<_TransactionCreatedEntity>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaymentRequestEntity&&(identical(other.paymentUrl, paymentUrl) || other.paymentUrl == paymentUrl)&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.amount, amount) || other.amount == amount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TransactionCreatedEntity&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.amount, amount) || other.amount == amount));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,paymentUrl,transactionId,amount);
+int get hashCode => Object.hash(runtimeType,transactionId,amount);
 
 @override
 String toString() {
-  return 'PaymentRequestEntity(paymentUrl: $paymentUrl, transactionId: $transactionId, amount: $amount)';
+  return 'TransactionCreatedEntity(transactionId: $transactionId, amount: $amount)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$PaymentRequestEntityCopyWith<$Res> implements $PaymentRequestEntityCopyWith<$Res> {
-  factory _$PaymentRequestEntityCopyWith(_PaymentRequestEntity value, $Res Function(_PaymentRequestEntity) _then) = __$PaymentRequestEntityCopyWithImpl;
+abstract mixin class _$TransactionCreatedEntityCopyWith<$Res> implements $TransactionCreatedEntityCopyWith<$Res> {
+  factory _$TransactionCreatedEntityCopyWith(_TransactionCreatedEntity value, $Res Function(_TransactionCreatedEntity) _then) = __$TransactionCreatedEntityCopyWithImpl;
 @override @useResult
 $Res call({
- String paymentUrl, int transactionId, int amount
+ int transactionId, int amount
 });
 
 
@@ -525,19 +523,18 @@ $Res call({
 
 }
 /// @nodoc
-class __$PaymentRequestEntityCopyWithImpl<$Res>
-    implements _$PaymentRequestEntityCopyWith<$Res> {
-  __$PaymentRequestEntityCopyWithImpl(this._self, this._then);
+class __$TransactionCreatedEntityCopyWithImpl<$Res>
+    implements _$TransactionCreatedEntityCopyWith<$Res> {
+  __$TransactionCreatedEntityCopyWithImpl(this._self, this._then);
 
-  final _PaymentRequestEntity _self;
-  final $Res Function(_PaymentRequestEntity) _then;
+  final _TransactionCreatedEntity _self;
+  final $Res Function(_TransactionCreatedEntity) _then;
 
-/// Create a copy of PaymentRequestEntity
+/// Create a copy of TransactionCreatedEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? paymentUrl = null,Object? transactionId = null,Object? amount = null,}) {
-  return _then(_PaymentRequestEntity(
-paymentUrl: null == paymentUrl ? _self.paymentUrl : paymentUrl // ignore: cast_nullable_to_non_nullable
-as String,transactionId: null == transactionId ? _self.transactionId : transactionId // ignore: cast_nullable_to_non_nullable
+@override @pragma('vm:prefer-inline') $Res call({Object? transactionId = null,Object? amount = null,}) {
+  return _then(_TransactionCreatedEntity(
+transactionId: null == transactionId ? _self.transactionId : transactionId // ignore: cast_nullable_to_non_nullable
 as int,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
 as int,
   ));

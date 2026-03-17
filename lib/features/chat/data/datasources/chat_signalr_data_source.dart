@@ -1,4 +1,5 @@
 library;
+
 /// SignalR DataSource - Data Layer
 ///
 /// **왜 연결 코드를 Presentation Layer에 두지 않아야 하는가?**
@@ -342,11 +343,8 @@ class ChatSignalRDataSourceImpl implements ChatSignalRDataSource {
       if (typeStr == 'IMAGE') {
         messageType = MessageType.image;
       }
-      if (typeStr == 'PAYMENT_REQUEST') {
+      if (typeStr == 'PAYMENT_REQUEST' || typeStr == 'TRANSACTION_REQUEST') {
         messageType = MessageType.paymentRequest;
-      }
-      if (typeStr == 'PAYMENT_SUCCESS') {
-        messageType = MessageType.paymentSuccess;
       }
       if (typeStr == 'PURCHASE_CONFIRMED') {
         messageType = MessageType.purchaseConfirmed;

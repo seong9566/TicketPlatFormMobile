@@ -93,7 +93,7 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<PaymentRequestEntity> requestPayment({
+  Future<TransactionCreatedEntity> requestPayment({
     required int roomId,
     required int quantity,
   }) async {

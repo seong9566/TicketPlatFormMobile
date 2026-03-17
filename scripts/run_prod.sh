@@ -8,7 +8,6 @@ echo "🚀 Building Flutter app in Production mode..."
 flutter build apk \
   --dart-define=APP_PROD=true \
   --dart-define=API_BASE_URL_PROD=https://api.yourdomain.com \
-  --dart-define=TOSS_CLIENT_KEY= \
   --dart-define=SUPABASE_URL= \
   --dart-define=SUPABASE_ANON_KEY=
 

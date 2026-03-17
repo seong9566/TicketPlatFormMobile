@@ -20,7 +20,7 @@ final class LoginViewModelProvider
         argument: null,
         retry: null,
         name: r'loginViewModelProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -41,7 +41,7 @@ final class LoginViewModelProvider
   }
 }
 
-String _$loginViewModelHash() => r'289b2b972ae62caaa3ead708b4116d4e882abec4';
+String _$loginViewModelHash() => r'924d60696b4d5b8204513a42da1d059d6473754c';
 
 abstract class _$LoginViewModel extends $Notifier<LoginState> {
   LoginState build();

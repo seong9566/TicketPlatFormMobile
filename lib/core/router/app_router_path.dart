@@ -56,39 +56,9 @@ class AppRouterPath {
   static const findId = _Route('/find-id', 'findId');
   static const findPassword = _Route('/find-password', 'findPassword');
   static const imageViewer = _Route('/image_viewer', 'imageViewer');
-  static const payment = _Route('/payment', 'payment');
-  static const paymentFinal = _Route('/payment/final', 'paymentFinal');
   static const salesDashboard = _Route('/sales-dashboard', 'salesDashboard');
   static const eventTicketList = _Route(
     '/sales-dashboard/event-tickets',
     'eventTicketList',
-  );
-  static const disputeList = _Route('/disputes', 'disputeList');
-  static const disputeCreate = _Route('/disputes/create', 'disputeCreate');
-  static const disputeDetail = _Route('/disputes/detail', 'disputeDetail');
-
-  static const settlementHistory = _Route('/settlements', 'settlementHistory');
-  static const settlementDetail = _Route(
-    '/settlements/detail',
-    'settlementDetail',
-  );
-
-  static const bankAccountRegister = _Route(
-    '/bank-account/register',
-    'bankAccountRegister',
-  );
-  static const bankAccountDetail = _Route(
-    '/bank-account/detail',
-    'bankAccountDetail',
-  );
-
-  static const balanceOverview = _Route('/balance', 'balanceOverview');
-  static const withdrawalRequest = _Route(
-    '/withdrawal/request',
-    'withdrawalRequest',
-  );
-  static const withdrawalHistory = _Route(
-    '/withdrawal/history',
-    'withdrawalHistory',
   );
 }

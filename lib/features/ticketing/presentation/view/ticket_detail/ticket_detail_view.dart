@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:ticket_platform_mobile/core/router/app_router_path.dart';
 import 'package:ticket_platform_mobile/core/theme/app_colors.dart';
 import 'package:ticket_platform_mobile/core/theme/app_spacing.dart';
-import 'package:ticket_platform_mobile/features/chat/data/repositories/chat_repository_impl.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/profile_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/ui_models/ticketing_info_ui_model.dart';
 import 'package:ticket_platform_mobile/features/ticketing/presentation/view/ticket_detail/viewmodels/ticket_detail_state.dart';
@@ -88,10 +85,7 @@ class TicketDetailView extends ConsumerWidget {
                     TicketDetailImageSection(imageUrl: detail.images.first),
 
                   // 6. 판매자 정보
-                  TicketDetailSellerInfo(
-                    seller: detail.seller,
-                    onReportTap: () => _handleReport(context, ref, ticketId),
-                  ),
+                  TicketDetailSellerInfo(seller: detail.seller),
                 ],
               ),
             );
@@ -164,30 +158,6 @@ class TicketDetailView extends ConsumerWidget {
         );
       },
       orElse: () => null,
-    );
-  }
-
-  Future<void> _handleReport(
-    BuildContext context,
-    WidgetRef ref,
-    int ticketId,
-  ) async {
-    final chatRepository = ref.read(chatRepositoryProvider);
-    final room = await chatRepository.getChatRoomByTicket(ticketId);
-    final transactionId = room?.transaction?.transactionId;
-
-    if (!context.mounted) return;
-
-    if (transactionId == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('거래 진행 중인 채팅방에서만 신고할 수 있습니다.')),
-      );
-      return;
-    }
-
-    context.pushNamed(
-      AppRouterPath.disputeCreate.name,
-      pathParameters: {'transactionId': transactionId.toString()},
     );
   }
 }

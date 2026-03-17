@@ -48,7 +48,7 @@ abstract class ChatRemoteDataSource {
   Future<BaseResponse<void>> markAsRead(int roomId);
 
   /// 결제 요청
-  Future<BaseResponse<PaymentRequestRespDto>> requestPayment(
+  Future<BaseResponse<TransactionCreatedRespDto>> requestPayment(
     RequestPaymentReqDto req,
   );
 
@@ -240,10 +240,10 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   }
 
   @override
-  Future<BaseResponse<PaymentRequestRespDto>> requestPayment(
+  Future<BaseResponse<TransactionCreatedRespDto>> requestPayment(
     RequestPaymentReqDto req,
   ) async {
-    return safeApiCall<PaymentRequestRespDto>(
+    return safeApiCall<TransactionCreatedRespDto>(
       apiCall: (options) => _dio.post(
         ApiEndpoint.requestPayment,
         data: req.toMap(),
@@ -251,7 +251,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
       ),
       apiName: 'requestPayment',
       dataParser: (json) =>
-          PaymentRequestRespDto.fromJson(json as Map<String, dynamic>),
+          TransactionCreatedRespDto.fromJson(json as Map<String, dynamic>),
     );
   }
 

@@ -436,13 +436,10 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
               ),
 
               // 하단 액션바
-              // PaymentSuccessBubble이 구매 확정/거래 취소를 처리하므로,
-              // paid 상태에서는 ActionBar를 숨김
               if ((chatRoom.canConfirmPurchase ||
                       chatRoom.canCancelTransaction) &&
                   chatRoom.transaction?.status !=
-                      TransactionStatus.pendingPayment &&
-                  chatRoom.transaction?.status != TransactionStatus.paid)
+                      TransactionStatus.pendingPayment)
                 ChatRoomActionBar(
                   chatRoom: chatRoom,
                   onConfirmPurchase: () => _showConfirmPurchaseDialog(chatRoom),
@@ -535,23 +532,8 @@ class _ChatRoomViewState extends ConsumerState<ChatRoomView> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => ChatRoomMenuBottomSheet(
-        onLeaveRoom: _handleLeaveRoom,
-        onReportUser: () => _handleDisputeFromChat(room),
-      ),
-    );
-  }
-
-  void _handleDisputeFromChat(ChatRoomDetailUiModel? room) {
-    final transactionId = room?.transaction?.transactionId;
-    if (transactionId == null) {
-      _showErrorSnackBar('신고 가능한 거래 정보가 없습니다.');
-      return;
-    }
-
-    context.pushNamed(
-      AppRouterPath.disputeCreate.name,
-      pathParameters: {'transactionId': transactionId.toString()},
+      builder: (context) =>
+          ChatRoomMenuBottomSheet(onLeaveRoom: _handleLeaveRoom),
     );
   }
 

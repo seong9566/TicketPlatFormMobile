@@ -9,8 +9,6 @@ import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/message_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/ui_models/chat_room_ui_model.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/viewmodels/chat_room_viewmodel.dart';
-import 'package:ticket_platform_mobile/core/constants/app_constants.dart';
-import 'package:ticket_platform_mobile/features/chat/presentation/widgets/payment_success_bubble.dart';
 import 'package:ticket_platform_mobile/features/chat/presentation/widgets/purchase_confirmed_bubble.dart';
 import 'package:ticket_platform_mobile/features/profile/presentation/viewmodels/profile_viewmodel.dart';
 import 'package:ticket_platform_mobile/features/reputation/presentation/views/reputation_write_view.dart';
@@ -37,58 +35,6 @@ class ChatBubble extends ConsumerWidget {
 
     final hasImages = message.images != null && message.images!.isNotEmpty;
     final hasText = message.message != null && message.message!.isNotEmpty;
-
-    // 결제 완료 메시지인 경우
-    if ((message.type == MessageType.text &&
-            message.message == AppConstants.paymentSuccessMessage) ||
-        message.type == MessageType.paymentSuccess) {
-      final chatRoom = ref
-          .watch(chatRoomViewModelProvider(message.roomId))
-          .value;
-      if (chatRoom != null) {
-        final myUserId = ref
-            .read(profileViewModelProvider)
-            .value
-            ?.profile
-            ?.userId;
-        final isBuyer = myUserId == chatRoom.buyer.userId;
-
-        // 역할 기반 정렬: 구매자(결제한 사람) = 오른쪽, 판매자 = 왼쪽
-        return Row(
-          mainAxisAlignment: isBuyer
-              ? MainAxisAlignment.end
-              : MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Column(
-              crossAxisAlignment: isBuyer
-                  ? CrossAxisAlignment.end
-                  : CrossAxisAlignment.start,
-              children: [
-                PaymentSuccessBubble(
-                  message: message,
-                  ticket: chatRoom.ticket,
-                  isBuyer: isBuyer,
-                  onConfirmPurchase: onConfirmPurchase,
-                  onCancelTransaction: onCancelTransaction,
-                ),
-                const SizedBox(height: 4),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 6),
-                  child: Text(
-                    message.timeDisplay,
-                    style: AppTextStyles.caption.copyWith(
-                      fontSize: 11,
-                      color: AppColors.textTertiary,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        );
-      }
-    }
 
     // 구매 확정 메시지인 경우
     if (message.type == MessageType.purchaseConfirmed) {

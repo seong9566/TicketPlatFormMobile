@@ -32,8 +32,6 @@ class SalesStatusFilterBar extends StatelessWidget {
             _buildFilterChip(label: '판매중', value: 'on_sale'),
             const SizedBox(width: AppSpacing.sm),
             _buildFilterChip(label: '완료', value: 'completed'),
-            const SizedBox(width: AppSpacing.sm),
-            _buildFilterChip(label: '정산 중', value: 'settling'),
           ],
         ),
       ),

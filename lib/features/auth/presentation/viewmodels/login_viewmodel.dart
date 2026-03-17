@@ -9,7 +9,7 @@ import 'package:ticket_platform_mobile/features/auth/presentation/viewmodels/log
 
 part 'login_viewmodel.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class LoginViewModel extends _$LoginViewModel with ErrorHandler {
   LoginUsecase get _loginUsecase => ref.read(loginUsecaseProvider);
   GoogleSignInUsecase get _googleSignInUsecase =>
@@ -42,7 +42,6 @@ class LoginViewModel extends _$LoginViewModel with ErrorHandler {
     }
 
     state = state.copyWith(isLoading: true, errorMessage: null);
-    final keepAliveLink = ref.keepAlive();
 
     try {
       final params = LoginParams(
@@ -62,8 +61,6 @@ class LoginViewModel extends _$LoginViewModel with ErrorHandler {
       }
 
       state = state.copyWith(isLoading: false, errorMessage: handleError(e));
-    } finally {
-      keepAliveLink.close();
     }
   }
 
@@ -71,7 +68,6 @@ class LoginViewModel extends _$LoginViewModel with ErrorHandler {
     if (state.isLoading) return;
 
     state = state.copyWith(isLoading: true, errorMessage: null);
-    final keepAliveLink = ref.keepAlive();
 
     try {
       final user = await _googleSignInUsecase.call();
@@ -92,8 +88,6 @@ class LoginViewModel extends _$LoginViewModel with ErrorHandler {
       }
 
       state = state.copyWith(isLoading: false, errorMessage: handleError(e));
-    } finally {
-      keepAliveLink.close();
     }
   }
 
@@ -101,7 +95,6 @@ class LoginViewModel extends _$LoginViewModel with ErrorHandler {
     if (state.isLoading) return;
 
     state = state.copyWith(isLoading: true, errorMessage: null);
-    final keepAliveLink = ref.keepAlive();
 
     try {
       final user = await _kakaoSignInUsecase.call();
@@ -122,8 +115,6 @@ class LoginViewModel extends _$LoginViewModel with ErrorHandler {
       }
 
       state = state.copyWith(isLoading: false, errorMessage: handleError(e));
-    } finally {
-      keepAliveLink.close();
     }
   }
 

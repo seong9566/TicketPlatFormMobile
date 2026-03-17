@@ -27,6 +27,7 @@ class LoginView extends ConsumerWidget {
     ) {
       if (next) {
         context.go(AppRouterPath.home.path);
+        ref.invalidate(loginViewModelProvider);
       }
     });
 

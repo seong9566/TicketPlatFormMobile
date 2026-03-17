@@ -17,7 +17,7 @@ class RequestPaymentUsecase {
 
   RequestPaymentUsecase(this._repository);
 
-  Future<PaymentRequestEntity> call(RequestPaymentParams params) async {
+  Future<TransactionCreatedEntity> call(RequestPaymentParams params) async {
     return _repository.requestPayment(
       roomId: params.roomId,
       quantity: params.quantity,

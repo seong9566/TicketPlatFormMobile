@@ -18,10 +18,8 @@ abstract class EventGroupUiModel with _$EventGroupUiModel {
     required String totalCountText,
     required String onSaleCountText,
     required String completedCountText,
-    required String settlingCountText,
     required Color onSaleBadgeColor,
     required Color completedBadgeColor,
-    required Color settlingBadgeColor,
     required String salesSummaryText,
     required double salesProgressRate,
     required String remainingCountText,
@@ -49,12 +47,8 @@ abstract class EventGroupUiModel with _$EventGroupUiModel {
       completedCountText: entity.completedCount > 0
           ? '완료 ${entity.completedCount}'
           : '',
-      settlingCountText: entity.settlingCount > 0
-          ? '정산중 ${entity.settlingCount}'
-          : '',
       onSaleBadgeColor: AppColors.success,
       completedBadgeColor: AppColors.info,
-      settlingBadgeColor: AppColors.badgeWaitingBackground,
       salesSummaryText: '판매 $soldCount장 / 총 ${entity.totalCount}장',
       salesProgressRate: entity.totalCount == 0
           ? 0.0

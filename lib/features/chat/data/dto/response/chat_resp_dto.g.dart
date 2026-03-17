@@ -229,18 +229,16 @@ Map<String, dynamic> _$SendMessageRespDtoToJson(_SendMessageRespDto instance) =>
       'success': instance.success,
     };
 
-_PaymentRequestRespDto _$PaymentRequestRespDtoFromJson(
+_TransactionCreatedRespDto _$TransactionCreatedRespDtoFromJson(
   Map<String, dynamic> json,
-) => _PaymentRequestRespDto(
-  paymentUrl: json['paymentUrl'] as String,
+) => _TransactionCreatedRespDto(
   transactionId: (json['transactionId'] as num).toInt(),
   amount: (json['amount'] as num).toInt(),
 );
 
-Map<String, dynamic> _$PaymentRequestRespDtoToJson(
-  _PaymentRequestRespDto instance,
+Map<String, dynamic> _$TransactionCreatedRespDtoToJson(
+  _TransactionCreatedRespDto instance,
 ) => <String, dynamic>{
-  'paymentUrl': instance.paymentUrl,
   'transactionId': instance.transactionId,
   'amount': instance.amount,
 };

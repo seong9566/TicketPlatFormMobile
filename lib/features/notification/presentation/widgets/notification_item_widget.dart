@@ -86,8 +86,6 @@ class NotificationItemWidget extends StatelessWidget {
         return Icons.chat_bubble_outline;
       case 'PAYMENT_REQUEST':
         return Icons.payments_outlined;
-      case 'PAYMENT_SUCCESS':
-        return Icons.check_circle_outline;
       case 'PURCHASE_CONFIRMED':
         return Icons.shopping_bag_outlined;
       case 'DISPUTE_OPENED':
@@ -104,7 +102,6 @@ class NotificationItemWidget extends StatelessWidget {
         return AppColors.info;
       case 'PAYMENT_REQUEST':
         return AppColors.warning;
-      case 'PAYMENT_SUCCESS':
       case 'PURCHASE_CONFIRMED':
         return AppColors.success;
       case 'DISPUTE_OPENED':

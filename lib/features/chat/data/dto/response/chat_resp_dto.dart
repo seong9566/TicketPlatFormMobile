@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:ticket_platform_mobile/core/utils/logger.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/chat_room_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/message_entity.dart';
 import 'package:ticket_platform_mobile/features/chat/domain/entities/transaction_entity.dart';
@@ -198,8 +197,9 @@ extension MessageDtoX on MessageDto {
     if (type != null) {
       if (type == 'TEXT') messageType = MessageType.text;
       if (type == 'IMAGE') messageType = MessageType.image;
-      if (type == 'PAYMENT_REQUEST') messageType = MessageType.paymentRequest;
-      if (type == 'PAYMENT_SUCCESS') messageType = MessageType.paymentSuccess;
+      if (type == 'PAYMENT_REQUEST' || type == 'TRANSACTION_REQUEST') {
+        messageType = MessageType.paymentRequest;
+      }
       if (type == 'PURCHASE_CONFIRMED') {
         messageType = MessageType.purchaseConfirmed;
       }
@@ -324,28 +324,19 @@ extension SendMessageRespDtoX on SendMessageRespDto {
 }
 
 @freezed
-abstract class PaymentRequestRespDto with _$PaymentRequestRespDto {
-  const factory PaymentRequestRespDto({
-    required String paymentUrl,
+abstract class TransactionCreatedRespDto with _$TransactionCreatedRespDto {
+  const factory TransactionCreatedRespDto({
     required int transactionId,
     required int amount,
-  }) = _PaymentRequestRespDto;
+  }) = _TransactionCreatedRespDto;
 
-  factory PaymentRequestRespDto.fromJson(Map<String, dynamic> json) =>
-      _$PaymentRequestRespDtoFromJson(json);
+  factory TransactionCreatedRespDto.fromJson(Map<String, dynamic> json) =>
+      _$TransactionCreatedRespDtoFromJson(json);
 }
 
-extension PaymentRequestRespDtoX on PaymentRequestRespDto {
-  PaymentRequestEntity toEntity() {
-    AppLogger.d('📥 [PaymentRequestRespDto] Converting to Entity:');
-    AppLogger.d('  - transactionId: $transactionId');
-    AppLogger.d('  - amount: $amount');
-    AppLogger.d(
-      '  - paymentUrl: ${paymentUrl.substring(0, paymentUrl.length > 50 ? 50 : paymentUrl.length)}...',
-    );
-
-    return PaymentRequestEntity(
-      paymentUrl: paymentUrl,
+extension TransactionCreatedRespDtoX on TransactionCreatedRespDto {
+  TransactionCreatedEntity toEntity() {
+    return TransactionCreatedEntity(
       transactionId: transactionId,
       amount: amount,
     );

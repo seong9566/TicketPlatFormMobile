@@ -5,13 +5,11 @@ import 'package:ticket_platform_mobile/core/theme/app_text_styles.dart';
 
 class ChatRoomMenuBottomSheet extends StatelessWidget {
   final VoidCallback? onNotificationSettings;
-  final VoidCallback? onReportUser;
   final VoidCallback onLeaveRoom;
 
   const ChatRoomMenuBottomSheet({
     super.key,
     this.onNotificationSettings,
-    this.onReportUser,
     required this.onLeaveRoom,
   });
 
@@ -34,19 +32,6 @@ class ChatRoomMenuBottomSheet extends StatelessWidget {
                 Navigator.pop(context);
                 if (onNotificationSettings != null) {
                   onNotificationSettings!();
-                } else {
-                  _showComingSoonDialog(context);
-                }
-              },
-            ),
-            const Divider(height: 1),
-            _MenuItem(
-              icon: Icons.report_outlined,
-              title: '신고하기',
-              onTap: () {
-                Navigator.pop(context);
-                if (onReportUser != null) {
-                  onReportUser!();
                 } else {
                   _showComingSoonDialog(context);
                 }

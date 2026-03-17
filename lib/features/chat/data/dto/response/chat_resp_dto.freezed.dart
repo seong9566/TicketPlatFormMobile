@@ -2684,42 +2684,42 @@ as bool,
 
 
 /// @nodoc
-mixin _$PaymentRequestRespDto {
+mixin _$TransactionCreatedRespDto {
 
- String get paymentUrl; int get transactionId; int get amount;
-/// Create a copy of PaymentRequestRespDto
+ int get transactionId; int get amount;
+/// Create a copy of TransactionCreatedRespDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$PaymentRequestRespDtoCopyWith<PaymentRequestRespDto> get copyWith => _$PaymentRequestRespDtoCopyWithImpl<PaymentRequestRespDto>(this as PaymentRequestRespDto, _$identity);
+$TransactionCreatedRespDtoCopyWith<TransactionCreatedRespDto> get copyWith => _$TransactionCreatedRespDtoCopyWithImpl<TransactionCreatedRespDto>(this as TransactionCreatedRespDto, _$identity);
 
-  /// Serializes this PaymentRequestRespDto to a JSON map.
+  /// Serializes this TransactionCreatedRespDto to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaymentRequestRespDto&&(identical(other.paymentUrl, paymentUrl) || other.paymentUrl == paymentUrl)&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.amount, amount) || other.amount == amount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TransactionCreatedRespDto&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.amount, amount) || other.amount == amount));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,paymentUrl,transactionId,amount);
+int get hashCode => Object.hash(runtimeType,transactionId,amount);
 
 @override
 String toString() {
-  return 'PaymentRequestRespDto(paymentUrl: $paymentUrl, transactionId: $transactionId, amount: $amount)';
+  return 'TransactionCreatedRespDto(transactionId: $transactionId, amount: $amount)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $PaymentRequestRespDtoCopyWith<$Res>  {
-  factory $PaymentRequestRespDtoCopyWith(PaymentRequestRespDto value, $Res Function(PaymentRequestRespDto) _then) = _$PaymentRequestRespDtoCopyWithImpl;
+abstract mixin class $TransactionCreatedRespDtoCopyWith<$Res>  {
+  factory $TransactionCreatedRespDtoCopyWith(TransactionCreatedRespDto value, $Res Function(TransactionCreatedRespDto) _then) = _$TransactionCreatedRespDtoCopyWithImpl;
 @useResult
 $Res call({
- String paymentUrl, int transactionId, int amount
+ int transactionId, int amount
 });
 
 
@@ -2727,19 +2727,18 @@ $Res call({
 
 }
 /// @nodoc
-class _$PaymentRequestRespDtoCopyWithImpl<$Res>
-    implements $PaymentRequestRespDtoCopyWith<$Res> {
-  _$PaymentRequestRespDtoCopyWithImpl(this._self, this._then);
+class _$TransactionCreatedRespDtoCopyWithImpl<$Res>
+    implements $TransactionCreatedRespDtoCopyWith<$Res> {
+  _$TransactionCreatedRespDtoCopyWithImpl(this._self, this._then);
 
-  final PaymentRequestRespDto _self;
-  final $Res Function(PaymentRequestRespDto) _then;
+  final TransactionCreatedRespDto _self;
+  final $Res Function(TransactionCreatedRespDto) _then;
 
-/// Create a copy of PaymentRequestRespDto
+/// Create a copy of TransactionCreatedRespDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? paymentUrl = null,Object? transactionId = null,Object? amount = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? transactionId = null,Object? amount = null,}) {
   return _then(_self.copyWith(
-paymentUrl: null == paymentUrl ? _self.paymentUrl : paymentUrl // ignore: cast_nullable_to_non_nullable
-as String,transactionId: null == transactionId ? _self.transactionId : transactionId // ignore: cast_nullable_to_non_nullable
+transactionId: null == transactionId ? _self.transactionId : transactionId // ignore: cast_nullable_to_non_nullable
 as int,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
 as int,
   ));
@@ -2748,8 +2747,8 @@ as int,
 }
 
 
-/// Adds pattern-matching-related methods to [PaymentRequestRespDto].
-extension PaymentRequestRespDtoPatterns on PaymentRequestRespDto {
+/// Adds pattern-matching-related methods to [TransactionCreatedRespDto].
+extension TransactionCreatedRespDtoPatterns on TransactionCreatedRespDto {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -2762,10 +2761,10 @@ extension PaymentRequestRespDtoPatterns on PaymentRequestRespDto {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PaymentRequestRespDto value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TransactionCreatedRespDto value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _PaymentRequestRespDto() when $default != null:
+case _TransactionCreatedRespDto() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -2784,10 +2783,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PaymentRequestRespDto value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TransactionCreatedRespDto value)  $default,){
 final _that = this;
 switch (_that) {
-case _PaymentRequestRespDto():
+case _TransactionCreatedRespDto():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -2805,10 +2804,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PaymentRequestRespDto value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TransactionCreatedRespDto value)?  $default,){
 final _that = this;
 switch (_that) {
-case _PaymentRequestRespDto() when $default != null:
+case _TransactionCreatedRespDto() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -2826,10 +2825,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String paymentUrl,  int transactionId,  int amount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int transactionId,  int amount)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _PaymentRequestRespDto() when $default != null:
-return $default(_that.paymentUrl,_that.transactionId,_that.amount);case _:
+case _TransactionCreatedRespDto() when $default != null:
+return $default(_that.transactionId,_that.amount);case _:
   return orElse();
 
 }
@@ -2847,10 +2846,10 @@ return $default(_that.paymentUrl,_that.transactionId,_that.amount);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String paymentUrl,  int transactionId,  int amount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int transactionId,  int amount)  $default,) {final _that = this;
 switch (_that) {
-case _PaymentRequestRespDto():
-return $default(_that.paymentUrl,_that.transactionId,_that.amount);case _:
+case _TransactionCreatedRespDto():
+return $default(_that.transactionId,_that.amount);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -2867,10 +2866,10 @@ return $default(_that.paymentUrl,_that.transactionId,_that.amount);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String paymentUrl,  int transactionId,  int amount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int transactionId,  int amount)?  $default,) {final _that = this;
 switch (_that) {
-case _PaymentRequestRespDto() when $default != null:
-return $default(_that.paymentUrl,_that.transactionId,_that.amount);case _:
+case _TransactionCreatedRespDto() when $default != null:
+return $default(_that.transactionId,_that.amount);case _:
   return null;
 
 }
@@ -2881,48 +2880,47 @@ return $default(_that.paymentUrl,_that.transactionId,_that.amount);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _PaymentRequestRespDto implements PaymentRequestRespDto {
-  const _PaymentRequestRespDto({required this.paymentUrl, required this.transactionId, required this.amount});
-  factory _PaymentRequestRespDto.fromJson(Map<String, dynamic> json) => _$PaymentRequestRespDtoFromJson(json);
+class _TransactionCreatedRespDto implements TransactionCreatedRespDto {
+  const _TransactionCreatedRespDto({required this.transactionId, required this.amount});
+  factory _TransactionCreatedRespDto.fromJson(Map<String, dynamic> json) => _$TransactionCreatedRespDtoFromJson(json);
 
-@override final  String paymentUrl;
 @override final  int transactionId;
 @override final  int amount;
 
-/// Create a copy of PaymentRequestRespDto
+/// Create a copy of TransactionCreatedRespDto
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$PaymentRequestRespDtoCopyWith<_PaymentRequestRespDto> get copyWith => __$PaymentRequestRespDtoCopyWithImpl<_PaymentRequestRespDto>(this, _$identity);
+_$TransactionCreatedRespDtoCopyWith<_TransactionCreatedRespDto> get copyWith => __$TransactionCreatedRespDtoCopyWithImpl<_TransactionCreatedRespDto>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$PaymentRequestRespDtoToJson(this, );
+  return _$TransactionCreatedRespDtoToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaymentRequestRespDto&&(identical(other.paymentUrl, paymentUrl) || other.paymentUrl == paymentUrl)&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.amount, amount) || other.amount == amount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TransactionCreatedRespDto&&(identical(other.transactionId, transactionId) || other.transactionId == transactionId)&&(identical(other.amount, amount) || other.amount == amount));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,paymentUrl,transactionId,amount);
+int get hashCode => Object.hash(runtimeType,transactionId,amount);
 
 @override
 String toString() {
-  return 'PaymentRequestRespDto(paymentUrl: $paymentUrl, transactionId: $transactionId, amount: $amount)';
+  return 'TransactionCreatedRespDto(transactionId: $transactionId, amount: $amount)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$PaymentRequestRespDtoCopyWith<$Res> implements $PaymentRequestRespDtoCopyWith<$Res> {
-  factory _$PaymentRequestRespDtoCopyWith(_PaymentRequestRespDto value, $Res Function(_PaymentRequestRespDto) _then) = __$PaymentRequestRespDtoCopyWithImpl;
+abstract mixin class _$TransactionCreatedRespDtoCopyWith<$Res> implements $TransactionCreatedRespDtoCopyWith<$Res> {
+  factory _$TransactionCreatedRespDtoCopyWith(_TransactionCreatedRespDto value, $Res Function(_TransactionCreatedRespDto) _then) = __$TransactionCreatedRespDtoCopyWithImpl;
 @override @useResult
 $Res call({
- String paymentUrl, int transactionId, int amount
+ int transactionId, int amount
 });
 
 
@@ -2930,19 +2928,18 @@ $Res call({
 
 }
 /// @nodoc
-class __$PaymentRequestRespDtoCopyWithImpl<$Res>
-    implements _$PaymentRequestRespDtoCopyWith<$Res> {
-  __$PaymentRequestRespDtoCopyWithImpl(this._self, this._then);
+class __$TransactionCreatedRespDtoCopyWithImpl<$Res>
+    implements _$TransactionCreatedRespDtoCopyWith<$Res> {
+  __$TransactionCreatedRespDtoCopyWithImpl(this._self, this._then);
 
-  final _PaymentRequestRespDto _self;
-  final $Res Function(_PaymentRequestRespDto) _then;
+  final _TransactionCreatedRespDto _self;
+  final $Res Function(_TransactionCreatedRespDto) _then;
 
-/// Create a copy of PaymentRequestRespDto
+/// Create a copy of TransactionCreatedRespDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? paymentUrl = null,Object? transactionId = null,Object? amount = null,}) {
-  return _then(_PaymentRequestRespDto(
-paymentUrl: null == paymentUrl ? _self.paymentUrl : paymentUrl // ignore: cast_nullable_to_non_nullable
-as String,transactionId: null == transactionId ? _self.transactionId : transactionId // ignore: cast_nullable_to_non_nullable
+@override @pragma('vm:prefer-inline') $Res call({Object? transactionId = null,Object? amount = null,}) {
+  return _then(_TransactionCreatedRespDto(
+transactionId: null == transactionId ? _self.transactionId : transactionId // ignore: cast_nullable_to_non_nullable
 as int,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
 as int,
   ));

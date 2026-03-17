@@ -66,25 +66,6 @@ class ApiEndpoint {
   static const String profileImageRefresh = '/api/users/profile/image-refresh';
   static const String changePassword = '/api/users/password';
 
-  // Payment
-  static const String paymentReq = '/api/payment/request';
-  static const String paymentConfirm = '/api/payment/confirm';
-  static const String paymentCancel = '/api/payment/cancel';
-
-  // Bank Account
-  static const String bankAccount = '/api/bank-account';
-  static const String deleteBankAccount = '/api/bank-account';
-  static const String bankAccountMe = '/api/bank-account/me';
-
-  // Balance
-  static const String balance = '/api/balance';
-  static const String balanceHistory = '/api/balance/history';
-
-  // Withdrawal
-  static const String withdrawal = '/api/withdrawal';
-  static const String withdrawalHistory = '/api/withdrawal/history';
-  static String withdrawalCancel(int id) => '/api/withdrawal/$id/cancel';
-
   // Notification
   static const String notificationToken = '/api/notifications/token';
   static const String deleteNotificationToken = '/api/notifications/token';
@@ -93,18 +74,6 @@ class ApiEndpoint {
   static const String notificationsUnreadCount =
       '/api/notifications/unread-count';
   static String notificationRead(int id) => '/api/notifications/$id/read';
-
-  // Dispute
-  static const String disputes = '/api/disputes';
-  static String disputeDetail(int disputeId) => '/api/disputes/$disputeId';
-  static String disputeEvidence(int disputeId) =>
-      '/api/disputes/$disputeId/evidence';
-  static String disputeCancel(int disputeId) =>
-      '/api/disputes/$disputeId/cancel';
-
-  // Settlement
-  static const String settlements = '/api/settlement';
-  static String settlementDetail(int id) => '/api/settlement/$id';
 
   // Reputation
   static const String reputations = '/api/reputations';
