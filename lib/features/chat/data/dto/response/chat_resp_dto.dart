@@ -203,6 +203,9 @@ extension MessageDtoX on MessageDto {
       if (type == 'PURCHASE_CONFIRMED') {
         messageType = MessageType.purchaseConfirmed;
       }
+      if (type == 'TRANSACTION_CANCELLED') {
+        messageType = MessageType.transactionCancelled;
+      }
     } else if (message == '결제가 요청되었습니다.') {
       messageType = MessageType.paymentRequest;
     }

@@ -115,6 +115,13 @@ class ChatBubble extends ConsumerWidget {
       return _buildSystemMessage('거래 요청이 전송되었습니다.');
     }
 
+    // 거래 취소 메시지인 경우 → 시스템 메시지로 표시
+    if (message.type == MessageType.transactionCancelled) {
+      return _buildSystemMessage(
+        message.message?.isNotEmpty == true ? message.message! : '거래가 취소되었습니다.',
+      );
+    }
+
     // 빈 메시지는 렌더링하지 않음 (프로필 사진만 나타나는 문제 방지)
     if (!hasText && !hasImages) {
       return const SizedBox.shrink();

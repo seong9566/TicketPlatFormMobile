@@ -495,6 +495,19 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
               transactionId: transactionId,
             ),
           );
+
+      // 즉시 UI 상태 업데이트: 구매 확정 후 버튼 및 입력 비활성화
+      final updated = state.value;
+      if (updated != null) {
+        state = AsyncValue.data(
+          updated.copyWith(
+            canConfirmPurchase: false,
+            canCancelTransaction: false,
+            canSendMessage: false,
+          ),
+        );
+      }
+
       await refresh();
       return true;
     } catch (e, stack) {
@@ -517,6 +530,18 @@ class ChatRoomViewModel extends _$ChatRoomViewModel {
               cancelReason: reason,
             ),
           );
+
+      // 즉시 UI 상태 업데이트: 거래 취소 후 버튼 비활성화
+      final updated = state.value;
+      if (updated != null) {
+        state = AsyncValue.data(
+          updated.copyWith(
+            canConfirmPurchase: false,
+            canCancelTransaction: false,
+          ),
+        );
+      }
+
       await refresh();
       return true;
     } catch (e, stack) {

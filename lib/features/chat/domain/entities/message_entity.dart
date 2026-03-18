@@ -17,6 +17,8 @@ enum MessageType {
   paymentRequest,
   @JsonValue('PURCHASE_CONFIRMED')
   purchaseConfirmed,
+  @JsonValue('TRANSACTION_CANCELLED')
+  transactionCancelled,
 }
 
 @freezed
